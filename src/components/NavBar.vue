@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 const props = defineProps({
     ProfilePicture: {
         type: String,
@@ -6,22 +7,33 @@ const props = defineProps({
     },
     NavBarList: {
         default: [
-            { title: '食譜', toUrl: '/recipes' },
-            { title: '課程', toUrl: '/course' },
-            { title: '商品', toUrl: '/products' }
+            { title: '食譜', toUrl: '/' },
+            { title: '課程', toUrl: '/' },
+            { title: '商品', toUrl: '/' }
         ]
     }
-});
+})
+
+const listPosition = ref('profile-list')
+
+const removeListClass = () => {
+    if (listPosition.value != '') {
+        listPosition.value = ''
+    } else {
+        listPosition.value = 'profile-list'
+    }
+}
 </script>
 <template>
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-            <router-link class="navbar-brand" to="/">Dessert Oasis</router-link>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <button @click="removeListClass" class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
+                <router-link class="navbar-brand" to="/">Dessert Oasis</router-link>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <router-link class="nav-link active" aria-current="page" to="/">首頁</router-link>
@@ -30,11 +42,16 @@ const props = defineProps({
                         <router-link :to="navTitle.toUrl" class="nav-link">{{ navTitle.title }}</router-link>
                     </li>
                 </ul>
-                <span class="loginIcon">
-                    <router-link to="/signin">
-                        <img :src="`/images/navbar/${props.ProfilePicture}`" alt="ProfilePicture">
-                    </router-link>
-                </span>
+            </div>
+            <div class="dropdown">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <img class="loginIcon" :src="`/images/navbar/${props.ProfilePicture}`" alt="ProfilePicture">
+                </a>
+                <ul :class="`dropdown-menu ${listPosition}`" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="#">購物車</a></li>
+                    <li><router-link to="/signIn" class="dropdown-item" href="#">會員登入</router-link></li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -46,9 +63,7 @@ const props = defineProps({
     border-radius: 16px;
 }
 
-.loginIcon img {
-    width: 32px;
-    height: 32px;
-    border-radius: 16px;
+.profile-list {
+    transform: translateX(-110px) translateY(8px);
 }
 </style>

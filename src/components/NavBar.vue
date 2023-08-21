@@ -24,10 +24,10 @@ const props = defineProps({
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <router-link class="nav-link active" aria-current="page" to="/about">首頁</router-link>
+                        <router-link class="nav-link active" aria-current="page" to="/">首頁</router-link>
                     </li>
                     <li v-for="navTitle in props.NavBarList" class="nav-item">
-                        <router-link :to="navTitle.toUrl" class="nav-link" href="#">{{ navTitle.title }}</router-link>
+                        <router-link :to="navTitle.toUrl" class="nav-link">{{ navTitle.title }}</router-link>
                     </li>
                 </ul>
                 <span class="loginIcon">

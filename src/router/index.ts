@@ -13,6 +13,11 @@ const router = createRouter({
       path: '/signIn',
       name: 'signIn',
       component: () => import('../views/SignIn.vue')
+    },
+    {
+      path: '/recbackground',
+      name: 'recipebackground',
+      component: () => import('../views/RecipeBackground.vue')
     }
   ]
 })

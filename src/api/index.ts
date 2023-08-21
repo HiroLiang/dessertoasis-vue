@@ -1,4 +1,4 @@
-import request from "./reauest";
+import request from "./request";
 
 //Test
 const reqTest = () => {

@@ -10,8 +10,6 @@ const datas = async () => {
 }
 
 onMounted(datas)
-
-
 </script>
 <template>
     <div>

@@ -48,7 +48,7 @@ const navbarlist = reactive([
 
 .titleTxt {
     display: block;
-    border: 1px solid black;
+    border: 1px solid rgb(218, 215, 215);
     border-radius: 10px 10px 0px 0px;
     border-bottom: none;
     padding: 10px;

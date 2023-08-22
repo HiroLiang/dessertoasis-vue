@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import NavBar from '@/components/NavBar.vue'
 import Carousel from '@/components/Carousel.vue'
+import DropDownSelector from '@/components/DropDownSelector.vue'
 import { reactive } from 'vue'
 const navbarlist = reactive([
     { title: '食譜', toUrl: '/recipes' },
@@ -15,6 +16,7 @@ const navbarlist = reactive([
     <div>
         <h1> This is recipe homepage </h1>
         <hr>
+        <DropDownSelector></DropDownSelector>
     </div>
     <div class="container">
         <div class="txtwrap">
@@ -38,7 +40,7 @@ const navbarlist = reactive([
 }
 
 .txtwrap {
-    max-width: 250px;
+    max-width: 300px;
     display: block;
     align-items: center;
     text-align: center;
@@ -51,5 +53,6 @@ const navbarlist = reactive([
     border-bottom: none;
     padding: 10px;
     margin-top: 50px;
+    margin-bottom: 0px;
 }
 </style>

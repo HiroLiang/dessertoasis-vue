@@ -16,6 +16,8 @@ const calendarOptions = {
     },
     initialView: 'dayGridMonth',
     selectable: true,
+    selectMirror: true,
+    editable: true,
     select: handleDateSelect,
     eventClick: handleEventClick,
 }
@@ -38,6 +40,7 @@ function handleDateSelect(selectInfo: any) {
 }
 
 function handleEventClick(clickInfo: any) {
+    console.log(clickInfo)
     if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
         clickInfo.event.remove()
     }

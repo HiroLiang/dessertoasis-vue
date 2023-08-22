@@ -24,6 +24,11 @@ const router = createRouter({
           path: '/cms/recipe',
           name: 'recipe',
           component: () => import('../views/RecipeBackground.vue')
+        },
+        {
+          path: '/cms/chat',
+          name: 'chat',
+          component: () => import('../views/ChatRoom.vue')
         }
       ]
     },

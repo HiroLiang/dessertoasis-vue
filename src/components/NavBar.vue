@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 const props = defineProps({
     ProfilePicture: {
         type: String,
-        default: 'user-interface.png'
+        default: "user-interface.png",
     },
     NavBarList: {
         default: [
-            { title: '食譜', toUrl: '/' },
-            { title: '課程', toUrl: '/' },
-            { title: '商品', toUrl: '/' }
-        ]
-    }
-})
+            { title: "食譜", toUrl: "/recipes" },
+            { title: "課程", toUrl: "/courses" },
+            { title: "商品", toUrl: "/product" },
+        ],
+    },
+});
 
-const listPosition = ref('profile-list')
+const listPosition = ref("profile-list");
 
 const removeListClass = () => {
-    if (listPosition.value != '') {
-        listPosition.value = ''
+    if (listPosition.value != "") {
+        listPosition.value = "";
     } else {
-        listPosition.value = 'profile-list'
+        listPosition.value = "profile-list";
     }
-}
+};
 </script>
 <template>
     <nav class="navbar navbar-expand-lg bg-light">
@@ -39,19 +39,25 @@ const removeListClass = () => {
                         <router-link class="nav-link active" aria-current="page" to="/">首頁</router-link>
                     </li>
                     <li v-for="navTitle in props.NavBarList" class="nav-item">
-                        <router-link :to="navTitle.toUrl" class="nav-link">{{ navTitle.title }}</router-link>
+                        <router-link :to="navTitle.toUrl" class="nav-link">{{
+                            navTitle.title
+                        }}</router-link>
                     </li>
                 </ul>
             </div>
             <div class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    <img class="loginIcon" :src="`/images/navbar/${props.ProfilePicture}`" alt="ProfilePicture">
+                    <img class="loginIcon" :src="`/images/navbar/${props.ProfilePicture}`" alt="ProfilePicture" />
                 </a>
                 <ul :class="`dropdown-menu ${listPosition}`" aria-labelledby="dropdownMenuLink">
-                    <li><router-link to="/cms" class="dropdown-item">後台管理</router-link></li>
+                    <li>
+                        <router-link to="/cms" class="dropdown-item">後台管理</router-link>
+                    </li>
                     <li><a class="dropdown-item" href="#">購物車</a></li>
-                    <li><router-link to="/signIn" class="dropdown-item">會員登入</router-link></li>
+                    <li>
+                        <router-link to="/signIn" class="dropdown-item">會員登入</router-link>
+                    </li>
                 </ul>
             </div>
         </div>

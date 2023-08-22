@@ -49,8 +49,9 @@ const removeListClass = () => {
                     <img class="loginIcon" :src="`/images/navbar/${props.ProfilePicture}`" alt="ProfilePicture">
                 </a>
                 <ul :class="`dropdown-menu ${listPosition}`" aria-labelledby="dropdownMenuLink">
+                    <li><router-link to="/cms" class="dropdown-item">後台管理</router-link></li>
                     <li><a class="dropdown-item" href="#">購物車</a></li>
-                    <li><router-link to="/signIn" class="dropdown-item" href="#">會員登入</router-link></li>
+                    <li><router-link to="/signIn" class="dropdown-item">會員登入</router-link></li>
                 </ul>
             </div>
         </div>

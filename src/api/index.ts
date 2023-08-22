@@ -5,4 +5,9 @@ const reqTest = () => {
     return request.post('/test', `{"name":"John"}`, { headers: { 'Content-Type': 'application/json' } })
 }
 
-export { reqTest }
+//CMS食譜測試
+const reqDatas = () => {
+    return request.get('/recipe/all')
+}
+
+export { reqTest, reqDatas }

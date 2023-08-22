@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import { reqDatas } from '@/api'
+
 const recipes = ref([])
-const url = 'http://localhost:8080/recipe/all'
 
 const datas = async () => {
-    const res = await axios.get(url)
+    const res = await reqDatas()
     recipes.value = res.data
 }
 

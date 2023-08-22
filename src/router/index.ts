@@ -18,13 +18,15 @@ const router = createRouter({
 
       path: '/cms',
       name: 'cms',
-      component: () => import('../views/CmsView.vue')
+      component: () => import('../views/CmsView.vue'),
+      children: [
+        {
+          path: '/cms/recipe',
+          name: 'recipe',
+          component: () => import('../views/RecipeBackground.vue')
+        }
+      ]
     },
-    {
-      path: '/recbackground',
-      name: 'recipebackground',
-      component: () => import('../views/RecipeBackground.vue')
-    }
   ]
 })
 

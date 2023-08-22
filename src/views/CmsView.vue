@@ -5,4 +5,5 @@ import CmsSideBar from '@/components/CmsSideBar.vue'
 <template>
     <NavBar />
     <CmsSideBar />
+    <router-view></router-view>
 </template>

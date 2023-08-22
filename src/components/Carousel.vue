@@ -1,21 +1,23 @@
 
 <template>
-    <Carousel :items-to-show="itemToShow" :wrap-around="wrapAround" :autoplay="autoplay"
-        :pauseAutoplayOnHover="pauseAutoplayOnHover">
-        <Slide v-for="(item, index) in items.imageUrlList" :key="index">
-            <div class="card" style="width: 18rem;">
-                <img class="carousel__item slideImgs card-img-top" :src="item">
-                <div class="card-body">
-                    <p class="card-text">{{ texts.textList[index] }}</p>
+    <div class="container mt-3">
+        <Carousel :items-to-show="itemToShow" :wrap-around="wrapAround" :autoplay="autoplay"
+            :pauseAutoplayOnHover="pauseAutoplayOnHover">
+            <Slide v-for="(item, index) in items.imageUrlList" :key="index">
+                <div class="card">
+                    <img class="carousel__item slideImgs card-img-top" :src="item">
+                    <div class="card-body">
+                        <p class="card-text">{{ texts.textList[index] }}</p>
+                    </div>
                 </div>
-            </div>
-        </Slide>
+            </Slide>
 
-        <template #addons>
-            <Navigation />
-            <Pagination />
-        </template>
-    </Carousel>
+            <template #addons>
+                <Navigation />
+                <Pagination />
+            </template>
+        </Carousel>
+    </div>
 </template>
   
 

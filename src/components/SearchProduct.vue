@@ -46,6 +46,7 @@ const name = 'SearchProduct';
     font-size: 12px;
     border-radius: 4px;
     margin: 0;
+    padding: 5px 5px;
 
 }
 

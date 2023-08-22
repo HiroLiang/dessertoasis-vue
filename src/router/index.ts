@@ -15,9 +15,15 @@ const router = createRouter({
       component: () => import('../views/SignIn.vue')
     },
     {
+
       path: '/cms',
       name: 'cms',
       component: () => import('../views/CmsView.vue')
+    },
+    {
+      path: '/recbackground',
+      name: 'recipebackground',
+      component: () => import('../views/RecipeBackground.vue')
     }
   ]
 })

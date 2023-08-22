@@ -14,6 +14,11 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: '/recipes',
+      name: 'RecipeHomePage',
+      component: () => import('../views/RecipeView.vue')
+    },
+    {
       path: "/signIn",
       name: "signIn",
       component: () => import("../views/SignIn.vue"),
@@ -45,6 +50,11 @@ const router = createRouter({
       name: "courses",
       component: () => import("../views/CourseHomePage.vue"),
     },
+    {
+      path: "/test",
+      name: "test",
+      component: () => import("../views/Test.vue")
+    }
   ],
 });
 

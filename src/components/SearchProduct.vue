@@ -34,9 +34,10 @@ const name = 'SearchProduct';
 .search-input {
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
     border-radius: 4px;
     padding: 4px;
+
 }
 
 .search-select select {

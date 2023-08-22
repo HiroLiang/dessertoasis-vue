@@ -33,6 +33,11 @@ const router = createRouter({
           name: "recipe",
           component: () => import("../views/RecipeBackground.vue"),
         },
+        {
+          path: "/cms/courses",
+          name: "courses",
+          component: () => import("../views/CoursesBackground.vue"),
+        },
       ],
     },
     {

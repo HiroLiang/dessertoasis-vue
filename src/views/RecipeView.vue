@@ -9,6 +9,13 @@ const navbarlist = reactive([
     { title: '商品', toUrl: '/product' },
     { title: '建立食譜', toUrl: '/' }
 ])
+
+const carouselTitle = reactive([
+    "每月熱門食譜",
+    "最新食譜"
+])
+
+
 </script>
 
 <template>
@@ -20,9 +27,9 @@ const navbarlist = reactive([
         <hr>
     </div>
     <DropDownSelector></DropDownSelector>
-    <Carousel />
+    <Carousel :title="carouselTitle[0]" />
     <hr>
-    <Carousel />
+    <Carousel :title="carouselTitle[1]" />
 </template>
 
 <style>

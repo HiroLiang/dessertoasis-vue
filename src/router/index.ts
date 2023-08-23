@@ -34,16 +34,29 @@ const router = createRouter({
       component: () => import("../views/CmsView.vue"),
       children: [
         {
-          path: "/cms/recipe",
-          name: "recipe",
-          component: () => import("../views/RecipeBackground.vue"),
+          path: '/cms/recipe',
+          name: 'recipe',
+          component: () => import('../views/RecipeBackground.vue')
         },
         {
+<<<<<<< HEAD
           path: "/cms/courses",
           name: "courses",
           component: () => import("../views/CoursesBackground.vue"),
         },
       ],
+=======
+          path: '/cms/chat',
+          name: 'chat',
+          component: () => import('../views/ChatRoom.vue')
+        },
+        {
+          path: '/cms/product',
+          name: 'productBG',
+          component: () => import('../views/ProductBackground.vue')
+        },
+      ]
+>>>>>>> fe0374f16d25152eea7493fb0c2c50b602740f4a
     },
     {
       path: "/courses",

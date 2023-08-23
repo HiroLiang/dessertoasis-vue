@@ -83,7 +83,7 @@ import Pagination from "@/components/Pagination.vue";
 .dropdown {
   display: block;
   width: 30px;
-  position: absolute;
+  position: fixed;
   bottom: 150px;
   left: 0px;
   z-index: 10;

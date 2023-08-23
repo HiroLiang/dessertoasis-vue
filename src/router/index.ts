@@ -19,8 +19,8 @@ const router = createRouter({
       component: () => import("../views/RecipeView.vue"),
     },
     {
-      path: "/signIn",
-      name: "signIn",
+      path: "/signin",
+      name: "signin",
       component: () => import("../views/SignIn.vue"),
     },
     {
@@ -53,6 +53,11 @@ const router = createRouter({
           name: "productBG",
           component: () => import("../views/ProductBackground.vue"),
         },
+        {
+          path: "/cms/member",
+          name: "member",
+          component: () => import("../views/MemberBackground.vue"),
+        },
       ],
     },
     {
@@ -69,6 +74,11 @@ const router = createRouter({
       path: "/register",
       name: "register",
       component: () => import("../views/Register.vue"),
+    },
+    {
+      path: "/memberprofile",
+      name: "memberprofile",
+      component: () => import("../views/MemberProfile.vue"),
     },
   ],
 });

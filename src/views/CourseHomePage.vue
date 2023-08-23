@@ -3,7 +3,7 @@
   <HeaderShow />
   <div class="container">
     <!-- <carousel></carousel> -->
-    <!-- 麵包屑 -->
+    <!-- 導航層次結構 -->
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item active"><a href="#">首頁</a></li>
@@ -62,12 +62,9 @@
             alt=""
           />
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <h5 class="card-title">杯子蛋糕</h5>
+            <p class="card-text">滿足你的甜蜜渴望，一個杯子，一份幸福。</p>
+            <a href="#" class="btn btn-primary">了解更多</a>
           </div>
         </div>
       </div>
@@ -212,7 +209,7 @@
     </nav>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import NavBar from "@/components/NavBar.vue";
 import HeaderShow from "@/components/HeaderShow.vue";
 </script>

@@ -12,7 +12,7 @@
                     <li><a href="">分類4</a></li>
                 </ul> -->
             </li>
-            <li><a href="#">麵包&#129171</a>
+            <li><a class="dropdown-toggle" href="#">麵包</a>
                 <ul class="subMenu">
                     <li><a href="">吐司</a></li>
                     <li><a href="">甜麵包</a></li>
@@ -21,7 +21,7 @@
                     <li><a href="">更多麵包</a></li>
                 </ul>
             </li>
-            <li><a href="#">甜點&#129171</a>
+            <li><a class="dropdown-toggle" href="#">甜點</a>
                 <ul class="subMenu">
                     <li><a href="">蛋糕</a></li>
                     <li><a href="">餅乾</a></li>
@@ -30,7 +30,7 @@
                     <li><a href="">更多甜點</a></li>
                 </ul>
             </li>
-            <li><a href="#">食材&#129171</a>
+            <li><a class="dropdown-toggle" href="#">食材</a>
                 <ul class="subMenu">
                     <li><a href="">檸檬</a></li>
                     <li><a href="">肉桂</a></li>
@@ -39,7 +39,7 @@
                     <li><a href="">更多食材</a></li>
                 </ul>
             </li>
-            <li><a href="#">難易度&#129171</a>
+            <li><a class="dropdown-toggle" href="#">難易度</a>
                 <ul class="subMenu">
                     <li><a href="">簡單</a></li>
                     <li><a href="">中等</a></li>

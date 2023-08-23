@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="ProductMenu">
         <div>
             <button class="btn custom-btn position-absolute top-25 start-10 mt-2 ms-2" @click="toggleOffcanvas"
                 type="button">
@@ -14,6 +14,9 @@
 
                 </h5>
                 <button type="button" class="btn-close" @click="closeOffcanvas" aria-label="Close"></button>
+            </div>
+            <div>
+                <Breadcrumb></Breadcrumb>
             </div>
             <div>
                 <SearchProduct></SearchProduct>
@@ -33,7 +36,9 @@
   
 <script setup lang="ts">
 import { ref } from 'vue';
+import Breadcrumb from '@/components/Breadcrumb.vue';
 import SearchProduct from '@/components/SearchProduct.vue';
+
 
 const isOffcanvasOpen = ref(false);
 
@@ -49,15 +54,23 @@ const closeOffcanvas = () => {
 <style scoped>
 .custom-btn {
     background-color: rgb(251, 244, 244);
-    /* 设置背景颜色 */
-
-    /* 设置文字颜色 */
-    /* 其他样式属性 */
+    position: relative;
+    /* Important for z-index to work */
+    z-index: 10;
 }
 
 .custom-btn img {
     width: 60px;
     height: 60px;
+
+}
+
+.ProductMenu .btn-close {
+    position: relative;
+    /* Important for z-index to work */
+    z-index: 10;
+    /* Adjust this value as needed */
+    /* ... Other styles ... */
 }
 </style>
   

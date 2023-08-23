@@ -3,7 +3,7 @@
   <HeaderShow />
   <div class="container">
     <!-- <carousel></carousel> -->
-    <!-- 麵包屑 -->
+    <!-- 導航層次結構 -->
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item active"><a href="#">首頁</a></li>
@@ -54,177 +54,36 @@
 
     <!-- 課程卡片 -->
     <main class="row">
-      <div class="col-12 col-md-3 mb-4">
-        <div class="card">
-          <img
-            src="../assets/images/course/cupcake.jpg"
-            class="card-img-top"
-            alt=""
-          />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-3 mb-4">
-        <div class="card">
-          <img
-            src="../assets/images/course/cupcake.jpg"
-            class="card-img-top"
-            alt=""
-          />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-3 mb-4">
-        <div class="card">
-          <img
-            src="../assets/images/course/cupcake.jpg"
-            class="card-img-top"
-            alt=""
-          />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-3 mb-4">
-        <div class="card">
-          <img
-            src="../assets/images/course/cupcake.jpg"
-            class="card-img-top"
-            alt=""
-          />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-3 mb-4">
-        <div class="card">
-          <img
-            src="../assets/images/course/cupcake.jpg"
-            class="card-img-top"
-            alt=""
-          />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-3 mb-4">
-        <div class="card">
-          <img
-            src="../assets/images/course/cupcake.jpg"
-            class="card-img-top"
-            alt=""
-          />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-3 mb-4">
-        <div class="card">
-          <img
-            src="../assets/images/course/cupcake.jpg"
-            class="card-img-top"
-            alt=""
-          />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-3 mb-4">
-        <div class="card">
-          <img
-            src="../assets/images/course/cupcake.jpg"
-            class="card-img-top"
-            alt=""
-          />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
+      <CourseCard></CourseCard>
+      <CourseCard></CourseCard>
+      <CourseCard></CourseCard>
+      <CourseCard></CourseCard>
+      <CourseCard></CourseCard>
+      <CourseCard></CourseCard>
+      <CourseCard></CourseCard>
+      <CourseCard></CourseCard>
     </main>
 
     <!-- 分頁 -->
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <Pagination></Pagination>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import NavBar from "@/components/NavBar.vue";
 import HeaderShow from "@/components/HeaderShow.vue";
+import CourseCard from "@/components/CourseCard.vue";
+import Pagination from "@/components/Pagination.vue";
 </script>
 <style scoped>
 * {
   box-sizing: border-box;
   list-style: none;
+  /* outline: 1px solid #000; */
 }
 .dropdown {
   display: block;
   width: 30px;
-  position: absolute;
+  position: fixed;
   bottom: 150px;
   left: 0px;
   z-index: 10;

@@ -9,6 +9,13 @@ const navbarlist = reactive([
     { title: '商品', toUrl: '/product' },
     { title: '建立食譜', toUrl: '/' }
 ])
+
+const carouselTitle = reactive([
+    "每月熱門食譜",
+    "最新食譜"
+])
+
+
 </script>
 
 <template>
@@ -20,23 +27,9 @@ const navbarlist = reactive([
         <hr>
     </div>
     <DropDownSelector></DropDownSelector>
-    <div class="container">
-        <div class="txtwrap">
-            <h2 class="titleTxt">每周熱門食譜</h2>
-        </div>
-        <div class="container border pr-10 pl-10">
-            <Carousel />
-        </div>
-    </div>
+    <Carousel :title="carouselTitle[0]" />
     <hr>
-    <div class="container">
-        <div class="txtwrap">
-            <h2 class="titleTxt">最新食譜</h2>
-        </div>
-        <div class="container border pr-10 pl-10">
-            <Carousel />
-        </div>
-    </div>
+    <Carousel :title="carouselTitle[1]" />
 </template>
 
 <style>
@@ -50,33 +43,10 @@ const navbarlist = reactive([
     flex-wrap: wrap;
 }
 
-.txtwrap {
-    max-width: 300px;
-    display: block;
-    align-items: center;
-    text-align: center;
-}
-
-.border {
-    border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
-    padding: 10px 25px px 10px 25px;
-    border-radius: 0px 10px 10px 10px;
-}
-
-.titleTxt {
-    display: block;
-    border: 1px solid rgb(218, 215, 215);
-    border-radius: 10px 10px 0px 0px;
-    border-bottom: none;
-    padding: 10px;
-    margin-top: 20px;
-    margin-bottom: 0px;
-}
-
 .searchBarBackground {
     max-width: 100vw;
     overflow: hidden;
-    max-height: 100vh;
+    max-height: 70vh;
     margin-bottom: 10px;
     margin-top: 10px;
 

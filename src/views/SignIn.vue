@@ -35,14 +35,29 @@ import NavBar from '@/components/NavBar.vue';
             </div>
 
 
-            <div class="text-center">
+            <div class="text-center row">
                 <p>尚未成為會員? <router-link to="/register">註冊</router-link></p>
                 <p>或用其他方式登入</p>
 
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                    <i class="fab fa-facebook-f"></i>
-                </button>
+
+                <div class="icon-container">
+                    <div class="icon">
+                        <a href="#"><font-awesome-icon :icon="['fab', 'google']" size="xl" style="color: #4285f4;"
+                                class="bounce-icon" /></a>
+                    </div>
+
+                    <div class="icon">
+                        <a href="#"><font-awesome-icon :icon="['fab', 'facebook']" size="xl" style="color: #4267b2;"
+                                class="bounce-icon" /></a>
+                    </div>
+                </div>
+
+
+
             </div>
+
+
+
         </form>
     </div>
 </template>
@@ -55,5 +70,27 @@ import NavBar from '@/components/NavBar.vue';
     border: 1px solid black;
     border-radius: 15px;
     box-shadow: 2px 2px 2px gray;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+
+}
+
+.icon {
+    margin: auto 15px;
+}
+
+
+.bounce-icon {
+
+    transition: transform 0.3s;
+    /* 添加平滑過渡效果 */
+}
+
+.bounce-icon:hover {
+    transform: scale(1.1) translateY(-5px);
+    /* 彈跳效果 */
 }
 </style>

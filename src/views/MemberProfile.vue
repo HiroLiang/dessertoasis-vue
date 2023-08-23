@@ -66,8 +66,14 @@ import NavBar from '@/components/NavBar.vue';
                         <div class="text-center">
 
                             <div class="square position-relative display-2 mb-3">
-                                test
+                                <font-awesome-icon :icon="['far', 'user']" />
                             </div>
+
+                            <input type="file" id="customFile" name="file" hidden="">
+                            <label class="btn btn-outline-success" for="customFile">上傳</label>
+
+                            <button type="button" class="btn btn-outline-danger">移除</button>
+
                         </div>
 
                     </div>

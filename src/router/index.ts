@@ -42,7 +42,12 @@ const router = createRouter({
           path: '/cms/chat',
           name: 'chat',
           component: () => import('../views/ChatRoom.vue')
-        }
+        },
+        {
+          path: '/cms/product',
+          name: 'productBG',
+          component: () => import('../views/ProductBackground.vue')
+        },
       ]
     },
     {

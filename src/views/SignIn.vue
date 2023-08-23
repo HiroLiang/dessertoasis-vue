@@ -36,7 +36,7 @@ import NavBar from '@/components/NavBar.vue';
 
 
             <div class="text-center">
-                <p>尚未成為會員? <a href="#!"> 註冊</a></p>
+                <p>尚未成為會員? <router-link to="/register">註冊</router-link></p>
                 <p>或用其他方式登入</p>
 
                 <button type="button" class="btn btn-link btn-floating mx-1">

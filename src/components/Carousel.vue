@@ -57,15 +57,23 @@ const texts = reactive({
 </script>
 <style>
 .carousel__next {
-    right: -80px
+    right: -40px
 }
 
 .carousel__prev {
-    left: -80px;
+    left: -40px;
 }
 
 .slideImgs {
     max-width: 300px;
     max-height: 200px;
+}
+
+.carousel__pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    line-height: 0;
+    margin: 15px 0px 5px 0px;
 }
 </style>

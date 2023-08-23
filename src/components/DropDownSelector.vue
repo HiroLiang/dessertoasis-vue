@@ -46,6 +46,11 @@
                     <li><a href="">困難</a></li>
                 </ul>
             </li>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="輸入搜尋食譜" aria-label="Search">
+                <button class="btn btn-light" type="submit"><img src="../assets/images/recipeHP/magnifying-glass.png"
+                        alt=""></button>
+            </form>
         </ul>
 
     </div>
@@ -75,6 +80,27 @@
 
 }
 
+.me-2 {
+    margin-right: 0;
+}
+
+.dropDwonMenuWrap ul form {
+    height: 100%;
+    list-style: none;
+    text-align: center;
+    justify-content: center;
+    margin-top: 5px;
+    margin-left: 25px;
+    font-size: 24px;
+}
+
+.dropDwonMenuWrap ul form button>img {
+    width: 26px;
+    height: 26px;
+
+}
+
+
 .dropDwonMenuWrap ul li a {
     color: inherit;
     /* 移除超連結顏色 */
@@ -82,8 +108,8 @@
     /* 讓 <a> 填滿 <li> */
     /* font-size: 1.2rem; */
     padding: 10px;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
     text-decoration: none;
 
     /* 移除超連結底線 */
@@ -130,6 +156,6 @@
 
 .dropDwonMenuWrap ul li:hover ul {
     display: block;
-    left: -40px;
+    left: -32px;
 }
 </style>

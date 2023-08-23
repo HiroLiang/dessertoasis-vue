@@ -1,6 +1,4 @@
-<script setup>
-import NavBar from "@/components/NavBar.vue";
-</script>
+<script setup lang="ts"></script>
 <template>
   <div>Course Backend</div>
 </template>

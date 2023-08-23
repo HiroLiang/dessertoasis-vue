@@ -29,6 +29,11 @@ const name = 'SearchProduct';
 .search-container {
     display: flex;
     align-items: center;
+    margin-left: 15px;
+    position: relative;
+    z-index: 10;
+
+
 }
 
 .search-input {

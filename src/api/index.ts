@@ -10,4 +10,8 @@ const reqDatas = () => {
     return request.get('/recipe/all')
 }
 
-export { reqTest, reqDatas }
+const getReservations = (roomId: number, year: number, month: number) => {
+    return request.get(`/reservation/getinmonth?roomId=${roomId}&year=${year}&month=${month}`)
+} 
+
+export { reqTest, reqDatas, getReservations }

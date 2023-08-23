@@ -9,6 +9,7 @@ const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      //首頁
       path: "/",
       name: "home",
       component: HomeView,

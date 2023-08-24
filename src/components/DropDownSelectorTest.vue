@@ -141,12 +141,12 @@ header {
     background-color: rgb(173, 172, 172);
 }
 
-.dropdown li {
+.dropdownSelector li {
     width: 250px;
     border-bottom: 1px solid #fff;
 }
 
-.dropdown li a {
+.dropdownSelector li a {
     display: block;
     padding: 10px;
     color: #fff;

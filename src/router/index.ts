@@ -43,7 +43,7 @@ const router = createRouter({
       children: [
         {
 
-          path: '',
+          path: '/cms/recipe',
           name: "recipe",
           component: () => import("../views/RecipeBackground.vue"),
         },

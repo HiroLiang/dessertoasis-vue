@@ -19,6 +19,7 @@
 <script lang="ts"></script>
 <style scoped>
 .card-img {
+  /* 放大圖片不超過容器範圍 */
   overflow: hidden;
 }
 

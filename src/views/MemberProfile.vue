@@ -1,67 +1,59 @@
 <script setup>
-
 import NavBar from '@/components/NavBar.vue';
+import InfoBar from '@/components/InfoBar.vue';
 </script>
 
 
 
 
 <template >
-    <NavBar></NavBar>
+    <form class="file-upload">
+        <div class="row mb-5 gx-5">
 
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
+            <!-- 基本資料 -->
+            <div class="col-xxl-8 mb-5 mb-xxl-0">
+                <div class="bg-secondary-soft px-4 py-5 rounded">
+                    <div class="row g-3">
+                        <h4 class="mb-4 mt-0">基本資料</h4>
 
-                <div class="my-5">
-                    <h3>我的會員資料</h3>
-                    <hr>
+                        <div class="col-md-6">
+                            <label class="form-label">姓名</label>
+                            <input type="text" class="form-control" value="">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">身分證
+                            </label>
+                            <input type="text" class="form-control" value="">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">生日
+                            </label>
+                            <input type="text" class="form-control" value="">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Email
+                            </label>
+                            <input type="email" class="form-control" value="">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">住址
+                            </label>
+                            <input type="text" class="form-control" value="">
+                        </div>
+                    </div>
                 </div>
-
-                <form class="file-upload">
-                    <div class="row mb-5 gx-5">
+            </div>
 
 
-                        <div class="col-xxl-8 mb-5 mb-xxl-0">
-                            <div class="bg-secondary-soft px-4 py-5 rounded">
-                                <div class="row g-3">
-                                    <h4 class="mb-4 mt-0">基本資料</h4>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label">姓名</label>
-                                        <input type="text" class="form-control" value="">
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label">生日
-                                        </label>
-                                        <input type="text" class="form-control" value="">
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label">Email
-                                        </label>
-                                        <input type="text" class="form-control" value="">
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label">住址
-                                        </label>
-                                        <input type="text" class="form-control" value="">
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xxl-4">
-                            <div class="bg-secondary-soft px-4 py-5 rounded">
-                                <div class="row g-3">
-                                    <h4 class="mb-4 mt-0">上傳頭像圖片</h4>
-                                </div>
-                            </div>
-                        </div>
+            <!-- 上傳圖片 -->
+            <div class="col-xxl-4">
+                <div class="bg-secondary-soft px-4 py-5 rounded">
+                    <div class="row g-3">
+                        <h4 class="mb-4 mt-0">上傳頭像圖片</h4>
 
                         <div class="text-center">
 
@@ -73,20 +65,26 @@ import NavBar from '@/components/NavBar.vue';
                             <label class="btn btn-outline-success" for="customFile">上傳</label>
 
                             <button type="button" class="btn btn-outline-danger">移除</button>
-
                         </div>
-
                     </div>
-
-                </form>
-
+                </div>
             </div>
         </div>
-    </div>
+
+
+        <div class="text-center">
+            <button type="button" class="btn btn-danger btn-lg">Delete profile</button>
+            <button type="button" class="btn btn-primary btn-lg">Update profile</button>
+        </div>
+    </form>
 </template>
 
 
 
 
 
-<style scoped></style>
+<style scoped>
+button {
+    margin: auto 15px;
+}
+</style>

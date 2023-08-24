@@ -80,7 +80,26 @@ const router = createRouter({
       path: "/memberprofile",
       name: "memberprofile",
       component: () => import("../views/MemberProfile.vue"),
+      children: [
+        {
+          path: "/memberprofile/changepassword",
+          name: "changepassword",
+          component: () => import("../views/ChangePassword.vue"),
+        },
+      ],
     },
+    {
+      path: "/mem",
+      name: "mem",
+      component: () => import("../views/MemberView.vue"),
+      children: [
+        {
+          path: "",
+          name: "profile",
+          component: () => import("../views/MemberProfile.vue"),
+        },
+      ],
+    }
   ],
 });
 

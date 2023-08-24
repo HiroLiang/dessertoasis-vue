@@ -2,7 +2,7 @@
 import NavBar from '@/components/NavBar.vue'
 import Carousel from '@/components/Carousel.vue'
 import DropDownSelector from '@/components/DropDownSelector.vue'
-import Selector from '@/components/DropDownSelectorTest.vue'
+// import Selector from '@/components/DropDownSelectorTest.vue'
 import { reactive } from 'vue'
 const navbarlist = reactive([
     { title: '食譜', toUrl: '/recipes' },
@@ -27,22 +27,21 @@ const item = reactive([
 </script>
 
 <template>
-    <div>
-        <NavBar :NavBarList="navbarlist" />
-    </div>
+    <NavBar :NavBarList="navbarlist" />
+
     <div class="searchBarBackground">
         <img src="../assets/images/recipeHP/tabitha-turner-Ns2aJ5OXKds-unsplash.jpg" alt="">
         <hr>
     </div>
     <DropDownSelector></DropDownSelector>
     <hr>
-    <Selector></Selector>
+    <!-- <Selector></Selector> -->
     <Carousel :title="carouselTitle[0]" :itemsList="item" />
     <hr>
     <Carousel :title="carouselTitle[1]" :itemsList="item" />
 </template>
 
-<style>
+<style scoped>
 /*調整食譜縮圖列外框線位置*/
 .recipeListContainer {
     margin: 0;

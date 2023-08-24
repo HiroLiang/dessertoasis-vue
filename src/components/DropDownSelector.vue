@@ -55,7 +55,7 @@
 
     </div>
 </template>
-<style>
+<style scoped>
 /*下拉式選單設定*/
 .dropDwonMenuWrap {
     background-color: #e9e7e7;

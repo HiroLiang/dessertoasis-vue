@@ -39,7 +39,9 @@ const autoplay = 5000 //自動循環時間(單位:毫秒)
 const pauseAutoplayOnHover = true //游標懸浮暫停自動循環
 
 
-
+//由父類傳值用(未填入則以default值)
+//title需要型別字串  父類使用方法(<Carousel :title="變數" :itemsList = 變數 />)
+//itemList需要型別物件陣列   
 const props = defineProps({
     title: {
         default:
@@ -66,45 +68,6 @@ const props = defineProps({
         ],
     },
 })
-
-// const items = reactive(
-//     {
-//         imageUrlList: ["https://picsum.photos//500/400?random=1",
-//             "https://picsum.photos/500/400?random=2",
-//             "https://picsum.photos/500/400?random=3",
-//             "https://picsum.photos/500/400?random=4",
-//             "https://picsum.photos/500/400?random=5",
-//             "https://picsum.photos//500/400?random=1",
-//             "https://picsum.photos/500/400?random=2",
-//             "https://picsum.photos/500/400?random=3",
-//             "https://picsum.photos/500/400?random=4",
-//             "https://picsum.photos/500/400?random=5",
-//             "https://picsum.photos//500/400?random=1",
-//             "https://picsum.photos/500/400?random=2",
-//             "https://picsum.photos/500/400?random=3",
-//             "https://picsum.photos/500/400?random=4",
-//             "https://picsum.photos/500/400?random=5",
-//         ]
-//     },
-// )
-// const texts = reactive({
-//     textList: ['香草莓果拼盤',
-//         '巧克力焦糖布朗尼',
-//         '芒果慕斯蛋糕',
-//         '藍莓杏仁塔',
-//         '玫瑰草莓泡芙',
-//         '香蕉核桃蛋糕卷',
-//         '抹茶紅豆湯圓',
-//         '檸檬蛋糕塔',
-//         '經典提拉米蘇',
-//         '蘋果肉桂捲',
-//         '紅莓芝士蛋糕',
-//         '杏仁巧克力酥餅',
-//         '椰漿香蕉布丁',
-//         '蔓越莓橙子鬆餅',
-//         '士多啤梨奶油千層蛋糕'
-//     ]
-// })
 
 </script>
 <style>

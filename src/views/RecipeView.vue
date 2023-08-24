@@ -8,7 +8,7 @@ const navbarlist = reactive([
     { title: '食譜', toUrl: '/recipes' },
     { title: '課程', toUrl: '/courses' },
     { title: '商品', toUrl: '/product' },
-    { title: '建立食譜', toUrl: '/' }
+    { title: '建立食譜', toUrl: '/recipes/createrecipe' }
 ])
 
 const carouselTitle = reactive([
@@ -39,6 +39,8 @@ const item = reactive([
     <Carousel :title="carouselTitle[0]" :itemsList="item" />
     <hr>
     <Carousel :title="carouselTitle[1]" :itemsList="item" />
+    <hr>
+    <router-view></router-view>
 </template>
 
 <style scoped>

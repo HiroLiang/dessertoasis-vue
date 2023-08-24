@@ -18,6 +18,13 @@ const router = createRouter({
       path: "/recipes",
       name: "RecipeHomePage",
       component: () => import("../views/RecipeView.vue"),
+      children: [
+        {
+          path: "/recipes/createrecipe",
+          name: "createrecipe",
+          component: () => import("../views/RecipeCreatePage.vue")
+        },
+      ]
     },
     {
       path: "/signin",
@@ -73,9 +80,9 @@ const router = createRouter({
       component: () => import("../views/CourseHomePage.vue"),
     },
     {
-      path: "/test",
-      name: "test",
-      component: () => import("../views/Test.vue"),
+      path: "/classroom",
+      name: "classroom",
+      component: () => import("../views/Classroom.vue"),
     },
     {
       path: "/register",
@@ -86,7 +93,26 @@ const router = createRouter({
       path: "/memberprofile",
       name: "memberprofile",
       component: () => import("../views/MemberProfile.vue"),
+      children: [
+        {
+          path: "/memberprofile/changepassword",
+          name: "changepassword",
+          component: () => import("../views/ChangePassword.vue"),
+        },
+      ],
     },
+    {
+      path: "/mem",
+      name: "mem",
+      component: () => import("../views/MemberView.vue"),
+      children: [
+        {
+          path: "",
+          name: "profile",
+          component: () => import("../views/MemberProfile.vue"),
+        },
+      ],
+    }
   ],
 });
 

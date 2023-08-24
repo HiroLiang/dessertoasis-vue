@@ -72,7 +72,7 @@ const closeDropdown = () => {
                     <a v-if="!item.children" :href="item.url">{{ item.name }}</a>
                     <span v-else @mouseover="openDropdown(item.name)" @mouseleave="closeDropdown">
                         {{ item.name }}
-                        <ul class="dropdown" :class="{ isOpen: openedDropdown === item.name }">
+                        <ul class="dropdownSelector dropdown" :class="{ isOpen: openedDropdown === item.name }">
                             <li v-for="child in item.children" :key="child.name">
                                 <a :href="child.url">{{ child.name }}</a>
                             </li>
@@ -131,7 +131,7 @@ header {
 
 }
 
-.dropdown {
+.dropdownSelector {
     position: absolute;
     top: 100%;
     left: 0;

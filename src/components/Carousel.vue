@@ -66,9 +66,6 @@ const props = defineProps({
         ],
     },
 })
-console.log(props);
-console.log(props.itemsList);
-console.log(props.titleList);
 
 // const items = reactive(
 //     {

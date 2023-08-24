@@ -1,6 +1,8 @@
 <template>
-  <NavBar />
+  <NavBar :nav-bar-list="[{ title: '123', toUrl: '/recipes' }]" />
   <HeaderShow />
+  <!-- RouterView 放會變的東西 -->
+  <!-- <RouterView/> -->
   <div class="container">
     <!-- <carousel></carousel> -->
     <!-- 導航層次結構 -->

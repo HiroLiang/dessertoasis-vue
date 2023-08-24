@@ -42,7 +42,8 @@ const router = createRouter({
       component: () => import("../views/CmsView.vue"),
       children: [
         {
-          path: "/cms/recipe",
+
+          path: '',
           name: "recipe",
           component: () => import("../views/RecipeBackground.vue"),
         },
@@ -66,6 +67,11 @@ const router = createRouter({
           name: "member",
           component: () => import("../views/MemberBackground.vue"),
         },
+        {
+          path: "/cms/table",
+          name: "table",
+          component: () => import("../components/Standard/Table.vue")
+        }
       ],
     },
     {

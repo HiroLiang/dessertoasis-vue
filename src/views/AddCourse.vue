@@ -1,42 +1,32 @@
 <template>
-  <div v-if="isTeacher">新增課程</div>
-  <div v-else>非教師用戶</div>
+  <div>
+    <!-- 根據用戶身份顯示不同内容 -->
+    <div v-if="isTeacher">
+      <h1>新增課程</h1>
+      <!-- 这里放置新增课程的表单或其他内容 -->
+    </div>
+    <div v-else>
+      <p>您不是教師，無法前往此頁。</p>
+    </div>
+  </div>
 </template>
-<script>
+
+<script setup>
 import { ref, onMounted } from "vue"
 import { checkTeacherStatus } from "@/api"
 
-const checkTeacher = ref([])
+const isTeacher = ref(false) // 預設用戶不是老師
 
-const datas = async () => {
-  const res = await checkTeacherStatus()
-  checkTeacher.value = res.data
-}
-onMounted(datas)
-// import axios from "axios"
-
-// export default {
-//   mounted() {
-//     this.checkTeacherStatus()
-//   },
-//   methods: {
-//     checkTeacherStatus() {
-//       axios
-//         .get("/check-teacher")
-//         .then((response) => {
-//           // 如果 controller 返回 "You are a teacher."，則用戶是教師
-//           console.log(response.data)
-//           // 是教師=>可以到新增課程頁面
-//           if (response.data === "You are a teacher.") {
-//           } else {
-//             // 不是教師，跳轉到登入畫面
-//             this.$router.push("/login")
-//           }
-//         })
-//         .catch((error) => {
-//           console.error(error)
-//         })
-//     },
-//   },
-// }
+onMounted(async () => {
+  // 向後端發送請求以驗證用戶是否為教師
+  try {
+    const response = await checkTeacherStatus()
+    if (response.data === "Teacher cookie set successfully.") {
+      // 用戶是老師，顯示新增課程内容
+      isTeacher.value = true
+    }
+  } catch (error) {
+    console.error(error)
+  }
+})
 </script>

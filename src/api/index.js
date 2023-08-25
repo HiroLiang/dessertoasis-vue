@@ -26,7 +26,7 @@ const getAllCourses = () => {
 
 //檢查教師身分
 const checkTeacherStatus = () => {
-  return request.get("/check-teacher")
+  return request.get("/set-teacher-cookie ")
 }
 
 export { reqTest, reqDatas, getReservations, getAllCourses, checkTeacherStatus }

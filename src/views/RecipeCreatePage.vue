@@ -1,20 +1,33 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, reactive } from 'vue'
 import IngredientInput from '../views/recipe/components/IngredientInput.vue'
 import StepInput from '../views/recipe/components/StepInput.vue'
 
-const ingredients = ref([])
+const ingredientCounter = ref(2)
+const ingredients = reactive([0, 1])
 
 const addNewIngredient = () => {
-    ingredients.value.push({})
-    console.log(ingredients.value);
+    ingredients.push(ingredientCounter.value)
+    ingredientCounter.value++
+    console.log(ingredients);
 }
-
-const steps = ref([])
+const stepCounter = ref(2)
+const steps = reactive([0, 1])
 
 const addNewStep = () => {
-    steps.value.push({})
-    console.log(steps.value);
+    steps.push(stepCounter.value)
+    stepCounter.value++
+    console.log(steps);
+}
+
+const handleDeleteStep = (deletIndex) => {
+    console.log(deletIndex);
+    steps.splice(deletIndex - 1, 1)
+}
+
+const handleDeleteIngredient = (deleteIngredient) => {
+    console.log(deleteIngredient);
+    ingredients.splice(deleteIngredient - 1, 1)
 }
 
 </script>
@@ -70,71 +83,21 @@ const addNewStep = () => {
             </div>
             <div class="container ml-3">
                 <div class="ingredientContainer row justify-content-start  ">
-                    <div class="ingredientTypeContainer col-4">
-                        <label for="ingredientName" class="form-label">所需食材</label><br>
-                        <input class="form-control" type="search" id="ingredientName" name="ingredientName"
-                            placeholder="請輸入食材名稱">
-                    </div>
-                    <div class="ingredientQuantityContainer col-4">
-                        <label for="ingredientQuantity" class="form-label">食材份量</label><br>
-                        <input class="form-control" type="text" id="ingredientQuantity" name="ingredientQuantity"
-                            required="required" placeholder="份量">
-                    </div>
-                    <div class="ingrediantBtn col-2 mt-4">
-                        <button class="btn btn-light ">刪除</button>
-                        <button class="btn btn-light ">移動</button>
-                    </div>
+                    <IngredientInput v-for="(ingredient, index) in ingredients.length" :key="ingredients[index]"
+                        :ingerdientIndex="index + 1" @delete-ingredient="handleDeleteIngredient">
+                    </IngredientInput>
                 </div>
 
-                <div v-for="(ingredient, index) in ingredients" :key="index">
-                    <IngredientInput></IngredientInput>
-                </div>
+
                 <div class="newRecipeStepContainer d-grid mt-3">
                     <button class="btn btn-light" @click="addNewIngredient">+ 增加食材</button>
                 </div>
             </div>
             <div class="recipeStepsContainer container mt-3">
-                <div class="step1Container row justify-content-between">
-                    <div class="stepImgContainer col-3 align-self-center">
-                        <label for="recipeStep1" class="form-label">步驟1</label><br>
-                        <img class="recipeStep1Pic" id="previewPic0" alt="步驟圖片"
-                            src="https://fakeimg.pl/250x200/?text=Image">
-                        <input class="form-control" type="file" id="recipeStep1" name="recipeStep1" accept="image/*"
-                            onchange="preview(event,'previewPic0')"><br>
-                    </div>
-                    <div class="introText col-6 align-self-center">
-                        <textarea class="recipeIntroduction form-control" rows="9" cols="20" style="resize: none;"
-                            id="recipeIntroduction" name="recipeIntroduction" required="required"></textarea>
+                <StepInput v-for="(step, index) in steps.length" :key="steps[index]" :stepIndex="index + 1"
+                    @delete-step="handleDeleteStep"></StepInput>
 
-                    </div>
-                    <div class="stepBtn col-3 mt-5">
-                        <button class="btn btn-light ">刪除</button>
-                        <button class="btn btn-light ">移動</button>
-                    </div>
 
-                </div>
-                <div class="step2Container container">
-                    <div class="step1Container row justify-content-between">
-                        <div class="stepImgContainer col-3 align-self-center">
-                            <label for="recipeStep2" class="form-label">步驟2</label><br>
-                            <img class="recipeStep2Pic" id="previewPic0" alt="步驟圖片"
-                                src="https://fakeimg.pl/250x200/?text=Image">
-                            <input class="form-control" type="file" id="recipeStep2" name="recipeStep2" accept="image/*"
-                                onchange="preview(event,'previewPic0')"><br>
-                        </div>
-                        <div class="introText col-6 align-self-center">
-                            <textarea class="recipeIntroduction form-control" rows="9" cols="20" style="resize: none;"
-                                id="recipeIntroduction" name="recipeIntroduction" required="required"></textarea>
-                        </div>
-                        <div class="stepBtn col-3 mt-5">
-                            <button class="btn btn-light">刪除</button>
-                            <button class="btn btn-light">移動</button>
-                        </div>
-                    </div>
-                </div>
-                <div v-for="(step, index) in steps" :key="index">
-                    <StepInput></StepInput>
-                </div>
             </div>
             <div class="newRecipeStepContainer d-grid">
                 <button class="btn btn-light" @click="addNewStep">+ 增加步驟</button>

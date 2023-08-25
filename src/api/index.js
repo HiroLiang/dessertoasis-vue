@@ -20,8 +20,13 @@ const getReservations = (room, start, end) => {
 }
 
 //從controller拿到所有課程，export出Promise物件給vue?
+<<<<<<< HEAD
 const getAllCourses = () => {
   return request.get("/course/withTName")
+=======
+function getAllCourses() {
+  return request.get("/course/all");
+>>>>>>> ebc9905c17996321a6439e22bef70d128613f23d
 }
 
 export { reqTest, reqDatas, getReservations, getAllCourses }

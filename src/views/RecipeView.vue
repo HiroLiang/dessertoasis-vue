@@ -2,7 +2,7 @@
 import NavBar from '@/components/NavBar.vue'
 import Carousel from '@/components/Carousel.vue'
 import DropDownSelector from '@/components/DropDownSelector.vue'
-// import Selector from '@/components/DropDownSelectorTest.vue'
+import Selector from '@/components/DropDownSelectorTest.vue'
 import { reactive } from 'vue'
 const navbarlist = reactive([
     { title: '食譜', toUrl: '/recipes' },
@@ -35,7 +35,7 @@ const item = reactive([
     </div>
     <DropDownSelector></DropDownSelector>
     <hr>
-    <!-- <Selector></Selector> -->
+    <Selector></Selector>
     <Carousel :title="carouselTitle[0]" :itemsList="item" />
     <hr>
     <Carousel :title="carouselTitle[1]" :itemsList="item" />

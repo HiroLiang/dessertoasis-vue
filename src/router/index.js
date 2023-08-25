@@ -82,7 +82,7 @@ const router = createRouter({
     {
       path: "/classroom",
       name: "classroom",
-      component: () => import("../views/Classroom.vue"),
+      component: () => import("../views/classroom/Classroom.vue"),
     },
     {
       path: "/register",

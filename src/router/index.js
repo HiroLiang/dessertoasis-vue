@@ -1,8 +1,5 @@
-import {
-  createRouter,
-  createWebHashHistory
-} from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import { createRouter, createWebHashHistory } from "vue-router"
+import HomeView from "../views/HomeView.vue"
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -21,9 +18,9 @@ const router = createRouter({
         {
           path: "/recipes/createrecipe",
           name: "createrecipe",
-          component: () => import("../views/RecipeCreatePage.vue")
+          component: () => import("../views/RecipeCreatePage.vue"),
         },
-      ]
+      ],
     },
     {
       path: "/signin",
@@ -41,8 +38,7 @@ const router = createRouter({
       component: () => import("../views/CmsView.vue"),
       children: [
         {
-
-          path: '/cms/recipe',
+          path: "/cms/recipe",
           name: "recipe",
           component: () => import("../views/RecipeBackground.vue"),
         },
@@ -69,8 +65,8 @@ const router = createRouter({
         {
           path: "/cms/table",
           name: "table",
-          component: () => import("../components/Standard/Table.vue")
-        }
+          component: () => import("../components/Standard/Table.vue"),
+        },
       ],
     },
     {
@@ -112,8 +108,8 @@ const router = createRouter({
           component: () => import("../views/MemberProfile.vue"),
         },
       ],
-    }
+    },
   ],
-});
+})
 
-export default router;
+export default router

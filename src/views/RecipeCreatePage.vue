@@ -1,11 +1,27 @@
-<script lang="ts">
-// import NavBar from '@/components/NavBar.vue'
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import IngredientInput from '../views/recipe/components/IngredientInput.vue'
+import StepInput from '../views/recipe/components/StepInput.vue'
+
+const ingredients = ref([])
+
+const addNewIngredient = () => {
+    ingredients.value.push({})
+    console.log(ingredients.value);
+}
+
+const steps = ref([])
+
+const addNewStep = () => {
+    steps.value.push({})
+    console.log(steps.value);
+}
 
 </script>
 
 <template>
     <div>
-        <!-- <NavBar></NavBar> -->
+
     </div>
     <h2>this is recipe create page</h2>
 
@@ -69,13 +85,17 @@
                         <button class="btn btn-light ">移動</button>
                     </div>
                 </div>
+
+                <div v-for="(ingredient, index) in ingredients" :key="index">
+                    <IngredientInput></IngredientInput>
+                </div>
                 <div class="newRecipeStepContainer d-grid mt-3">
-                    <button class="btn btn-light">+ 增加食材</button>
+                    <button class="btn btn-light" @click="addNewIngredient">+ 增加食材</button>
                 </div>
             </div>
             <div class="recipeStepsContainer container mt-3">
                 <div class="step1Container row justify-content-between">
-                    <div class="stepImgContainer col-2 align-self-center">
+                    <div class="stepImgContainer col-3 align-self-center">
                         <label for="recipeStep1" class="form-label">步驟1</label><br>
                         <img class="recipeStep1Pic" id="previewPic0" alt="步驟圖片"
                             src="https://fakeimg.pl/250x200/?text=Image">
@@ -95,7 +115,7 @@
                 </div>
                 <div class="step2Container container">
                     <div class="step1Container row justify-content-between">
-                        <div class="stepImgContainer col-2 align-self-center">
+                        <div class="stepImgContainer col-3 align-self-center">
                             <label for="recipeStep2" class="form-label">步驟2</label><br>
                             <img class="recipeStep2Pic" id="previewPic0" alt="步驟圖片"
                                 src="https://fakeimg.pl/250x200/?text=Image">
@@ -112,10 +132,12 @@
                         </div>
                     </div>
                 </div>
-
+                <div v-for="(step, index) in steps" :key="index">
+                    <StepInput></StepInput>
+                </div>
             </div>
             <div class="newRecipeStepContainer d-grid">
-                <button class="btn btn-light">+ 增加步驟</button>
+                <button class="btn btn-light" @click="addNewStep">+ 增加步驟</button>
             </div>
 
             <br>

@@ -43,7 +43,7 @@ const router = createRouter({
       children: [
         {
 
-          path: '',
+          path: '/cms/recipe',
           name: "recipe",
           component: () => import("../views/RecipeBackground.vue"),
         },
@@ -78,6 +78,7 @@ const router = createRouter({
       path: "/courses",
       name: "courses",
       component: () => import("../views/CourseHomePage.vue"),
+      // children:[],//放要變化的東西
     },
     {
       path: "/classroom",

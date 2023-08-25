@@ -40,7 +40,7 @@ const item = reactive([
     <hr>
     <Carousel :title="carouselTitle[1]" :itemsList="item" />
     <hr>
-    <router-view></router-view>
+    <RouterView></RouterView>
 </template>
 
 <style scoped>

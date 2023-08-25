@@ -1,19 +1,31 @@
+<script setup >
+
+const props = defineProps({
+    stepIndex: {
+    }
+
+})
+
+</script>
+
 <template>
-    <div class="step2Container container">
-        <div class="step1Container row justify-content-between">
+    <div class="stepContainer container">
+        <div :class="'step' + stepIndex + 'Container' + ' row justify-content-between'">
             <div class="stepImgContainer col-3 align-self-center">
-                <label for="recipeStep2" class="form-label">步驟2</label><br>
-                <img class="recipeStep2Pic" id="previewPic0" alt="步驟圖片" src="https://fakeimg.pl/250x200/?text=Image">
-                <input class="form-control" type="file" id="recipeStep2" name="recipeStep2" accept="image/*"
-                    onchange="preview(event,'previewPic0')"><br>
+                <label :for="'recipeStep' + stepIndex" class=form-label>步驟{{ stepIndex }}</label><br>
+                <img :class="'recipeStep' + stepIndex + 'Pic'" :id="'previewPic' + stepIndex" :alt="'步驟' + stepIndex + '圖片'"
+                    src="https://fakeimg.pl/250x200/?text=Image">
+                <input class="form-control" type="file" :id="'recipeStep' + stepIndex" :name="'recipeStep' + stepIndex"
+                    accept="image/*" :onchange="'preview(event,' + 'previewPic' + stepIndex + ')'"><br>
             </div>
             <div class="introText col-6 align-self-center">
                 <textarea class="recipeIntroduction form-control" rows="9" cols="20" style="resize: none;"
-                    id="recipeIntroduction" name="recipeIntroduction" required="required"></textarea>
+                    :id="'recipeIntroduction' + stepIndex" :name="'recipeIntroduction' + stepIndex"
+                    required="required"></textarea>
             </div>
             <div class="stepBtn col-3 mt-5">
-                <button class="btn btn-light">刪除</button>
-                <button class="btn btn-light">移動</button>
+                <button class="btn btn-light" :id="'deleteStep' + stepIndex">刪除</button>
+                <button class="btn btn-light" :id="'moveStep' + stepIndex">移動</button>
             </div>
         </div>
     </div>

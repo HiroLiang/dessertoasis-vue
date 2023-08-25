@@ -1,11 +1,26 @@
 <script setup>
+import { ref } from 'vue';
 import { NInput, NButton, NInputGroup } from 'naive-ui'
-</script>
 
+const emit = defineEmits(['get-input-value'])
+const getSInputValue = (value) => {
+    emit('get-input-value', value)
+}
+
+const searchValue = ref('')
+
+const props = defineProps({
+    searchSize: {
+        type: Number,
+        default: 20
+    }
+})
+
+</script>
 <template>
     <n-input-group>
-        <n-input :style="{ width: '15%' }" />
-        <n-button type="primary" ghost>
+        <n-input v-model:value="searchValue" :style="{ width: searchSize + '%' }" />
+        <n-button type="tertiary" ghost @click="getSInputValue(searchValue)">
             搜索
         </n-button>
     </n-input-group>

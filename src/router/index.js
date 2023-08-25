@@ -13,12 +13,12 @@ const router = createRouter({
     {
       path: "/recipes",
       name: "RecipeHomePage",
-      component: () => import("../views/RecipeView.vue"),
+      component: () => import("../views/recipe/RecipeView.vue"),
       children: [
         {
           path: "/recipes/createrecipe",
           name: "createrecipe",
-          component: () => import("../views/RecipeCreatePage.vue"),
+          component: () => import("../views/recipe/RecipeCreatePage.vue"),
         },
       ],
     },
@@ -58,7 +58,7 @@ const router = createRouter({
         {
           path: "/cms/recipe",
           name: "recipe",
-          component: () => import("../views/RecipeBackground.vue"),
+          component: () => import("../views/recipe/RecipeBackground.vue"),
         },
         {
           path: "/cms/course",

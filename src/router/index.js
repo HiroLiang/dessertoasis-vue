@@ -1,8 +1,5 @@
-import {
-  createRouter,
-  createWebHashHistory
-} from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import { createRouter, createWebHashHistory } from "vue-router"
+import HomeView from "../views/HomeView.vue"
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -21,9 +18,9 @@ const router = createRouter({
         {
           path: "/recipes/createrecipe",
           name: "createrecipe",
-          component: () => import("../views/RecipeCreatePage.vue")
+          component: () => import("../views/RecipeCreatePage.vue"),
         },
-      ]
+      ],
     },
     {
       path: "/signin",
@@ -36,20 +33,21 @@ const router = createRouter({
       component: () => import("../views/product/Product.vue"),
       children: [
         {
-          path: '/producthome',
+          path: "/producthome",
           name: "productHome",
           component: () => import("../views/product/ProductHome.vue"),
         },
         {
-          path: '/productdetail',
+          path: "/productdetail",
           name: "productDetail",
           component: () => import("../views/product/ProductDetail.vue"),
         },
         {
-          path: '/producttype',
+          path: "/producttype",
           name: "productType",
           component: () => import("../views/product/ProductType.vue"),
-        },]
+        },
+      ],
     },
 
     {
@@ -58,8 +56,7 @@ const router = createRouter({
       component: () => import("../views/CmsView.vue"),
       children: [
         {
-
-          path: '/cms/recipe',
+          path: "/cms/recipe",
           name: "recipe",
           component: () => import("../views/RecipeBackground.vue"),
         },
@@ -67,6 +64,11 @@ const router = createRouter({
           path: "/cms/course",
           name: "course",
           component: () => import("../views/CourseBackground.vue"),
+        },
+        {
+          path: "/cms/addCourse",
+          name: "addCourse",
+          component: () => import("../views/AddCourse.vue"),
         },
         {
           path: "/cms/chat",
@@ -91,8 +93,8 @@ const router = createRouter({
         {
           path: "/cms/table",
           name: "table",
-          component: () => import("../components/Standard/Table.vue")
-        }
+          component: () => import("../components/Standard/Table.vue"),
+        },
       ],
     },
     {
@@ -138,9 +140,9 @@ const router = createRouter({
     {
       path: "/reservation",
       name: "reservation",
-      component: () => import("../views/classroom/Reservation.vue")
-    }
+      component: () => import("../views/classroom/Reservation.vue"),
+    },
   ],
-});
+})
 
-export default router;
+export default router

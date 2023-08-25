@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted } from "vue"
-import { getAllCourses } from "../api/index.js"
+import { getAllCourses } from "@/api"
 
 const courses = ref([])
 
@@ -14,8 +14,8 @@ onMounted(datas)
   <div class="container">
     <h1 align="center">課程管理</h1>
     <div class="row">
-      <table class="col-12">
-        <thead>
+      <table class="col-12 table table-hover align-middle">
+        <thead class="table-secondary table-light">
           <tr>
             <th>編號</th>
             <th>教師姓名</th>
@@ -35,26 +35,31 @@ onMounted(datas)
           </tr>
         </thead>
         <tbody>
-          <tr v-for="{
-            courseId,
-            teacherId,
-            courseName,
-            courseStatus,
-            regDeadline,
-            courseDescription,
-            courseLocation,
-            courseSortId,
-            remainingPlaces,
-            coursePrice,
-            coursePictureUrl,
-            courseVideoId,
-            recipeId,
-            tagId,
-          } in courses" :key="courseId">
+          <tr
+            v-for="{
+              courseId,
+              teacherName,
+              courseName,
+              courseStatus,
+              courseDate,
+              regDeadline,
+              courseDescription,
+              courseLocation,
+              courseSortId,
+              remainingPlaces,
+              coursePrice,
+              coursePictureUrl,
+              courseVideoId,
+              recipeId,
+              tagId,
+            } in courses"
+            :key="courseId"
+          >
             <td>{{ courseId }}</td>
-            <td>{{ teacherId }}</td>
+            <td>{{ teacherName }}</td>
             <td>{{ courseName }}</td>
             <td>{{ courseStatus }}</td>
+            <td>{{ courseDate }}</td>
             <td>{{ regDeadline }}</td>
             <td>{{ courseDescription }}</td>
             <td>{{ courseLocation }}</td>

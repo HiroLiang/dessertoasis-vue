@@ -2,9 +2,17 @@
 
 const props = defineProps({
     stepIndex: {
+        type: Number
     }
 
 })
+
+let emit = defineEmits(['delete-step'])
+const deleteStep = () => {
+    emit('delete-step', props.stepIndex)
+    console.log(emit);
+}
+
 
 </script>
 
@@ -24,7 +32,7 @@ const props = defineProps({
                     required="required"></textarea>
             </div>
             <div class="stepBtn col-3 mt-5">
-                <button class="btn btn-light" :id="'deleteStep' + stepIndex">刪除</button>
+                <button class="btn btn-light" :id="'deleteStep' + stepIndex" @click="deleteStep">刪除</button>
                 <button class="btn btn-light" :id="'moveStep' + stepIndex">移動</button>
             </div>
         </div>

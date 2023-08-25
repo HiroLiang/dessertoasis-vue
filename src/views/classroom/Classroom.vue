@@ -2,7 +2,7 @@
     <NavBar></NavBar>
     <div class="container">
         <span>教室: </span>
-        <select v-model="roomId" class="form-select form-select-lg mb-3" aria-label="Default select example">
+        <select v-model="roomId" class="form-select d-inline-block w-50 m-2" aria-label="Default select example">
             <option v-for="i in 4">{{ i }}</option>
         </select>
         <Calendar :roomId=roomId></Calendar>

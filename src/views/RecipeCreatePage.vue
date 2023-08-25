@@ -8,7 +8,7 @@ const ingredients = reactive([0, 1])
 
 const addNewIngredient = () => {
     ingredients.push(ingredientCounter.value)
-    ingredients.value++
+    ingredientCounter.value++
     console.log(ingredients);
 }
 const stepCounter = ref(2)
@@ -20,7 +20,15 @@ const addNewStep = () => {
     console.log(steps);
 }
 
+const handleDeleteStep = (deletIndex) => {
+    console.log(deletIndex);
+    steps.splice(deletIndex - 1, 1)
+}
 
+const handleDeleteIngredient = (deleteIngredient) => {
+    console.log(deleteIngredient);
+    ingredients.splice(deleteIngredient - 1, 1)
+}
 
 </script>
 
@@ -76,7 +84,7 @@ const addNewStep = () => {
             <div class="container ml-3">
                 <div class="ingredientContainer row justify-content-start  ">
                     <IngredientInput v-for="(ingredient, index) in ingredients.length" :key="ingredients[index]"
-                        :ingerdientIndex="index + 1">
+                        :ingerdientIndex="index + 1" @delete-ingredient="handleDeleteIngredient">
                     </IngredientInput>
                 </div>
 
@@ -86,7 +94,8 @@ const addNewStep = () => {
                 </div>
             </div>
             <div class="recipeStepsContainer container mt-3">
-                <StepInput v-for="(step, index) in steps.length" :key="steps[index]" :stepIndex="index + 1"></StepInput>
+                <StepInput v-for="(step, index) in steps.length" :key="steps[index]" :stepIndex="index + 1"
+                    @delete-step="handleDeleteStep"></StepInput>
 
 
             </div>

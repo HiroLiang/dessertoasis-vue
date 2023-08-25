@@ -28,7 +28,7 @@ const router = createRouter({
     {
       path: "/signin",
       name: "signin",
-      component: () => import("../views/SignIn.vue"),
+      component: () => import("../views/member/SignIn.vue"),
     },
     {
       path: "/product",
@@ -64,7 +64,7 @@ const router = createRouter({
         {
           path: "/cms/member",
           name: "member",
-          component: () => import("../views/MemberBackground.vue"),
+          component: () => import("../views/member/MemberBackground.vue"),
         },
         {
           path: "/cms/table",
@@ -87,32 +87,41 @@ const router = createRouter({
     {
       path: "/register",
       name: "register",
-      component: () => import("../views/Register.vue"),
-    },
-    {
-      path: "/memberprofile",
-      name: "memberprofile",
-      component: () => import("../views/MemberProfile.vue"),
-      children: [
-        {
-          path: "/memberprofile/changepassword",
-          name: "changepassword",
-          component: () => import("../views/ChangePassword.vue"),
-        },
-      ],
+      component: () => import("../views/member/Register.vue"),
     },
     {
       path: "/mem",
       name: "mem",
-      component: () => import("../views/MemberView.vue"),
+      component: () => import("../views/member/MemberView.vue"),
       children: [
         {
           path: "",
           name: "profile",
-          component: () => import("../views/MemberProfile.vue"),
+          component: () => import("../views/member/MemberProfile.vue"),
+        },
+        {
+          path: "/mem/changepassword",
+          name: "changepassword",
+          component: () => import("../views/member/ChangePassword.vue"),
+        },
+        {
+          path: "/mem/creditcard",
+          name: "creditcard",
+          component: () => import("../views/member/CreditCard.vue"),
+        },
+        {
+          path: "/mem/bankaccount",
+          name: "bankaccount",
+          component: () => import("../views/member/BankAccount.vue"),
+        },
+        {
+          path: "/mem/vompanyprofile",
+          name: "vompanyprofile",
+          component: () => import("../views/member/CompanyProfile.vue"),
         },
       ],
     }
+
   ],
 });
 

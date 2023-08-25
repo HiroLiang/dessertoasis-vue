@@ -1,5 +1,5 @@
 <template>
-    <div>123</div>
+    <div>銀行帳戶</div>
 </template>
 
 

@@ -1,14 +1,15 @@
 <template>
-    <FullCalendar :options="calendarOptions" />
+    <FullCalendar :options="calendarOptions" ref="calendar"/>
 </template>
 
 <script setup>
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { reactive } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
 import { getReservations } from '@/api'
 
+const calendar = ref(null)
 
 const calendarOptions = reactive({
     plugins: [dayGridPlugin, interactionPlugin],
@@ -37,18 +38,32 @@ function handleEventClick(clickInfo) {
 }
 
 function handleDatesSet(dateInfo) {
-    loadReservations(dateInfo.start, dateInfo.end)
+    loadReservations(props.roomId, dateInfo.start, dateInfo.end)
 }
+
+const props = defineProps({
+    roomId: {
+        default: 1,
+    },
+})
+
+watch(() => props.roomId, (newRoomId, oldRoomId) => {
+    if (newRoomId != oldRoomId){
+        let calendarApi = calendar.value.getApi()
+        loadReservations(newRoomId, calendarApi.view.activeStart, calendarApi.view.activeEnd)
+    }
+})
+
 
 function formatDate(date) {
     const year = date.getFullYear();
-    const month = (date.getMonth() + 1).padStart(2, '0'); // 補零
-    const day = (date.getDate()).padStart(2, '0'); // 補零
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 補零
+    const day = String(date.getDate()).padStart(2, '0'); // 補零
     return `${year}-${month}-${day}`
 }
 
-const loadReservations = async (startDate, endDate) => {
-    const res = await getReservations(2, formatDate(startDate), formatDate(endDate))
+const loadReservations = async (roomId, startDate, endDate) => {
+    const res = await getReservations(roomId, formatDate(startDate), formatDate(endDate))
     const events = res.data.map((event) => {
         let color = null
         switch (event.reservationTime) {

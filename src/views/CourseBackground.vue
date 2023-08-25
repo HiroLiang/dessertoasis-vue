@@ -35,22 +35,25 @@ onMounted(datas)
           </tr>
         </thead>
         <tbody>
-          <tr v-for="{
-            courseId,
-            teacherId,
-            courseName,
-            courseStatus,
-            regDeadline,
-            courseDescription,
-            courseLocation,
-            courseSortId,
-            remainingPlaces,
-            coursePrice,
-            coursePictureUrl,
-            courseVideoId,
-            recipeId,
-            tagId,
-          } in courses" :key="courseId">
+          <tr
+            v-for="{
+              courseId,
+              teacherId,
+              courseName,
+              courseStatus,
+              regDeadline,
+              courseDescription,
+              courseLocation,
+              courseSortId,
+              remainingPlaces,
+              coursePrice,
+              coursePictureUrl,
+              courseVideoId,
+              recipeId,
+              tagId,
+            } in courses"
+            :key="courseId"
+          >
             <td>{{ courseId }}</td>
             <td>{{ teacherId }}</td>
             <td>{{ courseName }}</td>

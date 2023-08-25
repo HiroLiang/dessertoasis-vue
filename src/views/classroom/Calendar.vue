@@ -1,5 +1,5 @@
 <template>
-    <FullCalendar :options="calendarOptions" ref="calendar"/>
+    <FullCalendar :options="calendarOptions" ref="calendar" />
 </template>
 
 <script setup>
@@ -15,7 +15,10 @@ const props = defineProps({
     },
 })
 
+const emit = defineEmits(['dateClick'])
+
 const calendar = ref(null)
+let rsvList = []
 
 const calendarOptions = reactive({
     plugins: [dayGridPlugin, interactionPlugin],
@@ -33,13 +36,12 @@ const calendarOptions = reactive({
 })
 
 function handleDateSelect(selectInfo) {
-    let calendarApi = selectInfo.view.calendar
-    const clickEvents = calendarApi.getEvents().filter((event) => {
-        return formatDate(event.start) == selectInfo.startStr
-    })
+    let selectRsvList = rsvList.filter((rsv) => rsv.reservationDate == selectInfo.startStr)
+    emit('dateClick', selectRsvList)
 }
 
 function handleEventClick(clickInfo) {
+    console.log(clickInfo.event.title)
     console.log(clickInfo.event.start)
 }
 
@@ -48,7 +50,7 @@ function handleDatesSet(dateInfo) {
 }
 
 watch(() => props.roomId, (newRoomId, oldRoomId) => {
-    if (newRoomId != oldRoomId){
+    if (newRoomId != oldRoomId) {
         let calendarApi = calendar.value.getApi()
         loadReservations(newRoomId, calendarApi.view.activeStart, calendarApi.view.activeEnd)
     }
@@ -63,19 +65,19 @@ function formatDate(date) {
 
 const loadReservations = async (roomId, startDate, endDate) => {
     const res = await getReservations(roomId, formatDate(startDate), formatDate(endDate))
-    const events = res.data.map((event) => {
+    rsvList = res.data
+    const events = rsvList.map((rsv) => {
         let color = null
-        switch (event.reservationTime) {
+        switch (rsv.reservationTime) {
             case 'morning': color = "default"; break;
             case 'afternoon': color = "green"; break;
             case 'night': color = "pink"; break;
         }
-
         return {
-            title: event.detail,
-            start: event.reservationDate,
-            end: event.reservationDate,
-            color
+            title: rsv.detail,
+            start: rsv.reservationDate,
+            end: rsv.reservationDate,
+            color,
         }
     })
     calendarOptions.events = events

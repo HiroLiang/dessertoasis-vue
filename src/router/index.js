@@ -33,20 +33,21 @@ const router = createRouter({
       component: () => import("../views/product/Product.vue"),
       children: [
         {
-          path: '/producthome',
+          path: "/producthome",
           name: "productHome",
           component: () => import("../views/product/ProductHome.vue"),
         },
         {
-          path: '/productdetail',
+          path: "/productdetail",
           name: "productDetail",
           component: () => import("../views/product/ProductDetail.vue"),
         },
         {
-          path: '/producttype',
+          path: "/producttype",
           name: "productType",
           component: () => import("../views/product/ProductType.vue"),
-        },]
+        },
+      ],
     },
 
     {
@@ -63,6 +64,11 @@ const router = createRouter({
           path: "/cms/course",
           name: "course",
           component: () => import("../views/CourseBackground.vue"),
+        },
+        {
+          path: "/cms/addCourse",
+          name: "addCourse",
+          component: () => import("../views/AddCourse.vue"),
         },
         {
           path: "/cms/chat",
@@ -134,8 +140,8 @@ const router = createRouter({
     {
       path: "/reservation",
       name: "reservation",
-      component: () => import("../views/classroom/Reservation.vue")
-    }
+      component: () => import("../views/classroom/Reservation.vue"),
+    },
   ],
 })
 

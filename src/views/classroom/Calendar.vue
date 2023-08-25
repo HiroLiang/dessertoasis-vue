@@ -9,6 +9,12 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { ref, reactive, onMounted, watch } from 'vue'
 import { getReservations } from '@/api'
 
+const props = defineProps({
+    roomId: {
+        default: 1,
+    },
+})
+
 const calendar = ref(null)
 
 const calendarOptions = reactive({
@@ -41,19 +47,12 @@ function handleDatesSet(dateInfo) {
     loadReservations(props.roomId, dateInfo.start, dateInfo.end)
 }
 
-const props = defineProps({
-    roomId: {
-        default: 1,
-    },
-})
-
 watch(() => props.roomId, (newRoomId, oldRoomId) => {
     if (newRoomId != oldRoomId){
         let calendarApi = calendar.value.getApi()
         loadReservations(newRoomId, calendarApi.view.activeStart, calendarApi.view.activeEnd)
     }
 })
-
 
 function formatDate(date) {
     const year = date.getFullYear();

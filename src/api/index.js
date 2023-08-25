@@ -18,8 +18,8 @@ const getReservations = (room, start, end) => {
 }
 
 //從controller拿到所有課程，export出Promise物件給vue?
-const getAllCourses = () => {
+function getAllCourses() {
   return request.get("/course/all");
-};
+}
 
 export { reqTest, reqDatas, getReservations, getAllCourses };

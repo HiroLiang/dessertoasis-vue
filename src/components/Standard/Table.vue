@@ -93,15 +93,17 @@ const allDatas = computed(() => {
     let check = false
     if (searchRule.length > 0) {
         props.tableDatas.forEach(data => {
-            searchRule.forEach(rule => {
+            for (let i = 0; i < searchRule.length; i++) {
+                let rule = searchRule[i]
                 if (typeof data[rule.key] === 'string' && data[rule.key].includes(rule.input)) {
                     check = true
                 } else if (typeof data[rule.key] === 'number' && data[rule.key] == rule.input) {
                     check = true
                 } else {
                     check = false
+                    break
                 }
-            })
+            }
             if (check) {
                 check = false
                 datas.push(data)
@@ -202,10 +204,12 @@ const getEditId = (id) => {
     padding-left: 20px;
     padding-right: 30px;
     margin-left: 10px;
+    background-color: rgb(244, 244, 244);
 }
 
 .deleteBtn:hover {
     background-color: rgb(253, 214, 214);
+    text-decoration: line-through;
 }
 
 .deleteBtn::before {

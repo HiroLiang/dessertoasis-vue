@@ -1,7 +1,8 @@
 <script setup>
 import { ref, reactive } from 'vue'
-import IngredientInput from '../views/recipe/components/IngredientInput.vue'
-import StepInput from '../views/recipe/components/StepInput.vue'
+
+import IngredientInput from '@/views/recipe/components/IngredientInput.vue'
+import StepInput from '@/views/recipe/components/StepInput.vue'
 
 const ingredientCounter = ref(2)
 const ingredients = reactive([0, 1])
@@ -12,22 +13,44 @@ const addNewIngredient = () => {
     console.log(ingredients);
 }
 const stepCounter = ref(2)
-const steps = reactive([0, 1])
+const steps = reactive([
+    { id: 0 },
+    { id: 1 }])
 
 const addNewStep = () => {
-    steps.push(stepCounter.value)
+    steps.push({ id: stepCounter.value })
     stepCounter.value++
-    console.log(steps);
+    console.log(JSON.stringify(steps));
 }
-
+//刪除對應步驟
 const handleDeleteStep = (deletIndex) => {
     console.log(deletIndex);
     steps.splice(deletIndex - 1, 1)
 }
-
+//刪除對應食材
 const handleDeleteIngredient = (deleteIngredient) => {
     console.log(deleteIngredient);
     ingredients.splice(deleteIngredient - 1, 1)
+}
+let draggingIndex = null
+
+const dragStart = (e, index) => {
+    console.log('index ' + index)
+    draggingIndex = index
+    e.dataTransfer.effectAllowed = 'move'
+}
+
+const onDrop = (e, dropIndex) => {
+    e.preventDefault();
+
+    if (draggingIndex !== null && dropIndex !== null) {
+        const movedItems = steps.splice(draggingIndex, 1)
+        const movedItem = movedItems[0]
+        console.log("dropIndex   " + dropIndex);
+        console.log("movedItem   " + JSON.stringify(movedItem));
+        steps.splice(dropIndex, 0, movedItem)
+        draggingIndex = null
+    }
 }
 
 </script>
@@ -94,10 +117,10 @@ const handleDeleteIngredient = (deleteIngredient) => {
                 </div>
             </div>
             <div class="recipeStepsContainer container mt-3">
-                <StepInput v-for="(step, index) in steps.length" :key="steps[index]" :stepIndex="index + 1"
-                    @delete-step="handleDeleteStep"></StepInput>
-
-
+                <StepInput v-for="(step, index) in steps" :key="step.id" :stepIndex="index + 1"
+                    @delete-step="handleDeleteStep" draggable="true" @dragstart="dragStart($event, index)"
+                    @drop="onDrop($event, index)" @dragenter.prevent @dragover.prevent>
+                </StepInput>
             </div>
             <div class="newRecipeStepContainer d-grid">
                 <button class="btn btn-light" @click="addNewStep">+ 增加步驟</button>

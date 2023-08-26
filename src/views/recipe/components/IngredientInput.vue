@@ -27,7 +27,6 @@ const deleteIngredient = () => {
     </div>
     <div class="ingrediantBtn col-2 mt-4">
         <button class="btn btn-light " :id="'deleteIngredient' + ingerdientIndex" @click="deleteIngredient">刪除</button>
-        <button class="btn btn-light " :id="'moveIngredient' + ingerdientIndex">移動</button>
     </div>
 </template>
 <style></style>

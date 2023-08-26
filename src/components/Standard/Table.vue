@@ -21,9 +21,12 @@ const searchRange = ref('')
 //搜索值
 const searchValue = ref('')
 
+//搜索條件
+const searchRule = reactive([])
+
 //分頁數
 const pages = computed(() => {
-    return Math.ceil(allDatas.length / pageSize.value)
+    return Math.ceil(allDatas.value.length / pageSize.value)
 })
 
 //可傳入值
@@ -83,9 +86,31 @@ const props = defineProps({
     }
 })
 
-let allDatas = props.tableDatas
+const allDatas = computed(() => {
+    let datas = []
+    let check = false
+    if (searchRule.length > 0) {
+        props.tableDatas.forEach(data => {
+            searchRule.forEach(rule => {
+                if (typeof data[rule.key] === 'string' && data[rule.key].includes(rule.input)) {
+                    check = true
+                } else if (typeof data[rule.key] === 'number' && data[rule.key] == rule.input) {
+                    check = true
+                } else {
+                    check = false
+                }
+            })
+            if (check) {
+                check = false
+                datas.push(data)
+            }
+        })
+        return datas
+    } else {
+        return props.tableDatas
+    }
+})
 
-console.log(allDatas[0]);
 
 //定義搜索選項
 const searchOptions = reactive(props.dataTitles)
@@ -101,11 +126,19 @@ const getValue = (value) => {
 
 //顯示頁面
 const showedDatas = computed(() => {
+    let usedDatas = []
+    console.log(allDatas.value);
     let from = (page.value - 1) * pageSize.value
     let to = from + pageSize.value
-    let datas = allDatas.slice(from, to)
-    return datas
+    for (let i = from; i < to && i < allDatas.value.length; i++) {
+        usedDatas.push(allDatas.value[i])
+    }
+    return usedDatas
 })
+
+const deleteRule = (index) => {
+    searchRule.splice(index, 1)
+}
 
 //監測單頁筆數改變，防止超頁
 watch(pageSize, () => {
@@ -113,43 +146,30 @@ watch(pageSize, () => {
 })
 
 watch(searchValue, () => {
-    let datas = []
-    if (searchValue.value !== null && searchValue.value !== '') {
-        if (searchRange.value !== null && searchRange.value !== '') {
-            props.tableDatas.forEach(element => {
-                if (typeof element[searchRange.value] === 'string') {
-                    if (element[searchRange.value].includes(searchValue.value)) {
-                        datas.push(element)
-                    }
-                } else if (typeof element[searchRange.value] === 'number') {
-                    if (element[searchRange.value] === parseFloat(searchValue.value)) {
-                        datas.push(element)
-                    }
-                }
-            })
-            allDatas = datas
+    if (searchValue.value !== '' && searchValue.value !== null) {
+        if (searchRange.value !== '') {
+            searchRule.push({ key: searchRange.value, input: searchValue.value })
         } else {
-            allDatas = props.tableDatas
+            searchRule.push({ key: props.dataTitles[0].key, input: searchValue.value })
         }
-    } else {
-        allDatas = props.tableDatas
+        page.value = 1
     }
-    page.value = 2
-    page.value = 1
-    pageSize.value = 3
-    pageSize.value = 5
 })
 </script>
 <template>
-    <div style="display: flex; justify-content: left;">
+    <div style="display: flex; justify-content: left; align-items: center;">
         <StandardDrorpdown :searchOptions="searchOptions" @get-selected-key="getKey" />
         <StandardInput @get-input-value="getValue" />
+        <n-button v-for="(rule, index) in searchRule" size="tiny" @mouseenter="showX = true" @mouseleave="showX = false"
+            quaternary round class="deleteBtn" @click="deleteRule(index)">
+            {{ rule.input }}
+        </n-button>
     </div>
     <n-table :bordered="false" :single-line="false" size="small">
         <thead>
             <tr>
                 <th>No.</th>
-                <th v-for="title in props.dataTitles">{{ title.lable }}</th>
+                <th v-for="title in props.dataTitles">{{ title.label }}</th>
                 <th>修改</th>
             </tr>
         </thead>
@@ -168,3 +188,30 @@ watch(searchValue, () => {
     <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[5, 10]" size="medium"
         show-quick-jumper show-size-picker />
 </template>
+<style scoped>
+.deleteBtn {
+    width: auto;
+    padding-left: 20px;
+    padding-right: 30px;
+    margin-left: 10px;
+}
+
+.deleteBtn:hover {
+    background-color: rgb(253, 214, 214);
+}
+
+.deleteBtn::before {
+    content: 'x';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: rgb(162, 162, 162);
+    font-weight: bold;
+    opacity: 0;
+}
+
+.deleteBtn:hover::before {
+    opacity: 1;
+}
+</style>

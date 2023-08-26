@@ -12,14 +12,14 @@ const searchValue = ref('')
 const props = defineProps({
     searchSize: {
         type: Number,
-        default: 20
+        default: 200
     }
 })
 
 </script>
 <template>
-    <n-input-group>
-        <n-input v-model:value="searchValue" :style="{ width: searchSize + '%' }" />
+    <n-input-group style="width: auto;">
+        <n-input v-model:value="searchValue" :style="{ width: searchSize + 'px' }" />
         <n-button type="tertiary" ghost @click="getSInputValue(searchValue)">
             搜索
         </n-button>

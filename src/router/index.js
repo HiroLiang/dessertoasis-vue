@@ -63,12 +63,12 @@ const router = createRouter({
         {
           path: "/cms/course",
           name: "course",
-          component: () => import("../views/CourseBackground.vue"),
+          component: () => import("../views/course/CourseBackground.vue"),
         },
         {
           path: "/cms/addCourse",
           name: "addCourse",
-          component: () => import("../views/AddCourse.vue"),
+          component: () => import("../views/course/AddCourse.vue"),
         },
         {
           path: "/cms/chat",
@@ -95,8 +95,20 @@ const router = createRouter({
     {
       path: "/courses",
       name: "courses",
-      component: () => import("../views/CourseHomePage.vue"),
-      // children:[],//放要變化的東西
+      component: () => import("../views/course/CourseHomePage.vue"),
+      children: [
+        {
+          path: "/courses/aboutTeacher",
+          name: "aboutTeacher",
+          component: () => import("../views/course/AboutTeacher.vue"),
+        },
+        {
+          path: "/courses/enrollCourse",
+          name: "enrollCourse",
+          component: () => import("../views/course/EnrollCourse.vue"),
+        },
+      ],
+      // children:[{}],//{}放要變化的東西
     },
     {
       path: "/register",
@@ -139,8 +151,7 @@ const router = createRouter({
           component: () => import("../views/member/CompanyProfile.vue"),
         },
       ],
-    }
-
+    },
   ],
 })
 

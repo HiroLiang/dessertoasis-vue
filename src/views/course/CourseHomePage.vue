@@ -1,5 +1,22 @@
+<script setup>
+import NavBar from "@/components/NavBar.vue"
+import HeaderShow from "@/components/HeaderShow.vue"
+import CourseCard from "@/components/CourseCard.vue"
+import Pagination from "@/components/Pagination.vue"
+import { reactive } from "vue"
+const navBarList = reactive([
+  { title: "食譜", toUrl: "/recipes" },
+  { title: "課程", toUrl: "/courses" },
+  { title: "商品", toUrl: "/producthome" },
+  { title: "預約甜點教室", toUrl: "/reservation" },
+  {
+    title: "關於教師",
+    toUrl: "/courses/aboutTeacher",
+  },
+])
+</script>
 <template>
-  <NavBar :nav-bar-list="[{ title: '123', toUrl: '/recipes' }]" />
+  <NavBar :NavBarList="navBarList" />
   <HeaderShow />
   <!-- RouterView 放會變的東西 -->
   <!-- <RouterView/> -->
@@ -20,9 +37,17 @@
     <nav class="row">
       <div class="col-6 center">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" aria-label="Text input with dropdown button" />
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
+          <input
+            type="text"
+            class="form-control"
+            aria-label="Text input with dropdown button"
+          />
+          <button
+            class="btn btn-outline-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             分類
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
@@ -64,12 +89,6 @@
     <Pagination></Pagination>
   </div>
 </template>
-<script setup>
-import NavBar from "@/components/NavBar.vue";
-import HeaderShow from "@/components/HeaderShow.vue";
-import CourseCard from "@/components/CourseCard.vue";
-import Pagination from "@/components/Pagination.vue";
-</script>
 <style scoped>
 * {
   box-sizing: border-box;

@@ -15,7 +15,7 @@ import { NTable, NPagination, NButton } from 'naive-ui'
 const page = ref(1)
 
 //單頁顯示筆數
-const pageSize = ref(5)
+const pageSize = ref(10)
 
 //搜索範圍
 const searchRange = ref('')
@@ -41,42 +41,7 @@ const props = defineProps({
         default: [
             { id: 1, name: "大恐龍1", age: 999, text: "你沒有傳資料" },
             { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍n", age: 999, text: "你沒有傳資料" },
+            { id: 1, name: "大恐龍n", age: 999, text: "你沒有傳資料" }
         ]
     },
     /*
@@ -88,6 +53,7 @@ const props = defineProps({
     }
 })
 
+//數據篩選
 const allDatas = computed(() => {
     let datas = []
     let check = false
@@ -128,7 +94,7 @@ const getValue = (value) => {
     searchValue.value = value
 }
 
-//顯示頁面
+//顯示用數據
 const showedDatas = computed(() => {
     let usedDatas = []
     let from = (page.value - 1) * pageSize.value
@@ -161,6 +127,7 @@ watch(searchValue, () => {
     }
 })
 
+//修改按鈕回調
 const emit = defineEmits(['get-edit-id'])
 const getEditId = (id) => {
     emit('get-edit-id', id)
@@ -175,30 +142,38 @@ const getEditId = (id) => {
             {{ rule.input }}
         </n-button>
     </div>
-    <n-table :bordered="false" :single-line="false" size="small">
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th v-for="title in props.dataTitles">{{ title.label }}</th>
-                <th>修改</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(data, index) in showedDatas">
-                <td v-for="(value, key) in data">
-                    <span v-if="key !== 'id'">{{ value }}</span>
-                    <span v-if="key === 'id'">{{ index + 1 }}</span>
-                </td>
-                <td>
-                    <n-button @click="getEditId(data.id)" strong secondary round>修改</n-button>
-                </td>
-            </tr>
-        </tbody>
-    </n-table>
-    <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[5, 10]" size="medium"
-        show-quick-jumper show-size-picker />
+    <div class="tableArea">
+        <n-table :bordered="false" :single-line="false" size="small">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th v-for="title in props.dataTitles">{{ title.label }}</th>
+                    <th>修改</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(data, index) in showedDatas">
+                    <td v-for="(value, key) in data">
+                        <span v-if="key !== 'id'">{{ value }}</span>
+                        <span v-if="key === 'id'">{{ index + 1 }}</span>
+                    </td>
+                    <td>
+                        <n-button @click="getEditId(data.id)" strong secondary round>修改</n-button>
+                    </td>
+                </tr>
+            </tbody>
+        </n-table>
+    </div>
+    <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[5, 10, 15, 20]"
+        size="medium" show-quick-jumper show-size-picker />
 </template>
 <style scoped>
+.tableArea {
+    height: auto;
+    max-height: 520px;
+    overflow: scroll;
+}
+
 .deleteBtn {
     width: auto;
     padding-left: 20px;

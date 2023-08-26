@@ -29,7 +29,7 @@ const props = defineProps({
 </script>
 <template>
     <n-input-group style="width: auto;">
-        <n-input @keyup.enter="getSInputValue(searchValue)" v-model:value="searchValue"
+        <n-input @keypress.enter="getSInputValue(searchValue)" v-model:value="searchValue"
             :style="{ width: searchSize + 'px' }" :placeholder="props.myPlaceholder" />
         <n-button type="tertiary" ghost @click="getSInputValue(searchValue)" style="border-radius: 5px;">
             {{ props.buttonName }}

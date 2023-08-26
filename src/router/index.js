@@ -13,12 +13,12 @@ const router = createRouter({
     {
       path: "/recipes",
       name: "RecipeHomePage",
-      component: () => import("../views/RecipeView.vue"),
+      component: () => import("../views/recipe/RecipeView.vue"),
       children: [
         {
           path: "/recipes/createrecipe",
           name: "createrecipe",
-          component: () => import("../views/RecipeCreatePage.vue"),
+          component: () => import("../views/recipe/RecipeCreatePage.vue"),
         },
       ],
     },
@@ -58,7 +58,7 @@ const router = createRouter({
         {
           path: "/cms/recipe",
           name: "recipe",
-          component: () => import("../views/RecipeBackground.vue"),
+          component: () => import("../views/recipe/RecipeBackground.vue"),
         },
         {
           path: "/cms/course",
@@ -90,11 +90,6 @@ const router = createRouter({
           name: "member",
           component: () => import("../views/MemberBackground.vue"),
         },
-        {
-          path: "/cms/table",
-          name: "table",
-          component: () => import("../components/Standard/Table.vue"),
-        },
       ],
     },
     {
@@ -104,44 +99,48 @@ const router = createRouter({
       // children:[],//放要變化的東西
     },
     {
-      path: "/classroom",
-      name: "classroom",
-      component: () => import("../views/classroom/Classroom.vue"),
-    },
-    {
       path: "/register",
       name: "register",
       component: () => import("../views/Register.vue"),
-    },
-    {
-      path: "/memberprofile",
-      name: "memberprofile",
-      component: () => import("../views/MemberProfile.vue"),
-      children: [
-        {
-          path: "/memberprofile/changepassword",
-          name: "changepassword",
-          component: () => import("../views/ChangePassword.vue"),
-        },
-      ],
-    },
-    {
-      path: "/mem",
-      name: "mem",
-      component: () => import("../views/MemberView.vue"),
-      children: [
-        {
-          path: "",
-          name: "profile",
-          component: () => import("../views/MemberProfile.vue"),
-        },
-      ],
     },
     {
       path: "/reservation",
       name: "reservation",
       component: () => import("../views/classroom/Reservation.vue"),
     },
+    {
+      path: "/mem",
+      name: "mem",
+      component: () => import("../views/member/MemberView.vue"),
+      children: [
+        {
+          path: "",
+          name: "profile",
+          component: () => import("../views/member/MemberProfile.vue"),
+        },
+        {
+          path: "/mem/changepassword",
+          name: "changepassword",
+          component: () => import("../views/member/ChangePassword.vue"),
+        },
+        {
+          path: "/mem/creditcard",
+          name: "creditcard",
+          component: () => import("../views/member/CreditCard.vue"),
+        },
+        {
+          path: "/mem/bankaccount",
+          name: "bankaccount",
+          component: () => import("../views/member/BankAccount.vue"),
+        },
+        {
+          path: "/mem/vompanyprofile",
+          name: "vompanyprofile",
+          component: () => import("../views/member/CompanyProfile.vue"),
+        },
+      ],
+    }
+
   ],
 })
 

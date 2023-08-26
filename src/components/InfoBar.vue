@@ -2,31 +2,25 @@
   <div class="container my-5">
     <div class="row">
       <div class="col-md-2">
-        <router-link to="/mem/profile">會員資料</router-link>
+        <router-link to="/mem">會員資料</router-link>
       </div>
       <div class="col-md-2">
-        <p>更改密碼</p>
+        <router-link to="/mem/changepassword">更改密碼</router-link>
       </div>
       <div class="col-md-2">
-        <p>信用卡</p>
+        <router-link to="/mem/creditcard">信用卡</router-link>
       </div>
       <div class="col-md-2">
-        <p>銀行帳戶</p>
+        <router-link to="/mem/bankaccount">銀行帳戶</router-link>
       </div>
       <div class="col-md-2">
-        <p>廠商資料
-        </p>
+        <router-link to="/mem/vompanyprofile">廠商資料</router-link>
       </div>
       <hr>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-// import { RouterLink } from "vue-router";
+
 </script>
-<style scoped>
-p {
-  font-size: 150%;
-  font-weight: 700;
-}
-</style>
+<style scoped></style>

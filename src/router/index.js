@@ -109,34 +109,43 @@ const router = createRouter({
       component: () => import("../views/Register.vue"),
     },
     {
-      path: "/memberprofile",
-      name: "memberprofile",
-      component: () => import("../views/MemberProfile.vue"),
-      children: [
-        {
-          path: "/memberprofile/changepassword",
-          name: "changepassword",
-          component: () => import("../views/ChangePassword.vue"),
-        },
-      ],
-    },
-    {
-      path: "/mem",
-      name: "mem",
-      component: () => import("../views/MemberView.vue"),
-      children: [
-        {
-          path: "",
-          name: "profile",
-          component: () => import("../views/MemberProfile.vue"),
-        },
-      ],
-    },
-    {
       path: "/reservation",
       name: "reservation",
       component: () => import("../views/classroom/Reservation.vue"),
     },
+    {
+      path: "/mem",
+      name: "mem",
+      component: () => import("../views/member/MemberView.vue"),
+      children: [
+        {
+          path: "",
+          name: "profile",
+          component: () => import("../views/member/MemberProfile.vue"),
+        },
+        {
+          path: "/mem/changepassword",
+          name: "changepassword",
+          component: () => import("../views/member/ChangePassword.vue"),
+        },
+        {
+          path: "/mem/creditcard",
+          name: "creditcard",
+          component: () => import("../views/member/CreditCard.vue"),
+        },
+        {
+          path: "/mem/bankaccount",
+          name: "bankaccount",
+          component: () => import("../views/member/BankAccount.vue"),
+        },
+        {
+          path: "/mem/vompanyprofile",
+          name: "vompanyprofile",
+          component: () => import("../views/member/CompanyProfile.vue"),
+        },
+      ],
+    }
+
   ],
 })
 

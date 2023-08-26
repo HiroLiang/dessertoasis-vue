@@ -104,11 +104,6 @@ const router = createRouter({
       // children:[],//放要變化的東西
     },
     {
-      path: "/classroom",
-      name: "classroom",
-      component: () => import("../views/classroom/Classroom.vue"),
-    },
-    {
       path: "/register",
       name: "register",
       component: () => import("../views/Register.vue"),

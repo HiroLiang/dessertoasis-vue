@@ -8,6 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { ref, reactive, onMounted, watch } from 'vue'
 import { getReservations } from '@/api'
+import formatDate from './formatDate'
 
 const props = defineProps({
     roomId: {
@@ -18,7 +19,6 @@ const props = defineProps({
 const emit = defineEmits(['dateClick'])
 
 const calendar = ref(null)
-let rsvList = []
 
 const calendarOptions = reactive({
     plugins: [dayGridPlugin, interactionPlugin],
@@ -36,8 +36,7 @@ const calendarOptions = reactive({
 })
 
 function handleDateSelect(selectInfo) {
-    let selectRsvList = rsvList.filter((rsv) => rsv.reservationDate == selectInfo.startStr)
-    emit('dateClick', selectRsvList)
+    emit('dateClick', selectInfo.startStr)
 }
 
 function handleEventClick(clickInfo) {
@@ -56,17 +55,9 @@ watch(() => props.roomId, (newRoomId, oldRoomId) => {
     }
 })
 
-function formatDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // 補零
-    const day = String(date.getDate()).padStart(2, '0'); // 補零
-    return `${year}-${month}-${day}`
-}
-
 const loadReservations = async (roomId, startDate, endDate) => {
     const res = await getReservations(roomId, formatDate(startDate), formatDate(endDate))
-    rsvList = res.data
-    const events = rsvList.map((rsv) => {
+    const events = res.data.map((rsv) => {
         let color = null
         switch (rsv.reservationTime) {
             case 'morning': color = "default"; break;

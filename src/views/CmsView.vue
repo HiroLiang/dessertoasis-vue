@@ -4,6 +4,7 @@ import StandardTable from '../components/Standard/Table.vue'
 import NavBar from '@/components/NavBar.vue'
 import CmsSideBar from '@/components/CmsSideBar.vue'
 
+//測試數據
 const tableDatas = reactive([
     { id: 1, 'Recipe': '菠蘿麵包', 'TimeRequired': 180, 'Difficulty': '中', 'Price': 990 },
     { id: 2, 'Recipe': '烤土司', 'TimeRequired': 60, 'Difficulty': '低', 'Price': 90 },
@@ -19,7 +20,6 @@ const tableDatas = reactive([
     { id: 12, 'Recipe': '魚柳漢堡', 'TimeRequired': 40, 'Difficulty': '中', 'Price': 550 },
     { id: 13, 'Recipe': '涼麵', 'TimeRequired': 30, 'Difficulty': '低', 'Price': 150 },
 ])
-
 const dataTitles = reactive([
     { label: '食譜', key: 'Recipe' }, { label: '所需時間', key: 'TimeRequired' }, { label: '難易度', key: 'Difficulty' }, { label: '價格', key: 'Price' }
 ])
@@ -33,6 +33,7 @@ const dataTitles = reactive([
         <div class="mainViewContain">
             <NavBar />
             <router-view></router-view>
+            <hr>
             <StandardTable :tableDatas="tableDatas" :dataTitles="dataTitles" />
         </div>
     </div>

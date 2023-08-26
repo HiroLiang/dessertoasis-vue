@@ -90,11 +90,6 @@ const router = createRouter({
           name: "member",
           component: () => import("../views/MemberBackground.vue"),
         },
-        {
-          path: "/cms/table",
-          name: "table",
-          component: () => import("../components/Standard/Table.vue"),
-        },
       ],
     },
     {

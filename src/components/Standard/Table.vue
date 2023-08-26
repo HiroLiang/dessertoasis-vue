@@ -1,7 +1,9 @@
 <!-- 
     標籤使用方法：
-        1.定義屬性：(1) tableDatas (2) dataTitles
-        2.定義自定義事件：無
+        1.定義屬性：
+            (1) tableDatas ( 第一項必須是 id ) 
+            (2) dataTitles ( 照想顯示的順序給{ label , key } )
+        2.定義自定義事件：get-edit-id : 取得要修改的id值
  -->
 <script setup>
 import StandardInput from './Input.vue'
@@ -127,7 +129,6 @@ const getValue = (value) => {
 //顯示頁面
 const showedDatas = computed(() => {
     let usedDatas = []
-    console.log(allDatas.value);
     let from = (page.value - 1) * pageSize.value
     let to = from + pageSize.value
     for (let i = from; i < to && i < allDatas.value.length; i++) {
@@ -136,6 +137,7 @@ const showedDatas = computed(() => {
     return usedDatas
 })
 
+//刪除搜索條件
 const deleteRule = (index) => {
     searchRule.splice(index, 1)
 }
@@ -145,6 +147,7 @@ watch(pageSize, () => {
     page.value = 1
 })
 
+//監測新搜索條件
 watch(searchValue, () => {
     if (searchValue.value !== '' && searchValue.value !== null) {
         if (searchRange.value !== '') {
@@ -155,6 +158,11 @@ watch(searchValue, () => {
         page.value = 1
     }
 })
+
+const emit = defineEmits(['get-edit-id'])
+const getEditId = (id) => {
+    emit('get-edit-id', id)
+}
 </script>
 <template>
     <div style="display: flex; justify-content: left; align-items: center;">
@@ -180,7 +188,7 @@ watch(searchValue, () => {
                     <span v-if="key === 'id'">{{ index + 1 }}</span>
                 </td>
                 <td>
-                    <n-button strong secondary round>修改</n-button>
+                    <n-button @click="getEditId(data.id)" strong secondary round>修改</n-button>
                 </td>
             </tr>
         </tbody>

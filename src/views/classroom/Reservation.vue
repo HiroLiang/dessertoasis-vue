@@ -1,7 +1,6 @@
 <template>
     <NavBar></NavBar>
     <div class="container">
-        <h1>預約甜點教室</h1>
         <div class="row">
             <div class="col-8">
                 <span>教室: </span>

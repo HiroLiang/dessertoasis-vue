@@ -5,7 +5,7 @@
             <h2>教室: {{ roomId }}</h2>
         </div>
 
-        <ul class="nav nav-tabs nav-fill">
+        <ul class="nav nav-pills nav-fill">
             <li class="nav-item">
                 <a class="nav-link" :class="{ 'active': time == 'm' }" @click="rsv = morningRsv; time = 'm'">早上</a>
             </li>
@@ -16,9 +16,9 @@
                 <a class="nav-link" :class="{ 'active': time == 'n' }" @click="rsv = nightRsv; time = 'n'">晚上</a>
             </li>
         </ul>
-        <div class="border border-top-0 rounded-bottom">
-            <div v-if="rsv">※已被預約</div>
-
+        <div v-if="rsv">
+            <div>※已預訂</div>
+            <div></div>
         </div>
     </div>
 </template>

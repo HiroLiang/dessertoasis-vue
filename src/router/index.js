@@ -25,7 +25,7 @@ const router = createRouter({
     {
       path: "/signin",
       name: "signin",
-      component: () => import("../views/SignIn.vue"),
+      component: () => import("../views/member/Signin.vue"),
     },
     {
       path: "/product",
@@ -88,7 +88,7 @@ const router = createRouter({
         {
           path: "/cms/member",
           name: "member",
-          component: () => import("../views/MemberBackground.vue"),
+          component: () => import("../views/member/MemberBackground.vue"),
         },
       ],
     },
@@ -113,7 +113,12 @@ const router = createRouter({
     {
       path: "/register",
       name: "register",
-      component: () => import("../views/Register.vue"),
+      component: () => import("../views/member/Register.vue"),
+    },
+    {
+      path: "/forgetPassword",
+      name: "forgetPassword",
+      component: () => import("../views/member/ForgetPassword.vue"),
     },
     {
       path: "/reservation",

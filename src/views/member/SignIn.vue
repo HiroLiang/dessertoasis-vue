@@ -25,7 +25,7 @@ import NavBar from '@/components/NavBar.vue';
 
                 <div class="col d-flex justify-content-center">
 
-                    <a href="#">忘記密碼?</a>
+                    <router-link to="/forgetPassword">忘記密碼?</router-link>
                 </div>
             </div>
 

@@ -35,13 +35,13 @@ const pages = computed(() => {
 const props = defineProps({
     /*
     表格資料
-    格式：[ { id : id , title1 : text1 ( , title2 : text2 ... ) } ]
+    格式：[ { id : id , title1 : text1 ( , xxdatexx : Date ... ) } ]
     */
     tableDatas: {
         default: [
-            { id: 1, name: "大恐龍1", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍", age: 999, text: "你沒有傳資料" },
-            { id: 1, name: "大恐龍n", age: 999, text: "你沒有傳資料" }
+            { id: 1, name: "大恐龍1", age: 9, date: new Date("2020-01-01T11:11:00") },
+            { id: 2, name: "大恐龍2", age: 99, date: new Date("2021-02-01T12:30:00") },
+            { id: 3, name: "大恐龍n", age: 999, date: new Date("2022-11-30T23:11:00") }
         ]
     },
     /*
@@ -49,7 +49,7 @@ const props = defineProps({
     格式： [{ label : ' 展示名 ', key : ' key '} , ...] 
     */
     dataTitles: {
-        default: [{ label: "名字", key: "name" }, { label: "年齡", key: "age" }, { label: "備註", key: "text" }]
+        default: [{ label: "名字", key: "name" }, { label: "年齡", key: "age" }, { label: "日期", key: "date" }]
     }
 })
 
@@ -64,6 +64,8 @@ const allDatas = computed(() => {
                 if (typeof data[rule.key] === 'string' && data[rule.key].includes(rule.input)) {
                     check = true
                 } else if (typeof data[rule.key] === 'number' && data[rule.key] == rule.input) {
+                    check = true
+                } else if (rule.key.includes('date') && data[rule.key] >= rule.start && data[rule.key] <= rule.end) {
                     check = true
                 } else {
                     check = false
@@ -110,6 +112,11 @@ const deleteRule = (index) => {
     searchRule.splice(index, 1)
 }
 
+const formattedDate = (date) => {
+    const options = { year: 'numeric', month: 'narrow', day: '2-digit', hour: '2-digit', minute: '2-digit', }
+    return date.toLocaleDateString('zh-TW', options)
+}
+
 //監測單頁筆數改變，防止超頁
 watch(pageSize, () => {
     page.value = 1
@@ -118,7 +125,9 @@ watch(pageSize, () => {
 //監測新搜索條件
 watch(searchValue, () => {
     if (searchValue.value !== '' && searchValue.value !== null) {
-        if (searchRange.value !== '') {
+        if (searchRange.value.includes('date')) {
+            searchRule.push({ key: searchRange.value, start: searchValue.value[0], end: searchValue.value[1] })
+        } else if (searchRange.value !== '') {
             searchRule.push({ key: searchRange.value, input: searchValue.value })
         } else {
             searchRule.push({ key: props.dataTitles[0].key, input: searchValue.value })
@@ -136,11 +145,17 @@ const getEditId = (id) => {
 <template>
     <div style="display: flex; justify-content: left; align-items: center;">
         <StandardDrorpdown :searchOptions="searchOptions" @get-selected-key="getKey" />
-        <StandardInput @get-input-value="getValue" />
-        <n-button v-for="(rule, index) in searchRule" size="tiny" @mouseenter="showX = true" @mouseleave="showX = false"
-            quaternary round class="deleteBtn" @click="deleteRule(index)">
-            {{ rule.input }}
-        </n-button>
+        <StandardInput @get-input-value="getValue" :searchRange="searchRange" />
+        <span v-for="(rule, index) in searchRule">
+            <n-button v-if="!rule.key.includes('date')" size="tiny" @mouseenter="showX = true" @mouseleave="showX = false"
+                quaternary round class="deleteBtn" @click="deleteRule(index)">
+                {{ rule.input }}
+            </n-button>
+            <n-button v-if="rule.key.includes('date')" size="tiny" @mouseenter="showX = true" @mouseleave="showX = false"
+                quaternary round class="deleteBtn" @click="deleteRule(index)">
+                {{ rule.start.toLocaleDateString() }} - {{ rule.end.toLocaleDateString() }}
+            </n-button>
+        </span>
     </div>
     <div class="tableArea">
         <n-table :bordered="false" :single-line="false" size="small">
@@ -154,7 +169,8 @@ const getEditId = (id) => {
             <tbody>
                 <tr v-for="(data, index) in showedDatas">
                     <td v-for="(value, key) in data">
-                        <span v-if="key !== 'id'">{{ value }}</span>
+                        <span v-if="key !== 'id' && !key.includes('date')">{{ value }}</span>
+                        <span v-if="key.includes('date')">{{ formattedDate(value) }}</span>
                         <span v-if="key === 'id'">{{ index + 1 }}</span>
                     </td>
                     <td>

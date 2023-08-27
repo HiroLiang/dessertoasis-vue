@@ -14,6 +14,10 @@ const deleteStep = () => {
 }
 
 
+
+
+
+
 </script>
 
 <template>

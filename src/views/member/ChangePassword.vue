@@ -12,20 +12,20 @@
                         <h4 class="mb-4 mt-0">更改密碼</h4>
 
                         <div class="col-md-6">
-                            <label class="form-label">舊密碼</label>
-                            <input type="password" class="form-control" value="">
+                            <label class="form-label" for="prePassword">舊密碼</label>
+                            <input type="password" class="form-control" id="prePassword" value="">
                         </div>
 
 
                         <div class="col-md-6">
-                            <label class="form-label">新密碼</label>
-                            <input type="password" class="form-control" value="">
+                            <label class="form-label" for="newPassword">新密碼</label>
+                            <input type="password" class="form-control" id="newPassword" value="">
                         </div>
 
 
                         <div class="col-md-6">
-                            <label class="form-label">再次輸入新密碼</label>
-                            <input type="password" class="form-control" value="">
+                            <label class="form-label" for="newAgainPassword">再次輸入新密碼</label>
+                            <input type="password" class="form-control" id="newAgainPassword" value="">
                         </div>
 
 

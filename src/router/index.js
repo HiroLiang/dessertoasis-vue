@@ -25,7 +25,7 @@ const router = createRouter({
     {
       path: "/signin",
       name: "signin",
-      component: () => import("../views/SignIn.vue"),
+      component: () => import("../views/member/Signin.vue"),
     },
     {
       path: "/product",
@@ -63,12 +63,12 @@ const router = createRouter({
         {
           path: "/cms/course",
           name: "course",
-          component: () => import("../views/CourseBackground.vue"),
+          component: () => import("../views/course/CourseBackground.vue"),
         },
         {
           path: "/cms/addCourse",
           name: "addCourse",
-          component: () => import("../views/AddCourse.vue"),
+          component: () => import("../views/course/AddCourse.vue"),
         },
         {
           path: "/cms/chat",
@@ -88,20 +88,37 @@ const router = createRouter({
         {
           path: "/cms/member",
           name: "member",
-          component: () => import("../views/MemberBackground.vue"),
+          component: () => import("../views/member/MemberBackground.vue"),
         },
       ],
     },
     {
       path: "/courses",
       name: "courses",
-      component: () => import("../views/CourseHomePage.vue"),
-      // children:[],//放要變化的東西
+      component: () => import("../views/course/CourseHomePage.vue"),
+      children: [
+        {
+          path: "/courses/aboutTeacher",
+          name: "aboutTeacher",
+          component: () => import("../views/course/AboutTeacher.vue"),
+        },
+        {
+          path: "/courses/enrollCourse",
+          name: "enrollCourse",
+          component: () => import("../views/course/EnrollCourse.vue"),
+        },
+      ],
+      // children:[{}],//{}放要變化的東西
     },
     {
       path: "/register",
       name: "register",
-      component: () => import("../views/Register.vue"),
+      component: () => import("../views/member/Register.vue"),
+    },
+    {
+      path: "/forgetPassword",
+      name: "forgetPassword",
+      component: () => import("../views/member/ForgetPassword.vue"),
     },
     {
       path: "/reservation",
@@ -139,8 +156,7 @@ const router = createRouter({
           component: () => import("../views/member/CompanyProfile.vue"),
         },
       ],
-    }
-
+    },
   ],
 })
 

@@ -17,32 +17,32 @@
                         <h4 class="mb-4 mt-0">基本資料</h4>
 
                         <div class="col-md-6">
-                            <label class="form-label">姓名</label>
-                            <input type="text" class="form-control" value="">
+                            <label class="form-label" for="nameInput">姓名</label>
+                            <input type="text" class="form-control" id="nameInput" value="">
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">身分證
+                            <label class="form-label" for="identityInput">身分證
                             </label>
-                            <input type="text" class="form-control" value="">
+                            <input type="text" class="form-control" id="identityInput" value="">
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">生日
+                            <label class="form-label" for="bdayInput">生日
                             </label>
-                            <input type="text" class="form-control" value="">
+                            <input type="text" class="form-control" id="bdayInput" value="">
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Email
+                            <label class="form-label" for="emailInput">Email
                             </label>
-                            <input type="email" class="form-control" value="">
+                            <input type="email" class="form-control" id="emailInput" value="">
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">住址
+                            <label class="form-label" for="addressInput">住址
                             </label>
-                            <input type="text" class="form-control" value="">
+                            <input type="text" class="form-control" id="addressInput" value="">
                         </div>
                     </div>
                 </div>

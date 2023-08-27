@@ -11,11 +11,9 @@
                 <Calendar :roomId="calendarRoomId" @dateClick="dateClick"></Calendar>
             </div>
             <div class="col">
-                預約資訊card
                 <RsvCard :date="date" :room-id="cardRoomId"></RsvCard>
             </div>
         </div>
-
     </div>
 </template>
 

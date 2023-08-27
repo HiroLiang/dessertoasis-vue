@@ -30,7 +30,7 @@ const item = reactive([
     <NavBar :NavBarList="navbarlist" />
 
     <div class="searchBarBackground">
-        <img src="../assets/images/recipeHP/tabitha-turner-Ns2aJ5OXKds-unsplash.jpg" alt="">
+        <img src="../../assets/images/recipeHP/tabitha-turner-Ns2aJ5OXKds-unsplash.jpg" alt="">
         <hr>
     </div>
     <DropDownSelector></DropDownSelector>

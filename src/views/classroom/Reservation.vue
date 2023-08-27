@@ -1,6 +1,7 @@
 <template>
     <NavBar></NavBar>
     <div class="container">
+        <h1>預約甜點教室</h1>
         <div class="row">
             <div class="col-8">
                 <span>教室: </span>
@@ -11,11 +12,9 @@
                 <Calendar :roomId="calendarRoomId" @dateClick="dateClick"></Calendar>
             </div>
             <div class="col">
-                預約資訊card
                 <RsvCard :date="date" :room-id="cardRoomId"></RsvCard>
             </div>
         </div>
-
     </div>
 </template>
 

@@ -10,7 +10,8 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 const route = useRoute();
-const PageName = computed(() => route.meta.title || 'Default Page'); // 使用 meta.title 或預設值
+const PageName = computed(() => route.meta.title || route.name); // 使用 index.js meta.title 或name
+
 </script>
 <style scoped>
 .breadcrumb {

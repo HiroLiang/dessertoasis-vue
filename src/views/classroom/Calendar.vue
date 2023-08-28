@@ -36,7 +36,8 @@ const calendarOptions = reactive({
 })
 
 function handleDateSelect(selectInfo) {
-    emit('dateClick', selectInfo.startStr)
+    console.log(selectInfo.start)
+    emit('dateClick', selectInfo.start)
 }
 
 function handleEventClick(clickInfo) {

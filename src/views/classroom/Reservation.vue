@@ -22,15 +22,14 @@
 import NavBar from '@/components/NavBar.vue'
 import Calendar from '@/views/classroom/Calendar.vue';
 import RsvCard from './RsvCard.vue';
-import formatDate from './formatDate';
 import { ref } from 'vue';
 
-const date = ref(formatDate(new Date()))
+const date = ref(new Date())
 const calendarRoomId = ref(1)
 const cardRoomId = ref(1)
 
-function dateClick(dateStr) {
-    date.value = dateStr
+function dateClick(clickedDate) {
+    date.value = clickedDate
     cardRoomId.value = calendarRoomId.value
 }
 

@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div>
-            <h2>{{ date }}</h2>
+            <h2>{{ date.toLocaleDateString() }}</h2>
             <h2>教室: {{ roomId }}</h2>
         </div>
 
@@ -16,7 +16,10 @@
                 <a class="nav-link" :class="{ 'active': time == 'n' }" @click="rsv = nightRsv; time = 'n'">晚上</a>
             </li>
         </ul>
-        <div v-if="rsv">
+        <div v-if="date < new Date()">
+            <div>已逾期</div>
+        </div>
+        <div v-else-if="rsv">
             <div>※已預訂</div>
             <div>{{ rsv }}</div>
         </div>
@@ -39,7 +42,7 @@ import { getReservations } from '@/api/index'
 
 const props = defineProps({
     date: {
-        default: formatDate(new Date())
+        default: new Date()
     },
     roomId: {
         default: 1
@@ -53,7 +56,7 @@ const nightRsv = ref(null)
 const time = ref('m')
 
 const loadReservations = async () => {
-    const res = await getReservations(props.roomId, props.date, props.date)
+    const res = await getReservations(props.roomId, formatDate(props.date), formatDate(props.date))
     const rsvList = res.data
     morningRsv.value = null
     afternoonRsv.value = null

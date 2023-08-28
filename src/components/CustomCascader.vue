@@ -1,7 +1,12 @@
 <template>
-    <n-cascader v-model:value="modelValue" :options="customOptions" :max-tag-count="maxTagCount"
-        :expand-trigger="expandTrigger" :filterable="isFilterable" :clear-filter-after-select="isClearFilterAfterSelect"
-        @update:value="handleUpdateValue" />
+    <div class="cascader">
+        <n-space>
+            <n-cascader v-model:value="modelValue" :options="customOptions" :max-tag-count="maxTagCount"
+                :expand-trigger="expandTrigger" :filterable="isFilterable"
+                :clear-filter-after-select="isClearFilterAfterSelect" @update:value="handleUpdateValue" />
+        </n-space>
+
+    </div>
 </template>
   
 <script setup>
@@ -29,4 +34,5 @@ const handleUpdateValue = (value, options) => {
     console.log(value, options);
 };
 </script>
-  
+
+<style scoped></style>

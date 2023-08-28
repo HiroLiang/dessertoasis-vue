@@ -10,25 +10,42 @@ const props = defineProps({
         type: Number
     },
 })
+//自定義事件
+let emit = defineEmits(['delete-step', 'get-stepData'])
 
-let emit = defineEmits(['delete-step', 'get-stepText'])
+//子傳父取得刪除案件觸發的index值
 const deleteStep = () => {
     emit('delete-step', props.stepIndex)
-    console.log(emit);
+    console.log('delete step Index: ' + props.stepIndex);
 }
+
+//子傳父取得步驟圖片(轉為base64)及textarea文字資料
 const getStepDatas = () => {
     const stepIndex = props.stepIndex
     const textData = textContent.value
     const picData = textPic.value.files[0]
+
+    if (picData) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const base64Data = e.target.result.split(',')[1]
+            const jsonData = {
+                fileName: picData.name,
+                fileType: picData.type,
+                base64Content: base64Data
+            }
+
+            const jsonString = JSON.stringify(jsonData);
+            console.log(jsonString);
+            emit('get-stepData', stepIndex, textData, jsonString)
+        }
+        reader.readAsDataURL(picData);
+    }
+
     console.log(picData);
 
-
-    emit('get-stepText', stepIndex, textData, picData)
 }
-
-
-
-
 </script>
 
 <template>

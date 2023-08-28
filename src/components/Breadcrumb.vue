@@ -2,11 +2,16 @@
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Library</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ PageName }}</li>
         </ol>
     </nav>
 </template>
-<script setup></script>
+<script setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const PageName = computed(() => route.meta.title || 'Default Page'); // 使用 meta.title 或預設值
+</script>
 <style scoped>
 .breadcrumb {
     position: fixed;

@@ -10,6 +10,7 @@ import StandardInput from './Input.vue'
 import StandardDrorpdown from './Dropdown.vue'
 import { ref, computed, watch, reactive } from 'vue'
 import { NTable, NPagination, NButton, NSpace, NSlider, NInputNumber } from 'naive-ui'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 //當前頁碼
 const page = ref(1)
@@ -157,8 +158,10 @@ const formattedDate = (date) => {
 }
 
 //排列功能
+const nowSortBy = ref('')
 const posOrNag = ref(false)
 const sortDatas = (key) => {
+    nowSortBy.value = key
     if (posOrNag.value) {
         allDatas.value.sort((a, b) => a[key] - b[key])
         posOrNag.value = !posOrNag.value
@@ -245,6 +248,11 @@ const getEditId = (id) => {
                     <th>No.</th>
                     <th v-for="title in props.dataTitles" @click="sortDatas(title.key)">
                         {{ title.label }}
+                        <font-awesome-icon v-if="nowSortBy === title.key && !posOrNag" :icon="['fas', 'angle-down']"
+                            size="2xs" style="color: #872323;" />
+                        <font-awesome-icon v-else-if="nowSortBy === title.key && posOrNag" :icon="['fas', 'angle-up']"
+                            size="2xs" style="color: #872323;" />
+                        <font-awesome-icon v-else :icon="['fas', 'angle-down']" size="2xs" />
                     </th>
                     <th>修改</th>
                 </tr>

@@ -60,9 +60,9 @@ const loadReservations = async (roomId, startDate, endDate) => {
     const events = res.data.map((rsv) => {
         let color = null
         switch (rsv.reservationTime) {
-            case 'morning': color = "default"; break;
-            case 'afternoon': color = "green"; break;
-            case 'night': color = "pink"; break;
+            case 'A': color = "default"; break;
+            case 'B': color = "green"; break;
+            case 'C': color = "pink"; break;
         }
         return {
             title: rsv.detail,

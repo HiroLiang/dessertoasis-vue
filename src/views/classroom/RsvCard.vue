@@ -5,7 +5,7 @@
             <h2>教室: {{ roomId }}</h2>
         </div>
 
-        <ul class="nav nav-pills nav-fill">
+        <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
                 <a class="nav-link" :class="{ 'active': time == 'm' }" @click="rsv = morningRsv; time = 'm'">早上</a>
             </li>
@@ -18,7 +18,16 @@
         </ul>
         <div v-if="rsv">
             <div>※已預訂</div>
-            <div></div>
+            <div>{{ rsv }}</div>
+        </div>
+        <div v-else>
+            <div class="my-3">
+                <label for="detail" class="form-label">預約用途</label>
+                <input type="text" class="form-control" id="detail" placeholder="Example input placeholder">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">預約</button>
+            </div>
         </div>
     </div>
 </template>
@@ -51,9 +60,9 @@ const loadReservations = async () => {
     nightRsv.value = null
     rsvList.forEach(rsv => {
         switch (rsv.reservationTime) {
-            case 'morning': morningRsv.value = rsv; break;
-            case 'afternoon': afternoonRsv.value = rsv; break;
-            case 'night': nightRsv.value = rsv;
+            case 'A': morningRsv.value = rsv; break;
+            case 'B': afternoonRsv.value = rsv; break;
+            case 'C': nightRsv.value = rsv;
         }
     });
     switch (time.value) {

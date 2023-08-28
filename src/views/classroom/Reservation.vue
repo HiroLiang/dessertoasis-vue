@@ -1,13 +1,14 @@
 <template>
     <NavBar></NavBar>
     <div class="container">
+        <div class="input-group my-3 w-50">
+            <label class="input-group-text" for="classroom">教室</label>
+            <select class="form-select" id="classroom" v-model="calendarRoomId">
+                <option v-for="i in 4">{{ i }}</option>
+            </select>
+        </div>
         <div class="row">
             <div class="col-8">
-                <span>教室: </span>
-                <select v-model="calendarRoomId" class="form-select d-inline-block w-50 m-2"
-                    aria-label="Default select example">
-                    <option v-for="i in 4">{{ i }}</option>
-                </select>
                 <Calendar :roomId="calendarRoomId" @dateClick="dateClick"></Calendar>
             </div>
             <div class="col">

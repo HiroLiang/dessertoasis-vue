@@ -5,22 +5,22 @@
             <h2>教室: {{ roomId }}</h2>
         </div>
 
-        <ul class="nav nav-tabs nav-fill">
+        <ul class="nav nav-pills nav-fill">
             <li class="nav-item">
                 <a class="nav-link" :class="{ 'active': time == 'm' }" @click="rsv = morningRsv; time = 'm'">早上</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" :class="{ 'active': time == 'a' }" @click="rsv = afternoonRsv; time = 'a'">中午</a>
+                <a class="nav-link" :class="{ 'active': time == 'a' }" @click="rsv = afternoonRsv; time = 'a'">下午</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" :class="{ 'active': time == 'n' }" @click="rsv = nightRsv; time = 'n'">晚上</a>
             </li>
         </ul>
         <div v-if="date < new Date()">
-            <div>已逾期</div>
+            <h4 class="mt-3">※今日以前的日期無法預約</h4>
         </div>
         <div v-else-if="rsv">
-            <div>※已預訂</div>
+            <h4 class="mt-3">※已預訂</h4>
             <div>{{ rsv }}</div>
         </div>
         <div v-else>

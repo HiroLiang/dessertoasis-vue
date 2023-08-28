@@ -7,6 +7,11 @@
                 <option v-for="i in 4">{{ i }}</option>
             </select>
         </div>
+        <div class="mb-2">
+            <span class="p-1 me-2 rounded text-white dodgerblue">早上</span>
+            <span class="p-1 me-2 rounded text-white green">下午</span>
+            <span class="p-1 me-2 rounded text-white pink">晚上</span>
+        </div>
         <div class="row">
             <div class="col-8">
                 <Calendar :roomId="calendarRoomId" @dateClick="dateClick"></Calendar>
@@ -34,3 +39,17 @@ function dateClick(clickedDate) {
 }
 
 </script>
+
+<style scoped>
+.dodgerblue {
+    background-color: dodgerblue;
+}
+
+.green {
+    background-color: green;
+}
+
+.pink {
+    background-color: pink;
+}
+</style>

@@ -1,53 +1,72 @@
 <template>
     <div class="container">
-        <div class="carouselcontainer">
-            <Carousel id="gallery" :items-to-show="1" :wrap-around="false" v-model="currentSlide">
-                <Slide v-for="slide in 10" :key="slide">
-                    <div class="carousel__item">{{ slide }}</div>
-                </Slide>
-            </Carousel>
+        <Carousel id="gallery" :items-to-show="1" :wrap-around="false" v-model="currentSlide">
+            <Slide v-for="(item, index) in props.itemsList" :key="index">
+                <img class="carousel__item card-img" :src="item.imageUrl">
 
-            <Carousel id="thumbnails" :items-to-show="4" :wrap-around="true" v-model="currentSlide" ref="carousel">
-                <Slide v-for="slide in 10" :key="slide">
-                    <div class="carousel__item" @click="slideTo(slide - 1)">{{ slide }}</div>
-                </Slide>
-            </Carousel>
-        </div>
+            </Slide>
+        </Carousel>
+
+        <Carousel id="thumbnails" :items-to-show="4" :wrap-around="true" v-model="currentSlide" :slide-width="1000"
+            ref="carousel">
+            <Slide v-for="(item, index) in  props.itemsList " :key="index">
+                <img class="carousel__item slideImgs card-img" :src="item.imageUrl">
+
+                <div class="carousel__item" @click="slideTo(item - 1)"></div>
+            </Slide>
+            <template #addons>
+                <Navigation />
+            </template>
+        </Carousel>
     </div>
 </template>
   
-<script>
-import { defineComponent } from 'vue'
-import { Carousel, Slide } from 'vue3-carousel'
+<script setup>
+import { ref } from 'vue';
+import { Navigation, Carousel, Slide } from 'vue3-carousel';
+import 'vue3-carousel/dist/carousel.css';
 
-import 'vue3-carousel/dist/carousel.css'
+const currentSlide = ref(0);
 
-export default defineComponent({
-    name: 'Gallery',
-    components: {
-        Carousel,
-        Slide,
-    },
-    data: () => ({
-        currentSlide: 0,
-    }),
-    methods: {
-        slideTo(val) {
-            this.currentSlide = val
-        },
+const slideTo = (val) => {
+    currentSlide.value = val;
+};
+
+const props = defineProps({
+    itemsList: {
+        default: [
+            { imageUrl: "https://picsum.photos//500/400?random=1" },
+            { imageUrl: "https://picsum.photos//500/400?random=2" },
+            // { imageUrl: "https://picsum.photos//500/400?random=3" },
+            // { imageUrl: "https://picsum.photos//500/400?random=4" },
+            // { imageUrl: "https://picsum.photos//500/400?random=5" },
+            // { imageUrl: "https://picsum.photos//500/400?random=1" },
+            // { imageUrl: "https://picsum.photos//500/400?random=2" },
+            // { imageUrl: "https://picsum.photos//500/400?random=3" },
+            // { imageUrl: "https://picsum.photos//500/400?random=4" },
+            // { imageUrl: "https://picsum.photos//500/400?random=5" },
+            // { imageUrl: "https://picsum.photos//500/400?random=1" },
+            // { imageUrl: "https://picsum.photos//500/400?random=2" },
+            // { imageUrl: "https://picsum.photos//500/400?random=3" },
+            // { imageUrl: "https://picsum.photos//500/400?random=4" },
+            // { imageUrl: "https://picsum.photos//500/400?random=5" },
+        ],
     },
 })
 </script>
-  
-<style scoped>
-.carousel__item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    font-size: 24px;
-    background-color: #f0f0f0;
+
+<style>
+.carousel__next {
+    right: -50px;
+}
+
+.carousel__prev {
+    left: -50px;
+}
+
+.slideImgs {
+    max-width: 300px;
+    max-height: 200px;
 }
 </style>
   

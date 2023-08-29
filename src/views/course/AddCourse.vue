@@ -1,12 +1,23 @@
 <script setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, computed } from "vue"
 import { checkTeacherStatus } from "@/api"
 
 const isTeacher = ref(false) // 預設用戶不是老師
-const selectedFile = ref(null) // 上傳的文件
-const imageUrl = ref(null) // 上傳圖片的預覽 URL
-const courseDate = ref("") //儲存課程日期
+const today = new Date().toISOString().split("T")[0] // 获取当前日期
+const courseDate = ref(today) //儲存課程日期
+
 const courseLocation = ref("") //儲存上課地點
+
+// const courseStartDate = ref(today) // 开课日期
+const regDeadline = ref("") // 报名截止日期
+const errorMessage = ref("") // 错误消息
+
+const images = ref([])
+const videos = ref([])
+
+const locationChoice = ref("applyClassroom") // 默认选择“申请教室”
+const selectedClassroom = ref("classroom1") // 默认选中的教室
+const customLocation = ref("") // 自己填写的地点
 
 const addCourse = () => {
   console.log(courseDate, courseLocation)
@@ -26,10 +37,48 @@ const addCourse = () => {
   // 发送数据到后端并进行处理
 }
 
-const handleFileChange = (e) => {
+const deleteImage = (index) => {
+  images.value.splice(index, 1)
+}
+
+function addImage(e) {
   // 處理文件選擇事件，獲得上傳的圖片文件
-  selectedFile.value = e.target.files[0]
-  imageUrl.value = URL.createObjectURL(selectedFile.value)
+  const file = e.target.files[0]
+  // selectedFile.value = e.target.files[0]
+  const url = URL.createObjectURL(file)
+  images.value.push({ url })
+}
+
+function addVideo(e) {
+  const file = e.target.files[0]
+  const url = URL.createObjectURL(file)
+  videos.value.push({ url })
+}
+
+const deleteVideo = (index) => {
+  videos.value.splice(index, 1)
+}
+
+// 计算属性，用于检查日期是否有效
+const isDateValid = computed(() => {
+  if (!courseDate.value || !regDeadline.value) {
+    return true // 如果有一个日期为空，认为是有效的
+  }
+  return regDeadline.value <= courseDate.value
+})
+
+const error = computed(() => {
+  if (!isDateValid.value) {
+    return "报名截止日期不能大于开课日期"
+  }
+  return ""
+})
+
+// 检查日期，如果无效则清空报名截止日期
+const checkDate = () => {
+  if (!isDateValid.value) {
+    regDeadline.value = ""
+  }
 }
 
 onMounted(async () => {
@@ -55,11 +104,8 @@ onMounted(async () => {
 
       <form @submit.prevent="addCourse" class="row">
         <div class="col-6">
-          <!-- 帶入教師編號 -->
-          <!-- <div class="mb-2">
-            <label for="teacherId">教師編號:</label>
-            <input id="teacherId" v-model="teacherId" />
-          </div> -->
+          <input type="hidden" v-model="teacherId" />
+
           <div class="mb-2">
             <!-- 帶入教師編號 -->
             <label for="teacherName">教師姓名:</label>
@@ -69,16 +115,33 @@ onMounted(async () => {
             <label for="courseName">課程名稱:</label>
             <input id="courseName" v-model="courseName" />
           </div>
+
           <div class="mb-2">
-            <label for="courseDate">開課時間:</label>
-            <input type="date" v-model="courseDate" id="courseDate" />
-            <!-- 沒寫開課日期，顯示錯誤訊息 -->
+            <label for="courseDate">開課日期：</label>
+            <input
+              type="date"
+              id="courseDate"
+              v-model="courseDate"
+              @input="checkDate"
+            />
             <span v-if="!courseDate" class="error-message">請選擇課程日期</span>
           </div>
-          <div class="mb-2">
-            <label for="regDeadline">報名截止日:</label>
-            <input type="date" v-model="regDeadline" id="regDeadline" />
+
+          <div>
+            <label for="regDeadline">報名截止日期：</label>
+            <input
+              type="date"
+              id="regDeadline"
+              v-model="regDeadline"
+              class="mb-2"
+              @input="checkDate"
+            />
           </div>
+          <p v-if="error" style="color: red">{{ error }}</p>
+          <!-- <div v-if="error" class="error-message">
+            报名截止日期不能大于开课日期
+          </div> -->
+
           <div class="mb-2">
             <label for="courseDescription">課程介紹:</label>
             <textarea
@@ -89,16 +152,45 @@ onMounted(async () => {
           </div>
           <!-- 沒寫上課地點，顯示錯誤訊息 -->
           <div class="mb-2">
-            <label for="courseLocation">上課地點:</label>
-            <input type="text" v-model="courseLocation" id="courseLocation" />
-            <span v-if="!courseLocation" class="error-message"
+            <label>上課地點:</label>
+            <input
+              type="radio"
+              v-model="locationChoice"
+              value="applyClassroom"
+            />申請教室
+            <input
+              type="radio"
+              v-model="locationChoice"
+              value="writeLocation"
+            />自己填寫
+            <!-- <input type="text" v-model="courseLocation" id="courseLocation" /> -->
+            <!-- <span v-if="!courseLocation" class="error-message"
               >請填入上課地點</span
-            >
+            > -->
+            <!-- 当选择“申请教室”时显示可选教室的<div> -->
+            <div v-if="locationChoice === 'applyClassroom'">
+              <label>選擇教室：</label>
+              <select v-model="selectedClassroom">
+                <option value="classroom1">教室1</option>
+                <option value="classroom2">教室2</option>
+                <!-- 添加更多教室选项 -->
+              </select>
+            </div>
+            <!-- 当选择“自己填写”时显示自己填写地点的<input> -->
+            <div v-if="locationChoice === 'writeLocation'">
+              <label>自己填寫地點：</label>
+              <input type="text" v-model="customLocation" />
+            </div>
           </div>
           <!-- 課程分類id -->
           <div class="mb-2">
             <label for="remainingPlaces">可報名人數:</label>
-            <input type="text" v-model="remainingPlaces" id="remainingPlaces" />
+            <input
+              type="number"
+              v-model="remainingPlaces"
+              min="0"
+              id="remainingPlaces"
+            />
           </div>
           <div class="mb-2">
             <label for="coursePrice">報名價格:</label>
@@ -131,10 +223,7 @@ onMounted(async () => {
             </select>
             <!-- <input type="text" v-model="courseStatus" id="courseStatus" /> -->
           </div>
-          <div class="mb-2">
-            <label for="courseLength">課程影片:</label>
-            <input type="text" v-model="courseVedioId" id="courseLength" />
-          </div>
+
           <div class="mb-2">
             <label for="courseLength">課程食譜:</label>
             <input type="text" v-model="courseLength" id="courseLength" />
@@ -146,12 +235,23 @@ onMounted(async () => {
         </div>
         <!-- 課程圖片路徑 -->
         <div class="col-6 row">
-          <label for="coursePictureUrl">上傳課程圖片:</label>
-          <input type="file" ref="fileInput" @change="handleFileChange" />
-          <!-- <input type="file" id="coursePictureUrl" /> -->
-          <div class="classImg" v-if="imageUrl">
+          <label>上傳課程圖片:</label>
+          <input type="file" @change="addImage" accept="image/*" />
+          <div v-for="(image, index) in images" :key="index">
             <h4>課程圖片預覽：</h4>
-            <img :src="imageUrl" alt="課程圖片" />
+            <img :src="image.url" alt="上傳課程圖片" class="upload-image" />
+            <button @click="deleteImage(index)">刪除</button>
+          </div>
+
+          <label>上傳課程影片:</label>
+          <input type="file" @change="addVideo" accept="video/*" />
+          <div v-for="(video, index) in videos" :key="index">
+            <h4>課程影片預覽</h4>
+            <video controls class="upload-video">
+              <source :src="video.url" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <button @click="deleteVideo(index)">刪除</button>
           </div>
         </div>
         <!-- 課程影片id,食譜id,標籤id -->
@@ -163,17 +263,22 @@ onMounted(async () => {
         </button>
       </form>
     </div>
+
     <div v-else>
       <p>您不是教師，無法前往此頁。</p>
     </div>
   </div>
 </template>
 <style>
-.classImg img {
-  max-width: 100%;
-  max-height: 100%;
-}
 .error-message {
   color: red;
+}
+.upload-image {
+  min-width: 100%;
+  max-width: 100%;
+}
+.upload-video {
+  width: 100%;
+  width: 100%;
 }
 </style>

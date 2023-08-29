@@ -11,7 +11,7 @@ const props = defineProps({
     },
 })
 //自定義事件
-let emit = defineEmits(['delete-step', 'get-stepData'])
+let emit = defineEmits(['delete-step', 'get-step-data'])
 
 //子傳父取得刪除案件觸發的index值
 const deleteStep = () => {
@@ -38,7 +38,7 @@ const getStepDatas = () => {
 
             const jsonString = JSON.stringify(jsonData);
             console.log(jsonString);
-            emit('get-stepData', stepIndex, textData, jsonString)
+            emit('get-step-data', stepIndex, textData, jsonString)
         }
         reader.readAsDataURL(picData);
     }

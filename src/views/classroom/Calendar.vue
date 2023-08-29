@@ -28,15 +28,16 @@ const calendarOptions = reactive({
         right: 'dayGridMonth'
     },
     initialView: 'dayGridMonth',
+    events: [],
     selectable: true,
+    unselectAuto: false,
     select: handleDateSelect,
     eventClick: handleEventClick,
-    datesSet: handleDatesSet, // 處理日期範圍變更事件
-    events: []
+    datesSet: handleDatesSet,
 })
 
 function handleDateSelect(selectInfo) {
-    emit('dateClick', selectInfo.startStr)
+    emit('dateClick', selectInfo.start)
 }
 
 function handleEventClick(clickInfo) {
@@ -60,14 +61,13 @@ const loadReservations = async (roomId, startDate, endDate) => {
     const events = res.data.map((rsv) => {
         let color = null
         switch (rsv.reservationTime) {
-            case 'morning': color = "default"; break;
-            case 'afternoon': color = "green"; break;
-            case 'night': color = "pink"; break;
+            case 'A': color = "dodgerblue"; break;
+            case 'B': color = "green"; break;
+            case 'C': color = "pink"; break;
         }
         return {
             title: rsv.detail,
             start: rsv.reservationDate,
-            end: rsv.reservationDate,
             color,
         }
     })

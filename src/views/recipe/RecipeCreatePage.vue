@@ -1,31 +1,36 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 
 import IngredientInput from '@/views/recipe/components/IngredientInput.vue'
 import StepInput from '@/views/recipe/components/StepInput.vue'
 
-const ingredientCounter = ref(2)
-const ingredients = reactive([0, 1])
+const ingredientCounter = ref(0)
+const ingredients = reactive([])
 
 const addNewIngredient = () => {
-    ingredients.push(ingredientCounter.value)
+    ingredients.push({ id: ingredientCounter.value, ingredientName: '', ingredientQty: '' })
     ingredientCounter.value++
-    console.log(ingredients);
+    console.log(JSON.stringify(ingredients));
 }
-const stepCounter = ref(2)
-const steps = reactive([
-    { id: 0 },
-    { id: 1 }])
+const stepCounter = ref(0)
+const steps = reactive([])
 
 const addNewStep = () => {
-    steps.push({ id: stepCounter.value })
+    steps.push({ id: stepCounter.value, text: '', imgUrl: '' })
     stepCounter.value++
     console.log(JSON.stringify(steps));
 }
+//預設生成步驟1、步驟2
+onMounted(() => {
+    addNewIngredient()
+    addNewIngredient()
+    addNewStep()
+    addNewStep()
+})
 //刪除對應步驟
-const handleDeleteStep = (deletIndex) => {
-    console.log(deletIndex);
-    steps.splice(deletIndex - 1, 1)
+const handleDeleteStep = (deleteIndex) => {
+    console.log(deleteIndex);
+    steps.splice(deleteIndex - 1, 1)
 }
 //刪除對應食材
 const handleDeleteIngredient = (deleteIngredient) => {
@@ -53,6 +58,36 @@ const onDrop = (e, dropIndex) => {
     }
 }
 
+const formData = reactive({
+    recipeTitle: '',
+    recipeIntroduction: '',
+    pictureURL: '',
+    ingredientQty: '1',
+    cookingTime: '',
+    ingredients: [],
+    steps: []
+})
+
+const handleStepData = (textIndex, textContent, imgData) => {
+    steps[textIndex - 1].text = textContent;
+    steps[textIndex - 1].imgUrl = imgData;
+    console.log('textIndex:  ' + textIndex);
+    console.log('textContent:  ' + textContent);
+    console.log('imgData:  ' + imgData);
+    console.log(steps);
+}
+
+const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) => {
+    // ingredients[ingerdientIndex - 1].ingredientName = ingerdientName
+    // ingredients[ingerdientIndex - 1].ingredientQty = ingerdientQty
+    ingredients[ingerdientIndex - 1] = { ingredientName: ingerdientName, ingredientQty: ingerdientQty }
+    console.log('ingerdientIndex:  ' + ingerdientIndex);
+    console.log('ingerdientName:  ' + ingerdientName);
+    console.log('ingerdientQty: ' + ingerdientQty);
+    console.log(ingredients);
+}
+
+
 </script>
 
 <template>
@@ -65,12 +100,14 @@ const onDrop = (e, dropIndex) => {
         <div class="recipeContainer container">
             <div class="recipeTitleContainer container mt-3">
                 <label for="recipeTitle" class="form-label">食譜名稱:</label><br>
-                <input class="form-control" type="text" id="recipeTitle" name="recipeTitle" required="required">
+                <input class="form-control" v-model="formData.recipeTitle" type="text" id="recipeTitle" name="recipeTitle"
+                    required="required">
             </div>
             <div class="recipeIntroductionContainer container mt-3">
                 <label for="recipeIntroduction" class="form-label">食譜簡介:</label><br>
-                <textarea class="recipeIntroduction form-control" style="resize: none;" id="recipeIntroduction"
-                    name="recipeIntroduction" required="required"></textarea>
+                <textarea class="recipeIntroduction form-control" style="resize: none;"
+                    v-model="formData.recipeIntroduction" id="recipeIntroduction" name="recipeIntroduction"
+                    required="required"></textarea>
                 <br>
 
             </div>
@@ -78,14 +115,13 @@ const onDrop = (e, dropIndex) => {
             <div class="picContainer container">
                 <label for="pictureURL" class="form-label">成品圖片:</label><br>
                 <img class="recipePic" id="previewPic0" alt="成品圖片" src="https://fakeimg.pl/440x300/?text=Image">
-                <input class="form-control" type="file" id="pictureURL" name="pictureURL" accept="image/*"
-                    onchange="preview(event,'previewPic0')"><br>
+                <input class="form-control" type="file" id="pictureURL" name="pictureURL" accept="image/*"><br>
             </div>
             <div class="container ml-3">
                 <div class="ingredientContainer row justify-content-start  ">
                     <div class="ingredientQtyContainer col-4">
                         <label for="ingredientQuantity" class="form-label">食材份量</label><br>
-                        <select class="form-select">
+                        <select class="form-select" v-model="formData.ingredientQty">
                             <option selected value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -100,14 +136,16 @@ const onDrop = (e, dropIndex) => {
                     </div>
                     <div class="cookingTimeContainer col-4">
                         <label for="cookingTime" class="form-label">烹調時間</label><br>
-                        <input class="form-control" type="text" id="cookingTime" name="cookingTime" required="required">分鐘
+                        <input class="form-control" v-model="formData.cookingTime" type="text" id="cookingTime"
+                            name="cookingTime" required="required">分鐘
                     </div>
                 </div>
             </div>
             <div class="container ml-3">
                 <div class="ingredientContainer row justify-content-start  ">
-                    <IngredientInput v-for="(ingredient, index) in ingredients.length" :key="ingredients[index]"
-                        :ingerdientIndex="index + 1" @delete-ingredient="handleDeleteIngredient">
+                    <IngredientInput v-for="(ingredient, index) in ingredients" :key="ingredient.id"
+                        :ingerdientIndex="index + 1" @delete-ingredient="handleDeleteIngredient"
+                        @get-ingredientData="handleIngredientData">
                     </IngredientInput>
                 </div>
 
@@ -119,7 +157,7 @@ const onDrop = (e, dropIndex) => {
             <div class="recipeStepsContainer container mt-3">
                 <StepInput v-for="(step, index) in steps" :key="step.id" :stepIndex="index + 1"
                     @delete-step="handleDeleteStep" draggable="true" @dragstart="dragStart($event, index)"
-                    @drop="onDrop($event, index)" @dragenter.prevent @dragover.prevent>
+                    @drop="onDrop($event, index)" @dragenter.prevent @dragover.prevent @get-stepData="handleStepData">
                 </StepInput>
             </div>
             <div class="newRecipeStepContainer d-grid">
@@ -131,7 +169,7 @@ const onDrop = (e, dropIndex) => {
 
         </div>
         <div class="crudbtn">
-            <button class=" btn btn-light">發布</button>
+            <button class=" btn btn-light">發佈</button>
             <button class="btn btn-light">儲存</button>
             <button class="btn btn-light">取消</button>
             <button class="btn btn-light">刪除</button>

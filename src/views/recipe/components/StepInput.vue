@@ -1,23 +1,51 @@
 <script setup >
 
+import { reactive, ref } from 'vue'
+
+const textContent = ref('')
+
+const textPic = ref(null)
 const props = defineProps({
     stepIndex: {
         type: Number
-    }
-
+    },
 })
+//自定義事件
+let emit = defineEmits(['delete-step', 'get-stepData'])
 
-let emit = defineEmits(['delete-step'])
+//子傳父取得刪除案件觸發的index值
 const deleteStep = () => {
     emit('delete-step', props.stepIndex)
-    console.log(emit);
+    console.log('delete step Index: ' + props.stepIndex);
 }
 
+//子傳父取得步驟圖片(轉為base64)及textarea文字資料
+const getStepDatas = () => {
+    const stepIndex = props.stepIndex
+    const textData = textContent.value
+    const picData = textPic.value.files[0]
 
+    if (picData) {
+        const reader = new FileReader();
 
+        reader.onload = (e) => {
+            const base64Data = e.target.result.split(',')[1]
+            const jsonData = {
+                fileName: picData.name,
+                fileType: picData.type,
+                base64Content: base64Data
+            }
 
+            const jsonString = JSON.stringify(jsonData);
+            console.log(jsonString);
+            emit('get-stepData', stepIndex, textData, jsonString)
+        }
+        reader.readAsDataURL(picData);
+    }
 
+    console.log(picData);
 
+}
 </script>
 
 <template>
@@ -27,13 +55,13 @@ const deleteStep = () => {
                 <label :for="'recipeStep' + stepIndex" class=form-label>步驟{{ stepIndex }}</label><br>
                 <img :class="'recipeStep' + stepIndex + 'Pic'" :id="'previewPic' + stepIndex" :alt="'步驟' + stepIndex + '圖片'"
                     src="https://fakeimg.pl/250x200/?text=Image">
-                <input class="form-control" type="file" :id="'recipeStep' + stepIndex" :name="'recipeStep' + stepIndex"
-                    accept="image/*" :onchange="'preview(event,' + 'previewPic' + stepIndex + ')'"><br>
+                <input @change="getStepDatas" class="form-control" ref="textPic" type="file" :id="'recipeStep' + stepIndex"
+                    :name="'recipeStep' + stepIndex" accept="image/*"><br>
             </div>
             <div class="introText col-6 align-self-center">
-                <textarea class="recipeIntroduction form-control" rows="9" cols="20" style="resize: none;"
-                    :id="'recipeIntroduction' + stepIndex" :name="'recipeIntroduction' + stepIndex"
-                    required="required"></textarea>
+                <textarea @blur="getStepDatas" v-model="textContent" class="recipeIntroduction form-control" rows="9"
+                    cols="20" style="resize: none;" :id="'recipeIntroduction' + stepIndex"
+                    :name="'recipeIntroduction' + stepIndex" required="required"></textarea>
             </div>
             <div class="stepBtn col-3 mt-5">
                 <button class="btn btn-light" :id="'deleteStep' + stepIndex" @click="deleteStep">刪除</button>

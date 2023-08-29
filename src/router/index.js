@@ -36,16 +36,19 @@ const router = createRouter({
           path: "/producthome",
           name: "productHome",
           component: () => import("../views/product/ProductHome.vue"),
+          meta: { title: "商品首頁" }
         },
         {
           path: "/productdetail",
           name: "productDetail",
           component: () => import("../views/product/ProductDetail.vue"),
+          meta: { title: "商品詳情" }
         },
         {
           path: "/producttype",
           name: "productType",
           component: () => import("../views/product/ProductType.vue"),
+          meta: { title: "商品分類" }
         },
       ],
     },

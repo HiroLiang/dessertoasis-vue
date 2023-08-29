@@ -1,24 +1,36 @@
 <template>
     <div class="container">
         <div>
-            <h2>{{ date }}</h2>
+            <h2>{{ date.toLocaleDateString() }}</h2>
             <h2>教室: {{ roomId }}</h2>
         </div>
 
-        <ul class="nav nav-tabs nav-fill">
+        <ul class="nav nav-pills nav-fill">
             <li class="nav-item">
                 <a class="nav-link" :class="{ 'active': time == 'm' }" @click="rsv = morningRsv; time = 'm'">早上</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" :class="{ 'active': time == 'a' }" @click="rsv = afternoonRsv; time = 'a'">中午</a>
+                <a class="nav-link" :class="{ 'active': time == 'a' }" @click="rsv = afternoonRsv; time = 'a'">下午</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" :class="{ 'active': time == 'n' }" @click="rsv = nightRsv; time = 'n'">晚上</a>
             </li>
         </ul>
-        <div class="border border-top-0 rounded-bottom">
-            <div v-if="rsv">※已被預約</div>
-
+        <div v-if="date < new Date()">
+            <h4 class="mt-3">※今日以前的日期無法預約</h4>
+        </div>
+        <div v-else-if="rsv">
+            <h4 class="mt-3">※已預訂</h4>
+            <div>{{ rsv }}</div>
+        </div>
+        <div v-else>
+            <div class="my-3">
+                <label for="detail" class="form-label">預約用途</label>
+                <input type="text" class="form-control" id="detail" placeholder="Example input placeholder">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">預約</button>
+            </div>
         </div>
     </div>
 </template>
@@ -30,7 +42,7 @@ import { getReservations } from '@/api/index'
 
 const props = defineProps({
     date: {
-        default: formatDate(new Date())
+        default: new Date()
     },
     roomId: {
         default: 1
@@ -44,16 +56,16 @@ const nightRsv = ref(null)
 const time = ref('m')
 
 const loadReservations = async () => {
-    const res = await getReservations(props.roomId, props.date, props.date)
+    const res = await getReservations(props.roomId, formatDate(props.date), formatDate(props.date))
     const rsvList = res.data
     morningRsv.value = null
     afternoonRsv.value = null
     nightRsv.value = null
     rsvList.forEach(rsv => {
         switch (rsv.reservationTime) {
-            case 'morning': morningRsv.value = rsv; break;
-            case 'afternoon': afternoonRsv.value = rsv; break;
-            case 'night': nightRsv.value = rsv;
+            case 'A': morningRsv.value = rsv; break;
+            case 'B': afternoonRsv.value = rsv; break;
+            case 'C': nightRsv.value = rsv;
         }
     });
     switch (time.value) {

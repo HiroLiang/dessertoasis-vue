@@ -41,7 +41,7 @@
             <template #default="{ value }">
                 <div style="display: flex; align-items: center; width: 100%">
                     <p>規格名稱</p>
-                    <n-input v-model:value="value.string" type="text" style="margin-right:12px;width:300px" />
+                    <n-input v-model:value="value.string" type="text" style="margin-right:12px;width:450px" />
                     <p>價格</p>
                     <n-input-number v-model:value="value.price" style="margin-right: 12px; width: 100px" />
                     <p>數量</p>
@@ -54,26 +54,23 @@
 
     <div class="time">
         <p>上架時間</p>
-        <n-date-picker v-model:value="timestamp" type="datetime" clearable />
-        <!--<pre>{{ JSON.stringify(timestamp) }}</pre>-->
-
-
-
+        <n-date-picker v-model:value="startTimestamp" type="datetime" clearable />
     </div>
     <div class="time">
         <p>下架時間</p>
-        <n-date-picker v-model:value="timestamp" type="datetime" clearable />
+        <n-date-picker v-model:value="endTimestamp" type="datetime" clearable />
         <!--<pre>{{ JSON.stringify(timestamp) }}</pre>-->
-
-
-
+    </div>
+    <div class="editor">
+        <p>商品介紹</p>
+        <CKEditor v-model="editorData" />
     </div>
 </template>
   
 <script setup>
 import { ref, computed } from "vue";
 import { NSpace, NCascader } from 'naive-ui';
-
+import CKEditor from '@/components/CKEditor.vue';
 const customOptions = [
     {
         value: "v-1",
@@ -151,17 +148,25 @@ const onCreate = () => {
     };
 };
 
-const timestamp = ref(118313526e4);
-
+const startTimestamp = ref(Date.now());
+const endTimestamp = ref(118313526e4);
+const editorData = ref('<p>Initial content</p>');
 </script>
 
 <style scoped>
 .dynamic {
-    max-width: 50%;
+    max-width: 70%;
+    padding-left: 100px;
 
 }
 
 .time {
     max-width: 50%;
+    padding-left: 100px;
+}
+
+.editor {
+    max-width: 90%;
+    padding-left: 50px;
 }
 </style>

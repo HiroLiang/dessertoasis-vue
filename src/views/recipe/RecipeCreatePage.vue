@@ -62,7 +62,7 @@ const formData = reactive({
     recipeTitle: '',
     recipeIntroduction: '',
     pictureURL: '',
-    ingredientQty: '1',
+    ingredientPersons: '1',
     cookingTime: '',
     ingredients: [],
     steps: []
@@ -75,12 +75,12 @@ const handleStepData = (textIndex, textContent, imgData) => {
     console.log('textContent:  ' + textContent);
     console.log('imgData:  ' + imgData);
     console.log(steps);
+
 }
 
 const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) => {
-    // ingredients[ingerdientIndex - 1].ingredientName = ingerdientName
-    // ingredients[ingerdientIndex - 1].ingredientQty = ingerdientQty
-    ingredients[ingerdientIndex - 1] = { ingredientName: ingerdientName, ingredientQty: ingerdientQty }
+    ingredients[ingerdientIndex - 1].ingredientName = ingerdientName
+    ingredients[ingerdientIndex - 1].ingredientQty = ingerdientQty
     console.log('ingerdientIndex:  ' + ingerdientIndex);
     console.log('ingerdientName:  ' + ingerdientName);
     console.log('ingerdientQty: ' + ingerdientQty);
@@ -120,8 +120,8 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) =>
             <div class="container ml-3">
                 <div class="ingredientContainer row justify-content-start  ">
                     <div class="ingredientQtyContainer col-4">
-                        <label for="ingredientQuantity" class="form-label">食材份量</label><br>
-                        <select class="form-select" v-model="formData.ingredientQty">
+                        <p class="form-label">食材份量</p>
+                        <select class="form-select" v-model="formData.ingredientQty" id="ingredientPersons">
                             <option selected value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -145,7 +145,7 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) =>
                 <div class="ingredientContainer row justify-content-start  ">
                     <IngredientInput v-for="(ingredient, index) in ingredients" :key="ingredient.id"
                         :ingerdientIndex="index + 1" @delete-ingredient="handleDeleteIngredient"
-                        @get-ingredientData="handleIngredientData">
+                        @get-ingredient-data="handleIngredientData">
                     </IngredientInput>
                 </div>
 
@@ -157,7 +157,7 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) =>
             <div class="recipeStepsContainer container mt-3">
                 <StepInput v-for="(step, index) in steps" :key="step.id" :stepIndex="index + 1"
                     @delete-step="handleDeleteStep" draggable="true" @dragstart="dragStart($event, index)"
-                    @drop="onDrop($event, index)" @dragenter.prevent @dragover.prevent @get-stepData="handleStepData">
+                    @drop="onDrop($event, index)" @dragenter.prevent @dragover.prevent @get-step-data="handleStepData">
                 </StepInput>
             </div>
             <div class="newRecipeStepContainer d-grid">

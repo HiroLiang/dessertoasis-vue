@@ -71,6 +71,11 @@ const router = createRouter({
           component: () => import("../views/course/AddCourse.vue"),
         },
         {
+          path: "/cms/teacherCourseManager",
+          name: "trCourseManger",
+          component: () => import("../views/course/TeacherCourseManager.vue"),
+        },
+        {
           path: "/cms/chat",
           name: "chat",
           component: () => import("../views/ChatRoom.vue"),

@@ -1,12 +1,17 @@
 <script setup>
-import { NSpace, NInput, NList, NListItem, NThing, NTag, NIcon } from 'naive-ui';
+import { NSpace, NInput, NList, NListItem, NThing, NTag, NIcon, NButton } from 'naive-ui';
 import { ref } from 'vue';
 
 const items = ref([
     {
         title: '相见恨晚',
         tags: ['暑夜', '晚春'],
-        content: '奋勇呀然后休息呀<br>完成你伟大的人生'
+        content: '奋勇呀然后休息呀<br>完成你伟大的人生',
+        children: {
+            title: '相见恨晚',
+            tags: ['暑夜', '晚春'],
+            content: '奋勇呀然后休息呀<br>完成你伟大的人生',
+        }
     },
     {
         title: '他在时间门外',
@@ -39,7 +44,7 @@ const items = ref([
             </n-space>
             <hr>
             <n-list hoverable clickable>
-                <n-list-item v-for="item in items">
+                <n-list-item v-for="(item, index) in items" :key="index">
                     <n-thing :title="item.title">
                         <template #description>
                             <n-space size="small" style="margin-top: 4px">
@@ -50,6 +55,9 @@ const items = ref([
                         </template>
                         {{ item.content }}
                     </n-thing>
+                    <n-button size="tiny" color="#0077b6" ghost text :key="index">
+                        回覆
+                    </n-button>
                 </n-list-item>
             </n-list>
 

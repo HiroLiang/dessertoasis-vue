@@ -54,26 +54,23 @@
 
     <div class="time">
         <p>上架時間</p>
-        <n-date-picker v-model:value="timestamp" type="datetime" clearable />
-        <!--<pre>{{ JSON.stringify(timestamp) }}</pre>-->
-
-
-
+        <n-date-picker v-model:value="startTimestamp" type="datetime" clearable />
     </div>
     <div class="time">
         <p>下架時間</p>
-        <n-date-picker v-model:value="timestamp" type="datetime" clearable />
+        <n-date-picker v-model:value="endTimestamp" type="datetime" clearable />
         <!--<pre>{{ JSON.stringify(timestamp) }}</pre>-->
-
-
-
+    </div>
+    <div>
+        <p>商品介紹</p>
+        <CKEditor v-model="editorData" />
     </div>
 </template>
   
 <script setup>
 import { ref, computed } from "vue";
 import { NSpace, NCascader } from 'naive-ui';
-
+import CKEditor from '@/components/CKEditor.vue';
 const customOptions = [
     {
         value: "v-1",
@@ -151,8 +148,9 @@ const onCreate = () => {
     };
 };
 
-const timestamp = ref(118313526e4);
-
+const startTimestamp = ref(Date.now());
+const endTimestamp = ref(118313526e4);
+const editorData = ref('<p>Initial content</p>');
 </script>
 
 <style scoped>

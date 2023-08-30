@@ -1,23 +1,23 @@
 <template>
     <div class="container">
-        <Carousel id="gallery" :items-to-show="1" :wrap-around="false" v-model="currentSlide">
-            <Slide v-for="(item, index) in props.itemsList" :key="index">
-                <img class="carousel__item card-img" :src="item.imageUrl">
-
-            </Slide>
-        </Carousel>
-
-        <Carousel id="thumbnails" :items-to-show="4" :wrap-around="true" v-model="currentSlide" :slide-width="1000"
-            ref="carousel">
-            <Slide v-for="(item, index) in  props.itemsList " :key="index">
-                <img class="carousel__item slideImgs card-img" :src="item.imageUrl">
-
-                <div class="carousel__item" @click="slideTo(item - 1)"></div>
-            </Slide>
-            <template #addons>
-                <Navigation />
-            </template>
-        </Carousel>
+        <div class="gallery">
+            <Carousel id="gallery" :items-to-show="1" :wrap-around="false" v-model="currentSlide">
+                <Slide v-for="(item, index) in props.itemsList" :key="index">
+                    <img class="carousel__item slideImgs card-img" :src="item.imageUrl" @click="goToSlide(index)">
+                </Slide>
+            </Carousel>
+        </div>
+        <div class="thumbnails">
+            <Carousel id="thumbnails" :items-to-show="6" :wrap-around="true" v-model="currentSlide" :slide-width="1000"
+                ref="carousel">
+                <Slide v-for="(item, index) in props.itemsList" :key="index">
+                    <img class="carousel__item slideImgs card-img" :src="item.imageUrl" @click="goToSlide(index)">
+                </Slide>
+                <template #addons>
+                    <Navigation />
+                </template>
+            </Carousel>
+        </div>
     </div>
 </template>
   
@@ -30,6 +30,10 @@ const currentSlide = ref(0);
 
 const slideTo = (val) => {
     currentSlide.value = val;
+};
+
+const goToSlide = (index) => {
+    currentSlide.value = index;
 };
 
 const props = defineProps({
@@ -64,9 +68,27 @@ const props = defineProps({
     left: -50px;
 }
 
+.galleryImgs {
+    max-width: 600px;
+    max-height: 600px;
+
+}
+
 .slideImgs {
-    max-width: 300px;
-    max-height: 200px;
+    max-width: 600px;
+    max-height: 600px;
+    padding: 10px;
+}
+
+.gallery {
+    max-width: 600px;
+    max-height: 600px;
+}
+
+.thumbnails {
+    max-width: 600px;
+    max-height: 600px;
+    padding: 10px;
 }
 </style>
   

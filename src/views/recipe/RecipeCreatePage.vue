@@ -78,9 +78,9 @@ const handleStepData = (textIndex, textContent, imgData) => {
 }
 
 const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) => {
-    // ingredients[ingerdientIndex - 1].ingredientName = ingerdientName
-    // ingredients[ingerdientIndex - 1].ingredientQty = ingerdientQty
-    ingredients[ingerdientIndex - 1] = { ingredientName: ingerdientName, ingredientQty: ingerdientQty }
+    ingredients[ingerdientIndex - 1].ingredientName = ingerdientName
+    ingredients[ingerdientIndex - 1].ingredientQty = ingerdientQty
+    // ingredients.push({ ingredientName: ingerdientName, ingredientQty: ingerdientQty })
     console.log('ingerdientIndex:  ' + ingerdientIndex);
     console.log('ingerdientName:  ' + ingerdientName);
     console.log('ingerdientQty: ' + ingerdientQty);

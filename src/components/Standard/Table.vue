@@ -246,7 +246,7 @@ const getEditId = (id) => {
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th v-for="title in props.dataTitles" @click="sortDatas(title.key)">
+                    <th v-for="title in props.dataTitles" @click="sortDatas(title.key)" class="sortableTh">
                         {{ title.label }}
                         <font-awesome-icon v-if="nowSortBy === title.key && !posOrNag" :icon="['fas', 'angle-down']"
                             size="2xs" style="color: #872323;" />
@@ -275,6 +275,10 @@ const getEditId = (id) => {
         size="medium" show-quick-jumper show-size-picker />
 </template>
 <style scoped>
+.sortableTh {
+    cursor: pointer;
+}
+
 .tableArea {
     height: auto;
     max-height: 520px;

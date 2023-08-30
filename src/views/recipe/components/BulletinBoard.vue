@@ -1,19 +1,78 @@
 <script setup>
-import { NSpace, NInput, NList, NListItem, NThing, NTag, NIcon } from 'naive-ui';
-import { ref } from 'vue';
-
+import { NSpace, NInput, NList, NListItem, NThing, NIcon, NButton, NImage, NRate, NAvatar } from 'naive-ui';
+import { reactive, ref } from 'vue';
+const inputornot = reactive([0, 0, 0, 0, 0])
+const reply = (index) => {
+    inputornot[index] = 1
+}
 const items = ref([
     {
+        icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
         title: '相见恨晚',
-        tags: ['暑夜', '晚春'],
-        content: '奋勇呀然后休息呀<br>完成你伟大的人生'
+        content: `奋勇呀然后休息呀!\n完成你伟大的人生`,
+        children: [
+            {
+                icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
+                title: '相见恨晚1',
+                content: `奋勇呀然后休息呀!\n完成你伟大的人生`
+            },
+            {
+                icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
+                title: '相见恨晚2',
+                content: `奋勇呀然后休息呀!\n完成你伟大的人生`
+            }
+        ]
     },
     {
+        icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
         title: '他在时间门外',
-        tags: ['环形公路', '潜水艇司机'],
-        content: '最新的打印机<br>复制着彩色傀儡<br>早上好我的罐头先生<br>让他带你去被工厂敲击'
+        content: '最新的打印机\n复制着彩色傀儡\n早上好我的罐头先生\n让他带你去被工厂敲击',
+        children: [
+            {
+                icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
+                title: '相见恨晚1',
+                content: `奋勇呀然后休息呀!\n完成你伟大的人生`
+            },
+            {
+                icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
+                title: '相见恨晚2',
+                content: `奋勇呀然后休息呀!\n完成你伟大的人生`
+            }
+        ]
+    },
+    {
+        icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
+        title: '他在时间门外',
+        content: '最新的打印机\n复制着彩色傀儡\n早上好我的罐头先生\n让他带你去被工厂敲击',
+        children: [
+            {
+                icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
+                title: '相见恨晚1',
+                content: `奋勇呀然后休息呀!\n完成你伟大的人生`
+            },
+            {
+                icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
+                title: '相见恨晚2',
+                content: `奋勇呀然后休息呀!\n完成你伟大的人生`
+            }
+        ]
     }
 ]);
+
+let newIcon = ref('https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg')
+let newTitle = ref('相见恨晚33')
+let newContent = ref('')
+
+const sendMessage = () => {
+    const newMessage = {
+        icon: newIcon.value,
+        title: newTitle.value,
+        content: newContent.value,
+        children: []
+    };
+    items.value.push(newMessage);
+    newContent.value = ''
+}
 
 </script>
 
@@ -21,9 +80,11 @@ const items = ref([
     <div class="container border">
         <div class="boardcontainer m-3">
             <n-space vertical>
-                <n-input size="large" round placeholder="我的天啊">
+                <n-input v-model:value="newContent" type="textarea" size="large" :autosize="{ minRows: 1 }" round
+                    placeholder=" 請輸入回覆內容">
+
                     <template #suffix>
-                        <a href="">
+                        <n-button text @click="sendMessage">
                             <n-icon color="#0d1b2a" size="25">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     viewBox="0 0 512 512">
@@ -32,24 +93,47 @@ const items = ref([
                                         fill="currentColor"></path>
                                 </svg>
                             </n-icon>
-                        </a>
+                        </n-button>
 
                     </template>
                 </n-input>
+                <hr>
+                <div>newContent: {{ newContent }}</div>
             </n-space>
             <hr>
-            <n-list hoverable clickable>
-                <n-list-item v-for="item in items">
-                    <n-thing :title="item.title">
-                        <template #description>
-                            <n-space size="small" style="margin-top: 4px">
-                                <n-tag :bordered="false" type="info" size="small" v-for="tag in item.tags">
-                                    {{ tag }}
-                                </n-tag>
-                            </n-space>
-                        </template>
-                        {{ item.content }}
-                    </n-thing>
+            <n-list hoverable>
+                <n-list-item v-for="(item, index) in items" :key="index">
+                    <div class="icon-title-container">
+                        <a class="icon-container" href="">
+                            <n-icon size="30">
+                                <n-avatar round size="medium" :src="item.icon"></n-avatar>
+                            </n-icon>
+                        </a>
+                        <n-thing size="large" :title="item.title">
+                            <div class="content-with-line-breaks">{{ item.content }}</div>
+                            <n-button class="reply-button" size="small" color="#0077b6" ghost text :key="index"
+                                @click="replyMsg">
+                                回覆
+                            </n-button>
+                        </n-thing>
+                    </div>
+                    <div class="rateContainer">
+                        評價<n-rate clearable />
+                    </div>
+
+                    <n-list-item v-if="item.children" v-for="(child, childindex) in item.children" :key="childindex">
+                        <div class="icon-title-container">
+                            <a class="icon-container" href="">
+                                <n-icon size="30">
+                                    <n-avatar round size="medium" :src="child.icon"></n-avatar>
+                                </n-icon>
+                            </a>
+                            <n-thing size="large" :title="child.title">
+                                <div class="content-with-line-breaks">{{ child.content }}</div>
+                            </n-thing>
+                        </div>
+                    </n-list-item>
+
                 </n-list-item>
             </n-list>
 
@@ -57,4 +141,26 @@ const items = ref([
     </div>
 </template>
 
-<style></style>
+<style scoped>
+.content-with-line-breaks {
+    white-space: pre-line;
+}
+
+.icon-title-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.icon-container {
+    margin-right: 10px;
+}
+
+.reply-button {
+    margin-top: 10px;
+}
+
+.rateContainer {
+    align-items: self-end;
+    text-align: right;
+}
+</style>

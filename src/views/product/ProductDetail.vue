@@ -1,56 +1,86 @@
 <template>
     <div>
-        <h2>商品詳情</h2>
-        <div class="container border">
-            <div class="carouselcontainer">
-                <Carousel id="gallery" :items-to-show="1" :wrap-around="false" v-model="currentSlide">
-                    <Slide v-for="(item, index) in productImages" :key="index">
-                        <img :src="item.img" alt="" class="carousel-image">
-                    </Slide>
-                </Carousel>
 
-                <Carousel id="thumbnails" :items-to-show="2" :wrap-around="true" v-model="currentSlide" ref="carousel">
-                    <Slide v-for="(item, index) in productImages" :key="index">
-                        <img :src="item.img" alt="" class="thumbnail-image" @click="slideTo(index)">
-                    </Slide>
-                </Carousel>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <SlickCarousel :itemsList="item"></SlickCarousel>
+                </div>
+                <div class="col-md-6">
+                    <p></p>
+                    <h3>Darbo 德寶70%果肉草莓果醬 200g</h3>
+                    <p></p>
+                    <h5>NT$ {{ price }}</h5>
+                    <p>請選擇規格</p>
+                    <Speccard :specs="specs" :selectedSpec="selectedSpec" :priceMapping="priceMapping"
+                        @update:selectedSpec="updateSelectedSpec" />
+                    <p>價格: NT$ {{ priceMapping[selectedSpec] }}</p>
+                    <p></p>
+                    請選擇數量
+                    <n-input-number v-model:value="value" clearable />
+                    <p></p>
+                    <div class="Cartandlike">
+                        <Cartandlike></Cartandlike>
+                    </div>
+
+                </div>
             </div>
+            <Tabs :tabsContent="tabsContent" :tabsConfig="tabsConfig" />
         </div>
     </div>
 </template>
   
 <script setup>
-import { ref } from 'vue';
-import { Carousel, Slide } from 'vue3-carousel';
-import 'vue3-carousel/dist/carousel.css';
+import { ref, watch } from 'vue';
+import SlickCarousel from '@/components/SlickCarousel.vue';
+import Speccard from '@/components/Speccard.vue';
+import Cartandlike from '@/components/Cartandlike.vue';
+import Tabs from '@/components/Tabs.vue';
 
-import michalParzuchowskiImg from '@/assets/images/headerShow/michal-parzuchowski-pMsvOrnIF3Y-unsplash.jpg';
-import nickKarvounisImg from '@/assets/images/headerShow/nick-karvounis-jN_M0McVNeI-unsplash.jpg';
+import Bread from '@/assets/images/product/202211021609190aknhb_small.jpg';
+import Cake from '@/assets/images/product/foodiesfeed.com_blackberry-cream-dessert.jpg';
 
-
-const productImages = [
-    { img: michalParzuchowskiImg },
-    { img: nickKarvounisImg },
-
+const item = [
+    { imageUrl: Bread },
+    { imageUrl: Cake },
+    { imageUrl: "https://picsum.photos//500/400?random=3" },
+    { imageUrl: "https://picsum.photos//500/400?random=4" },
 ];
 
-const currentSlide = ref(0);
+const specs = ["大", "中", "小"];
+const selectedSpec = ref("大");
+const value = ref(0);
 
-const slideTo = (index) => {
-    currentSlide.value = index;
+
+const priceMapping = {
+    大: 120,
+    中: 140,
+    小: 160
+};
+
+const price = ref(priceMapping[selectedSpec.value]);
+
+//規格
+const updateSelectedSpec = (newSpec) => {
+    selectedSpec.value = newSpec;
+    price.value = priceMapping[newSpec];
+};
+
+const tabsContent = {
+    '1': '商品',
+    '2': '123',
+
+};
+
+const tabsConfig = {
+    '1': '商品描述',
+    '2': '購物須知及運送方式',
+
 };
 </script>
-  
+
 <style scoped>
-.carousel-image {
-    max-width: 20%;
-
-}
-
-.thumbnail-image {
-    max-width: 20%;
-    padding: 5px;
-
+.Cartandlike {
+    padding-top: 100px;
 }
 </style>
-  

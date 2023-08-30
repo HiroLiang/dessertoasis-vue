@@ -70,7 +70,7 @@ const props = defineProps({
 })
 
 </script>
-<style>
+<style >
 .carousel__next {
     right: -50px;
 }

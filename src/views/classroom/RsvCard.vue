@@ -4,7 +4,7 @@
             <h2>{{ date.toLocaleDateString() }}</h2>
             <div class="input-group my-3">
                 <label class="input-group-text" for="classroom">教室</label>
-                <select class="form-select" id="classroom" v-model="roomId" @change="emitRoomId">
+                <select class="form-select" id="classroom" v-model="roomId" @change="emits('selectRoom', roomId)">
                     <option v-for="room in classrooms" :value="room.roomId">
                         {{ room.roomName }}, {{ room.roomLocation }}
                     </option>
@@ -93,9 +93,5 @@ loadClassrooms()
 watch([() => props.date, () => roomId.value], () => {
     loadReservations()
 })
-
-const emitRoomId = () => {
-    emits("selectRoom", roomId.value)
-}
 
 </script>

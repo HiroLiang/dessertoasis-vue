@@ -15,7 +15,7 @@ const reqDatas = () => {
 // 取出指定教室兩日期之間的預約資料
 const getReservations = (room, start, end) => {
   return request.get(
-    `/reservation/getinmonth?room=${room}&start=${start}&end=${end}`
+    `/reservation/getForRoom?room=${room}&start=${start}&end=${end}`
   )
 }
 

@@ -5,7 +5,7 @@ import Selector from '@/components/DropDownSelectorTest.vue'
 import { reactive } from 'vue'
 
 
-const carouselTitle = reactive([
+const carouselTitles = reactive([
     "每月熱門食譜",
     "最新食譜",
     "麵包食譜",
@@ -17,6 +17,10 @@ const item = reactive([
     { imageUrl: "https://picsum.photos//500/400?random=2", text: "巧克力焦糖布朗尼" },
     { imageUrl: "https://picsum.photos//500/400?random=3", text: "芒果慕斯蛋糕" },
     { imageUrl: "https://picsum.photos//500/400?random=4", text: "藍莓杏仁塔" },
+    { imageUrl: "https://picsum.photos//500/400?random=1", text: "香草莓果拼盤1" },
+    { imageUrl: "https://picsum.photos//500/400?random=2", text: "巧克力焦糖布朗尼2" },
+    { imageUrl: "https://picsum.photos//500/400?random=3", text: "芒果慕斯蛋糕3" },
+    { imageUrl: "https://picsum.photos//500/400?random=4", text: "藍莓杏仁塔4" },
 ])
 
 </script>
@@ -28,7 +32,7 @@ const item = reactive([
         <hr>
         <Selector></Selector>
         <hr>
-        <Carousel v-for="(title, index) in carouselTitle" :key="index" :title="title" :itemsList="item" />
+        <Carousel v-for="(title, index) in carouselTitles" :key="index" :title="title" :itemsList="item" />
     </div>
 </template>
 

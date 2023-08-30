@@ -2,31 +2,42 @@
 import NavBar from '@/components/NavBar.vue'
 import { ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 const account = ref('');
 const email = ref('');
-const password = ref('');
-const confirmPassword = ref('');
+const passwords = ref('');
+const confirmPasswords = ref('');
 
 const register = () => {
-    if (password.value !== confirmPassword.value) {
-        // 密碼不一致
-        console.log('密碼不一致');
+    if (passwords.value !== confirmPasswords.value) {
+        console.error('密碼與確認密碼不一致');
         return;
     }
-    const registerData = {
+    if (!passwords.value) {
+        console.error('密碼不能為空');
+        return;
+    }
+
+    const userData = {
         account: account.value,
         email: email.value,
-        password: password.value,
+        passwords: passwords.value,
+        confirmPassword: confirmPasswords.value
     };
 
-    //  POST 請求
-    axios.post('http://localhost:8080/memberRegister', registerData)
+    console.log('傳遞到後端的資料:', userData);
+
+    axios.post('http://localhost:8080/memberRegister', userData)
         .then(response => {
-            console.log(response.data); //回傳
+            console.log('註冊成功:', response.data);
+            router.push({ name: 'sendEmail' });
+            // 成功後的操作
         })
         .catch(error => {
-            console.error(error);
+            console.error('註冊失敗:', error);
+            //失敗後的操作
         });
 };
 
@@ -52,14 +63,14 @@ const register = () => {
 
             <div class="d-flex flex-row align-items-center mb-4">
                 <div class="flex-fill mb-0">
-                    <input v-model="password" type="password"  class="form-control" placeholder="請輸入密碼"/>
+                    <input v-model="passwords" type="password"  class="form-control" placeholder="請輸入密碼"/>
                 </div>
             </div>
 
 
             <div class="d-flex flex-row align-items-center mb-4">
                 <div class="flex-fill mb-0">
-                    <input v-model="confirmPassword" type="password"  class="form-control" placeholder="再次輸入密碼"/>
+                    <input v-model="confirmPasswords" type="password"  class="form-control" placeholder="再次輸入密碼"/>
                 </div>
             </div>
 

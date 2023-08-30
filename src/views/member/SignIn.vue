@@ -1,6 +1,30 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+import axios from 'axios';
 
+const account = ref('');
+const passwords = ref('');
+const router = useRouter();
+
+const login = () => {
+    const userData = {
+        account: account.value,
+        passwords: passwords.value
+    };
+
+    axios.post('http://localhost:8080/memberLogin', userData)
+        .then(response => {
+            console.log('登入結果:', response.data);
+            router.push({ name: 'home' });
+            // 登入成功後的操作
+        })
+        .catch(error => {
+            console.error('登入失敗:', error);
+            // 登入失敗後的操作
+        });
+};
 
 </script>
 <template>
@@ -9,11 +33,11 @@ import NavBar from '@/components/NavBar.vue';
         <h2 style="text-align: center;" class="mb-4">會員登入</h2>
         <form action="#">
             <div class="form-outline mb-4">
-                <input type="text" id="" class="form-control" placeholder="請輸入帳號" />
+                <input v-model="account" type="text" class="form-control" placeholder="請輸入帳號" />
             </div>
 
             <div class="form-outline mb-4">
-                <input type="password" id="form2Example2" class="form-control" placeholder="請輸入密碼" />
+                <input v-model="passwords" type="password" class="form-control" placeholder="請輸入密碼" />
             </div>
 
             <div class="row mb-4">
@@ -33,7 +57,7 @@ import NavBar from '@/components/NavBar.vue';
 
 
             <div class="row p-2">
-                <button type="button" class="btn btn-primary btn-block mb-4">登入</button>
+                <button type="button" class="btn btn-primary btn-block mb-4" @click="login">登入</button>
             </div>
 
 

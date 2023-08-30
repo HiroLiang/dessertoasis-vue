@@ -18,6 +18,10 @@
                     <p></p>
                     請選擇數量
                     <n-input-number v-model:value="value" clearable />
+                    <p></p>
+                    <div class="Cartandlike">
+                        <Cartandlike></Cartandlike>
+                    </div>
                 </div>
             </div>
 
@@ -29,6 +33,7 @@
 import { ref, watch } from 'vue';
 import SlickCarousel from '@/components/SlickCarousel.vue';
 import Speccard from '@/components/Speccard.vue';
+import Cartandlike from '@/components/Cartandlike.vue';
 
 import Bread from '@/assets/images/product/202211021609190aknhb_small.jpg';
 import Cake from '@/assets/images/product/foodiesfeed.com_blackberry-cream-dessert.jpg';
@@ -53,9 +58,15 @@ const priceMapping = {
 
 const price = ref(priceMapping[selectedSpec.value]);
 
-// 更新选择的规格
+//規格
 const updateSelectedSpec = (newSpec) => {
     selectedSpec.value = newSpec;
     price.value = priceMapping[newSpec];
 };
 </script>
+
+<style scoped>
+.Cartandlike {
+    padding-top: 100px;
+}
+</style>

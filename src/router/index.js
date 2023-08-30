@@ -16,10 +16,27 @@ const router = createRouter({
       component: () => import("../views/recipe/RecipeView.vue"),
       children: [
         {
+          //首頁PATH設為空  即可進入則導入首頁頁面
+          path: "",
+          name: "recipeHp",
+          component: () => import("../views/recipe/RecipeHp.vue"),
+        },
+        {
+          path: "/recipes/ToSomerecipe",
+          name: "tosomerecipe",
+          component: () => import("../views/recipe/ToSomeRecipePage.vue"),
+        },
+        {
           path: "/recipes/createrecipe",
           name: "createrecipe",
           component: () => import("../views/recipe/RecipeCreatePage.vue"),
         },
+        {
+          path: "/recipes/recipe",
+          name: "onerecipe",
+          component: () => import("../views/recipe/OneRecipePage.vue"),
+        },
+
       ],
     },
     {

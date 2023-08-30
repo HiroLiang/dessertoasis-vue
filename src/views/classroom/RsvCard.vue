@@ -2,9 +2,15 @@
     <div class="container">
         <div>
             <h2>{{ date.toLocaleDateString() }}</h2>
-            <h2>教室: {{ roomId }}</h2>
+            <div class="input-group my-3">
+                <label class="input-group-text" for="classroom">教室</label>
+                <select class="form-select" id="classroom" v-model="roomId" @change="emitRoomId">
+                    <option v-for="room in classrooms" :value="room.roomId">
+                        {{ room.roomName }}, {{ room.roomLocation }}
+                    </option>
+                </select>
+            </div>
         </div>
-
         <ul class="nav nav-pills nav-fill">
             <li class="nav-item">
                 <a class="nav-link" :class="{ 'active': time == 'm' }" @click="rsv = morningRsv; time = 'm'">早上</a>
@@ -38,17 +44,18 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import formatDate from './formatDate';
-import { getReservations } from '@/api/index'
+import { getReservations, getClassrooms } from '@/api/index';
 
 const props = defineProps({
     date: {
         default: new Date()
     },
-    roomId: {
-        default: 1
-    },
 })
 
+const emits = defineEmits(["selectRoom"])
+
+const classrooms = ref([])
+const roomId = ref(1)
 const rsv = ref(null)
 const morningRsv = ref(null)
 const afternoonRsv = ref(null)
@@ -56,7 +63,7 @@ const nightRsv = ref(null)
 const time = ref('m')
 
 const loadReservations = async () => {
-    const res = await getReservations(props.roomId, formatDate(props.date), formatDate(props.date))
+    const res = await getReservations(roomId.value, formatDate(props.date), formatDate(props.date))
     const rsvList = res.data
     morningRsv.value = null
     afternoonRsv.value = null
@@ -75,10 +82,20 @@ const loadReservations = async () => {
     }
 }
 
-loadReservations()
+const loadClassrooms = async () => {
+    const res = await getClassrooms()
+    classrooms.value = res.data
+} 
 
-watch([() => props.date, () => props.roomId], () => {
+loadReservations()
+loadClassrooms()
+
+watch([() => props.date, () => roomId.value], () => {
     loadReservations()
 })
+
+const emitRoomId = () => {
+    emits("selectRoom", roomId.value)
+}
 
 </script>

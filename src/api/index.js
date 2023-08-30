@@ -19,6 +19,10 @@ const getReservations = (room, start, end) => {
   )
 }
 
+const getClassrooms = () => {
+  return request.get("/classroom/findall")
+}
+
 //從controller拿到所有課程，export出Promise物件給vue?
 const getAllCourses = () => {
   return request.get("/course/withTName")
@@ -29,4 +33,4 @@ const checkTeacherStatus = () => {
   return request.get("/set-teacher-cookie ")
 }
 
-export { reqTest, reqDatas, getReservations, getAllCourses, checkTeacherStatus }
+export { reqTest, reqDatas, getReservations, getClassrooms, getAllCourses, checkTeacherStatus }

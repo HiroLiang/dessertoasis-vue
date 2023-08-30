@@ -41,7 +41,7 @@
             <template #default="{ value }">
                 <div style="display: flex; align-items: center; width: 100%">
                     <p>規格名稱</p>
-                    <n-input v-model:value="value.string" type="text" style="margin-right:12px;width:300px" />
+                    <n-input v-model:value="value.string" type="text" style="margin-right:12px;width:450px" />
                     <p>價格</p>
                     <n-input-number v-model:value="value.price" style="margin-right: 12px; width: 100px" />
                     <p>數量</p>
@@ -61,7 +61,7 @@
         <n-date-picker v-model:value="endTimestamp" type="datetime" clearable />
         <!--<pre>{{ JSON.stringify(timestamp) }}</pre>-->
     </div>
-    <div>
+    <div class="editor">
         <p>商品介紹</p>
         <CKEditor v-model="editorData" />
     </div>
@@ -155,11 +155,18 @@ const editorData = ref('<p>Initial content</p>');
 
 <style scoped>
 .dynamic {
-    max-width: 50%;
+    max-width: 70%;
+    padding-left: 100px;
 
 }
 
 .time {
     max-width: 50%;
+    padding-left: 100px;
+}
+
+.editor {
+    max-width: 90%;
+    padding-left: 50px;
 }
 </style>

@@ -1,7 +1,10 @@
 <script setup>
 import { NSpace, NInput, NList, NListItem, NThing, NIcon, NButton, NImage, NRate, NAvatar } from 'naive-ui';
-import { ref } from 'vue';
-
+import { reactive, ref } from 'vue';
+const inputornot = reactive([0, 0, 0, 0, 0])
+const reply = (index) => {
+    inputornot[index] = 1
+}
 const items = ref([
     {
         icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
@@ -108,7 +111,8 @@ const sendMessage = () => {
                         </a>
                         <n-thing size="large" :title="item.title">
                             <div class="content-with-line-breaks">{{ item.content }}</div>
-                            <n-button class="reply-button" size="small" color="#0077b6" ghost text :key="index">
+                            <n-button class="reply-button" size="small" color="#0077b6" ghost text :key="index"
+                                @click="replyMsg">
                                 回覆
                             </n-button>
                         </n-thing>

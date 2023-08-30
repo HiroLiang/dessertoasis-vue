@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>商品詳情</h2>
+
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -22,9 +22,10 @@
                     <div class="Cartandlike">
                         <Cartandlike></Cartandlike>
                     </div>
+
                 </div>
             </div>
-
+            <Tabs :tabsContent="tabsContent" :tabsConfig="tabsConfig" />
         </div>
     </div>
 </template>
@@ -34,6 +35,7 @@ import { ref, watch } from 'vue';
 import SlickCarousel from '@/components/SlickCarousel.vue';
 import Speccard from '@/components/Speccard.vue';
 import Cartandlike from '@/components/Cartandlike.vue';
+import Tabs from '@/components/Tabs.vue';
 
 import Bread from '@/assets/images/product/202211021609190aknhb_small.jpg';
 import Cake from '@/assets/images/product/foodiesfeed.com_blackberry-cream-dessert.jpg';
@@ -62,6 +64,18 @@ const price = ref(priceMapping[selectedSpec.value]);
 const updateSelectedSpec = (newSpec) => {
     selectedSpec.value = newSpec;
     price.value = priceMapping[newSpec];
+};
+
+const tabsContent = {
+    '1': '商品',
+    '2': '123',
+
+};
+
+const tabsConfig = {
+    '1': '商品描述',
+    '2': '購物須知及運送方式',
+
 };
 </script>
 

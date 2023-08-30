@@ -1,5 +1,35 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
+import { ref } from 'vue';
+import axios from 'axios';
+
+const account = ref('');
+const email = ref('');
+const password = ref('');
+const confirmPassword = ref('');
+
+const register = () => {
+    if (password.value !== confirmPassword.value) {
+        // 密碼不一致
+        console.log('密碼不一致');
+        return;
+    }
+    const registerData = {
+        account: account.value,
+        email: email.value,
+        password: password.value,
+    };
+
+    //  POST 請求
+    axios.post('http://localhost:8080/memberRegister', registerData)
+        .then(response => {
+            console.log(response.data); //回傳
+        })
+        .catch(error => {
+            console.error(error);
+        });
+};
+
 </script>
 <template lang="">
     <NavBar></NavBar>
@@ -9,27 +39,27 @@ import NavBar from '@/components/NavBar.vue'
 
             <div class="d-flex flex-row align-items-center mb-4">
                 <div class="flex-fill mb-0">
-                    <input type="text"  class="form-control" placeholder="請輸入帳號"/>
+                    <input  v-model="account" type="text"  class="form-control" placeholder="請輸入帳號"/>
                 </div>
             </div>
 
             <div class="d-flex flex-row align-items-center mb-4">
                 <div class="flex-fill mb-0">
-                    <input type="email"  class="form-control" placeholder="請輸入Email"/>
-                </div>
-            </div>
-
-
-            <div class="d-flex flex-row align-items-center mb-4">
-                <div class="flex-fill mb-0">
-                    <input type="text"  class="form-control" placeholder="請輸入密碼"/>
+                    <input v-model="email" type="email"  class="form-control" placeholder="請輸入Email"/>
                 </div>
             </div>
 
 
             <div class="d-flex flex-row align-items-center mb-4">
                 <div class="flex-fill mb-0">
-                    <input type="text"  class="form-control" placeholder="再次輸入密碼"/>
+                    <input v-model="password" type="password"  class="form-control" placeholder="請輸入密碼"/>
+                </div>
+            </div>
+
+
+            <div class="d-flex flex-row align-items-center mb-4">
+                <div class="flex-fill mb-0">
+                    <input v-model="confirmPassword" type="password"  class="form-control" placeholder="再次輸入密碼"/>
                 </div>
             </div>
 
@@ -42,8 +72,8 @@ import NavBar from '@/components/NavBar.vue'
 
 
                   <div class="row p-2">
-                <button type="button" class="btn btn-primary btn-block mb-4">註冊</button>
-            </div>
+                <button type="button" class="btn btn-primary btn-block mb-4" @click="register">註冊</button>
+                 </div>
 
 
 

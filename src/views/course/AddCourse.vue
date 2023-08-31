@@ -3,21 +3,19 @@ import { ref, onMounted, computed } from "vue"
 import { checkTeacherStatus } from "@/api"
 
 const isTeacher = ref(false) // 預設用戶不是老師
-const today = new Date().toISOString().split("T")[0] // 获取当前日期
+
+const today = new Date().toISOString().split("T")[0] // 獲取當前日期
 const courseDate = ref(today) //儲存課程日期
-
 const courseLocation = ref("") //儲存上課地點
-
-// const courseStartDate = ref(today) // 开课日期
-const regDeadline = ref("") // 报名截止日期
-const errorMessage = ref("") // 错误消息
+const regDeadline = ref("") // 報名截止日期
+const errorMessage = ref("") // 錯誤消息
 
 const images = ref([])
 const videos = ref([])
 
-const locationChoice = ref("applyClassroom") // 默认选择“申请教室”
-const selectedClassroom = ref("classroom1") // 默认选中的教室
-const customLocation = ref("") // 自己填写的地点
+const locationChoice = ref("applyClassroom") // 預設選擇"申請教室"
+const selectedClassroom = ref("classroom1") // 預設選中的教室
+const customLocation = ref("") // 自己填寫的地點
 
 const addCourse = () => {
   console.log(courseDate, courseLocation)
@@ -32,9 +30,9 @@ const addCourse = () => {
     courseDate: courseDate.value,
     courseLocation: courseLocation.value,
   }
-  // 向后端发送课程数据
+  // 向後端發送課程數據
   console.log("课程信息：", courseData)
-  // 发送数据到后端并进行处理
+  // 發送數據到後端並進行處理
 }
 
 const deleteImage = (index) => {
@@ -59,22 +57,22 @@ const deleteVideo = (index) => {
   videos.value.splice(index, 1)
 }
 
-// 计算属性，用于检查日期是否有效
+// 計算屬性，用于檢查日期是否有效
 const isDateValid = computed(() => {
   if (!courseDate.value || !regDeadline.value) {
-    return true // 如果有一个日期为空，认为是有效的
+    return true // 如果有一个日期為空，認為是有效的
   }
   return regDeadline.value <= courseDate.value
 })
 
 const error = computed(() => {
   if (!isDateValid.value) {
-    return "报名截止日期不能大于开课日期"
+    return "報名截止日期不能大於開課日期"
   }
   return ""
 })
 
-// 检查日期，如果无效则清空报名截止日期
+// 檢查日期，如果無效則清空報名截止日期
 const checkDate = () => {
   if (!isDateValid.value) {
     regDeadline.value = ""
@@ -167,16 +165,15 @@ onMounted(async () => {
             <!-- <span v-if="!courseLocation" class="error-message"
               >請填入上課地點</span
             > -->
-            <!-- 当选择“申请教室”时显示可选教室的<div> -->
+            <!-- 選擇"申請教室"时顯示可選教室的<div> -->
             <div v-if="locationChoice === 'applyClassroom'">
               <label>選擇教室：</label>
               <select v-model="selectedClassroom">
                 <option value="classroom1">教室1</option>
                 <option value="classroom2">教室2</option>
-                <!-- 添加更多教室选项 -->
               </select>
             </div>
-            <!-- 当选择“自己填写”时显示自己填写地点的<input> -->
+            <!-- 選擇"自己填寫"时顯示自己填寫地點的<input> -->
             <div v-if="locationChoice === 'writeLocation'">
               <label>自己填寫地點：</label>
               <input type="text" v-model="customLocation" />

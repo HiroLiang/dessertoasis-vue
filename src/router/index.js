@@ -146,6 +146,16 @@ const router = createRouter({
       component: () => import("../views/member/ForgetPassword.vue"),
     },
     {
+      path: "/sendEmail",
+      name: "sendEmail",
+      component: () => import("../views/member/SendEmail.vue"),
+    },
+    {
+      path: "/activationTest",
+      name: "activationTest",
+      component: () => import("../views/member/activationTest.vue"),
+    },
+    {
       path: "/reservation",
       name: "reservation",
       component: () => import("../views/classroom/Reservation.vue"),

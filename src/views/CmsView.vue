@@ -21,7 +21,11 @@ const tableDatas = reactive([
     { id: 13, 'Recipe': '涼麵', 'TimeRequired': 30, 'Difficulty': '低', 'Price': 150, 'updatedate': new Date('2020/12/12 11:00:00') },
 ])
 const dataTitles = reactive([
-    { label: '食譜', key: 'Recipe' }, { label: '所需時間', key: 'TimeRequired' }, { label: '難易度', key: 'Difficulty' }, { label: '價格', key: 'Price' }, { label: '上次修改', key: 'updatedate' }
+    { label: '食譜', key: 'Recipe', type: 'String' },
+    { label: '所需時間', key: 'TimeRequired', type: 'Number' },
+    { label: '難易度', key: 'Difficulty', type: 'String' },
+    { label: '價格', key: 'Price', type: 'Number' },
+    { label: '上次修改', key: 'updatedate', type: 'Date' }
 ])
 
 </script>

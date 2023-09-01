@@ -16,10 +16,10 @@ const tableDatas = reactive([
     { id: 3, recipeTitle: "大恐龍n", time: 999, createdate: new Date("2022-11-30T23:11:00") }])
 
 const title = reactive([
-    { label: "名稱", key: "recipeTitle" },
-    { label: "分類", key: "categoryID" },
-    { label: "撰寫者", key: "recipeAuthorID" },
-    { label: "公開狀態", key: "recipeStatus" },])
+    { label: "名字", key: "recipeTitle", type: "String" },
+    { label: "年齡", key: "time", type: "Number" },
+    { label: "日期", key: "createdate", type: "Date" }
+])
 
 
 const getId = (id) => {

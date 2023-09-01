@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
-import StandardTable from '../components/Standard/Table.vue'
+import StandardTable from '../../components/Standard/Table.vue'
 import NavBar from '@/components/NavBar.vue'
 import CmsSideBar from '@/components/CmsSideBar.vue'
 

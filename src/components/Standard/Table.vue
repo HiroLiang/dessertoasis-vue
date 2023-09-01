@@ -11,6 +11,8 @@
             (2)get-number-range：取得範圍搜索
             (3)get-sort-rule：取得排序規則
             (4)change-page：換頁、換筆數
+            (5)get-date-rules：取得日期範圍
+            (6)get-edit-id：取得修改ID
  -->
 <script setup>
 import { ref, watch } from 'vue'
@@ -18,7 +20,7 @@ import StandardSearch from './Search.vue'
 import { NTable, NPagination } from 'naive-ui'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-const emit = defineEmits(['get-search-rules', 'get-number-range', 'get-sort-rule', 'change-page'])
+const emit = defineEmits(['get-edit-id', 'get-search-rules', 'get-number-range', 'get-sort-rule', 'change-page', 'get-date-rules'])
 
 const props = defineProps({
     /*
@@ -60,17 +62,38 @@ const pages = ref(50)
 
 const pageSize = ref(10)
 
+const sortWay = ref(true)
+
 const getRules = (rules) => {
-    console.log(rules);
-    emit('get-search-rules', rules)
+    let dateRules = []
+    let searchRules = []
+    for (let i = 0; i < rules.length; i++) {
+        if (rules[i].type === 'Date') {
+            dateRules.push(rules[i])
+        } else {
+            searchRules.push(rules[i])
+        }
+    }
+    emit('get-date-rules', dateRules)
+    emit('get-search-rules', searchRules)
 }
 const getNumberRange = (numberRange) => {
     console.log(numberRange)
     emit('get-number-range', numberRange)
 }
 
-const getSortRule = () => {
+const getSortRule = (key) => {
+    if (sortWay.value) {
+        sortWay.value = false
+        emit('get-sort-rule', [key, 'ASC'])
+    } else {
+        sortWay.value = true
+        emit('get-sort-rule', [key, 'DESC'])
+    }
+}
 
+const getEditId = (id) => {
+    emit('get-edit-id', id)
 }
 
 const formattedDate = (date) => {
@@ -102,7 +125,7 @@ pageSize.value = props.pageSize
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th v-for="title in props.dataTitles" @click="getSortRule()" class="sortableTh">
+                    <th v-for="title in props.dataTitles" @click="getSortRule(title.key)" class="sortableTh">
                         {{ title.label }}
                         <font-awesome-icon :icon="['fas', 'angle-down']" size="2xs" />
                     </th>

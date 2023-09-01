@@ -7,7 +7,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 //取得輸入的值
 const emit = defineEmits(['get-input-value'])
 const getInputValue = (value) => {
-    if (value != '' && value != null) {
+    if (value != '' && value != null && props.searchRange !== '') {
         emit('get-input-value', value)
         searchValue.value = ''
     }
@@ -16,6 +16,7 @@ const getInputValue = (value) => {
 const searchValue = ref('')
 
 const searchType = computed(() => {
+    searchValue.value = ''
     for (let i = 0; i < props.searchOptions.length; i++) {
         const option = props.searchOptions[i];
         if (option.key === props.searchRange) {

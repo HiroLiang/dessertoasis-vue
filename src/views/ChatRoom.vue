@@ -20,7 +20,7 @@ const sendMessage = () => {
 }
 onMounted(() => {
     if (userName) {
-        var socket = new SockJS(baseUrl)
+        const socket = new SockJS(baseUrl)
         stompClient = Stomp.over(socket)
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/public', (payload) => {

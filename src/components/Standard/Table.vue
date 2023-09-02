@@ -15,13 +15,15 @@
             (6)get-edit-id：取得修改ID
  -->
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import StandardSearch from './Search.vue'
 import { NTable, NPagination } from 'naive-ui'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+/* 自定義方法 */
 const emit = defineEmits(['get-edit-id', 'get-search-rules', 'get-number-range', 'get-sort-rule', 'change-page', 'get-date-rules'])
 
+/* 定義傳入值 */
 const props = defineProps({
     /*
     表格資料
@@ -56,14 +58,23 @@ const props = defineProps({
     }
 })
 
+/* 分頁資訊 */
+//現在頁面
 const page = ref(1)
-
-const pages = ref(50)
-
+//單頁筆數
 const pageSize = ref(10)
+//總頁數
+const pages = computed(() => props.pages)
 
+/* 排序資訊 */
+//ASC or DESC
 const sortWay = ref(true)
+//排序key
+const nowSortBy = ref('')
 
+
+/* 定義傳出值方法 */
+//傳出日期、模糊搜索條件 ( 可多值 )
 const getRules = (rules) => {
     let dateRules = []
     let searchRules = []
@@ -77,12 +88,17 @@ const getRules = (rules) => {
     emit('get-date-rules', dateRules)
     emit('get-search-rules', searchRules)
 }
+//傳出數字範圍條件 ( 單一條件 )
 const getNumberRange = (numberRange) => {
     console.log(numberRange)
     emit('get-number-range', numberRange)
 }
-
+//傳出排序條件 ( 單一條件 )
 const getSortRule = (key) => {
+    if (nowSortBy.value != key) {
+        nowSortBy.value = key
+        sortWay.value = true
+    }
     if (sortWay.value) {
         sortWay.value = false
         emit('get-sort-rule', [key, 'ASC'])
@@ -91,31 +107,37 @@ const getSortRule = (key) => {
         emit('get-sort-rule', [key, 'DESC'])
     }
 }
-
+//傳出修改對象 id ( 提供跳轉頁面後所需資料 )
 const getEditId = (id) => {
     emit('get-edit-id', id)
 }
 
+/* 一般方法 */
+//格式化日期
 const formattedDate = (date) => {
     const options = { year: 'numeric', month: 'narrow', day: '2-digit', hour: '2-digit', minute: '2-digit', }
     return date.toLocaleDateString('zh-TW', options)
 }
 
+/* 監視屬性 */
+//傳送換頁需求
 watch(page, () => {
     console.log([page.value, pageSize.value]);
     emit('change-page', [page.value, pageSize.value])
 })
-
+//傳送調整頁數大小
 watch(pageSize, () => {
     console.log([page.value, pageSize.value]);
     emit('change-page', [page.value, pageSize.value])
 })
+//防止超頁
+watch(pages, () => {
+    page.value = 1
+})
 
-
+/* 初始化需求 */
 page.value = props.page
-pages.value = props.pages
 pageSize.value = props.pageSize
-
 
 </script>
 <template>
@@ -127,7 +149,11 @@ pageSize.value = props.pageSize
                     <th>No.</th>
                     <th v-for="title in props.dataTitles" @click="getSortRule(title.key)" class="sortableTh">
                         {{ title.label }}
-                        <font-awesome-icon :icon="['fas', 'angle-down']" size="2xs" />
+                        <font-awesome-icon v-if="nowSortBy === title.key && sortWay" :icon="['fas', 'angle-up']" size="2xs"
+                            style="color: #f80000;" />
+                        <font-awesome-icon v-else-if="nowSortBy === title.key && !sortWay" :icon="['fas', 'angle-down']"
+                            size="2xs" style="color: #ff0000;" />
+                        <font-awesome-icon v-else :icon="['fas', 'angle-down']" size="2xs" />
                     </th>
                     <th>修改</th>
                 </tr>
@@ -147,7 +173,7 @@ pageSize.value = props.pageSize
             </tbody>
         </n-table>
     </div>
-    <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[5, 10, 15, 20]"
+    <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[5, 10, 20, 50]"
         size="medium" show-quick-jumper show-size-picker />
 </template>
 <style scoped>

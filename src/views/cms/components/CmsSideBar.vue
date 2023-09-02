@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
     <router-link to="/cms/course">course</router-link><br />
     <router-link to="/cms/addCourse">新增課程</router-link><br />
     <router-link to="/cms/teacherCourseManager">教師個人課程管理</router-link><br />
+    <router-link to="/cms/addteacherProfile">新增教師個人介紹</router-link><br />
     <router-link to="/cms/recipe">recipe</router-link><br />
     <router-link to="/cms/chat">chat</router-link><br />
     <router-link to="/cms/product">商品搜尋</router-link><br />

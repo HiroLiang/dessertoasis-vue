@@ -36,7 +36,6 @@ const router = createRouter({
           name: "onerecipe",
           component: () => import("../views/recipe/OneRecipePage.vue"),
         },
-
       ],
     },
     {
@@ -53,19 +52,19 @@ const router = createRouter({
           path: "/producthome",
           name: "productHome",
           component: () => import("../views/product/ProductHome.vue"),
-          meta: { title: "商品首頁" }
+          meta: { title: "商品首頁" },
         },
         {
           path: "/productdetail",
           name: "productDetail",
           component: () => import("../views/product/ProductDetail.vue"),
-          meta: { title: "商品詳情" }
+          meta: { title: "商品詳情" },
         },
         {
           path: "/producttype",
           name: "productType",
           component: () => import("../views/product/ProductType.vue"),
-          meta: { title: "商品分類" }
+          meta: { title: "商品分類" },
         },
       ],
     },
@@ -94,6 +93,11 @@ const router = createRouter({
           path: "/cms/teacherCourseManager",
           name: "trCourseManger",
           component: () => import("../views/course/TeacherCourseManager.vue"),
+        },
+        {
+          path: "/cms/addteacherProfile",
+          name: "addteacherProfile",
+          component: () => import("../views/course/AddTeacherProfile.vue"),
         },
         {
           path: "/cms/chat",

@@ -78,34 +78,28 @@
     </table>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            categories: [
-                { id: '1', name: '職人手作麵包＆甜點' },
-                { id: '2', name: '烘焙食材' },
-                { id: '3', name: '烘焙器具' },
-                { id: '4', name: '包裝材料' }
-                // Add more categories as needed
-            ],
-            productTypes: [
-                { id: '5', categoryId: '2', name: '麵粉' },
-                { id: '6', categoryId: '2', name: '酵母粉/泡打粉/小蘇打' },
-                { id: '7', categoryId: '4', name: '吐司袋、麵包袋' },
-                { id: '8', categoryId: '4', name: '包裝盒' },
-                // Add more product types as needed
-            ],
-            selectedCategory: '',
-            selectedProductType: ''
-        };
-    },
-    computed: {
-        selectedCategoryProductTypes() {
-            return this.productTypes.filter(type => type.categoryId === this.selectedCategory);
-        }
-    }
-};
+<script setup>
+import { ref, reactive, computed } from 'vue'
+const categories = reactive([
+    { id: '1', name: '職人手作麵包＆甜點' },
+    { id: '2', name: '烘焙食材' },
+    { id: '3', name: '烘焙器具' },
+    { id: '4', name: '包裝材料' }
+    // Add more categories as needed
+])
+const productTypes = reactive([
+    { id: '5', categoryId: '2', name: '麵粉' },
+    { id: '6', categoryId: '2', name: '酵母粉/泡打粉/小蘇打' },
+    { id: '7', categoryId: '4', name: '吐司袋、麵包袋' },
+    { id: '8', categoryId: '4', name: '包裝盒' },
+    // Add more product types as needed
+])
+const selectedCategory = ref('')
+const selectedProductType = ref('')
+
+const selectedCategoryProductTypes = computed(() => {
+    return productTypes.filter(type => type.categoryId === selectedCategory);
+})
 </script>
 
 

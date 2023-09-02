@@ -1,8 +1,8 @@
 <script setup>
-import { reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import StandardTable from '../../components/Standard/Table.vue'
 import NavBar from '@/components/NavBar.vue'
-import CmsSideBar from '@/components/CmsSideBar.vue'
+import CmsSideBar from './components/CmsSideBar.vue'
 
 // 測試數據
 const tableDatas = reactive([

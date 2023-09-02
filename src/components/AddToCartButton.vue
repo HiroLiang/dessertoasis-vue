@@ -40,7 +40,7 @@ const handleAddToCart = async () => {
         interestedId: props.data.interestedId,
         prodQuantity: (props.data.prodQuantity == undefined) ? null : props.data.prodQuantity
     }
-    if (categoryId == 4) {
+    if (data.categoryId == 4) {
         const rcData = {
             roomId: props.rcData.roomId,
             reservationDate: props.rcData.reservationDate,
@@ -58,5 +58,5 @@ const handleAddToCart = async () => {
 </script>
 
 <template>
-    <Button @click="handleAddToCart">{{ btnName }}</Button>
+    <button @click="handleAddToCart">{{ btnName }}</button>
 </template>

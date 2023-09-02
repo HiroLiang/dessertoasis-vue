@@ -24,6 +24,16 @@ const getClassrooms = () => {
   return request.get("/classrooms")
 }
 
+// 加入購物車
+const addToCart = (data) => {
+  return request.post("/cart", data)
+}
+
+// 加入預約教室購物車
+const addToReservationCart = (data) => {
+  return request.post("/reservationCart", data)
+}
+
 //從controller拿到所有課程，export出Promise物件給vue?
 const getAllCourses = () => {
   return request.get("/course/withTName")
@@ -34,4 +44,13 @@ const checkTeacherStatus = () => {
   return request.get("/set-teacher-cookie")
 }
 
-export { reqTest, reqDatas, getReservations, getClassrooms, getAllCourses, checkTeacherStatus }
+export {
+  reqTest,
+  reqDatas,
+  getReservations,
+  getClassrooms,
+  getAllCourses,
+  checkTeacherStatus,
+  addToCart,
+  addToReservationCart
+}

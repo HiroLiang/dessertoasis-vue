@@ -15,12 +15,13 @@ const reqDatas = () => {
 // 取出指定教室兩日期之間的預約資料
 const getReservations = (room, start, end) => {
   return request.get(
-    `/reservation/getForRoom?room=${room}&start=${start}&end=${end}`
+    `/reservations/${room}?start=${start}&end=${end}`
   )
 }
 
+// 取出所有教室
 const getClassrooms = () => {
-  return request.get("/classroom/findall")
+  return request.get("/classrooms")
 }
 
 //從controller拿到所有課程，export出Promise物件給vue?

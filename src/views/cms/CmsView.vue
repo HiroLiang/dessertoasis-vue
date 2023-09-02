@@ -1,8 +1,9 @@
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { reactive } from 'vue'
 import StandardTable from '../../components/Standard/Table.vue'
 import NavBar from '@/components/NavBar.vue'
 import CmsSideBar from './components/CmsSideBar.vue'
+import CollapseSidebar from './components/CollapseSidebar.vue'
 
 // 測試數據
 const tableDatas = reactive([
@@ -32,7 +33,7 @@ const dataTitles = reactive([
 <template>
     <div class="pageContain">
         <div class="sideBarContain">
-            <CmsSideBar />
+            <CollapseSidebar />
         </div>
         <div class="mainViewContain">
             <NavBar />
@@ -52,7 +53,7 @@ const dataTitles = reactive([
 .sideBarContain {
     width: 300px;
     height: 100vh;
-    background-color: rgb(235, 235, 235);
+    background-color: rgb(75, 75, 75);
 }
 
 .mainViewContain {

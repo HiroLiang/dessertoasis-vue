@@ -48,7 +48,7 @@ const props = defineProps({
         ]
     },
     page: {
-        default: 2
+        default: 1
     },
     pageSize: {
         default: 10

@@ -10,7 +10,7 @@ import { NBackTop, NLoadingBarProvider } from 'naive-ui'
   <n-back-top :right="50" />
 </template>
 
-<style scoped>
+<style>
 * {
   margin: 0;
   padding: 0;

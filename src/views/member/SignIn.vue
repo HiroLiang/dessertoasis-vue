@@ -2,33 +2,24 @@
 import NavBar from '@/components/NavBar.vue';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import axios from 'axios';
+import { reqSignIn } from '../../api';
 
 const account = ref('');
 const passwords = ref('');
 const router = useRouter();
 
-const login = () => {
-    const userData = {
-        account: account.value,
-        passwords: passwords.value
-    };
-
-    axios.post('http://localhost:8080/memberLogin', userData)
-        .then(response => {
-            console.log('登入結果:', response.data);
-            router.push({ name: 'home' });
-            // 登入成功後的操作
-        })
-        .catch(error => {
-            console.error('登入失敗:', error);
-            // 登入失敗後的操作
-        });
-};
+const login = async () => {
+    let loginState = await reqSignIn(account.value, passwords.value)
+    if (loginState.data === 'Y') {
+        router.push({ name: 'home' })
+    } else {
+        alert('帳號密碼錯誤')
+    }
+}
 
 </script>
 <template>
-    <NavBar></NavBar>
+    <NavBar />
     <div class="container p-4">
         <h2 style="text-align: center;" class="mb-4">會員登入</h2>
         <form action="#">

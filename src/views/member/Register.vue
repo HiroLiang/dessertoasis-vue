@@ -3,6 +3,7 @@ import NavBar from '@/components/NavBar.vue'
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { reqSignUp } from '../../api'
 const router = useRouter();
 
 const account = ref('');
@@ -10,13 +11,13 @@ const email = ref('');
 const passwords = ref('');
 const confirmPasswords = ref('');
 
-const register = () => {
+const register = async () => {
     if (passwords.value !== confirmPasswords.value) {
-        console.error('密碼與確認密碼不一致');
+        alert('密碼與確認密碼不一致')
         return;
     }
     if (!passwords.value) {
-        console.error('密碼不能為空');
+        alert('密碼不能為空')
         return;
     }
 
@@ -25,73 +26,56 @@ const register = () => {
         email: email.value,
         passwords: passwords.value,
         confirmPassword: confirmPasswords.value
-    };
+    }
+
+    let result = await reqSignUp(JSON.stringify(userData))
 
     console.log('傳遞到後端的資料:', userData);
 
-    axios.post('http://localhost:8080/memberRegister', userData)
-        .then(response => {
-            console.log('註冊成功:', response.data);
-            router.push({ name: 'sendEmail' });
-            // 成功後的操作
-        })
-        .catch(error => {
-            console.error('註冊失敗:', error);
-            //失敗後的操作
-        });
-};
+    if (result.data == 'Y') {
+        router.push({ name: 'sendEmail' })
+    } else if (result.data == 'N') {
+        alert('帳號已存在')
+    }
+}
 
 </script>
-<template lang="">
-    <NavBar></NavBar>
+<template>
+    <NavBar />
     <div class="container p-4">
-    <form action="#">
+        <form action="#">
             <h2 class="mb-4">會員註冊</h2>
-
             <div class="d-flex flex-row align-items-center mb-4">
                 <div class="flex-fill mb-0">
-                    <input  v-model="account" type="text"  class="form-control" placeholder="請輸入帳號"/>
+                    <input v-model="account" type="text" class="form-control" placeholder="請輸入帳號" />
                 </div>
             </div>
-
             <div class="d-flex flex-row align-items-center mb-4">
                 <div class="flex-fill mb-0">
-                    <input v-model="email" type="email"  class="form-control" placeholder="請輸入Email"/>
+                    <input v-model="email" type="email" class="form-control" placeholder="請輸入Email" />
                 </div>
             </div>
-
-
             <div class="d-flex flex-row align-items-center mb-4">
                 <div class="flex-fill mb-0">
-                    <input v-model="passwords" type="password"  class="form-control" placeholder="請輸入密碼"/>
+                    <input v-model="passwords" type="password" class="form-control" placeholder="請輸入密碼" />
                 </div>
             </div>
-
-
             <div class="d-flex flex-row align-items-center mb-4">
                 <div class="flex-fill mb-0">
-                    <input v-model="confirmPasswords" type="password"  class="form-control" placeholder="再次輸入密碼"/>
+                    <input v-model="confirmPasswords" type="password" class="form-control" placeholder="再次輸入密碼" />
                 </div>
             </div>
-
-
             <div class="form-check d-flex justify-content-center mb-3">
-                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
-                    <label class="form-check-label" for="form2Example3" >同意註冊 <a href="#" class="mb-0">合約</a></label>
-                  </div>
-
-
-
-                  <div class="row p-2">
+                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
+                <label class="form-check-label" for="form2Example3">同意註冊 <a href="#" class="mb-0">合約</a></label>
+            </div>
+            <div class="row p-2">
                 <button type="button" class="btn btn-primary btn-block mb-4" @click="register">註冊</button>
-                 </div>
-
-
-
+            </div>
             <div class="text-center sign-link">
                 <p>已經是會員 <router-link to="/signIn">登入</router-link> </p>
             </div>
-     </form>
+        </form>
     </div>
 </template>
 <style scoped>

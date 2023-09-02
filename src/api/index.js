@@ -1,10 +1,20 @@
 import request from "./request"
 
+const jsonHeader = { headers: { "Content-Type": "application/json" } }
+
 //Test
 const reqTest = () => {
   return request.post("/test", `{"name":"John"}`, {
     headers: { "Content-Type": "application/json" },
   })
+}
+
+//登入
+const reqSignIn = (account, passwords) => request.post("/memberLogin", `{"account": "${account}","passwords": "${passwords}"}`, jsonHeader)
+
+//註冊
+const reqSignUp = (userData) => {
+  return request.post("/memberRegister", userData, jsonHeader)
 }
 
 //CMS食譜測試
@@ -45,6 +55,10 @@ const checkTeacherStatus = () => {
 }
 
 export {
+  //會員用
+  reqSignIn,
+  reqSignUp,
+
   reqTest,
   reqDatas,
   getReservations,

@@ -18,7 +18,7 @@ import { NConfigProvider, NCollapse, NCollapseItem, darkTheme } from 'naive-ui'
     </div>
     <div class="options">
         <n-config-provider :theme="darkTheme">
-            <n-collapse arrow-placement="right" accordion="true">
+            <n-collapse arrow-placement="right" :accordion="true">
                 <n-collapse-item title="會員管理" name="1">
                     <div>
                         <router-link to="/cms/member">member</router-link>

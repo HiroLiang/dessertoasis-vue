@@ -46,9 +46,9 @@ onMounted(() => {
     }
 })
 
-onBeforeUnmount(() => {
+onBeforeUnmount(async () => {
     if (stompClient) {
-        stompClient.disconnect()
+        await stompClient.disconnect()
     }
 })
 

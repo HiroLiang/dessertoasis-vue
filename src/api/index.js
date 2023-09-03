@@ -11,9 +11,14 @@ const reqSignIn = (account, passwords) => request.post("/memberLogin", `{"accoun
 //註冊
 const reqSignUp = (userData) => request.post("/memberRegister", userData, jsonHeader)
 
+/*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
   return request.get("/recipe/all")
+}
+
+const reqTop10HotRecipe = () => {
+  return request.get("/recipe/hottest10Recipes")
 }
 
 // 取出指定教室兩日期之間的預約資料
@@ -52,6 +57,9 @@ export {
   //會員用
   reqSignIn,
   reqSignUp,
+
+  /*--------食譜用-------*/
+  reqTop10HotRecipe,
 
   reqTest,
   reqDatas,

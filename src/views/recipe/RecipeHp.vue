@@ -2,7 +2,23 @@
 import Carousel from '@/components/Carousel.vue'
 import DropDownSelector from '@/components/DropDownSelector.vue'
 import Selector from '@/components/DropDownSelectorTest.vue'
-import { reactive } from 'vue'
+import { reactive, onMounted } from 'vue'
+import { reqTop10HotRecipe } from '@/api'
+
+const top10HottestRecipes = reactive([])
+const top10HottestRecipeDatas = async () => {
+    const res = await reqTop10HotRecipe()
+    const transformedData = res.data.map(recipe => ({
+        imageUrl: recipe.pictureURL,
+        text: recipe.recipeTitle,
+        toUrl: `/recipes/recipe?id=${recipe.id}`
+    }))
+    top10HottestRecipes.value = transformedData;
+    console.log(top10HottestRecipes);
+}
+
+onMounted(top10HottestRecipeDatas)
+
 
 const link = reactive([
     "/recipes/ToSomerecipe",
@@ -40,6 +56,7 @@ const item = reactive([
         <hr>
         <Carousel v-for="(title, index) in carouselTitles" :key="index" :title="title" :link="link[index]"
             :itemsList="item" />
+        <Carousel  :title="'每月熱門食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10HottestRecipes.value" />
     </div>
 </template>
 

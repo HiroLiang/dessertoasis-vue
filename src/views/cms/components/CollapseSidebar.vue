@@ -2,15 +2,37 @@
 import { RouterLink } from "vue-router"
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { NConfigProvider, NCollapse, NCollapseItem, darkTheme } from 'naive-ui'
+
+/* Define emit to parents */
+const emit = defineEmits(['selected-title'])
+
+/* Define props from parents */
+const props = defineProps({
+    // login user name
+    userName: {
+        type: String,
+        default: 'Imei Huang'
+    },
+    // profile picture
+    userProfilePic: {
+        type: String,
+        default: ''
+    }
+})
+/* Define methods */
+// send title name
+const sendTitle = (title) => {
+    emit('selected-title', title)
+}
 </script>
 <template>
     <div class="logo">
-        <h1>Dessert Oasis</h1>
+        <h1><router-link to="/">Dessert Oasis</router-link></h1>
     </div>
     <div class="usingAccount">
         <div style="display: flex;align-items: center;">
             <font-awesome-icon :icon="['fab', 'github']" size="xl" style="color: #adcbff;" />
-            <h2>Imei Huang</h2>
+            <h2>{{ userName }}</h2>
         </div>
         <div>
             <font-awesome-icon :icon="['far', 'paper-plane']" size="xl" style="color: #adcbff;" />
@@ -19,52 +41,64 @@ import { NConfigProvider, NCollapse, NCollapseItem, darkTheme } from 'naive-ui'
     <div class="options">
         <n-config-provider :theme="darkTheme">
             <n-collapse arrow-placement="right" :accordion="true">
+
                 <n-collapse-item title="會員管理" name="1">
                     <div>
-                        <router-link to="/cms/member">member</router-link>
+                        <router-link @click="sendTitle(`會員管理`)" to="/cms/member">member</router-link>
                     </div>
                     <div>
-                        <router-link to="/cms/chat">chat</router-link>
+                        <router-link @click="sendTitle(`會員管理`)" to="/cms/chat">chat</router-link>
                     </div>
                 </n-collapse-item>
+
                 <n-collapse-item title="食譜管理" name="2">
                     <div>
-                        <router-link to="/cms/recipe">recipe</router-link>
+                        <router-link @click="sendTitle(`食譜管理`)" to="/cms/recipe">recipe</router-link>
                     </div>
 
                 </n-collapse-item>
+
                 <n-collapse-item title="商品管理" name="3">
                     <div>
-                        <router-link to="/cms/product">商品搜尋</router-link>
+                        <router-link @click="sendTitle(`商品管理`)" to="/cms/product">商品搜尋</router-link>
                     </div>
                     <div>
-                        <router-link to="/cms/addproduct">新增商品</router-link>
+                        <router-link @click="sendTitle(`商品管理`)" to="/cms/addproduct">新增商品</router-link>
                     </div>
                 </n-collapse-item>
+
                 <n-collapse-item title="課程管理" name="4">
                     <div>
-                        <router-link to="/cms/course">course</router-link>
+                        <router-link @click="sendTitle(`課程管理`)" to="/cms/course">course</router-link>
                     </div>
                     <div>
-                        <router-link to="/cms/addCourse">新增課程</router-link>
+                        <router-link @click="sendTitle(`課程管理`)" to="/cms/addCourse">新增課程</router-link>
                     </div>
                     <div>
-                        <router-link to="/cms/addteacherProfile">新增教師個人介紹</router-link>
+                        <router-link @click="sendTitle(`課程管理`)" to="/cms/addteacherProfile">新增教師個人介紹</router-link>
                     </div>
                     <div>
-                        <router-link to="/cms/teacherCourseManager">教師個人課程管理</router-link>
+                        <router-link @click="sendTitle(`課程管理`)" to="/cms/teacherCourseManager">教師個人課程管理</router-link>
                     </div>
                 </n-collapse-item>
+
                 <n-collapse-item title="訂單管理" name="5">
                     <div>真棒</div>
                 </n-collapse-item>
+
             </n-collapse>
         </n-config-provider>
     </div>
 </template>
 <style scoped>
 h1 {
+    margin: 0 0 10px 0;
+}
+
+h1 a {
+
     font-size: 24px;
+    text-decoration: none;
     color: #dddddd;
 }
 
@@ -94,7 +128,9 @@ h2 {
     height: 32px;
 }
 
-.options div {}
+.options {
+    margin-top: 15px;
+}
 
 .options a {
     width: 100%;

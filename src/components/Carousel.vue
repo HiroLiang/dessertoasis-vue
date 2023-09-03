@@ -60,6 +60,7 @@ const props = defineProps({
             "每月熱門"
     },
 
+    //itemsList放輪播圖片   imageUrl: 圖檔路徑 text: 圖檔標題  toUrl:圖檔連結頁面
     itemsList: {
         default: [
             { imageUrl: "https://picsum.photos//500/400?random=1", text: "香草莓果拼盤", toUrl: "/" },
@@ -134,5 +135,16 @@ const props = defineProps({
     color: inherit;
     /* 使用父元素的文字顏色 */
     /* 可根據需要添加其他樣式 */
+}
+
+.card-text {
+    white-space: nowrap;
+    /* 不換行 */
+    overflow: hidden;
+    /* 隱藏超出部分 */
+    text-overflow: ellipsis;
+    /* 顯示省略符號 */
+    max-width: 200px;
+    /* 設置輪播文字最大寬度 */
 }
 </style>

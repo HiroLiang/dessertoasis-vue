@@ -1,10 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { NInput, NButton, NInputGroup } from 'naive-ui'
+import { NInput, NButton, NInputGroup, NPopselect } from 'naive-ui'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 
-//取得輸入的值
+//取得搜尋的值
 const emit = defineEmits(['get-input-value'])
 const getInputValue = (value) => {
     if (value != '' && value != null && props.searchRange !== '') {
@@ -49,6 +49,11 @@ const props = defineProps({
             { key: "age", label: "年齡", type: "Number" },
             { key: "birthday", label: "日期", type: "Date" }
         ]
+    },
+    options: {
+        default: [
+            { label: '無對應結果', value: ' ', disabled: true }
+        ]
     }
 })
 
@@ -59,12 +64,14 @@ const props = defineProps({
             <VueDatePicker v-model="searchValue" range />
         </span>
         <span v-else>
-            <n-input @keypress.enter="getInputValue(searchValue)" v-model:value="searchValue"
-                :style="{ width: searchSize + 'px' }" :placeholder="props.myPlaceholder" />
+            <n-popselect v-model:value="searchValue" trigger="focus" :options="options" size="medium" scrollable>
+                <n-input @keypress.enter="getInputValue(searchValue)" v-model:value="searchValue"
+                    :style="{ width: searchSize + 'px' }" :placeholder="myPlaceholder" />
+            </n-popselect>
         </span>
 
         <n-button type="tertiary" ghost @click="getInputValue(searchValue)" style="border-radius: 5px;">
-            {{ props.buttonName }}
+            {{ buttonName }}
         </n-button>
     </n-input-group>
 </template>

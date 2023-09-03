@@ -3,8 +3,9 @@ import Carousel from '@/components/Carousel.vue'
 import DropDownSelector from '@/components/DropDownSelector.vue'
 import Selector from '@/components/DropDownSelectorTest.vue'
 import { reactive, onMounted } from 'vue'
-import { reqTop10HotRecipe } from '@/api'
+import { reqTop10HotRecipe, reqTop10LatestRecipe, req10CategoryRecipe } from '@/api'
 
+//取前10筆熱門食譜
 const top10HottestRecipes = reactive([])
 const top10HottestRecipeDatas = async () => {
     const res = await reqTop10HotRecipe()
@@ -14,10 +15,62 @@ const top10HottestRecipeDatas = async () => {
         toUrl: `/recipes/recipe?id=${recipe.id}`
     }))
     top10HottestRecipes.value = transformedData;
+    console.log('top10HottestRecipes:');
     console.log(top10HottestRecipes);
 }
 
-onMounted(top10HottestRecipeDatas)
+//取前10筆最新食譜
+const top10LatestRecipes = reactive([])
+const top10LatestRecipeDatas = async () => {
+    const res = await reqTop10LatestRecipe()
+    const transformedData = res.data.map(recipe => ({
+        imageUrl: recipe.pictureURL,
+        text: recipe.recipeTitle,
+        toUrl: `/recipes/recipe?id=${recipe.id}`
+    }))
+    top10LatestRecipes.value = transformedData;
+    console.log('top10LatestRecipes:');
+    console.log(top10LatestRecipes);
+}
+
+//取10筆麵包類別食譜
+const get10BreadRecipes = reactive([])
+const get10BreadRecipesDatas = async () => {
+    const res = await req10CategoryRecipe(8)
+    const transformedData = res.data.map(recipe => ({
+        imageUrl: recipe.pictureURL,
+        text: recipe.recipeTitle,
+        toUrl: `/recipes/recipe?id=${recipe.id}`
+    }))
+    get10BreadRecipes.value = transformedData;
+    console.log('get10BreadRecipes:');
+    console.log(get10BreadRecipes);
+}
+
+//取10筆甜點類別食譜
+const get10DessertRecipes = reactive([])
+const get10DessertRecipesDatas = async () => {
+    const res = await req10CategoryRecipe(9)
+    const transformedData = res.data.map(recipe => ({
+        imageUrl: recipe.pictureURL,
+        text: recipe.recipeTitle,
+        toUrl: `/recipes/recipe?id=${recipe.id}`
+    }))
+    get10DessertRecipes.value = transformedData;
+    console.log('get10DessertRecipes:');
+    console.log(get10DessertRecipes);
+}
+
+//放置要在同個生命週期觸發的函式
+const fetchData = async () => {
+    await Promise.all([
+        top10HottestRecipeDatas(),
+        top10LatestRecipeDatas(),
+        get10BreadRecipesDatas(),
+        get10DessertRecipesDatas()
+    ]);
+}
+onMounted(fetchData)
 
 
 const link = reactive([
@@ -54,9 +107,14 @@ const item = reactive([
         <hr>
         <Selector></Selector>
         <hr>
+        <Carousel :title="'每月熱門食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10HottestRecipes.value" />
+        <Carousel :title="'最新食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10LatestRecipes.value" />
+        <Carousel :title="'麵包食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="get10BreadRecipes.value" />
+        <Carousel :title="'甜點食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="get10DessertRecipes.value" />
+
+
         <Carousel v-for="(title, index) in carouselTitles" :key="index" :title="title" :link="link[index]"
             :itemsList="item" />
-        <Carousel  :title="'每月熱門食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10HottestRecipes.value" />
     </div>
 </template>
 

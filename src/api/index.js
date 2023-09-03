@@ -17,9 +17,23 @@ const reqDatas = () => {
   return request.get("/recipe/all")
 }
 
+//取前10筆熱門食譜
 const reqTop10HotRecipe = () => {
   return request.get("/recipe/hottest10Recipes")
 }
+
+//取前10筆最新食譜
+const reqTop10LatestRecipe = () => {
+  return request.get("/recipe/latest10Recipes")
+}
+
+//取前10筆特定種類食譜
+const req10CategoryRecipe = (categoryId) => {
+  console.log('categoryId:' + categoryId);
+  return request.get(`/recipe/get10categoryRecipes?cid=${categoryId}`)
+}
+
+/*----------------------------------------  食譜相關請求  -------------------------------------------*/
 
 // 取出指定教室兩日期之間的預約資料
 const getReservations = (room, start, end) => {
@@ -60,6 +74,8 @@ export {
 
   /*--------食譜用-------*/
   reqTop10HotRecipe,
+  reqTop10LatestRecipe,
+  req10CategoryRecipe,
 
   reqTest,
   reqDatas,

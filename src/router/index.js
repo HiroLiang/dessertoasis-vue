@@ -196,6 +196,13 @@ const router = createRouter({
         },
       ],
     },
+
+    // Cart 購物車
+    {
+      path: "/cart",
+      name: "cart",
+      component: () => import("../views/cart/Cart.vue")
+    }
   ],
 })
 

@@ -1,19 +1,25 @@
 <template>
     <div class="container">
         <div class="txtwrap">
-            <h2 class="titleTxt">{{ props.title }}</h2>
+            <router-link :to="props.link" class="custom-router-link">
+                <h2 class="titleTxt ">
+                    {{ props.title }}
+                </h2>
+            </router-link>
         </div>
         <div class="container border">
             <div class="container mt-3">
                 <Carousel :items-to-show="itemToShow" :wrap-around="wrapAround" :autoplay="autoplay"
                     :pauseAutoplayOnHover="pauseAutoplayOnHover">
                     <Slide v-for="(item, index) in props.itemsList" :key="index">
-                        <div class="card">
-                            <img class="carousel__item slideImgs card-img-top" :src="item.imageUrl">
-                            <div class="card-body">
-                                <p class="card-text">{{ item.text }}</p>
+                        <router-link :to="item.toUrl" class="custom-router-link">
+                            <div class="card">
+                                <img class="carousel__item slideImgs card-img-top" :src="item.imageUrl">
+                                <div class="card-body">
+                                    <p class="card-text">{{ item.text }}</p>
+                                </div>
                             </div>
-                        </div>
+                        </router-link>
                     </Slide>
 
                     <template #addons>
@@ -43,28 +49,34 @@ const pauseAutoplayOnHover = true //游標懸浮暫停自動循環
 //title需要型別字串  父類使用方法(<Carousel :title="變數" :itemsList = 變數 />)
 //itemList需要型別物件陣列   
 const props = defineProps({
+    //link放標題需要連結的url
+    link: {
+        default:
+            "/"
+    },
+    //title放標題需要文字
     title: {
         default:
             "每月熱門"
-
     },
+
     itemsList: {
         default: [
-            { imageUrl: "https://picsum.photos//500/400?random=1", text: "香草莓果拼盤" },
-            { imageUrl: "https://picsum.photos//500/400?random=2", text: "巧克力焦糖布朗尼" },
-            { imageUrl: "https://picsum.photos//500/400?random=3", text: "芒果慕斯蛋糕" },
-            { imageUrl: "https://picsum.photos//500/400?random=4", text: "藍莓杏仁塔" },
-            { imageUrl: "https://picsum.photos//500/400?random=5", text: "玫瑰草莓泡芙" },
-            { imageUrl: "https://picsum.photos//500/400?random=1", text: "香蕉核桃蛋糕卷" },
-            { imageUrl: "https://picsum.photos//500/400?random=2", text: "抹茶紅豆湯圓" },
-            { imageUrl: "https://picsum.photos//500/400?random=3", text: "檸檬蛋糕塔" },
-            { imageUrl: "https://picsum.photos//500/400?random=4", text: "經典提拉米蘇" },
-            { imageUrl: "https://picsum.photos//500/400?random=5", text: "蘋果肉桂捲" },
-            { imageUrl: "https://picsum.photos//500/400?random=1", text: "紅莓芝士蛋糕" },
-            { imageUrl: "https://picsum.photos//500/400?random=2", text: "杏仁巧克力酥餅" },
-            { imageUrl: "https://picsum.photos//500/400?random=3", text: "椰漿香蕉布丁" },
-            { imageUrl: "https://picsum.photos//500/400?random=4", text: "蔓越莓橙子鬆餅" },
-            { imageUrl: "https://picsum.photos//500/400?random=5", text: "士多啤梨奶油千層蛋糕" },
+            { imageUrl: "https://picsum.photos//500/400?random=1", text: "香草莓果拼盤", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=2", text: "巧克力焦糖布朗尼", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=3", text: "芒果慕斯蛋糕", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=4", text: "藍莓杏仁塔", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=5", text: "玫瑰草莓泡芙", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=1", text: "香蕉核桃蛋糕卷", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=2", text: "抹茶紅豆湯圓", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=3", text: "檸檬蛋糕塔", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=4", text: "經典提拉米蘇", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=5", text: "蘋果肉桂捲", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=1", text: "紅莓芝士蛋糕", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=2", text: "杏仁巧克力酥餅", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=3", text: "椰漿香蕉布丁", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=4", text: "蔓越莓橙子鬆餅", toUrl: "/" },
+            { imageUrl: "https://picsum.photos//500/400?random=5", text: "士多啤梨奶油千層蛋糕", toUrl: "/" },
         ],
     },
 })
@@ -114,5 +126,13 @@ const props = defineProps({
     padding: 10px;
     margin-top: 20px;
     margin-bottom: 0px;
+}
+
+.custom-router-link {
+    text-decoration: none;
+    /* 去除底線 */
+    color: inherit;
+    /* 使用父元素的文字顏色 */
+    /* 可根據需要添加其他樣式 */
 }
 </style>

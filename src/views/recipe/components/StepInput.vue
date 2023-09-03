@@ -48,9 +48,6 @@ const getStepDatas = () => {
 
 }
 
-const previewPic = () => {
-
-}
 </script>
 
 <template>
@@ -80,6 +77,7 @@ const previewPic = () => {
 
 <style scoped>
 [id^="previewPic"] {
+    margin-bottom: 5px;
     max-height: 100%;
     max-width: 100%;
 }

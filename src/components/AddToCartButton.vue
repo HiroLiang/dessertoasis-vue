@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { addToCart, addToReservationCart } from '../api/index'
 
-const memberId = 1;
+let memberId = 1;
 
 const props = defineProps({
     /*

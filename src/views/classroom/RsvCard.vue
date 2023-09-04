@@ -2,7 +2,7 @@
 import { ref, watch, computed } from 'vue';
 import formatDate from './formatDate';
 import { getReservations, getClassrooms } from '@/api/index';
-import AddToCartButton from '../../components/AddToCartButton.vue';
+import AddToCartButton from '@/components/AddToCartButton.vue';
 
 const props = defineProps({
     date: {
@@ -13,7 +13,8 @@ const props = defineProps({
 const emits = defineEmits(["selectRoom"])
 
 const classrooms = ref([])
-const roomId = ref(1)
+const classroom = ref(null)
+
 const rsv = ref(null)
 const morningRsv = ref(null)
 const afternoonRsv = ref(null)
@@ -21,8 +22,23 @@ const nightRsv = ref(null)
 const time = ref('A')
 const detail = ref('')
 
+const roomPrice = computed(() => {
+    switch (time.value) {
+        case 'A': return classroom.value.morningPrice;
+        case 'B': return classroom.value.afternoonPrice;
+        case 'C': return classroom.value.nightPrice;
+    }
+})
+
+const loadClassrooms = async () => {
+    const res = await getClassrooms()
+    classrooms.value = res.data
+    classroom.value = classrooms.value[0]
+    loadReservations()
+}
+
 const loadReservations = async () => {
-    const res = await getReservations(roomId.value, formatDate(props.date), formatDate(props.date))
+    const res = await getReservations(classroom.value.id, formatDate(props.date), formatDate(props.date))
     const rsvList = res.data
     morningRsv.value = null
     afternoonRsv.value = null
@@ -41,15 +57,9 @@ const loadReservations = async () => {
     }
 }
 
-const loadClassrooms = async () => {
-    const res = await getClassrooms()
-    classrooms.value = res.data
-}
-
-loadReservations()
 loadClassrooms()
 
-watch([() => props.date, () => roomId.value], () => {
+watch([() => props.date, () => classroom.value], () => {
     loadReservations()
 })
 
@@ -61,8 +71,8 @@ watch([() => props.date, () => roomId.value], () => {
             <h2>{{ date.toLocaleDateString() }}</h2>
             <div class="input-group my-3">
                 <label class="input-group-text" for="classroom">教室</label>
-                <select class="form-select" id="classroom" v-model="roomId" @change="emits('selectRoom', roomId)">
-                    <option v-for="room in classrooms" :value="room.id">
+                <select class="form-select" id="classroom" v-model="classroom" @change="emits('selectRoom', classroom.id)">
+                    <option v-for="room in classrooms" :value="room">
                         {{ room.roomName }}, {{ room.roomLocation }}
                     </option>
                 </select>
@@ -88,13 +98,14 @@ watch([() => props.date, () => roomId.value], () => {
         </div>
         <div v-else>
             <div class="my-3">
-                <div>價格: {{ }}</div>
-                <label for="detail" class="form-label">預約用途</label>
+                <div>價格: {{ roomPrice }}</div>
+                <div>最大容納人數: {{ classroom.maxContain }}</div>
+                <label for="detail" class="form-label">預約用途:</label>
                 <input type="text" class="form-control" id="detail" v-model="detail">
             </div>
             <div class="col-12">
                 <AddToCartButton :data="{ categoryId: 4, interestedId: null }"
-                    :rc-data="{ roomId, reservationDate: formatDate(date), reservationTime: time, detail }">
+                    :rc-data="{ roomId: classroom.id, reservationDate: formatDate(date), reservationTime: time, detail }">
                 </AddToCartButton>
             </div>
         </div>

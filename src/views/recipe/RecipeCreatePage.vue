@@ -86,6 +86,30 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) =>
     console.log('ingerdientQty: ' + ingerdientQty);
     console.log(ingredients);
 }
+const previewImageUrl = ref(null)
+const getRecipeImg = (e) => {
+    const picData = e.target.files[0]
+    if (picData) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const base64Data = e.target.result.split(',')[1]
+            const jsonData = {
+                fileName: picData.name,
+                fileType: picData.type,
+                base64Content: base64Data
+            }
+
+            const jsonString = JSON.stringify(jsonData);
+            console.log(jsonString);
+            previewImageUrl.value = e.target.result
+        }
+        reader.readAsDataURL(picData);
+    }
+
+    console.log(picData);
+
+}
 
 
 </script>
@@ -112,15 +136,21 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) =>
 
             </div>
 
-            <div class="picContainer container">
-                <label for="pictureURL" class="form-label">成品圖片:</label><br>
-                <img class="recipePic" id="previewPic0" alt="成品圖片" src="https://fakeimg.pl/440x300/?text=Image">
-                <input class="form-control" type="file" id="pictureURL" name="pictureURL" accept="image/*"><br>
+            <h4>成品圖片:</h4>
+            <div class="picContainer container ">
+                <label for="pictureURL" class="inputLabel custom-cursor-pointer ">
+                    <div class="imageContainer ">
+                        <img class="recipePic " id="previewPic0" alt="成品圖片"
+                            :src="previewImageUrl || 'https://fakeimg.pl/1180x310/?text=Image'">
+                    </div>
+                    <input @change="getRecipeImg" class="form-control visually-hidden" type="file" id="pictureURL"
+                        name="pictureURL" accept="image/*"><br>
+                </label><br><br>
             </div>
             <div class="container ml-3">
-                <div class="ingredientContainer row justify-content-start  ">
+                <div class="ingredientContainer row justify-content-start">
                     <div class="ingredientQtyContainer col-4">
-                        <p class="form-label">食材份量</p>
+                        <p class="form-label">食材份量(人份)</p>
                         <select class="form-select" v-model="formData.ingredientQty" id="ingredientPersons">
                             <option selected value="1">1</option>
                             <option value="2">2</option>
@@ -132,12 +162,12 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) =>
                             <option value="8">8</option>
                             <option value="9">9</option>
                             <option value="10">10+</option>
-                        </select>人份
+                        </select>
                     </div>
                     <div class="cookingTimeContainer col-4">
-                        <label for="cookingTime" class="form-label">烹調時間</label><br>
+                        <label for="cookingTime" class="form-label">烹調時間(分鐘)</label><br>
                         <input class="form-control" v-model="formData.cookingTime" type="text" id="cookingTime"
-                            name="cookingTime" required="required">分鐘
+                            name="cookingTime" required="required">
                     </div>
                 </div>
             </div>
@@ -179,7 +209,7 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) =>
     </div>
 </template>
 
-<style>
+<style scoped>
 .recipeContainer {
     border: 2px solid black;
     border-radius: 5px;
@@ -187,11 +217,15 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) =>
 
 .crudbtn {
     border: 2px solid black;
-
 }
 
 .recipePic {
+    max-width: 1180px;
     max-height: 100%;
-    max-width: 100%;
+    /* object-fit: cover; */
+}
+
+.custom-cursor-pointer {
+    cursor: pointer !important;
 }
 </style>

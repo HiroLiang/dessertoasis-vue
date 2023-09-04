@@ -3,8 +3,8 @@
 import { reactive, ref } from 'vue'
 
 const textContent = ref('')
-
 const textPic = ref(null)
+const previewImageUrl = ref(null)
 const props = defineProps({
     stepIndex: {
         type: Number
@@ -39,6 +39,7 @@ const getStepDatas = () => {
             const jsonString = JSON.stringify(jsonData);
             console.log(jsonString);
             emit('get-step-data', stepIndex, textData, jsonString)
+            previewImageUrl.value = e.target.result
         }
         reader.readAsDataURL(picData);
     }
@@ -46,20 +47,23 @@ const getStepDatas = () => {
     console.log(picData);
 
 }
+
 </script>
 
 <template>
     <div class="stepContainer container">
         <div :class="'step' + stepIndex + 'Container' + ' row justify-content-between'">
-            <div class="stepImgContainer col-3 align-self-center">
-                <label :for="'recipeStep' + stepIndex" class=form-label>步驟{{ stepIndex }}</label><br>
-                <img :class="'recipeStep' + stepIndex + 'Pic'" :id="'previewPic' + stepIndex" :alt="'步驟' + stepIndex + '圖片'"
-                    src="https://fakeimg.pl/250x200/?text=Image">
-                <input @change="getStepDatas" class="form-control" ref="textPic" type="file" :id="'recipeStep' + stepIndex"
-                    :name="'recipeStep' + stepIndex" accept="image/*"><br>
+            <div class="stepImgContainer col-3 align-self-center" :id="'imgContainer' + stepIndex">
+                <h3>步驟{{ stepIndex }}</h3><br>
+                <label :for="'recipeStepInput' + stepIndex" class="inputLabel custom-cursor-pointer">
+                    <img :class="'recipeStep' + stepIndex + 'Pic'" :id="'previewPic' + stepIndex"
+                        :alt="'步驟' + stepIndex + '圖片'" :src="previewImageUrl || 'https://fakeimg.pl/250x200/?text=Image'">
+                </label>
+                <input @change="getStepDatas" class="form-control visually-hidden " ref="textPic" type="file"
+                    :id="'recipeStepInput' + stepIndex" :name="'recipeStep' + stepIndex" accept="image/*"><br>
             </div>
             <div class="introText col-6 align-self-center">
-                <textarea @blur="getStepDatas" v-model="textContent" class="recipeIntroduction form-control" rows="9"
+                <textarea @blur="getStepDatas" v-model="textContent" class="recipeIntroduction form-control mt-3" rows="9"
                     cols="20" style="resize: none;" :id="'recipeIntroduction' + stepIndex"
                     :name="'recipeIntroduction' + stepIndex" required="required"></textarea>
             </div>
@@ -70,3 +74,15 @@ const getStepDatas = () => {
         </div>
     </div>
 </template>
+
+<style scoped>
+[id^="previewPic"] {
+    margin-bottom: 5px;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.custom-cursor-pointer {
+    cursor: pointer !important;
+}
+</style>

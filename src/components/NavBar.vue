@@ -51,13 +51,14 @@ function checkIsLoginCookie() {
 
 async function logout() {
     // 清除前端的 "isLogin" Cookie
-    document.cookie = "isLogin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "isLogin; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
     //傳回後端清除session
     try {
         await reqSignOut();
         // 登出成功
         isLoginCookie.value = false;
+        alert("登出成功")
         router.push({ name: 'home' });
         console.log('登出成功');
     } catch (error) {

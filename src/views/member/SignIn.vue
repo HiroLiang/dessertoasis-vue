@@ -12,13 +12,13 @@ const router = useRouter();
 var maxAge = 24 * 60 * 60;
 
 
-//登入成功(後端return "Y"=>成功)，做跳轉頁面回首頁。設定cookies，isLogin=1代表有登入。
+//登入成功(後端return "Y"=>成功)，做跳轉頁面回首頁。設定cookies，isLogin代表有登入。
 //登入失敗，清空input
 const login = async () => {
     let loginState = await reqSignIn(account.value, passwords.value)
     if (loginState.data === 'Y') {
         alert("登入成功")
-        document.cookie = "isLogin=1;max-age=" + maxAge + "; path=/";
+        document.cookie = "isLogin;max-age=" + maxAge + "; path=/";
         router.push({ name: 'home' })
     } else {
         alert('帳號密碼錯誤')

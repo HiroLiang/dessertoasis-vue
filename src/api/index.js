@@ -33,7 +33,7 @@ const req10CategoryRecipe = (categoryId) => {
   return request.get(`/recipe/get10categoryRecipes?cid=${categoryId}`)
 }
 
-/*----------------------------------------  食譜相關請求  -------------------------------------------*/
+/*----------------------------------------  教室相關請求  -------------------------------------------*/
 
 // 取出指定教室兩日期之間的預約資料
 const getReservations = (room, start, end) => {
@@ -47,20 +47,23 @@ const getClassrooms = () => {
   return request.get("/classrooms")
 }
 
+/*----------------------------------------  購物車、訂單相關請求  -------------------------------------------*/
+
 // 加入購物車
-const addToCart = (data) => {
-  return request.post("/cart", data)
+const addToCart = (memberId, data) => {
+  return request.post(`/cart/${memberId}`, data)
 }
 
 // 加入預約教室購物車
-const addToReservationCart = (data) => {
-  return request.post("/reservationCart", data)
+const addToReservationCart = (roomId, data) => {
+  return request.post(`/reservationCart/room/${roomId}`, data)
 }
 
-// 取得會員的購物車內容
-const getCartsByMemberId = (memberId) => {
-  return request.get(`/carts/${memberId}`)
+const getReservationCart = (memberId) => {
+  return request.post(`/cart/reservation/${memberId}`)
 }
+
+/*---------------------------------------- 課程相關請求  -------------------------------------------*/
 
 //從controller拿到所有課程，export出Promise物件給vue?
 const getAllCourses = () => {
@@ -91,14 +94,17 @@ export {
   reqTest,
   reqDatas,
 
+  // 教室用
   getReservations,
   getClassrooms,
-  getCartsByMemberId,
+
+  // 購物車用
+  addToCart,
+  addToReservationCart,
+  getReservationCart,
 
   getAllCourses,
   checkTeacherStatus,
-  addToCart,
-  addToReservationCart,
 
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint

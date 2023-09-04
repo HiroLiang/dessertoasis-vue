@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-    cartItems: {
+    cart: {
         type: Array
     }
 })
@@ -8,4 +8,8 @@ const props = defineProps({
 
 </script>
 
-<template></template>
+<template>
+    <div>
+
+    </div>
+</template>

@@ -48,7 +48,7 @@ const getCategoryId = (id) => {
 <template>
     <div class="sidebarContainer">
         <div class="categoryContainer">
-            <StandardInput style="margin-bottom: 20px;" searchSize="180" />
+            <StandardInput style="margin-bottom: 10px;" searchSize="180" />
             <ForTree :categoryOptions="categoryOptions" @get-category-id="getCategoryId" />
         </div>
         <div class="dotsContainer">
@@ -65,6 +65,7 @@ const getCategoryId = (id) => {
     top: 0;
     height: 100%;
     width: 280px;
+    background-color: rgb(255, 255, 251);
     transform: translateX(-270px);
     transition: all 0.3s ease-in-out;
 }
@@ -78,7 +79,7 @@ const getCategoryId = (id) => {
     width: 270px;
     background-color: rgb(255, 255, 251);
     border-right: 2px double rgb(81, 81, 81);
-
+    border-radius: 10px;
 }
 
 .dotsContainer {
@@ -88,6 +89,6 @@ const getCategoryId = (id) => {
     top: 35%;
     height: 100px;
     width: 10px;
-    background-color: rgb(255, 255, 251);
+    background-color: rgb(91, 91, 91);
 }
 </style>

@@ -127,6 +127,8 @@ const item = reactive([
 
         <Carousel v-for="(title, index) in carouselTitles" :key="index" :title="title" :link="link[index]"
             :itemsList="item" />
+
+        <Carousel :title="'每月熱門食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10HottestRecipes.value" />
     </div>
 </template>
 

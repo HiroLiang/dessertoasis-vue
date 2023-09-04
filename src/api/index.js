@@ -75,6 +75,12 @@ const checkTeacherStatus = () => {
   return request.get("/set-teacher-cookie")
 }
 
+/*----------------------------------------  搜索相關請求  -------------------------------------------*/
+
+//取得搜索提示(暫無用)
+const reqGetHint = (table, column, searchValue) => request.get(`/getSearchHint?tableName=${table}&columnName=${column}&searchValue=${searchValue}`)
+
+
 export {
   //會員用
   reqSignIn,
@@ -99,4 +105,7 @@ export {
 
   getAllCourses,
   checkTeacherStatus,
+
+  /*----------------------------------------  搜索相關請求  -------------------------------------------*/
+  reqGetHint
 }

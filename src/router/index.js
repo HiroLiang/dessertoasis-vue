@@ -75,6 +75,11 @@ const router = createRouter({
       component: () => import("../views/cms/CmsView.vue"),
       children: [
         {
+          path: '',
+          name: 'cmsHome',
+          component: () => import('../views/cms/CmsHome.vue')
+        },
+        {
           path: "/cms/recipe",
           name: "recipe",
           component: () => import("../views/recipe/RecipeBackground.vue"),

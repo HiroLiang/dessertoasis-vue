@@ -27,7 +27,7 @@ const props = defineProps({
     //現在搜索條件選項
     searchRange: {
         type: String,
-        default: ''
+        default: ' '
     },
     //定義所有搜索條件
     searchOptions: {

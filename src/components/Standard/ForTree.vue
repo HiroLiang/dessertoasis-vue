@@ -6,7 +6,7 @@
             (1)'get-category-id'：選擇到的分類
  -->
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import myForTree from './ForTree.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -50,6 +50,10 @@ const props = defineProps({
 /**顯示用資料 */
 const datas = ref([])
 
+const options = computed(() => {
+    return props.categoryOptions
+})
+
 /**傳出方法 */
 const getCategoryId = (id) => {
     emit('get-category-id', id)
@@ -58,6 +62,18 @@ const getCategoryId = (id) => {
 /**初始化數據 */
 onMounted(() => {
     let options = props.categoryOptions.map((option) => {
+        try {
+            if (option.show) {
+                return {
+                    id: option.id,
+                    categoryName: option.categoryName,
+                    children: option.children,
+                    show: true
+                }
+            }
+        } catch (error) {
+
+        }
         return {
             id: option.id,
             categoryName: option.categoryName,
@@ -66,6 +82,10 @@ onMounted(() => {
         }
     })
     datas.value = options
+})
+
+watch(options, () => {
+    datas.value = options.value
 })
 
 </script>

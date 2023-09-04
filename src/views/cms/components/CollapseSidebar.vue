@@ -93,6 +93,7 @@ const sendTitle = (title) => {
 <style scoped>
 h1 {
     margin: 0 0 10px 0;
+    padding-left: 10px;
 }
 
 h1 a {
@@ -130,6 +131,10 @@ h2 {
 
 .options {
     margin-top: 15px;
+}
+
+.options div {
+    padding-left: 5px;
 }
 
 .options a {

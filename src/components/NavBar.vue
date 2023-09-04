@@ -62,6 +62,9 @@ const removeListClass = () => {
                     <li>
                         <router-link to="/mem" class="dropdown-item">會員資料</router-link>
                     </li>
+                    <li>
+                        <router-link to="/demo" class="dropdown-item">Demo</router-link>
+                    </li>
                 </ul>
             </div>
         </div>

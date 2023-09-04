@@ -44,11 +44,18 @@ const total = computed(() => {
                 <CourseCart @getCourses="getCourses"></CourseCart>
                 <ReservationCart @getReservations="getReservations"></ReservationCart>
             </div>
-            <div class="col-4 position-fixed end-0 vh-100">
-                <div v-if="productCart">商品: {{ productTotal }}</div>
-                <div v-if="courseCart">課程: {{ courseTotal }}</div>
-                <div v-if="rsvCart">預約教室: {{ rsvTotal }}</div>
-                <div>總共: {{ total }}</div>
+            <div class="col-4">
+                <div class="border p-5">
+                    <h2>結帳</h2>
+                    <div v-if="productCart">商品: {{ productTotal }}</div>
+                    <div v-if="courseCart">課程: {{ courseTotal }}</div>
+                    <div v-if="rsvCart">預約教室: {{ rsvTotal }}</div>
+                    <hr>
+                    <div class="mb-3">總共: {{ total }}</div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" type="button">去結帳</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

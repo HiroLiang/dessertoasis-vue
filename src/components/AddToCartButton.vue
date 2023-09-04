@@ -35,23 +35,21 @@ const props = defineProps({
 
 const handleAddToCart = async () => {
     const data = {
-        memberId,
         categoryId: props.data.categoryId,
         interestedId: props.data.interestedId,
         prodQuantity: (props.data.prodQuantity == undefined) ? null : props.data.prodQuantity
     }
     if (data.categoryId == 4) {
         const rcData = {
-            roomId: props.rcData.roomId,
             reservationDate: props.rcData.reservationDate,
             reservationTime: props.rcData.reservationTime,
             detail: props.rcData.detail
         }
-        const res = await addToReservationCart(rcData)
+        const res = await addToReservationCart(props.rcData.roomId, rcData)
         data.interestedId = res.data.id
         console.log(res.data.id)
     }
-    const res = await addToCart(data)
+    const res = await addToCart(memberId, data)
     console.log(res.data)
 }
 

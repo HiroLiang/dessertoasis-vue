@@ -1,6 +1,6 @@
 <script setup>
 import { getReservationCart } from "@/api/index"
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed, watch } from "vue";
 import DeleteButton from "./DeleteButton.vue";
 
 let memberId = 1
@@ -10,6 +10,7 @@ const cart = ref([])
 const loadReservationCart = async () => {
     const res = await getReservationCart(memberId)
     cart.value = res.data
+    checkReservations()
 }
 
 onMounted(() => { loadReservationCart() })
@@ -20,13 +21,39 @@ const timeMap = {
     C: "晚上"
 }
 
+// 計算總和
+const total = computed(() => {
+    let t = 0
+    cart.value.forEach(item => {
+        t += item.price
+    })
+    return t
+})
+
+
+
+const emits = defineEmits(["getReservations"])
+
+const checked = ref(true)
+
+const checkReservations = () => {
+    if (checked.value && cart.value.length > 0) {
+        emits("getReservations", cart.value, total.value)
+    } else {
+        emits("getReservations", null, 0)
+    }
+}
+
+watch(() => checked.value, () => checkReservations())
 
 </script>
 
 <template>
     <div class="container" v-if="cart.length > 0">
-        <div>教室預約</div>
-        <table class="table">
+        <h2>
+            教室預約 <input type="checkbox" v-model="checked">
+        </h2>
+        <table class="table caption-top">
             <thead>
                 <tr>
                     <th>教室</th>
@@ -49,6 +76,10 @@ const timeMap = {
                     </td>
                 </tr>
             </tbody>
+            <tfoot>
+                <td colspan="4"></td>
+                <td>總共: {{ total }}</td>
+            </tfoot>
         </table>
     </div>
 </template>

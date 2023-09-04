@@ -7,6 +7,7 @@ import StepInput from '@/views/recipe/components/StepInput.vue'
 const ingredientCounter = ref(0)
 const ingredients = reactive([])
 
+//於建立頁新增一筆食材
 const addNewIngredient = () => {
     ingredients.push({ id: ingredientCounter.value, ingredientName: '', ingredientQty: '' })
     ingredientCounter.value++
@@ -15,6 +16,7 @@ const addNewIngredient = () => {
 const stepCounter = ref(0)
 const steps = reactive([])
 
+//於建立頁新增一個步驟
 const addNewStep = () => {
     steps.push({ id: stepCounter.value, text: '', imgUrl: '' })
     stepCounter.value++
@@ -61,8 +63,8 @@ const onDrop = (e, dropIndex) => {
 const formData = reactive({
     recipeTitle: '',
     recipeIntroduction: '',
-    pictureURL: '',
-    ingredientPersons: '1',
+    pictureURL: [],
+    ingredientPersons: 1,
     cookingTime: '',
     ingredients: [],
     steps: []
@@ -74,7 +76,17 @@ const handleStepData = (textIndex, textContent, imgData) => {
     console.log('textIndex:  ' + textIndex);
     console.log('textContent:  ' + textContent);
     console.log('imgData:  ' + imgData);
+    console.log('steps:  ');
     console.log(steps);
+
+    //送出ajax前將其填入formData中
+    // steps.forEach(step => (
+    //     formData.steps.push({
+    //         id: step.id,
+    //         text: step.text,
+    //         imgUrl: step.imgUrl
+    //     })
+    // ))
 
 }
 
@@ -84,30 +96,32 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) =>
     console.log('ingerdientIndex:  ' + ingerdientIndex);
     console.log('ingerdientName:  ' + ingerdientName);
     console.log('ingerdientQty: ' + ingerdientQty);
+    console.log('ingredients:  ');
     console.log(ingredients);
 }
-const previewImageUrl = ref(null)
+const recipePicPreviewImageUrl = ref(null)
 const getRecipeImg = (e) => {
-    const picData = e.target.files[0]
-    if (picData) {
+    const RecipeImgData = e.target.files[0]
+    if (RecipeImgData) {
         const reader = new FileReader();
 
         reader.onload = (e) => {
             const base64Data = e.target.result.split(',')[1]
             const jsonData = {
-                fileName: picData.name,
-                fileType: picData.type,
+                fileName: RecipeImgData.name,
+                fileType: RecipeImgData.type,
                 base64Content: base64Data
             }
 
             const jsonString = JSON.stringify(jsonData);
             console.log(jsonString);
-            previewImageUrl.value = e.target.result
+            recipePicPreviewImageUrl.value = e.target.result
+            formData.pictureURL = jsonString;
         }
-        reader.readAsDataURL(picData);
+        reader.readAsDataURL(RecipeImgData);
     }
 
-    console.log(picData);
+    console.log(RecipeImgData);
 
 }
 
@@ -138,10 +152,10 @@ const getRecipeImg = (e) => {
 
             <h4>成品圖片:</h4>
             <div class="picContainer container ">
-                <label for="pictureURL" class="inputLabel custom-cursor-pointer ">
+                <label for="pictureURL">
                     <div class="imageContainer ">
-                        <img class="recipePic " id="previewPic0" alt="成品圖片"
-                            :src="previewImageUrl || 'https://fakeimg.pl/1180x310/?text=Image'">
+                        <img class="recipePic inputLabel custom-cursor-pointer " id="previewPic0" alt="成品圖片"
+                            :src="recipePicPreviewImageUrl || 'https://fakeimg.pl/1180x310/?text=Image'">
                     </div>
                     <input @change="getRecipeImg" class="form-control visually-hidden" type="file" id="pictureURL"
                         name="pictureURL" accept="image/*"><br>
@@ -151,7 +165,7 @@ const getRecipeImg = (e) => {
                 <div class="ingredientContainer row justify-content-start">
                     <div class="ingredientQtyContainer col-4">
                         <p class="form-label">食材份量(人份)</p>
-                        <select class="form-select" v-model="formData.ingredientQty" id="ingredientPersons">
+                        <select class="form-select" v-model="formData.ingredientPersons" id="ingredientPersons">
                             <option selected value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>

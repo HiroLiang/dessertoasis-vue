@@ -77,10 +77,10 @@ const getInputValue = (value) => {
             <VueDatePicker v-model="searchValue" range />
         </span>
         <span v-else>
-            <n-popselect v-model:value="searchValue" trigger="focus" :options="hintOptions" size="medium" scrollable>
-                <n-input @keypress.enter="getInputValue(searchValue)" v-model:value="searchValue"
-                    :style="{ width: searchSize + 'px' }" :placeholder="myPlaceholder" />
-            </n-popselect>
+            <!-- <n-popselect v-model:value="searchValue" trigger="focus" :options="hintOptions" size="medium" scrollable> -->
+            <n-input @keypress.enter="getInputValue(searchValue)" v-model:value="searchValue"
+                :style="{ width: searchSize + 'px' }" :placeholder="myPlaceholder" />
+            <!-- </n-popselect> -->
         </span>
 
         <n-button type="tertiary" ghost @click="getInputValue(searchValue)" style="border-radius: 5px;">

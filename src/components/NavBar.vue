@@ -1,5 +1,8 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { reqSignOut } from "../api"
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const props = defineProps({
     ProfilePicture: {
         type: String,
@@ -24,7 +27,48 @@ const removeListClass = () => {
         listPosition.value = "profile-list";
     }
 };
+
+
+const isLoginCookie = ref(false);
+// 頁面啟動時 檢查cookies
+onMounted(() => {
+    isLoginCookie.value = checkIsLoginCookie();
+});
+//檢查cookies是否存在的方法
+function checkIsLoginCookie() {
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+        const [name, value] = cookie.split('=');
+        if (name === 'isLogin') {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+
+async function logout() {
+    // 清除前端的 "isLogin" Cookie
+    document.cookie = "isLogin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    //傳回後端清除session
+    try {
+        await reqSignOut();
+        // 登出成功
+        isLoginCookie.value = false;
+        router.push({ name: 'home' });
+        console.log('登出成功');
+    } catch (error) {
+        // 登出失敗
+        console.error('登出失败：', error);
+    }
+}
+
+
 </script>
+
 <template>
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
@@ -56,11 +100,14 @@ const removeListClass = () => {
                         <router-link to="/cms" class="dropdown-item">後台管理</router-link>
                     </li>
                     <li><a class="dropdown-item" href="#">購物車</a></li>
-                    <li>
+                    <li v-if="!isLoginCookie">
                         <router-link to="/signIn" class="dropdown-item">會員登入</router-link>
                     </li>
-                    <li>
+                    <li v-else="isLoginCookie">
                         <router-link to="/mem" class="dropdown-item">會員資料</router-link>
+                    </li>
+                    <li v-if="isLoginCookie">
+                        <button class="dropdown-item" @click="logout">登出</button>
                     </li>
                     <li>
                         <router-link to="/demo" class="dropdown-item">Demo</router-link>

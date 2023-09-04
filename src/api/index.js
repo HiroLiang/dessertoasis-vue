@@ -11,6 +11,9 @@ const reqSignIn = (account, passwords) => request.post("/memberLogin", `{"accoun
 //註冊
 const reqSignUp = (userData) => request.post("/memberRegister", userData, jsonHeader)
 
+//登出
+const reqSignOut = () => { return request.post("/memberLogout", null, jsonHeader); }
+
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -59,8 +62,14 @@ const addToReservationCart = (roomId, data) => {
   return request.post(`/reservationCart/room/${roomId}`, data)
 }
 
+// 取得預約教室購物車內容
 const getReservationCart = (memberId) => {
-  return request.post(`/cart/reservation/${memberId}`)
+  return request.get(`/cart/reservation/${memberId}`)
+}
+
+// 刪除購物車內容
+const deleteCart = (cartId) => {
+  return request.delete(`/cart/${cartId}`)
 }
 
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
@@ -85,7 +94,7 @@ export {
   //會員用
   reqSignIn,
   reqSignUp,
-
+  reqSignOut,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,
@@ -102,6 +111,7 @@ export {
   addToCart,
   addToReservationCart,
   getReservationCart,
+  deleteCart,
 
   getAllCourses,
   checkTeacherStatus,

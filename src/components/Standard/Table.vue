@@ -13,6 +13,7 @@
             (4)change-page：換頁、換筆數
             (5)get-date-rules：取得日期範圍
             (6)get-edit-id：取得修改ID
+            (7)'get-selected-key'：取得現在搜索key
  -->
 <script setup>
 import { ref, watch, computed } from 'vue'
@@ -21,7 +22,7 @@ import { NTable, NPagination } from 'naive-ui'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* 自定義方法 */
-const emit = defineEmits(['get-edit-id', 'get-search-rules', 'get-number-range', 'get-sort-rule', 'change-page', 'get-date-rules'])
+const emit = defineEmits(['get-selected-key', 'get-edit-id', 'get-search-rules', 'get-number-range', 'get-sort-rule', 'change-page', 'get-date-rules'])
 
 /* 定義傳入值 */
 const props = defineProps({
@@ -72,7 +73,6 @@ const sortWay = ref(true)
 //排序key
 const nowSortBy = ref('')
 
-
 /* 定義傳出值方法 */
 //傳出日期、模糊搜索條件 ( 可多值 )
 const getRules = (rules) => {
@@ -90,7 +90,6 @@ const getRules = (rules) => {
 }
 //傳出數字範圍條件 ( 單一條件 )
 const getNumberRange = (numberRange) => {
-    console.log(numberRange)
     emit('get-number-range', numberRange)
 }
 //傳出排序條件 ( 單一條件 )
@@ -110,6 +109,11 @@ const getSortRule = (key) => {
 //傳出修改對象 id ( 提供跳轉頁面後所需資料 )
 const getEditId = (id) => {
     emit('get-edit-id', id)
+}
+
+//傳出 search key
+const getKey = (key) => {
+    emit('get-selected-key', key)
 }
 
 /* 一般方法 */
@@ -141,7 +145,8 @@ pageSize.value = props.pageSize
 
 </script>
 <template>
-    <StandardSearch :searchOptions="props.dataTitles" @get-search-rules="getRules" @get-number-range="getNumberRange" />
+    <StandardSearch :searchOptions="props.dataTitles" @get-selected-key="getKey" @get-search-rules="getRules"
+        @get-number-range="getNumberRange" />
     <div class="tableArea">
         <n-table :bordered="false" :single-line="false" size="small">
             <thead>

@@ -9,6 +9,7 @@
         自定義方法：
             (1)get-search-rules：取得搜索條件
             (2)'get-number-range'：取得數值範圍
+            (3)'get-selected-key'：取得現在搜索key
  -->
 <script setup>
 import StandardInput from './Input.vue'
@@ -16,46 +17,62 @@ import StandardDropdown from './Dropdown.vue'
 import { ref, reactive, computed, onBeforeMount, watch } from 'vue'
 import { NButton, NSpace, NInputNumber, NSlider } from 'naive-ui'
 
-const emit = defineEmits(['get-search-rules', 'get-number-range'])
+/**定義 emit 方法 */
+const emit = defineEmits(['get-search-rules', 'get-number-range', 'get-selected-key'])
 
+/**定義 props */
 const props = defineProps({
+    //搜索input長度
     searchSize: {
         type: Number,
         default: 200
     },
+    //搜索按鈕名稱
     buttonName: {
         type: String,
         default: '搜尋'
     },
+    //預顯示字串
     myPlaceholder: {
         type: String,
         default: '請輸入搜索'
     },
+    //型態為Number的options
     numberRanges: {
         default: [{ key: "age", max: 100, min: 0 }]
     },
-
+    //搜索選項
     searchOptions: {
         default: [
             { key: "name", label: "姓名", type: "String" },
             { key: "age", label: "年齡", type: "Number" },
             { key: "birthday", label: "日期", type: "Date" }
         ]
+    },
+    //提示字串
+    hintOptions: {
+        default: [
+            { label: ' - 無對應結果', value: ' ', disabled: true }
+        ]
     }
 })
 
+/**定義變數 */
+//搜索選項
 const searchOptions = reactive([])
-
+//搜索規則
 const searchRules = reactive([])
-
+//搜索數字範圍
 const numberRange = ref([0, 100])
 
+//數值範圍搜索
 const numberMax = ref(100)
-
 const numberMin = ref(0)
 
+//現在搜索選項
 const searchRange = ref('')
 
+//現在搜索資料型態
 const searchType = computed(() => {
     for (let i = 0; i < props.searchOptions.length; i++) {
         const option = props.searchOptions[i];
@@ -66,10 +83,12 @@ const searchType = computed(() => {
     return 'String'
 })
 
+/**接 children emit 值 */
+//接收搜索範圍
 const getKey = (key) => {
     searchRange.value = key
 }
-
+//接收搜索條 input
 const getValue = (value) => {
     if (searchType.value === 'String') {
         searchRules.push({ key: searchRange.value, type: searchType.value, input: value })
@@ -79,25 +98,24 @@ const getValue = (value) => {
         searchRules.push({ key: searchRange.value, type: searchType.value, start: value[0], end: value[1] })
     }
 }
-
+//刪除搜索條件
 const deleteRule = (index) => {
     searchRules.splice(index, 1)
 }
 
+/** emit 方法 */
+//傳出搜索數值範圍
 const getNumberRange = () => {
     emit('get-number-range', [searchRange.value, numberRange.value[0], numberRange.value[1]])
 }
 
-onBeforeMount(() => {
-    props.searchOptions.forEach(option => {
-        searchOptions.push({ key: option.key, label: option.label })
-    })
-})
-
+/**監視屬性 */
+//傳出搜索條件
 watch(searchRules, () => {
     emit('get-search-rules', searchRules)
 })
 
+//設定數值範圍，非數值時清除搜索條件
 watch(searchType, () => {
     if (searchType.value === 'Number') {
         props.numberRanges.forEach(range => {
@@ -108,14 +126,23 @@ watch(searchType, () => {
                 numberRange.value[1] = range.max
             }
         })
+    } else {
+        emit('get-number-range', null)
     }
+})
+
+/**定義初始化動作 */
+onBeforeMount(() => {
+    props.searchOptions.forEach(option => {
+        searchOptions.push({ key: option.key, label: option.label })
+    })
 })
 </script>
 <template>
     <div style="display: flex; justify-content: left; align-items: center;">
         <StandardDropdown @get-selected-key="getKey" :searchOptions="searchOptions" />
-        <StandardInput @get-input-value="getValue" :searchOptions="props.searchOptions" :searchRange="searchRange"
-            :searchSize="searchSize" :buttonName="buttonName" :myPlaceholder="myPlaceholder" />
+        <StandardInput @get-input-value="getValue" :hintOptions="hintOptions" :searchOptions="props.searchOptions"
+            :searchRange="searchRange" :searchSize="searchSize" :buttonName="buttonName" :myPlaceholder="myPlaceholder" />
         <template v-if="searchType === 'Number'">
             <n-space @mouseup="getNumberRange" @mouseleave="getNumberRange" vertical>
                 <n-slider v-model:value="numberRange" range :max="numberMax" :min="numberMin" :step="1"

@@ -2,7 +2,14 @@
 import Bulletinboard from '../recipe/components/BulletinBoard.vue'
 import Steps from '../recipe/components/Steps.vue'
 import { NList, NListItem, NThing, NDescriptions, NDescriptionsItem, NGrid, NGi, NStatistic, NIcon, NAvatar, NCol, NRow, NButton } from 'naive-ui'
-import { reactive } from 'vue';
+import { reactive, computed, ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute()
+const recipeId = computed(() => {
+    console.log(route.query);
+    return route.query.id
+})
 
 const items = reactive([
     { stepNumber: 1, stepPicture: "https://picsum.photos//300/200?random=1", stepContext: "this is a step \nthis is a step \nthis is a step \n" },
@@ -16,8 +23,8 @@ const author = reactive({
     context: "test context test contexttest contexttest contexttest contexttest contexttest contexttest contexttest contexttest contexttest contexttest context"
 })
 
-const quantity = reactive(25)
-const time = reactive(120)
+const quantity = ref(25)
+const time = ref(120)
 
 const ingredients = reactive([
     { label: '蘋果', text: 1, unit: '顆' },
@@ -26,13 +33,13 @@ const ingredients = reactive([
     { label: '葡萄', text: 1, unit: '串' },
 ],)
 
-const introduction = reactive("Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu")
+const introduction = ref("Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu")
 
 </script>
 
 <template>
     <div>
-        <h2>this is a recipe page</h2>
+        <h2>this is a recipe page{{ recipeId }}</h2>
         <div class="img container ">
             <img src="https://picsum.photos//500/400?random=1" alt="">
         </div>
@@ -59,7 +66,7 @@ const introduction = reactive("Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu B
         </div>
         <div class="container border rounded mt-2 pb-2">
             <div class="ingredient container mt-2">
-                <n-list class="mt-2">
+                <n-list>
                     <h2>食材份量</h2>
                     <hr>
                     <n-grid :cols="2">
@@ -72,7 +79,7 @@ const introduction = reactive("Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu B
                     </n-grid>
 
                     <hr>
-                    <n-descriptions label-placement="left" column="2">
+                    <n-descriptions label-placement="left" :column="2">
                         <n-descriptions-item v-for="ingredient in ingredients" :label=ingredient.label>
                             {{ ingredient.text }}{{ ingredient.unit }}
                         </n-descriptions-item>
@@ -123,7 +130,7 @@ const introduction = reactive("Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu B
 
         <hr>
 
-        <Bulletinboard></Bulletinboard>
+        <!-- <Bulletinboard></Bulletinboard> -->
         <h2>what the hell</h2>
     </div>
 </template>

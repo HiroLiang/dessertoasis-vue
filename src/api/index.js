@@ -14,6 +14,7 @@ const reqSignUp = (userData) => request.post("/memberRegister", userData, jsonHe
 //登出
 const reqSignOut = () => { return request.post("/memberLogout", null, jsonHeader); }
 
+const reqMemberAccess = (memberId) => { return request.get(`/member/details/${memberId}/access`) }
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -107,6 +108,7 @@ export {
   reqSignIn,
   reqSignUp,
   reqSignOut,
+  reqMemberAccess,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,

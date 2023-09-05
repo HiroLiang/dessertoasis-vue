@@ -51,7 +51,7 @@ const props = defineProps({
 const datas = ref([])
 
 const options = computed(() => {
-    return props.categoryOptions
+    return init.value
 })
 
 /**傳出方法 */
@@ -60,7 +60,7 @@ const getCategoryId = (id) => {
 }
 
 /**初始化數據 */
-onMounted(() => {
+const init = computed(() => {
     let options = props.categoryOptions.map((option) => {
         try {
             if (option.show) {
@@ -81,11 +81,15 @@ onMounted(() => {
             show: false
         }
     })
-    datas.value = options
+    return options
 })
 
 watch(options, () => {
     datas.value = options.value
+})
+
+onMounted(() => {
+    datas.value = init.value
 })
 
 </script>

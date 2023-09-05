@@ -89,6 +89,8 @@ const checkTeacherStatus = () => {
 //取得搜索提示(暫無用)
 const reqGetHint = (table, column, searchValue) => request.get(`/getSearchHint?tableName=${table}&columnName=${column}&searchValue=${searchValue}`)
 
+const reqGetCategory = (id) => request.get(`/category/find?categoryId=${id}`)
+
 
 export {
   //會員用
@@ -117,5 +119,6 @@ export {
   checkTeacherStatus,
 
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
-  reqGetHint
+  reqGetHint,
+  reqGetCategory
 }

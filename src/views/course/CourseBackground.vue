@@ -9,49 +9,100 @@ const datas = async () => {
   const res = await getAllCourses()
   courses.value = res.data
 }
-const tableDatas = reactive([
-  {
-    id: 1,
-    recipeID: 1,
-    recipeTitle: "大恐龍1",
-    time: 9,
-    createdate: new Date("2020-01-01T11:11:00"),
-  },
-  {
-    id: 2,
-    recipeID: 2,
-    recipeTitle: "大恐龍2",
-    time: 99,
-    createdate: new Date("2021-02-01T12:30:00"),
-  },
-  {
-    id: 3,
-    recipeID: 3,
-    recipeTitle: "大恐龍n",
-    time: 999,
-    createdate: new Date("2022-11-30T23:11:00"),
-  },
-])
 
-const title = reactive([
-  { label: "課程編號", key: "courseID" },
-  { label: "課程名稱", key: "courseName" },
-  { label: "老師姓名", key: "teacherName" },
-  { label: "開課狀態", key: "courseStatus" },
-  { label: "開課日期", key: "courseStartDate" },
-  { label: "開課時段", key: "" },
-  { label: "上課地點", key: "" },
-  { label: "課程分類", key: "" },
-  { label: "開課人數", key: "" },
-  { label: "報名人數", key: "" },
-  { label: "剩餘名額", key: "" },
-])
+/* 定義傳入值 */
+const props = defineProps({
+  /*
+    表格資料
+    格式：[ { id : id , title1 : text1 ( , xxdatexx : Date ... ) } ]
+    */
+  tableDatas: {
+    default: [
+      {
+        id: 1,
+        courseName: "大恐龍1",
+        age: 9,
+        date: new Date("2020-01-01T11:11:00"),
+      },
+      {
+        id: 2,
+        name: "大恐龍2",
+        age: 99,
+        date: new Date("2021-02-01T12:30:00"),
+      },
+      {
+        id: 3,
+        name: "大恐龍n",
+        age: 999,
+        date: new Date("2022-11-30T23:11:00"),
+      },
+    ],
+  },
+  /*
+    表格標頭
+    格式： [{ label : ' 展示名 ', key : ' key ' , type : ' 資料型態 '} , ...] 
+    */
+  dataTitles: {
+    default: [
+      { label: "課程編號", key: "id", type: "Number" },
+      { label: "課程名稱", key: "courseName", type: "String" },
+      { label: "開課日期", key: "date", type: "Date" },
+    ],
+  },
+  page: {
+    default: 1,
+  },
+  pageSize: {
+    default: 10,
+  },
+  pages: {
+    default: 100,
+  },
+})
 
-const getId = (id) => {
-  console.log(id)
-}
+// const tableDatas = reactive([
+//   {
+//     id: 1,
+//     recipeID: 1,
+//     recipeTitle: "大恐龍1",
+//     time: 9,
+//     createdate: new Date("2020-01-01T11:11:00"),
+//   },
+//   {
+//     id: 2,
+//     recipeID: 2,
+//     recipeTitle: "大恐龍2",
+//     time: 99,
+//     createdate: new Date("2021-02-01T12:30:00"),
+//   },
+//   {
+//     id: 3,
+//     recipeID: 3,
+//     recipeTitle: "大恐龍n",
+//     time: 999,
+//     createdate: new Date("2022-11-30T23:11:00"),
+//   },
+// ])
 
-onMounted(datas)
+// const title = reactive([
+//   { label: "課程編號", key: "courseID" },
+//   { label: "課程名稱", key: "courseName" },
+//   { label: "老師姓名", key: "teacherName" },
+//   { label: "開課狀態", key: "courseStatus" },
+//   { label: "開課日期", key: "courseStartDate" },
+//   { label: "開課時段", key: "" },
+//   { label: "上課地點", key: "" },
+//   { label: "課程分類", key: "" },
+//   { label: "開課人數", key: "" },
+//   { label: "報名人數", key: "" },
+//   { label: "剩餘名額", key: "" },
+// ])
+
+// const getId = (id) => {
+//   console.log(id)
+// }
+
+// onMounted(datas)
 </script>
 <template>
   <div class="container">

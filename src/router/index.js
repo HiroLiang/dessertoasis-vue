@@ -100,12 +100,12 @@ const router = createRouter({
           component: () => import("../views/course/TeacherCourseManager.vue"),
         },
         {
-          path: "/cms/addteacherProfile",
-          name: "addteacherProfile",
+          path: "/cms/addTeacherProfile",
+          name: "addTeacherProfile",
           component: () => import("../views/course/AddTeacherProfile.vue"),
         },
         {
-          path: "/cms/editteacherProfile",
+          path: "/cms/editTeacherProfile",
           name: "addteacherProfile",
           component: () => import("../views/course/EditTeacherProfile.vue"),
         },

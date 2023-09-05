@@ -97,7 +97,7 @@ const sendTitle = (title) => {
           <div>
             <router-link
               @click="sendTitle(`課程管理`)"
-              to="/cms/addteacherProfile"
+              to="/cms/addTeacherProfile"
               >新增教師個人介紹</router-link
             >
           </div>
@@ -111,7 +111,7 @@ const sendTitle = (title) => {
           <div>
             <router-link
               @click="sendTitle(`課程管理`)"
-              to="/cms/editteacherProfile"
+              to="/cms/editTeacherProfile"
               >編輯教師個人介紹</router-link
             >
           </div>

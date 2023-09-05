@@ -77,7 +77,7 @@ const sendMessage = () => {
 </script>
 
 <template>
-    <div class="container border">
+    <div class="container border rounded">
         <div class="boardcontainer m-3">
             <n-space vertical>
                 <n-input v-model:value="newContent" type="textarea" size="large" :autosize="{ minRows: 1 }" round

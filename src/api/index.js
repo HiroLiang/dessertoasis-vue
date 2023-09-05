@@ -22,6 +22,7 @@ const reqSignOut = () => {
   return request.post("/memberLogout", null, jsonHeader)
 }
 
+const reqMemberAccess = (memberId) => { return request.get(`/member/details/${memberId}/access`) }
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -88,6 +89,11 @@ const deleteCart = (cartId) => {
   return request.delete(`/cart/${cartId}`)
 }
 
+// 新增訂單
+const insertOrder = (memberId, data) => {
+  return request.post(`/order/${memberId}`, data)
+}
+
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
 
 //從controller拿到所有課程，export出Promise物件給vue?
@@ -107,16 +113,24 @@ const editTeacherProfile = (teacherId) => {
 /*----------------------------------------  搜索相關請求  -------------------------------------------*/
 
 //取得搜索提示(暫無用)
+<<<<<<< HEAD
 const reqGetHint = (table, column, searchValue) =>
   request.get(
     `/getSearchHint?tableName=${table}&columnName=${column}&searchValue=${searchValue}`
   )
+=======
+const reqGetHint = (table, column, searchValue) => request.get(`/getSearchHint?tableName=${table}&columnName=${column}&searchValue=${searchValue}`)
+
+const reqGetCategory = (id) => request.get(`/category/find?categoryId=${id}`)
+
+>>>>>>> 2e1c96d1b36f45f02f394de30ebfe4b120bb98ba
 
 export {
   //會員用
   reqSignIn,
   reqSignUp,
   reqSignOut,
+  reqMemberAccess,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,
@@ -136,9 +150,20 @@ export {
   getCourseCart,
   getReservationCart,
   deleteCart,
+<<<<<<< HEAD
+=======
+
+  // 訂單用
+  insertOrder,
+
+>>>>>>> 2e1c96d1b36f45f02f394de30ebfe4b120bb98ba
   getAllCourses,
   checkTeacherStatus,
 
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
+<<<<<<< HEAD
+=======
+  reqGetCategory
+>>>>>>> 2e1c96d1b36f45f02f394de30ebfe4b120bb98ba
 }

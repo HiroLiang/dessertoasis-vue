@@ -2,11 +2,17 @@
 import NavBar from '@/components/NavBar.vue';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { reqSignIn } from '../../api';
+import { reqSignIn, reqMemberAccess } from '../../api';
+
 
 const account = ref('');
 const passwords = ref('');
+const access = ref('');
 const router = useRouter();
+
+
+
+
 
 //設定cookies時間，一天後銷毀
 var maxAge = 24 * 60 * 60;

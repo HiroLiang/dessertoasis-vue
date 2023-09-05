@@ -1,9 +1,12 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
 import { ref, computed } from 'vue';
-import ProductCart from './ProductCart.vue';
-import ReservationCart from './ReservationCart.vue';
-import CourseCart from './CourseCart.vue';
+import ProductCart from '@/views/cart/ProductCart.vue';
+import ReservationCart from '@/views/cart/ReservationCart.vue';
+import CourseCart from '@/views/cart/CourseCart.vue';
+import {insertOrder} from '@/api/index'
+
+const memberId = 1
 
 const productCart = ref(null)
 const courseCart = ref(null)
@@ -33,6 +36,19 @@ const total = computed(() => {
     return productTotal.value + courseTotal.value + rsvTotal.value
 })
 
+const handleInsertOrder = async () => {
+    const data = {
+        product: productCart.value,
+        course: courseCart.value,
+        reservation: rsvCart.value
+    }
+
+    const res = await insertOrder(memberId, data)
+    console.log(res.data)
+}
+
+
+
 </script>
 
 <template>
@@ -53,7 +69,7 @@ const total = computed(() => {
                     <hr>
                     <div class="mb-3">總共: {{ total }}</div>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-primary" type="button">去結帳</button>
+                        <button class="btn btn-primary" type="button" @click="handleInsertOrder">去結帳</button>
                     </div>
                 </div>
             </div>

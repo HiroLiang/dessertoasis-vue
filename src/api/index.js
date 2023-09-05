@@ -14,6 +14,7 @@ const reqSignUp = (userData) => request.post("/memberRegister", userData, jsonHe
 //登出
 const reqSignOut = () => { return request.post("/memberLogout", null, jsonHeader); }
 
+const reqMemberAccess = (memberId) => { return request.get(`/member/details/${memberId}/access`) }
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -82,6 +83,11 @@ const deleteCart = (cartId) => {
   return request.delete(`/cart/${cartId}`)
 }
 
+// 新增訂單
+const insertOrder = (memberId, data) => {
+  return request.post(`/order/${memberId}`, data)
+}
+
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
 
 //從controller拿到所有課程，export出Promise物件給vue?
@@ -107,6 +113,7 @@ export {
   reqSignIn,
   reqSignUp,
   reqSignOut,
+  reqMemberAccess,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,
@@ -126,6 +133,9 @@ export {
   getCourseCart,
   getReservationCart,
   deleteCart,
+
+  // 訂單用
+  insertOrder,
 
   getAllCourses,
   checkTeacherStatus,

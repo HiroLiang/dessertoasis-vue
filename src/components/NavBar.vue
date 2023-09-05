@@ -43,7 +43,7 @@ function checkIsLoginCookie() {
     let isAdminCookieExists = false;
 
     for (const cookie of cookies) {
-        const [name, value] = cookie.split('=');
+        const [name] = cookie.split('=');
         if (name === 'isLogin') {
             isLoginCookieExists = true;
         }
@@ -51,7 +51,8 @@ function checkIsLoginCookie() {
             isAdminCookieExists = true;
         }
     }
-    console.log('isLoginCookieExists:', isLoginCookieExists);
+    console.log("document.cookie:" + document.cookie);
+    console.log('isLoginCookieExists:', isLoginCookieExists);//測試是否出現Cookie
     console.log('isAdminCookieExists:', isAdminCookieExists);
     return {
 

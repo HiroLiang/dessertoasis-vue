@@ -82,6 +82,11 @@ const deleteCart = (cartId) => {
   return request.delete(`/cart/${cartId}`)
 }
 
+// 新增訂單
+const insertOrder = (memberId, data) => {
+  return request.post(`/order/${memberId}`, data)
+}
+
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
 
 //從controller拿到所有課程，export出Promise物件給vue?
@@ -124,6 +129,9 @@ export {
   getCourseCart,
   getReservationCart,
   deleteCart,
+
+  // 訂單用
+  insertOrder,
 
   getAllCourses,
   checkTeacherStatus,

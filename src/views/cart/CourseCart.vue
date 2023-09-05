@@ -1,7 +1,7 @@
 <script setup>
 import { getCourseCart } from "@/api/index"
 import { computed, onMounted, ref, watch } from "vue";
-import DeleteButton from "./DeleteButton.vue";
+import DeleteButton from "@/views/cart/DeleteButton.vue";
 
 let memberId = 1
 

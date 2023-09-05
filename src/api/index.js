@@ -22,7 +22,9 @@ const reqSignOut = () => {
   return request.post("/memberLogout", null, jsonHeader)
 }
 
-const reqMemberAccess = (memberId) => { return request.get(`/member/details/${memberId}/access`) }
+const reqMemberAccess = (memberId) => {
+  return request.get(`/member/details/${memberId}/access`)
+}
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -113,17 +115,12 @@ const editTeacherProfile = (teacherId) => {
 /*----------------------------------------  搜索相關請求  -------------------------------------------*/
 
 //取得搜索提示(暫無用)
-<<<<<<< HEAD
 const reqGetHint = (table, column, searchValue) =>
   request.get(
     `/getSearchHint?tableName=${table}&columnName=${column}&searchValue=${searchValue}`
   )
-=======
-const reqGetHint = (table, column, searchValue) => request.get(`/getSearchHint?tableName=${table}&columnName=${column}&searchValue=${searchValue}`)
 
 const reqGetCategory = (id) => request.get(`/category/find?categoryId=${id}`)
-
->>>>>>> 2e1c96d1b36f45f02f394de30ebfe4b120bb98ba
 
 export {
   //會員用
@@ -150,20 +147,13 @@ export {
   getCourseCart,
   getReservationCart,
   deleteCart,
-<<<<<<< HEAD
-=======
 
   // 訂單用
   insertOrder,
-
->>>>>>> 2e1c96d1b36f45f02f394de30ebfe4b120bb98ba
   getAllCourses,
   checkTeacherStatus,
 
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
-<<<<<<< HEAD
-=======
-  reqGetCategory
->>>>>>> 2e1c96d1b36f45f02f394de30ebfe4b120bb98ba
+  reqGetCategory,
 }

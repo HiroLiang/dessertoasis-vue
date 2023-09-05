@@ -18,7 +18,7 @@ const login = async () => {
     let loginState = await reqSignIn(account.value, passwords.value)
     if (loginState.data === 'Y') {
         alert("登入成功")
-        document.cookie = "isLogin=1;max-age=" + maxAge + "; path=/";
+        document.cookie = "isLogin;max-age=" + maxAge + "; path=/";
         router.push({ name: 'home' })
     } else {
         alert('帳號密碼錯誤')

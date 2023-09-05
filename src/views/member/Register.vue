@@ -1,7 +1,6 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
 import { ref } from 'vue';
-import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { reqSignUp } from '../../api'
 const router = useRouter();

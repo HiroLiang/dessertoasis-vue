@@ -62,6 +62,16 @@ const addToReservationCart = (roomId, data) => {
   return request.post(`/reservationCart/room/${roomId}`, data)
 }
 
+// 取得商品購物車內容
+const getProductCart = (memberId) => {
+  return request.get(`/cart/product/${memberId}`)
+}
+
+// 取得課程購物車內容
+const getCourseCart = (memberId) => {
+  return request.get(`/cart/course/${memberId}`)
+}
+
 // 取得預約教室購物車內容
 const getReservationCart = (memberId) => {
   return request.get(`/cart/reservation/${memberId}`)
@@ -112,6 +122,8 @@ export {
   // 購物車用
   addToCart,
   addToReservationCart,
+  getProductCart,
+  getCourseCart,
   getReservationCart,
   deleteCart,
 

@@ -32,18 +32,32 @@ const removeListClass = () => {
 const isLoginCookie = ref(false);
 // 頁面啟動時 檢查cookies
 onMounted(() => {
-    isLoginCookie.value = checkIsLoginCookie();
+    setTimeout(() => {
+        isLoginCookie.value = checkIsLoginCookie();
+    }, 1000); //  1 後檢查 Cookie
 });
 //檢查cookies是否存在的方法
 function checkIsLoginCookie() {
     const cookies = document.cookie.split('; ');
+    let isLoginCookieExists = false;
+    let isAdminCookieExists = false;
+
     for (const cookie of cookies) {
         const [name, value] = cookie.split('=');
         if (name === 'isLogin') {
-            return true;
+            isLoginCookieExists = true;
+        }
+        if (name === 'adminLogin') {
+            isAdminCookieExists = true;
         }
     }
-    return false;
+    console.log('isLoginCookieExists:', isLoginCookieExists);
+    console.log('isAdminCookieExists:', isAdminCookieExists);
+    return {
+
+        isLogin: isLoginCookieExists,
+        isAdmin: isAdminCookieExists,
+    };
 }
 
 
@@ -51,13 +65,14 @@ function checkIsLoginCookie() {
 
 async function logout() {
     // 清除前端的 "isLogin" Cookie
-    document.cookie = "isLogin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "isLogin; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
     //傳回後端清除session
     try {
         await reqSignOut();
         // 登出成功
         isLoginCookie.value = false;
+        alert("登出成功")
         router.push({ name: 'home' });
         console.log('登出成功');
     } catch (error) {
@@ -99,19 +114,31 @@ async function logout() {
                     <li>
                         <router-link to="/cms" class="dropdown-item">後台管理</router-link>
                     </li>
-                    <li><a class="dropdown-item" href="#">購物車</a></li>
-                    <li v-if="!isLoginCookie">
-                        <router-link to="/signIn" class="dropdown-item">會員登入</router-link>
-                    </li>
-                    <li v-else="isLoginCookie">
-                        <router-link to="/mem" class="dropdown-item">會員資料</router-link>
-                    </li>
-                    <li v-if="isLoginCookie">
-                        <button class="dropdown-item" @click="logout">登出</button>
+                    <li>
+                        <router-link to="/cart" class="dropdown-item">購物車</router-link>
                     </li>
                     <li>
                         <router-link to="/demo" class="dropdown-item">Demo</router-link>
                     </li>
+                    <li v-if="!isLoginCookie.isLogin">
+                        <router-link to="/signIn" class="dropdown-item">會員登入</router-link>
+                    </li>
+                    <li v-else>
+                    <li v-if="isLoginCookie.isAdmin || isLoginCookie.adminLogin === '1'">
+                        <router-link to="/cms" class="dropdown-item">後台管理</router-link>
+                    </li>
+                    <li v-else>
+                        <router-link to="/mem" class="dropdown-item">會員資料</router-link>
+                    </li>
+                    <li v-if="isLoginCookie.isLogin">
+                        <button class="dropdown-item" @click="logout">登出</button>
+                    </li>
+                    </li>
+
+
+
+
+
                 </ul>
             </div>
         </div>

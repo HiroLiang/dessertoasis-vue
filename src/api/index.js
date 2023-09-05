@@ -112,6 +112,12 @@ const checkTeacherStatus = () => {
 const editTeacherProfile = (teacherId) => {
   return request.get(`/teacher/${teacherId}`)
 }
+
+/*---------------------------------------- 商品相關請求  -------------------------------------------*/
+const getAllProd = (page, pageSize) => {
+  return request.get(`/product/search?page=${page}&pageSize=${pageSize}`)
+}
+
 /*----------------------------------------  搜索相關請求  -------------------------------------------*/
 
 //取得搜索提示(暫無用)
@@ -152,6 +158,10 @@ export {
   insertOrder,
   getAllCourses,
   checkTeacherStatus,
+
+
+  /*--------商品用-------*/
+  getAllProd,
 
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,

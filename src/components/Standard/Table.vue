@@ -131,6 +131,7 @@ watch(page, () => {
 })
 //傳送調整頁數大小
 watch(pageSize, () => {
+    page.value = 1
     console.log([page.value, pageSize.value]);
     emit('change-page', [page.value, pageSize.value])
 })

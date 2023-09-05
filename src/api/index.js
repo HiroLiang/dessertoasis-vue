@@ -6,13 +6,21 @@ const jsonHeader = { headers: { "Content-Type": "application/json" } }
 const reqTest = () => request.post("/test", `{"name":"John"}`, jsonHeader)
 
 //登入
-const reqSignIn = (account, passwords) => request.post("/memberLogin", `{"account": "${account}","passwords": "${passwords}"}`, jsonHeader)
+const reqSignIn = (account, passwords) =>
+  request.post(
+    "/memberLogin",
+    `{"account": "${account}","passwords": "${passwords}"}`,
+    jsonHeader
+  )
 
 //註冊
-const reqSignUp = (userData) => request.post("/memberRegister", userData, jsonHeader)
+const reqSignUp = (userData) =>
+  request.post("/memberRegister", userData, jsonHeader)
 
 //登出
-const reqSignOut = () => { return request.post("/memberLogout", null, jsonHeader); }
+const reqSignOut = () => {
+  return request.post("/memberLogout", null, jsonHeader)
+}
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
@@ -32,7 +40,7 @@ const reqTop10LatestRecipe = () => {
 
 //取前10筆特定種類食譜
 const req10CategoryRecipe = (categoryId) => {
-  console.log('categoryId:' + categoryId);
+  console.log("categoryId:" + categoryId)
   return request.get(`/recipe/get10categoryRecipes?cid=${categoryId}`)
 }
 
@@ -40,9 +48,7 @@ const req10CategoryRecipe = (categoryId) => {
 
 // 取出指定教室兩日期之間的預約資料
 const getReservations = (room, start, end) => {
-  return request.get(
-    `/reservations/${room}?start=${start}&end=${end}`
-  )
+  return request.get(`/reservations/${room}?start=${start}&end=${end}`)
 }
 
 // 取出所有教室
@@ -94,11 +100,17 @@ const checkTeacherStatus = () => {
   return request.get("/set-teacher-cookie")
 }
 
+//列出該教師個人資料
+const editTeacherProfile = (teacherId) => {
+  return request.get(`/teacher/${teacherId}`)
+}
 /*----------------------------------------  搜索相關請求  -------------------------------------------*/
 
 //取得搜索提示(暫無用)
-const reqGetHint = (table, column, searchValue) => request.get(`/getSearchHint?tableName=${table}&columnName=${column}&searchValue=${searchValue}`)
-
+const reqGetHint = (table, column, searchValue) =>
+  request.get(
+    `/getSearchHint?tableName=${table}&columnName=${column}&searchValue=${searchValue}`
+  )
 
 export {
   //會員用
@@ -109,13 +121,13 @@ export {
   reqTop10HotRecipe,
   reqTop10LatestRecipe,
   req10CategoryRecipe,
-
   reqTest,
   reqDatas,
 
   // 教室用
   getReservations,
   getClassrooms,
+  editTeacherProfile,
 
   // 購物車用
   addToCart,
@@ -124,10 +136,9 @@ export {
   getCourseCart,
   getReservationCart,
   deleteCart,
-
   getAllCourses,
   checkTeacherStatus,
 
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
-  reqGetHint
+  reqGetHint,
 }

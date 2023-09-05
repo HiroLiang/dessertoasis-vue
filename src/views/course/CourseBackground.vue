@@ -40,18 +40,11 @@ const title = reactive([
   { label: "開課狀態", key: "courseStatus" },
   { label: "開課日期", key: "courseStartDate" },
   { label: "開課時段", key: "" },
-  { label: "報名截止日期", key: "" },
-  { label: "課程介紹", key: "" },
   { label: "上課地點", key: "" },
   { label: "課程分類", key: "" },
   { label: "開課人數", key: "" },
   { label: "報名人數", key: "" },
   { label: "剩餘名額", key: "" },
-  { label: "報名價格", key: "" },
-  { label: "報名圖片", key: "" },
-  { label: "課程影片", key: "" },
-  { label: "課程食譜", key: "" },
-  { label: "課程標籤", key: "" },
 ])
 
 const getId = (id) => {

@@ -14,6 +14,7 @@ const reqSignUp = (userData) => request.post("/memberRegister", userData, jsonHe
 //登出
 const reqSignOut = () => { return request.post("/memberLogout", null, jsonHeader); }
 
+const reqMemberAccess = (memberId) => { return request.get(`/member/details/${memberId}/access`) }
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -104,12 +105,15 @@ const checkTeacherStatus = () => {
 //取得搜索提示(暫無用)
 const reqGetHint = (table, column, searchValue) => request.get(`/getSearchHint?tableName=${table}&columnName=${column}&searchValue=${searchValue}`)
 
+const reqGetCategory = (id) => request.get(`/category/find?categoryId=${id}`)
+
 
 export {
   //會員用
   reqSignIn,
   reqSignUp,
   reqSignOut,
+  reqMemberAccess,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,
@@ -137,5 +141,6 @@ export {
   checkTeacherStatus,
 
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
-  reqGetHint
+  reqGetHint,
+  reqGetCategory
 }

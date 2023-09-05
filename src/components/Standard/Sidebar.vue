@@ -1,5 +1,6 @@
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue'
+import { ref, onBeforeMount, watch, computed } from 'vue'
+import { reqGetCategory } from '../../api/index.js'
 import ForTree from './ForTree.vue'
 import StandardInput from './Input.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -9,44 +10,15 @@ const emit = defineEmits(['get-category-id'])
 
 /**定義 props */
 const props = defineProps({
-    categoryOptions: {
-        default: [{
-            id: 1,
-            categoryName: '商品',
-            children: [{
-                id: 2,
-                categoryName: '點心',
-                children: [{
-                    id: 3,
-                    categoryName: '蛋糕',
-                    children: []
-                }, {
-                    id: 4,
-                    categoryName: '麵包',
-                    children: []
-                }]
-            }, {
-                id: 5,
-                categoryName: '工具',
-                children: [{
-                    id: 6,
-                    categoryName: '火箭筒',
-                    children: []
-                }, {
-                    id: 7,
-                    categoryName: '步槍',
-                    children: []
-                }, {
-                    id: 8,
-                    categoryName: '炸藥',
-                    children: []
-                }]
-            }]
-        }]
-    },
+    categoryId: {
+        type: Number,
+        default: 1
+    }
 })
 
 const options = ref([])
+
+const ajaxOptions = ref([])
 
 const searchValue = ref('')
 
@@ -62,7 +34,7 @@ const checkSearch = (arr, value) => {
                 children: checkSearch(ele.children, value),
                 show: true
             })
-        } else if (checkSearch(ele.children, value) != null) {
+        } else if (checkSearch(ele.children, value).length !== 0) {
             check = true
             datas.push({
                 id: ele.id,
@@ -74,7 +46,7 @@ const checkSearch = (arr, value) => {
     })
     if (check)
         return datas
-    return null
+    return []
 }
 
 /**傳出方法 */
@@ -88,14 +60,16 @@ const getValue = (value) => {
 
 watch(searchValue, () => {
     if (searchValue.value != '') {
-        options.value = checkSearch(props.categoryOptions, searchValue.value)
+        options.value = checkSearch(ajaxOptions.value.children, searchValue.value)
     } else {
-        options.value = props.categoryOptions
+        options.value = ajaxOptions.value.children
     }
 })
 
-onMounted(() => {
-    options.value = props.categoryOptions
+onBeforeMount(async () => {
+    let category = await reqGetCategory(props.categoryId)
+    ajaxOptions.value = category.data
+    options.value = ajaxOptions.value.children
 })
 
 </script>

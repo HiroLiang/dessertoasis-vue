@@ -13,10 +13,10 @@ const props = defineProps({
     <div class="container mb-3">
         <h3>步驟{{ stepNumber }}</h3>
         <div class="row justify-content-start">
-            <div class="imgContainer col-md-12 col-lg-3">
-                <img :src="stepPicture" alt="">
+            <div class="imgContainer flex-shrink-0  col-md-6 col-lg-4">
+                <img :src="stepPicture" alt="" class="">
             </div>
-            <div class="stepTextContainer col-md-12  col-lg-3 ">
+            <div class="stepTextContainer col-md-6  col-lg-4 ">
                 <p class="stepText">{{ stepContext }}</p>
             </div>
         </div>

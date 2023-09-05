@@ -73,9 +73,9 @@ const handlePhotoChange = (event) => {
   }
 }
 
-onMounted(() => {
-  datas()
-})
+// onMounted(() => {
+//   datas()
+// })
 
 // return {
 //   teacher,

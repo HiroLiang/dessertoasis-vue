@@ -75,9 +75,9 @@ const router = createRouter({
       component: () => import("../views/cms/CmsView.vue"),
       children: [
         {
-          path: '',
-          name: 'cmsHome',
-          component: () => import('../views/cms/CmsHome.vue')
+          path: "",
+          name: "cmsHome",
+          component: () => import("../views/cms/CmsHome.vue"),
         },
         {
           path: "/cms/recipe",
@@ -100,9 +100,14 @@ const router = createRouter({
           component: () => import("../views/course/TeacherCourseManager.vue"),
         },
         {
-          path: "/cms/addteacherProfile",
-          name: "addteacherProfile",
+          path: "/cms/addTeacherProfile",
+          name: "addTeacherProfile",
           component: () => import("../views/course/AddTeacherProfile.vue"),
+        },
+        {
+          path: "/cms/editTeacherProfile",
+          name: "addteacherProfile",
+          component: () => import("../views/course/EditTeacherProfile.vue"),
         },
         {
           path: "/cms/chat",
@@ -206,14 +211,14 @@ const router = createRouter({
     {
       path: "/cart",
       name: "cart",
-      component: () => import("../views/cart/Cart.vue")
+      component: () => import("../views/cart/Cart.vue"),
     },
 
     {
-      path: '/demo',
-      name: 'demo',
-      component: () => import('../views/Demo.vue')
-    }
+      path: "/demo",
+      name: "demo",
+      component: () => import("../views/Demo.vue"),
+    },
   ],
 })
 

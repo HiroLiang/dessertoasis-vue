@@ -125,6 +125,16 @@ const router = createRouter({
           component: () => import("../views/product/Addproduct.vue"),
         },
         {
+          path: "/cms/editproduct",
+          name: "Editproduct",
+          component: () => import("../views/product/Editproduct.vue"),
+        },
+        {
+          path: "/cms/prevproduct",
+          name: "Prevproduct",
+          component: () => import("../views/product/Prevproduct.vue"),
+        },
+        {
           path: "/cms/member",
           name: "member",
           component: () => import("../views/member/MemberBackground.vue"),

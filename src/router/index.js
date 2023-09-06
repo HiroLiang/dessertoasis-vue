@@ -39,9 +39,9 @@ const router = createRouter({
       ],
     },
     {
-      path: "/signin",
-      name: "signin",
-      component: () => import("../views/member/Signin.vue"),
+      path: "/logIn",
+      name: "logIn",
+      component: () => import("../views/member/LogIn.vue"),
     },
     {
       path: "/product",
@@ -123,6 +123,16 @@ const router = createRouter({
           path: "/cms/addproduct",
           name: "Addproduct",
           component: () => import("../views/product/Addproduct.vue"),
+        },
+        {
+          path: "/cms/editproduct",
+          name: "Editproduct",
+          component: () => import("../views/product/Editproduct.vue"),
+        },
+        {
+          path: "/cms/prevproduct",
+          name: "Prevproduct",
+          component: () => import("../views/product/Prevproduct.vue"),
         },
         {
           path: "/cms/member",

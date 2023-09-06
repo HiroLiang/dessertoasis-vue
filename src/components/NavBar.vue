@@ -34,39 +34,57 @@ const isLoginCookie = ref(false);
 onMounted(() => {
     setTimeout(() => {
         isLoginCookie.value = checkIsLoginCookie();
-    }, 1000); //  1 後檢查 Cookie
+    }, 500); //  0.5秒後檢查 Cookie
 });
-//檢查cookies是否存在的方法
-function checkIsLoginCookie() {
-    const cookies = document.cookie.split('; ');
-    let isLoginCookieExists = false;
-    let isAdminCookieExists = false;
 
-    for (const cookie of cookies) {
-        const [name] = cookie.split('=');
-        if (name === 'isLogin') {
-            isLoginCookieExists = true;
-        }
-        if (name === 'adminLogin') {
+//檢查cookies是否存在，並依照權限做出不同的條件判斷
+//isLogin=1，管理員
+//isLogin=2，一般會員
+//isLogin=3，教師
+function checkIsLoginCookie() {
+    const cookies = document.cookie;
+
+    let isUserCookieExists = false;
+    let isAdminCookieExists = false;
+    let isTeacherCookieExists = false;
+
+    const cookieArray = cookies.split('; ');
+    for (const cookie of cookieArray) {
+        const [name, value] = cookie.split('=');
+        if (name === 'isLogin' && value === '20') {
+            isUserCookieExists = true;
+        } else if (name === 'isLogin' && value === '10') {
+            isUserCookieExists = true;
             isAdminCookieExists = true;
+        } else if (name === 'isLogin' && value === '30') {
+            isUserCookieExists = true;
+            isTeacherCookieExists = true;
         }
     }
-    console.log("document.cookie:" + document.cookie);
-    console.log('isLoginCookieExists:', isLoginCookieExists);//測試是否出現Cookie
-    console.log('isAdminCookieExists:', isAdminCookieExists);
-    return {
 
-        isLogin: isLoginCookieExists,
+    console.log("document.cookie:" + document.cookie);
+    console.log('isUserCookieExists:', isUserCookieExists);
+    console.log('isAdminCookieExists:', isAdminCookieExists);
+    console.log('isTeacherCookieExists:', isTeacherCookieExists);
+
+    return {
+        isUser: isUserCookieExists,
         isAdmin: isAdminCookieExists,
+        isTeacher: isTeacherCookieExists,
     };
 }
 
 
 
 
+
+
+
+
+
 async function logout() {
-    // 清除前端的 "isLogin" Cookie
-    document.cookie = "isLogin; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    // 清除前端的 "userLogin" Cookie
+    document.cookie = "userLogin; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
     //傳回後端清除session
     try {
@@ -113,7 +131,7 @@ async function logout() {
                 </a>
                 <ul :class="`dropdown-menu ${listPosition}`" aria-labelledby="dropdownMenuLink">
                     <li>
-                        <router-link to="/cms" class="dropdown-item">後台管理</router-link>
+                        <router-link to="/cms" class="dropdown-item">後台管理(測試)</router-link>
                     </li>
                     <li>
                         <router-link to="/cart" class="dropdown-item">購物車</router-link>
@@ -121,25 +139,25 @@ async function logout() {
                     <li>
                         <router-link to="/demo" class="dropdown-item">Demo</router-link>
                     </li>
-                    <li v-if="!isLoginCookie.isLogin">
-                        <router-link to="/signIn" class="dropdown-item">會員登入</router-link>
-                    </li>
-                    <li v-else>
-                    <li v-if="isLoginCookie.isAdmin || isLoginCookie.adminLogin === '1'">
-                        <router-link to="/cms" class="dropdown-item">後台管理</router-link>
+                    <li v-if="!isLoginCookie.isUser">
+                        <router-link to="/logIn" class="dropdown-item">會員登入</router-link>
                     </li>
                     <li v-else>
                         <router-link to="/mem" class="dropdown-item">會員資料</router-link>
                     </li>
-                    <li v-if="isLoginCookie.isLogin">
+                    <li v-if="isLoginCookie.isAdmin">
+                        <router-link to="/cms" class="dropdown-item">後台管理</router-link>
+                    </li>
+                    <li v-if="isLoginCookie.isTeacher">
+                        <router-link to="/cms" class="dropdown-item">我的課程</router-link>
+                    </li>
+                    <li v-if="isLoginCookie.isUser">
                         <button class="dropdown-item" @click="logout">登出</button>
                     </li>
-                    </li>
-
-
-
-
-
+                    <!-- 如果非登入，只顯示會員登入 
+                         如果登入後，一定會顯示登出，且依照不同權限顯示不同畫面
+                         管理者 會顯示後台管理
+                         教師   會顯示我的課程-->
                 </ul>
             </div>
         </div>

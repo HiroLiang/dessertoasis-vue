@@ -2,20 +2,22 @@
 import NavBar from '@/components/NavBar.vue';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { reqSignIn, reqMemberAccess } from '../../api';
+import { reqSignIn } from '../../api';
 
 
 const account = ref('');
 const passwords = ref('');
-const access = ref('');
 const router = useRouter();
 
 
 
 
 
+<<<<<<< HEAD:src/views/member/SignIn.vue
 //設定cookies時間，一天後銷毀
 // var maxAge = 24 * 60 * 60;
+=======
+>>>>>>> 3a04ee9f12d99ffb6d2942c764c29c4d15e5161b:src/views/member/LogIn.vue
 
 
 //登入成功(後端return "Y"=>成功)，做跳轉頁面回首頁。設定cookies，isLogin=1代表有登入。
@@ -24,7 +26,6 @@ const login = async () => {
     let loginState = await reqSignIn(account.value, passwords.value)
     if (loginState.data === 'Y') {
         alert("登入成功")
-        // document.cookie = "isLogin;max-age=" + maxAge + "; path=/";
         router.push({ name: 'home' })
     } else {
         alert('帳號密碼錯誤')

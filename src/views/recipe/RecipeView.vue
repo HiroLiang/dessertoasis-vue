@@ -1,6 +1,7 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
-import { reactive } from 'vue'
+import { imgTest } from '@/api'
+import { reactive, ref } from 'vue'
 const navbarlist = reactive([
     { title: '食譜', toUrl: '/recipes' },
     { title: '課程', toUrl: '/courses' },
@@ -12,6 +13,23 @@ const RecipeHpOff = () => {
 
 }
 
+const recipeImgData = ref(null)
+
+let formData = new FormData()
+
+const getRecipeImg = (e) => {
+    formData = new FormData()
+    formData.append("file", e.target.files[0])
+}
+
+const send = async () => {
+    let res = await imgTest(formData)
+
+
+    console.log(recipeImgData.value);
+}
+
+
 </script>
 
 <template>
@@ -22,6 +40,9 @@ const RecipeHpOff = () => {
     </div>
     <hr>
     <RouterView></RouterView>
+
+    <input type="file" @change="getRecipeImg">
+    <button @click="send">送出圖片</button>
 </template>
 
 <style scoped>

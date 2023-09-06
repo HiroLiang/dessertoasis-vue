@@ -3,12 +3,10 @@ import { getCourseCart } from "@/api/index"
 import { computed, onMounted, ref, watch } from "vue";
 import DeleteButton from "@/views/cart/DeleteButton.vue";
 
-let memberId = 1
-
 const cart = ref([])
 
 const loadCourseCart = async () => {
-    const res = await getCourseCart(memberId)
+    const res = await getCourseCart()
     cart.value = res.data
     checkCourses()
 }

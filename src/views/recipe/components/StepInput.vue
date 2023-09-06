@@ -24,21 +24,12 @@ const getStepDatas = () => {
     const stepIndex = props.stepIndex
     const textData = textContent.value
     const picData = textPic.value.files[0]
-
+    emit('get-step-data', stepIndex, textData, picData)
     if (picData) {
         const reader = new FileReader();
 
         reader.onload = (e) => {
-            const base64Data = e.target.result.split(',')[1]
-            const jsonData = {
-                fileName: picData.name,
-                fileType: picData.type,
-                base64Content: base64Data
-            }
-
-            const jsonString = JSON.stringify(jsonData);
-            console.log(jsonString);
-            emit('get-step-data', stepIndex, textData, jsonString)
+            emit('get-step-data', stepIndex, textData, picData)
             previewImageUrl.value = e.target.result
         }
         reader.readAsDataURL(picData);

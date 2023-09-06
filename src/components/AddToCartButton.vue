@@ -1,8 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { addToCart, addToReservationCart } from '../api/index'
-
-let memberId = 1;
+import { addToCart } from '../api/index'
 
 const props = defineProps({
     /*
@@ -37,19 +35,14 @@ const handleAddToCart = async () => {
     const data = {
         categoryId: props.data.categoryId,
         interestedId: props.data.interestedId,
-        prodQuantity: (props.data.prodQuantity == undefined) ? null : props.data.prodQuantity
+        prodQuantity: (props.data.prodQuantity == undefined) ? null : props.data.prodQuantity,
+
+        roomId: props.rcData.roomId,
+        reservationDate: props.rcData.reservationDate,
+        reservationTime: props.rcData.reservationTime,
+        detail: props.rcData.detail
     }
-    if (data.categoryId == 4) {
-        const rcData = {
-            reservationDate: props.rcData.reservationDate,
-            reservationTime: props.rcData.reservationTime,
-            detail: props.rcData.detail
-        }
-        const res = await addToReservationCart(props.rcData.roomId, rcData)
-        data.interestedId = res.data.id
-        console.log(res.data.id)
-    }
-    const res = await addToCart(memberId, data)
+    const res = await addToCart(data)
     console.log(res.data)
 }
 

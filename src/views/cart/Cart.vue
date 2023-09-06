@@ -6,8 +6,6 @@ import ReservationCart from '@/views/cart/ReservationCart.vue';
 import CourseCart from '@/views/cart/CourseCart.vue';
 import {insertOrder} from '@/api/index'
 
-const memberId = 1
-
 const productCart = ref(null)
 const courseCart = ref(null)
 const rsvCart = ref(null)
@@ -43,7 +41,7 @@ const handleInsertOrder = async () => {
         reservation: rsvCart.value
     }
 
-    const res = await insertOrder(memberId, data)
+    const res = await insertOrder(data)
     console.log(res.data)
 }
 

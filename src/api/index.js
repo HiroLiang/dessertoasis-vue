@@ -62,28 +62,23 @@ const getClassrooms = () => {
 /*----------------------------------------  購物車、訂單相關請求  -------------------------------------------*/
 
 // 加入購物車
-const addToCart = (memberId, data) => {
-  return request.post(`/cart/${memberId}`, data)
-}
-
-// 加入預約教室購物車
-const addToReservationCart = (roomId, data) => {
-  return request.post(`/reservationCart/room/${roomId}`, data)
+const addToCart = (data) => {
+  return request.post(`/cart`, data)
 }
 
 // 取得商品購物車內容
-const getProductCart = (memberId) => {
-  return request.get(`/cart/product/${memberId}`)
+const getProductCart = () => {
+  return request.get(`/cart/product`)
 }
 
 // 取得課程購物車內容
-const getCourseCart = (memberId) => {
-  return request.get(`/cart/course/${memberId}`)
+const getCourseCart = () => {
+  return request.get(`/cart/course`)
 }
 
 // 取得預約教室購物車內容
-const getReservationCart = (memberId) => {
-  return request.get(`/cart/reservation/${memberId}`)
+const getReservationCart = () => {
+  return request.get(`/cart/reservation`)
 }
 
 // 刪除購物車內容
@@ -92,8 +87,8 @@ const deleteCart = (cartId) => {
 }
 
 // 新增訂單
-const insertOrder = (memberId, data) => {
-  return request.post(`/order/${memberId}`, data)
+const insertOrder = (data) => {
+  return request.post(`/order`, data)
 }
 
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
@@ -148,7 +143,6 @@ export {
 
   // 購物車用
   addToCart,
-  addToReservationCart,
   getProductCart,
   getCourseCart,
   getReservationCart,

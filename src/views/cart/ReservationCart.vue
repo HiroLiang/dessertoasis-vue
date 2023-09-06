@@ -3,12 +3,10 @@ import { getReservationCart } from "@/api/index"
 import { onMounted, ref, computed, watch } from "vue";
 import DeleteButton from "./DeleteButton.vue";
 
-let memberId = 1
-
 const cart = ref([])
 
 const loadReservationCart = async () => {
-    const res = await getReservationCart(memberId)
+    const res = await getReservationCart()
     cart.value = res.data
     checkReservations()
 }

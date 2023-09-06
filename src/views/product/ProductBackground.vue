@@ -65,42 +65,61 @@ const changePage = async ([page, pageSize]) => {
     console.log("Page:", page);
     console.log("PageSize:", pageSize);
 
+    await fetchAndProcessData(page, pageSize, dataTitles.value);
+    // let result = await getAllProd(page, pageSize, dataTitles.value);
+    // let dataResponse = result.data;
+    // console.log(result);
+    // pages.value = dataResponse.totalPages;
 
-    let result = await getAllProd(page, pageSize)
-    let dataResponse = result.data;
-    console.log(result);
-    pages.value = dataResponse.totalPages;
+    // if (dataResponse && Array.isArray(dataResponse.content)) {
+    //     let datas = dataResponse.content;
+    //     datas.forEach(ele => {
+    //         ele.category = ele.category.categoryName;
+    //     });
+    //     tableDatas.value = datas;
+    // } else {
+    //     console.error('Data from API is not in the expected format:', dataResponse);
+    // }
+}
 
-    if (dataResponse && Array.isArray(dataResponse.content)) {
-        // 如果 content 是陣列，則處理數據
-        let datas = dataResponse.content;
-        datas.forEach(ele => {
-            ele.category = ele.category.categoryName;
-        });
-        tableDatas.value = datas;
-    } else {
-        console.error('Data from API is not in the expected format:', dataResponse);
+const sortBy = async (dataTitle) => {
+    console.log("dataTitle:", dataTitle);
+    await fetchAndProcessData(page.value, pageSize.value, dataTitle);
+}
+
+const fetchAndProcessData = async (page, pageSize, dataTitles) => {
+    try {
+        let result = await getAllProd(page, pageSize, dataTitles);
+        let dataResponse = result.data;
+        console.log(result);
+        pages.value = dataResponse.totalPages;
+
+        if (dataResponse && Array.isArray(dataResponse.content)) {
+            let datas = dataResponse.content;
+            datas.forEach(ele => {
+                ele.category = ele.category.categoryName;
+            });
+            tableDatas.value = datas;
+        } else {
+            console.error('Data from API is not in the expected format:', dataResponse);
+        }
+    } catch (error) {
+        console.error('Error fetching and processing data:', error);
     }
 }
-
-
-
-const sortBy = (rule) => {
-}
-
 const page = ref(1);
 const pageSize = ref(20);
-const pages = ref(20);
+const pages = ref();
 
 const tableDatas = ref([]);
 onMounted(async () => {
-    let result = await getAllProd(page.value, pageSize.value)
+    let result = await getAllProd(page.value, pageSize.value, dataTitles.value);
     let dataResponse = result.data;
     console.log(result);
     pages.value = dataResponse.totalPages;
 
     if (dataResponse && Array.isArray(dataResponse.content)) {
-        // 如果 content 是陣列，則處理數據
+
         let datas = dataResponse.content;
         datas.forEach(ele => {
             ele.category = ele.category.categoryName;
@@ -140,17 +159,17 @@ const props = defineProps({
     格式： [{ label : ' 展示名 ', key : ' key ' , type : ' 資料型態 '} , ...] 
     */
 
-    dataTitles: {
-        default: [
+    // dataTitles: {
+    //     default: [
 
-        ]
-    },
-    page: {
-        default: 1
-    },
-    pageSize: {
-        default: 20
-    },
+    //     ]
+    // },
+    // page: {
+    //     default: 1
+    // },
+    // pageSize: {
+    //     default: 20
+    // },
     // pages: {
     //     default: 10
     // }

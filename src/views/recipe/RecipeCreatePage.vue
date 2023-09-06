@@ -3,6 +3,7 @@ import { ref, reactive, onMounted } from 'vue'
 
 import IngredientInput from '@/views/recipe/components/IngredientInput.vue'
 import StepInput from '@/views/recipe/components/StepInput.vue'
+import { addRecipe } from '@/api'
 
 const ingredientCounter = ref(0)
 const ingredients = reactive([])
@@ -89,6 +90,7 @@ const recipePicPreviewImageUrl = ref(null)
 const getRecipeImg = (e) => {
 
     recipeImgData.value = e.target.files[0]
+    formData.append("file", e.target.files[0])
     if (recipeImgData.value) {
         const reader = new FileReader();
 
@@ -111,14 +113,17 @@ const data = reactive({
     ingredients: [],
     steps: []
 })
+let formData = new FormData()
 const submitForm = () => {
     if (data) {
-        // const formData = new FormData()
         // formData.append('recipeTitle', data.recipeTitle)
         // formData.append('recipeIntroduction', data.recipeIntroduction)
         // formData.append('pictureURL', recipeImgData.value)
         // formData.append('ingredientPersons', data.ingredientPersons)
         // formData.append('cookingTime', data.cookingTime)
+
+        // formData.append('file', recipeImgData.value)
+
         data.pictureURL.push(recipeImgData.value)
 
         ingredients.forEach(ingredient => {
@@ -129,10 +134,24 @@ const submitForm = () => {
             data.steps.push(step)
             console.log(step);
         })
+        console.log(formData);
         console.log(data);
     }
 }
 
+const myForm = ref(null)
+const handleSubmit = async () => {
+    // const form = myForm.value
+
+    const formDataObj = new FormData(myForm.value)
+    const res = await addRecipe(formDataObj)
+    if (res.data != null && res.data.length != 0) {
+        console.log("新增成功");
+    }
+    formDataObj.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+    })
+}
 
 </script>
 
@@ -142,93 +161,96 @@ const submitForm = () => {
     </div>
     <h2>this is recipe create page</h2>
 
+    <form @submit.prevent="handleSubmit" ref="myForm">
+        <div class="container">
+            <div class="recipeContainer container">
+                <div class="recipeTitleContainer container mt-3">
+                    <label for="recipeTitle" class="form-label">食譜名稱:</label><br>
+                    <input class="form-control" v-model="data.recipeTitle" type="text" id="recipeTitle" name="recipeTitle"
+                        required="required">
+                </div>
+                <div class="recipeIntroductionContainer container mt-3">
+                    <label for="recipeIntroduction" class="form-label">食譜簡介:</label><br>
+                    <textarea class="recipeIntroduction form-control" style="resize: none;"
+                        v-model="data.recipeIntroduction" id="recipeIntroduction" name="recipeIntroduction"
+                        required="required"></textarea>
+                    <br>
 
-    <div class="container">
-        <div class="recipeContainer container">
-            <div class="recipeTitleContainer container mt-3">
-                <label for="recipeTitle" class="form-label">食譜名稱:</label><br>
-                <input class="form-control" v-model="data.recipeTitle" type="text" id="recipeTitle" name="recipeTitle"
-                    required="required">
-            </div>
-            <div class="recipeIntroductionContainer container mt-3">
-                <label for="recipeIntroduction" class="form-label">食譜簡介:</label><br>
-                <textarea class="recipeIntroduction form-control" style="resize: none;" v-model="data.recipeIntroduction"
-                    id="recipeIntroduction" name="recipeIntroduction" required="required"></textarea>
+                </div>
+
+                <h4>成品圖片:</h4>
+                <div class="picContainer container ">
+                    <label for="pictureURL">
+                        <div class="imageContainer ">
+                            <img class="recipePic inputLabel custom-cursor-pointer " id="previewPic0" alt="成品圖片"
+                                :src="recipePicPreviewImageUrl || 'https://fakeimg.pl/1180x310/?text=Image'">
+                        </div>
+                        <input @change="getRecipeImg" class="form-control visually-hidden" type="file" id="pictureURL"
+                            name="pictureURL" accept="image/*"><br>
+                    </label><br><br>
+                </div>
+                <div class="container ml-3">
+                    <div class="ingredientContainer row justify-content-start">
+                        <div class="ingredientQtyContainer col-4">
+                            <p class="form-label">食材份量(人份)</p>
+                            <select class="form-select" v-model="data.ingredientPersons" id="ingredientPersons">
+                                <option selected value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10+</option>
+                            </select>
+                        </div>
+                        <div class="cookingTimeContainer col-4">
+                            <label for="cookingTime" class="form-label">烹調時間(分鐘)</label><br>
+                            <input class="form-control" v-model="data.cookingTime" type="text" id="cookingTime"
+                                name="cookingTime" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="container ml-3">
+                    <div class="ingredientContainer row justify-content-start  ">
+                        <IngredientInput v-for="(ingredient, index) in ingredients" :key="ingredient.id"
+                            :ingerdientIndex="index + 1" @delete-ingredient="handleDeleteIngredient"
+                            @get-ingredient-data="handleIngredientData">
+                        </IngredientInput>
+                    </div>
+
+
+                    <div class="newRecipeStepContainer d-grid mt-3">
+                        <button class="btn btn-light" @click="addNewIngredient">+ 增加食材</button>
+                    </div>
+                </div>
+                <div class="recipeStepsContainer container mt-3">
+                    <StepInput v-for="(step, index) in steps" :key="step.id" :stepIndex="index + 1"
+                        @delete-step="handleDeleteStep" draggable="true" @dragstart="dragStart($event, index)"
+                        @drop="onDrop($event, index)" @dragenter.prevent @dragover.prevent @get-step-data="handleStepData">
+                    </StepInput>
+                </div>
+                <div class="newRecipeStepContainer d-grid">
+                    <button class="btn btn-light" @click="addNewStep">+ 增加步驟</button>
+                </div>
+
+                <br>
                 <br>
 
             </div>
+            <div class="crudbtn">
+                <input type="submit" value="送出">
+                <button class=" btn btn-light" @click="submitForm">發佈</button>
+                <button class="btn btn-light">儲存</button>
+                <button class="btn btn-light">取消</button>
+                <button class="btn btn-light">刪除</button>
 
-            <h4>成品圖片:</h4>
-            <div class="picContainer container ">
-                <label for="pictureURL">
-                    <div class="imageContainer ">
-                        <img class="recipePic inputLabel custom-cursor-pointer " id="previewPic0" alt="成品圖片"
-                            :src="recipePicPreviewImageUrl || 'https://fakeimg.pl/1180x310/?text=Image'">
-                    </div>
-                    <input @change="getRecipeImg" class="form-control visually-hidden" type="file" id="pictureURL"
-                        name="pictureURL" accept="image/*"><br>
-                </label><br><br>
             </div>
-            <div class="container ml-3">
-                <div class="ingredientContainer row justify-content-start">
-                    <div class="ingredientQtyContainer col-4">
-                        <p class="form-label">食材份量(人份)</p>
-                        <select class="form-select" v-model="data.ingredientPersons" id="ingredientPersons">
-                            <option selected value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10+</option>
-                        </select>
-                    </div>
-                    <div class="cookingTimeContainer col-4">
-                        <label for="cookingTime" class="form-label">烹調時間(分鐘)</label><br>
-                        <input class="form-control" v-model="data.cookingTime" type="text" id="cookingTime"
-                            name="cookingTime" required="required">
-                    </div>
-                </div>
-            </div>
-            <div class="container ml-3">
-                <div class="ingredientContainer row justify-content-start  ">
-                    <IngredientInput v-for="(ingredient, index) in ingredients" :key="ingredient.id"
-                        :ingerdientIndex="index + 1" @delete-ingredient="handleDeleteIngredient"
-                        @get-ingredient-data="handleIngredientData">
-                    </IngredientInput>
-                </div>
-
-
-                <div class="newRecipeStepContainer d-grid mt-3">
-                    <button class="btn btn-light" @click="addNewIngredient">+ 增加食材</button>
-                </div>
-            </div>
-            <div class="recipeStepsContainer container mt-3">
-                <StepInput v-for="(step, index) in steps" :key="step.id" :stepIndex="index + 1"
-                    @delete-step="handleDeleteStep" draggable="true" @dragstart="dragStart($event, index)"
-                    @drop="onDrop($event, index)" @dragenter.prevent @dragover.prevent @get-step-data="handleStepData">
-                </StepInput>
-            </div>
-            <div class="newRecipeStepContainer d-grid">
-                <button class="btn btn-light" @click="addNewStep">+ 增加步驟</button>
-            </div>
-
-            <br>
-            <br>
 
         </div>
-        <div class="crudbtn">
-            <button class=" btn btn-light" @click="submitForm">發佈</button>
-            <button class="btn btn-light">儲存</button>
-            <button class="btn btn-light">取消</button>
-            <button class="btn btn-light">刪除</button>
-
-        </div>
-
-    </div>
+    </form>
 </template>
 
 <style scoped>

@@ -46,9 +46,13 @@ const req10CategoryRecipe = (categoryId) => {
   console.log("categoryId:" + categoryId)
   return request.get(`/recipe/get10categoryRecipes?cid=${categoryId}`)
 }
-
+//測試圖檔上傳可正確儲存到設定位置
 const imgTest = (file) => {
   return request.post("/test/uploadimg", file)
+}
+//送出建立食譜頁面資料
+const addRecipe = (formData) => {
+  return request.post("/recipe/addrecipe", formData)
 }
 
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
@@ -141,6 +145,7 @@ export {
   reqTest,
   reqDatas,
   imgTest,
+  addRecipe,
 
   // 教室用
   getReservations,

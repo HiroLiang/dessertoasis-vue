@@ -13,13 +13,6 @@ const router = useRouter();
 
 
 
-<<<<<<< HEAD:src/views/member/SignIn.vue
-//設定cookies時間，一天後銷毀
-// var maxAge = 24 * 60 * 60;
-=======
->>>>>>> 3a04ee9f12d99ffb6d2942c764c29c4d15e5161b:src/views/member/LogIn.vue
-
-
 //登入成功(後端return "Y"=>成功)，做跳轉頁面回首頁。設定cookies，isLogin=1代表有登入。
 //登入失敗，清空input
 const login = async () => {

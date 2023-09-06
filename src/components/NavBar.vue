@@ -51,12 +51,12 @@ function checkIsLoginCookie() {
     const cookieArray = cookies.split('; ');
     for (const cookie of cookieArray) {
         const [name, value] = cookie.split('=');
-        if (name === 'isLogin' && value === '2') {
+        if (name === 'isLogin' && value === '20') {
             isUserCookieExists = true;
-        } else if (name === 'isLogin' && value === '1') {
+        } else if (name === 'isLogin' && value === '10') {
             isUserCookieExists = true;
             isAdminCookieExists = true;
-        } else if (name === 'isLogin' && value === '3') {
+        } else if (name === 'isLogin' && value === '30') {
             isUserCookieExists = true;
             isTeacherCookieExists = true;
         }
@@ -140,7 +140,7 @@ async function logout() {
                         <router-link to="/demo" class="dropdown-item">Demo</router-link>
                     </li>
                     <li v-if="!isLoginCookie.isUser">
-                        <router-link to="/signIn" class="dropdown-item">會員登入</router-link>
+                        <router-link to="/logIn" class="dropdown-item">會員登入</router-link>
                     </li>
                     <li v-else>
                         <router-link to="/mem" class="dropdown-item">會員資料</router-link>
@@ -149,7 +149,7 @@ async function logout() {
                         <router-link to="/cms" class="dropdown-item">後台管理</router-link>
                     </li>
                     <li v-if="isLoginCookie.isTeacher">
-                        <router-link to="/cms" class="dropdown-item">後台管理</router-link>
+                        <router-link to="/cms" class="dropdown-item">我的課程</router-link>
                     </li>
                     <li v-if="isLoginCookie.isUser">
                         <button class="dropdown-item" @click="logout">登出</button>

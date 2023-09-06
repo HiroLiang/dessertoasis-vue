@@ -102,7 +102,7 @@ const props = defineProps({
 //   console.log(id)
 // }
 
-// onMounted(datas)
+onMounted(datas)
 </script>
 <template>
   <div class="container">
@@ -117,17 +117,12 @@ const props = defineProps({
             <th>開課狀態</th>
             <th>開課日期</th>
             <th>報名截止日期</th>
-            <th>課程介紹</th>
             <th>上課地點</th>
             <th>課程分類</th>
-            <th>開課人數</th>
-            <th>報名人數</th>
+
             <th>剩餘名額</th>
             <th>報名價格</th>
-            <th>課程圖片</th>
-            <th>課程影片</th>
-            <th>課程食譜</th>
-            <th>課程標籤</th>
+
             <th>操作</th>
           </tr>
         </thead>
@@ -138,17 +133,12 @@ const props = defineProps({
               teacherName,
               courseName,
               courseStatus,
-              courseDate,
-              regDeadline,
-              courseDescription,
-              courseLocation,
-              courseSortId,
-              remainingPlaces,
+              updateDate,
+              closeDate,
+              coursePlace,
+              categoryName,
+              remainPlaces,
               coursePrice,
-              coursePictureUrl,
-              courseVideoId,
-              recipeId,
-              tagId,
             } in courses"
             :key="courseId"
           >
@@ -156,17 +146,13 @@ const props = defineProps({
             <td>{{ teacherName }}</td>
             <td>{{ courseName }}</td>
             <td>{{ courseStatus }}</td>
-            <td>{{ courseDate }}</td>
-            <td>{{ regDeadline }}</td>
-            <td>{{ courseDescription }}</td>
-            <td>{{ courseLocation }}</td>
-            <td>{{ courseSortId }}</td>
-            <td>{{ remainingPlaces }}</td>
+            <td>{{ updateDate }}</td>
+            <td>{{ closeDate }}</td>
+            <td>{{ coursePlace }}</td>
+            <td>{{ categoryName }}</td>
+            <td>{{ remainPlaces }}</td>
             <td>{{ coursePrice }}</td>
-            <td>{{ coursePictureUrl }}</td>
-            <td>{{ courseVideoId }}</td>
-            <td>{{ recipeId }}</td>
-            <td>{{ tagId }}</td>
+
             <td><button>新增</button></td>
           </tr>
         </tbody>

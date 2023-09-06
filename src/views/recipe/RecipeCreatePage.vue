@@ -105,29 +105,31 @@ const getRecipeImg = (e) => {
 const data = reactive({
     recipeTitle: '',
     recipeIntroduction: '',
-    pictureURL: null,
-    ingredientPersons: null,
-    cookingTime: null,
-    ingredients: null,
-    steps: null
+    pictureURL: [],
+    ingredientPersons: '',
+    cookingTime: '',
+    ingredients: [],
+    steps: []
 })
 const submitForm = () => {
     if (data) {
-        const formData = new FormData()
-        formData.append('recipeTitle', data.recipeTitle)
-        formData.append('recipeIntroduction', data.recipeIntroduction)
-        formData.append('pictureURL', recipeImgData.value)
-        formData.append('ingredientPersons', data.ingredientPersons)
-        formData.append('cookingTime', data.cookingTime)
+        // const formData = new FormData()
+        // formData.append('recipeTitle', data.recipeTitle)
+        // formData.append('recipeIntroduction', data.recipeIntroduction)
+        // formData.append('pictureURL', recipeImgData.value)
+        // formData.append('ingredientPersons', data.ingredientPersons)
+        // formData.append('cookingTime', data.cookingTime)
+        data.pictureURL.push(recipeImgData.value)
+
         ingredients.forEach(ingredient => {
-            formData.append('ingredients[]', JSON.stringify(ingredient))
+            data.ingredients.push(ingredient)
             console.log(ingredient);
         })
         steps.forEach(step => {
-            formData.append('steps[]', JSON.stringify(step))
+            data.steps.push(step)
             console.log(step);
         })
-        console.log(formData);
+        console.log(data);
     }
 }
 

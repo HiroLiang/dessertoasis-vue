@@ -33,7 +33,7 @@ const ingredients = reactive([
     { label: '葡萄', text: 1, unit: '串' },
 ],)
 
-const introduction = ref("Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu")
+const introduction = ref("Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu\n Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu")
 
 </script>
 
@@ -56,7 +56,7 @@ const introduction = ref("Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Bi
                     <h2>食譜簡介</h2>
                     <hr>
                     <n-list-item>
-                        <n-thing>
+                        <n-thing class="stepText">
                             {{ introduction }} <br>
 
                         </n-thing>
@@ -145,5 +145,9 @@ const introduction = ref("Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Biu Bi
     font-size: var(--n-title-font-size);
     font-weight: var(--n-title-font-weight);
     color: var(--n-title-text-color);
+}
+
+.stepText {
+    white-space: pre-line
 }
 </style>

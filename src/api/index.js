@@ -22,9 +22,17 @@ const reqSignOut = () => {
   return request.post("/memberLogout", null, jsonHeader)
 }
 
-const reqMemberAccess = (memberId) => {
-  return request.get(`/member/details/${memberId}/access`)
+//查詢單筆會員
+const reqMember = (id) => {
+  return request.get(`/member/${id}`)
 }
+//查詢單筆會員詳細資料
+const reqMemberDetail = (id) => {
+  return request.get(`/member/${id}/details`)
+}
+
+//查詢全部會員
+const reqGetAllMembers = () => request.get('/member/all', {});
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -137,7 +145,9 @@ export {
   reqSignIn,
   reqSignUp,
   reqSignOut,
-  reqMemberAccess,
+  reqMember,
+  reqMemberDetail,
+  reqGetAllMembers,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,

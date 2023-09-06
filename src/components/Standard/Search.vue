@@ -16,6 +16,7 @@ import StandardInput from './Input.vue'
 import StandardDropdown from './Dropdown.vue'
 import { ref, reactive, computed, onBeforeMount, watch } from 'vue'
 import { NButton, NSpace, NInputNumber, NSlider } from 'naive-ui'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /**定義 emit 方法 */
 const emit = defineEmits(['get-search-rules', 'get-number-range', 'get-selected-key'])

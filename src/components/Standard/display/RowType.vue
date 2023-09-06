@@ -1,7 +1,5 @@
 <script setup>
 
-const emit = defineEmits(['get-selected-display'])
-
 const props = defineProps({
     product: {
         default: {
@@ -32,8 +30,12 @@ const props = defineProps({
                 <span v-if="product.teacher">講師：{{ product.teacher }}</span>
                 <span v-if="product.author">作者：{{ product.author }}</span>
                 <span class="description">{{ product.description }}</span>
-                <span v-if="product.price" class="displayY">${{ product.price }}</span>
-                <span v-if="product.difficulty" class="displayY">難度:{{ product.difficulty }}</span>
+                <span v-if="product.price" class="displayY" style="font-size: 18px;color: rgb(134, 70, 70);">
+                    ${{ product.price }}
+                </span>
+                <span v-if="product.difficulty" class="displayY" style="font-size: 18px;color: rgb(134, 70, 70);">
+                    難度:{{ product.difficulty }}
+                </span>
             </div>
         </div>
         <div class="priceArea">
@@ -50,6 +52,7 @@ h2 {
 }
 
 h3 {
+    color: rgb(134, 70, 70);
     font-size: 18px;
 }
 
@@ -74,6 +77,8 @@ h3 {
     display: flex;
     overflow: hidden;
     justify-content: space-between;
+    border-radius: 8px;
+    border: 2px double rgb(249, 233, 220);
     background-color: rgb(251, 241, 233);
 }
 

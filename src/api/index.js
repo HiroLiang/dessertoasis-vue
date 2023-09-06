@@ -114,7 +114,7 @@ const editTeacherProfile = (teacherId) => {
 }
 
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
-//取得所有商品(分頁、一頁顯示幾個)
+//取得所有商品(分頁、一頁顯示幾個、排序)
 const getAllProd = (page, pageSize, dataTitles) => {
   return request.get(`/product/search?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`)
 }

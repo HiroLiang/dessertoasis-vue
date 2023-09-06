@@ -91,7 +91,7 @@ onBeforeMount(async () => {
 <style scoped>
 .sidebarContainer {
     display: flex;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     height: 100%;

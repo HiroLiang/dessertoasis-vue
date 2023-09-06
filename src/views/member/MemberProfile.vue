@@ -1,6 +1,5 @@
 <script setup>
-// import NavBar from '@/components/NavBar.vue';
-// import InfoBar from '@/components/InfoBar.vue';
+
 </script>
 
 

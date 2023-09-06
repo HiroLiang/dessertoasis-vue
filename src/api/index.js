@@ -47,6 +47,10 @@ const req10CategoryRecipe = (categoryId) => {
   return request.get(`/recipe/get10categoryRecipes?cid=${categoryId}`)
 }
 
+const imgTest = (file) => {
+  return request.post("/test/uploadimg", file)
+}
+
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
 
 // 取出指定教室兩日期之間的預約資料
@@ -136,6 +140,7 @@ export {
   req10CategoryRecipe,
   reqTest,
   reqDatas,
+  imgTest,
 
   // 教室用
   getReservations,

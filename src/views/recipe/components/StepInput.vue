@@ -24,7 +24,7 @@ const getStepDatas = () => {
     const stepIndex = props.stepIndex
     const textData = textContent.value
     const picData = textPic.value.files[0]
-
+    emit('get-step-data', stepIndex, textData, picData)
     if (picData) {
         const reader = new FileReader();
 

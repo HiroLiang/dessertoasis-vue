@@ -15,8 +15,10 @@ const RecipeHpOff = () => {
 
 const recipeImgData = ref(null)
 
-const formData = new FormData
+let formData = new FormData()
+
 const getRecipeImg = (e) => {
+    formData = new FormData()
     formData.append("file", e.target.files[0])
 }
 

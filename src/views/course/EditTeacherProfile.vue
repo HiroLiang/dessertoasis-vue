@@ -23,7 +23,7 @@
             <td>{{ t.teacherMail }}</td>
             <td>{{ t.teacherProfile }}</td>
 
-            <td><button>新增</button></td>
+            <td><button>修改</button></td>
           </tr>
         </tbody>
       </table>
@@ -34,7 +34,7 @@
 import { ref, onMounted, reactive } from "vue"
 import { editTeacherProfile } from "@/api"
 
-let teacherId = 4
+let teacherId = 2
 
 const teacherInfo = ref([])
 const datas = async () => {

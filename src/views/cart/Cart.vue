@@ -4,7 +4,7 @@ import { ref, computed } from 'vue';
 import ProductCart from '@/views/cart/ProductCart.vue';
 import ReservationCart from '@/views/cart/ReservationCart.vue';
 import CourseCart from '@/views/cart/CourseCart.vue';
-import {insertOrder} from '@/api/index'
+import { insertOrder } from '@/api/index'
 
 const productCart = ref(null)
 const courseCart = ref(null)
@@ -36,9 +36,9 @@ const total = computed(() => {
 
 const handleInsertOrder = async () => {
     const data = {
-        product: productCart.value,
-        course: courseCart.value,
-        reservation: rsvCart.value
+        productCartDTOs: productCart.value,
+        courseCartDTOs: courseCart.value,
+        reservationCartDTOs: rsvCart.value
     }
 
     const res = await insertOrder(data)

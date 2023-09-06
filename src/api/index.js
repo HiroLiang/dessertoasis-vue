@@ -103,7 +103,7 @@ const insertOrder = (data) => {
 
 //從controller拿到所有課程，export出Promise物件給vue?
 const getAllCourses = () => {
-  return request.get("/course/withTName")
+  return request.get("/course/all")
 }
 
 //檢查教師身分
@@ -163,7 +163,6 @@ export {
   insertOrder,
   getAllCourses,
   checkTeacherStatus,
-
 
   /*--------商品用-------*/
   getAllProd,

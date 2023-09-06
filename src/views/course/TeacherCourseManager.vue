@@ -59,7 +59,6 @@ const getId = (id) => {
             <th>已報名人數</th>
             <th>價格</th>
             <th>圖片</th>
-
             <th>學生名單</th>
             <th>建立日期</th>
             <th>最後修改日期</th>

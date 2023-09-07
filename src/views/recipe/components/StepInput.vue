@@ -23,19 +23,26 @@ const deleteStep = () => {
 const getStepDatas = () => {
     const stepIndex = props.stepIndex
     const textData = textContent.value
-    const picData = textPic.value.files[0]
-    emit('get-step-data', stepIndex, textData, picData)
-    if (picData) {
+    const picData = null
+    const stepPic = textPic.value.files[0]
+    emit('get-step-data', stepIndex, textData, stepPic)
+    if (stepPic) {
         const reader = new FileReader();
 
         reader.onload = (e) => {
-            emit('get-step-data', stepIndex, textData, picData)
+            const base64Data = e.target.result.split(',')[1]
+            const jsonData = {
+                fileName: stepPic.name,
+                base64Content: base64Data
+            }
+            const jsonString = JSON.stringify(jsonData);
+            emit('get-step-data', stepIndex, textData, jsonString)
             previewImageUrl.value = e.target.result
         }
-        reader.readAsDataURL(picData);
+        reader.readAsDataURL(stepPic);
     }
 
-    console.log(picData);
+    console.log(stepPic);
 
 }
 

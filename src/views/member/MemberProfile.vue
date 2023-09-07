@@ -22,7 +22,7 @@ onMounted(async () => {
         const sessionData = sessionResponse.data;
 
         memberId.value = sessionData.id;
-        console.log("我是" + memberId.value);
+        // console.log("我是" + memberId.value);
         const response = await reqMember(memberId.value);
         const responseMd = await reqMemberDetail(memberId.value);
 

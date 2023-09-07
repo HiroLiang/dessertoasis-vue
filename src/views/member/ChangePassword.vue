@@ -1,6 +1,23 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import { reqSession } from '@/api';
 
-const memberId = 4;
+const memberId = ref("");
+const memberPasswords = ref("");
+const againPasswords = ref("")
+
+onMounted(async () => {
+    try {
+        const sessionResponse = await reqSession();
+        const sessionData = sessionResponse.data;
+
+        memberId.value = sessionData.id;
+        // console.log("我是" + memberId.value);
+
+    } catch (error) {
+        console.error('獲取會員失敗：', error);
+    }
+});
 
 </script>
 

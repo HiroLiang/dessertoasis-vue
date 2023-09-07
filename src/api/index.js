@@ -152,6 +152,8 @@ const getAllProd = (page, pageSize, dataTitles) => {
     `/product/search?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`
   )
 }
+const SearchProd = (criteria, jsonHeader) =>
+  request.post("/product/criteria", criteria, jsonHeader)
 
 /*----------------------------------------  搜索相關請求  -------------------------------------------*/
 
@@ -205,7 +207,7 @@ export {
 
   /*--------商品用-------*/
   getAllProd,
-
+  SearchProd,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

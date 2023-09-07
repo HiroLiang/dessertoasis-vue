@@ -72,9 +72,9 @@ const getSearch = async (key, page, pageSize, dataTitle) => {
     await ProcessData2(criteria, jsonHeader, page, pageSize);
 }
 
-const ProcessData2 = async (criteria, jsonHeader, page, pageSize, dataTitle) => {
+const ProcessData2 = async (criteria, jsonHeader) => {
     try {
-        let result = await SearchProd(criteria, jsonHeader, page, pageSize, dataTitle);
+        let result = await SearchProd(criteria, jsonHeader);
         let dataResponse = result.data;
         console.log(result);
         pages.value = dataResponse.totalPages;

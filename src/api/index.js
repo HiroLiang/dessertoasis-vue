@@ -78,7 +78,7 @@ const getClassrooms = () => {
   return request.get("/classrooms")
 }
 
-/*----------------------------------------  購物車、訂單相關請求  -------------------------------------------*/
+/*----------------------------------------  購物車相關請求  -------------------------------------------*/
 
 // 加入購物車
 const addToCart = (data) => {
@@ -105,9 +105,16 @@ const deleteCart = (cartId) => {
   return request.delete(`/cart/${cartId}`)
 }
 
+/*----------------------------------------  訂單相關請求  -------------------------------------------*/
+
 // 新增訂單
 const insertOrder = (data) => {
   return request.post(`/order`, data)
+}
+
+// 取得單一訂單
+const getOrder = (ordId) => {
+  return request.get(`/order/${ordId}`)
 }
 
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
@@ -189,6 +196,7 @@ export {
 
   //課程用
   getAllCourses,
+  getOrder,
   checkTeacherStatus,
   editTeacherProfile,
   deleteCourse,

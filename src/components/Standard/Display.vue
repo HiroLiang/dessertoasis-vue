@@ -1,3 +1,12 @@
+<!-- 
+    使用方法：
+        傳入值：
+            (1)products：陳列資料
+            (2)searchOptions：想要開放的搜索條件
+            (3)pages：總頁數
+            (4)row：boolean - 是否允許以條列陳列
+            (5)block：boolean - 是否允許以卡片陳列  (兩者至少擇一)
+ -->
 <script setup>
 import { ref, watch } from 'vue';
 import Search from './Search.vue'
@@ -6,7 +15,7 @@ import DisplayBlock from './display/BlockType.vue'
 import { NPagination } from 'naive-ui'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-const emit = defineEmits(['get-selected-key', 'get-search-value'])
+const emit = defineEmits(['get-selected-key', 'get-search-rules', 'get-page', 'get-number-range'])
 
 const props = defineProps({
     products: {
@@ -70,6 +79,10 @@ const props = defineProps({
             { key: 'name', label: '課程名稱', type: 'String' },
         ]
     },
+    pages: {
+        type: Number,
+        default: 13
+    },
     row: {
         default: true
     },
@@ -80,60 +93,92 @@ const props = defineProps({
 
 const page = ref(0)
 
-const pages = ref(10)
-
 const pageSize = ref(10)
 
+//改變顯示方式
 const blockType = ref(props.block)
 const rowType = ref(props.row)
 if (blockType.value && rowType.value) {
     blockType.value = false
 }
-
 const rowClass = () => {
     rowType.value = true
     blockType.value = false
 }
-
 const blockClass = () => {
     blockType.value = true
     rowType.value = false
 }
 
+//送出選擇的選項id
 const sendKey = (id) => {
+    console.log(1);
     emit('get-selected-key', id)
 }
+
+const getRules = (rules) => {
+    emit('get-search-rules', rules)
+}
+
+const getRange = (range) => {
+    emit('get-number-range', range)
+}
+
+const addLike = () => {
+    console.log('like');
+}
+
+//送出換頁條件
+watch(page, () => {
+    emit('get-page', page.value, pageSize.value)
+})
+watch(pageSize, () => {
+    page.value = 1
+    emit('get-page', page.value, pageSize.value)
+})
 
 </script>
 <template>
     <div class="searchbarContainer">
         <div>
-            <Search :searchOptions="searchOptions" :searchSize="150" />
+            <!-- 搜索列 -->
+            <Search :searchOptions="searchOptions" :searchSize="140" @get-number-range="getRange"
+                @get-search-rules="getRules" />
         </div>
+        <!-- 轉換陳列方式 -->
         <div style="display: flex;">
-            <div :class="{ typeIcon: !rowType, typeIconPress: rowType }" @click="rowClass">
+            <div v-if="props.row" :class="{ typeIcon: !rowType, typeIconPress: rowType }" @click="rowClass">
                 <font-awesome-icon :icon="['fas', 'list']" size="lg" />
             </div>
-            <div :class="{ typeIcon: !blockType, typeIconPress: blockType }" @click="blockClass">
+            <div v-if="props.block" :class="{ typeIcon: !blockType, typeIconPress: blockType }" @click="blockClass">
                 <font-awesome-icon :icon="['fas', 'table-cells']" size="lg" />
             </div>
         </div>
     </div>
+    <!-- 條列式陳列 -->
     <div v-if="rowType" class="displayContainerRow">
+        <!-- 陳列區 -->
         <div v-for=" product  in  products " @click="sendKey(product.id)" class="itemContainer">
+            <div class="anchor">
+                <font-awesome-icon @click.stop="addLike" :icon="['far', 'heart']" style="color: #b87373;" size="xl" />
+            </div>
             <DisplayRow :product="product" />
         </div>
+        <!-- 頁碼區 -->
         <div style="display: flex; justify-content: center;align-items: center;">
             <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[10, 20, 50]"
                 size="medium" show-size-picker :page-slot="5" />
         </div>
     </div>
+    <!-- 卡片式陳列 -->
     <div v-if="blockType" class="displayContainerBlock">
+        <!-- 陳列區 -->
         <div class="blockContainer">
-            <div v-for=" product  in  products " @click="sendKey(product.id)" class="itemContainer">
+            <div v-for=" product  in  products " :key="product.id" @click="sendKey(product.id)" class="itemContainer">
                 <DisplayBlock :product="product" />
             </div>
         </div>
+        <!-- 頁碼區 -->
         <div style="display: flex; justify-content: center;align-items: center;">
             <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[10, 20, 50]"
                 size="medium" show-size-picker :page-slot="5" />
@@ -141,6 +186,21 @@ const sendKey = (id) => {
     </div>
 </template>
 <style scoped>
+/* 錨點 + 按鈕 */
+.anchor {
+    position: relative;
+    height: 0;
+    width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.anchor svg {
+    position: absolute;
+    cursor: pointer;
+    transform: translateX(20px) translateY(20px);
+}
+
 .searchbarContainer {
     display: flex;
     justify-content: space-between;
@@ -172,6 +232,7 @@ const sendKey = (id) => {
 .itemContainer {
     margin-bottom: 15px;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .typeIcon {
@@ -198,6 +259,7 @@ const sendKey = (id) => {
         display: flex;
         justify-content: left;
         flex-wrap: wrap;
+        transition: all 0.3s ease;
     }
 }
 
@@ -208,6 +270,7 @@ const sendKey = (id) => {
             display: flex;
             justify-content: left;
             flex-wrap: wrap;
+            transition: all 0.3s ease;
         }
     }
 }
@@ -219,6 +282,7 @@ const sendKey = (id) => {
             display: flex;
             justify-content: left;
             flex-wrap: wrap;
+            transition: all 0.3s ease;
         }
     }
 }
@@ -230,6 +294,7 @@ const sendKey = (id) => {
             display: flex;
             justify-content: left;
             flex-wrap: wrap;
+            transition: all 0.3s ease;
         }
     }
 }

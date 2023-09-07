@@ -1,6 +1,21 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import { reqMember } from '@/api';
 
+const memberId = 1;
+const memberData = ref(null);
+
+onMounted(async () => {
+    try {
+        const response = await reqMember(memberId);
+        memberData.value = response.data;
+        console.log(memberData.value.fullName);
+    } catch (error) {
+        console.error('獲取會員資料時出錯：', error);
+    }
+});
 </script>
+
 
 
 
@@ -17,13 +32,13 @@
 
                         <div class="col-md-6">
                             <label class="form-label" for="nameInput">姓名</label>
-                            <input type="text" class="form-control" id="nameInput" value="">
+                            <input type="text" class="form-control" id="nameInput">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label" for="identityInput">身分證
                             </label>
-                            <input type="text" class="form-control" id="identityInput" value="">
+                            <input type="text" class="form-control" id="identityInput">
                         </div>
 
                         <div class="col-md-6">

@@ -16,7 +16,6 @@ import StandardInput from './Input.vue'
 import StandardDropdown from './Dropdown.vue'
 import { ref, reactive, computed, onBeforeMount, watch } from 'vue'
 import { NButton, NSpace, NInputNumber, NSlider } from 'naive-ui'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /**定義 emit 方法 */
 const emit = defineEmits(['get-search-rules', 'get-number-range', 'get-selected-key'])
@@ -72,6 +71,15 @@ const numberMin = ref(0)
 
 //現在搜索選項
 const searchRange = ref('')
+const searchName = computed(() => {
+    for (let i = 0; i < props.searchOptions.length; i++) {
+        const option = props.searchOptions[i];
+        if (option.key === searchRange.value) {
+            return option.label
+        }
+    }
+    return ''
+})
 
 //現在搜索資料型態
 const searchType = computed(() => {
@@ -144,14 +152,7 @@ onBeforeMount(() => {
         <StandardDropdown @get-selected-key="getKey" :searchOptions="searchOptions" />
         <StandardInput @get-input-value="getValue" :hintOptions="hintOptions" :searchOptions="props.searchOptions"
             :searchRange="searchRange" :searchSize="searchSize" :buttonName="buttonName" :myPlaceholder="myPlaceholder" />
-        <template v-if="searchType === 'Number'">
-            <n-space @mouseup="getNumberRange" @mouseleave="getNumberRange" vertical>
-                <n-slider v-model:value="numberRange" range :max="numberMax" :min="numberMin" :step="1"
-                    style="width: 100px;margin-left: 20px;" />
-            </n-space>
-            <n-input-number @blur="getNumberRange" v-model:value="numberRange[0]" size="small" style="width: 120px;" />
-            <n-input-number @blur="getNumberRange" v-model:value="numberRange[1]" size="small" style="width: 120px;" />
-        </template>
+
     </div>
     <div>
         <span v-for="(rule, index) in searchRules">
@@ -164,6 +165,21 @@ onBeforeMount(() => {
                 {{ rule.input }}
             </n-button>
         </span>
+    </div>
+    <div style="display: flex;justify-content: center;align-items: center;">
+        <template v-if="searchType === 'Number'">
+            <div style="padding-left: 15px;">
+                {{ searchName }}:
+            </div>
+            <div class="numberRangeContainer">
+                <n-space @mouseup="getNumberRange" @mouseleave="getNumberRange" vertical>
+                    <n-slider v-model:value="numberRange" range :max="numberMax" :min="numberMin" :step="1"
+                        style="width: 100px;margin-left: 20px;" />
+                </n-space>
+                <n-input-number @blur="getNumberRange" v-model:value="numberRange[0]" size="small" style="width: 90px;" />
+                <n-input-number @blur="getNumberRange" v-model:value="numberRange[1]" size="small" style="width: 90px;" />
+            </div>
+        </template>
     </div>
 </template>
 <style scoped>
@@ -193,5 +209,22 @@ onBeforeMount(() => {
 
 .deleteBtn:hover::before {
     opacity: 1;
+}
+
+.numberRangeContainer {
+    display: flex;
+    padding-left: 5px;
+    padding-top: 10px;
+}
+
+@media(max-width:550px) {
+    .numberRangeContainer {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: column;
+        height: 150px;
+
+    }
 }
 </style>

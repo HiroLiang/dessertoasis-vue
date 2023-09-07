@@ -59,7 +59,9 @@ const handleInsertOrder = async () => {
                 <div>
                     <div>
                         商品1:
-                        <AddToCartButton :data="{categoryId: 1, interestedId: 1, prodQuantity: 3}"></AddToCartButton> 
+                        <AddToCartButton :data="{categoryId: 1, interestedId: 1, prodQuantity: 3}"></AddToCartButton>
+                        商品2:
+                        <AddToCartButton :data="{categoryId: 1, interestedId: 2, prodQuantity: 2}"></AddToCartButton>
                     </div>
                     <div>
                         課程1:

@@ -1,14 +1,14 @@
 <script setup>
 import { getReservationCart } from "@/api/index"
 import { onMounted, ref, computed, watch } from "vue";
-import DeleteButton from "./DeleteButton.vue";
+import DeleteButton from "@/views/cart/DeleteButton.vue";
 
 const cart = ref([])
 
 const loadReservationCart = async () => {
     const res = await getReservationCart()
     cart.value = res.data
-    checkReservations()
+    emitReservations()
 }
 
 onMounted(() => { loadReservationCart() })
@@ -34,7 +34,7 @@ const emits = defineEmits(["getReservations"])
 
 const checked = ref(true)
 
-const checkReservations = () => {
+const emitReservations = () => {
     if (checked.value && cart.value.length > 0) {
         emits("getReservations", cart.value, total.value)
     } else {
@@ -42,7 +42,7 @@ const checkReservations = () => {
     }
 }
 
-watch(() => checked.value, () => checkReservations())
+watch(checked, emitReservations)
 
 </script>
 

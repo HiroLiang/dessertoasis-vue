@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { reqMember, reqMemberDetail } from '@/api';
+import { reqMember, reqMemberDetail, reqSession } from '@/api';
 
-const memberId = 4;
+const memberId = ref("");
 
 // const memberData = ref("");
 // const memberMdData = ref("")
@@ -14,10 +14,17 @@ const memberBirthday = ref("");
 const memberEmail = ref("");
 const memberAddress = ref("");
 
+
+
 onMounted(async () => {
     try {
-        const response = await reqMember(memberId);
-        const responseMd = await reqMemberDetail(memberId);
+        const sessionResponse = await reqSession();
+        const sessionData = sessionResponse.data;
+
+        memberId.value = sessionData.id;
+        console.log("我是" + memberId.value);
+        const response = await reqMember(memberId.value);
+        const responseMd = await reqMemberDetail(memberId.value);
 
         // memberData.value = response.data;
         memberName.value = response.data.fullName;
@@ -28,10 +35,6 @@ onMounted(async () => {
         memberIdNumber.value = responseMd.data.idNumber
         memberBirthday.value = responseMd.data.birthday
         memberAddress.value = responseMd.data.deliveryAddress
-
-        console.log(response.data);
-        console.log(responseMd.data);
-        console.log(responseMd.data.birthday);
 
     } catch (error) {
         console.error('獲取會員失敗：', error);

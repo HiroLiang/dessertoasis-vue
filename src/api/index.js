@@ -33,6 +33,9 @@ const reqMemberDetail = (id) => {
 
 //查詢全部會員
 const reqGetAllMembers = () => request.get('/member/all', {});
+
+//從session 拿出member資料
+const reqSession = () => request.get('/memberSession');
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -148,6 +151,7 @@ export {
   reqMember,
   reqMemberDetail,
   reqGetAllMembers,
+  reqSession,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,

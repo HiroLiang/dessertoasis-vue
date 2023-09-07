@@ -5,8 +5,6 @@ import Navbar from '../components/NavBar.vue'
 import StandardSidebar from '../components/Standard/Sidebar.vue'
 import StandardFooter from '../components/Footer.vue'
 
-
-
 </script>
 <template>
     <Navbar />

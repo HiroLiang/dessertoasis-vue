@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, reactive, computed, watch } from "vue"
+import StandardSearch from "../../components/Standard/Search.vue"
 import { getAllCourses } from "@/api"
+import { deleteCourse } from "@/api"
 
 const courses = ref([])
 const datas = async () => {
@@ -13,6 +15,24 @@ const datas = async () => {
     console.error(error)
   }
 }
+const deleteSingleCourse = async (courseId) => {
+  try {
+    const response = await deleteCourse(courseId)
+    console.log(response)
+    if (response.status === 200) {
+      datas()
+    } else {
+      console.log("刪除課程失敗")
+    }
+  } catch (error) {
+    console.log(response)
+    console.error(error)
+  }
+}
+// const deleteSingleCourse = async () => {
+//   await deleteCourse(props.courseId)
+//   emits("delete")
+// }
 
 /* 自定義方法 */
 const emit = defineEmits([
@@ -23,6 +43,7 @@ const emit = defineEmits([
   "get-sort-rule",
   "change-page",
   "get-date-rules",
+  "delete",
 ])
 
 /* 定義傳入值 */
@@ -36,15 +57,15 @@ const props = defineProps({
   },
   /*
     表格標頭
-    格式： [{ label : ' 展示名 ', key : ' key ' , type : ' 資料型態 '} , ...] 
+    格式： [{ label : ' 展示名 ', key : ' key ' , type : ' 資料型態 '} , ...]
     */
   dataTitles: {
     default: [
-      // { label: "課程編號", key: "courseId", type: "Number" },
+      { label: "課程編號", key: "courseId", type: "Number" },
       { label: "課程名稱", key: "courseName", type: "String" },
       { label: "教師姓名", key: "teacherName", type: "String" },
-      { label: "開課日期", key: "updateDate", type: "date" },
-      { label: "報名截止日期", key: "closeDate", type: "date" },
+      { label: "開課日期", key: "courseDate", type: "date" },
+      { label: "報名截止", key: "closeDate", type: "date" },
       { label: "上課地點", key: "coursePlace", type: "String" },
       { label: "剩餘名額", key: "remainPlaces", type: "Number" },
       { label: "報名價格", key: "coursePrice", type: "Number" },
@@ -60,6 +81,9 @@ const props = defineProps({
   },
   pages: {
     default: 100,
+  },
+  courseId: {
+    type: Number,
   },
 })
 
@@ -161,7 +185,7 @@ onMounted(() => {
 </script>
 <template>
   <div class="container">
-    <h1 align="center">課程管理</h1>
+    <h1 align="center">所有課程列表</h1>
     <StandardSearch
       :searchOptions="props.dataTitles"
       @get-selected-key="getKey"
@@ -207,73 +231,31 @@ onMounted(() => {
               <span v-if="title.type === 'String' || title.type === 'Number'">{{
                 data[title.key]
               }}</span>
-              <!-- <span v-else-if="title.type === 'Date' ">{{
+              <span v-else-if="title.type === 'Date'">{{
                 formattedDate(data[title.key])
-              }}</span> -->
-              <span v-else-if="title.type === 'Date'">
+              }}</span>
+              <!-- <span v-else-if="title.type === 'Date'">
                 {{
                   data[title.key] ? formattedDate(data[title.key]) : ""
                 }}</span
-              >
+              > -->
               <span v-else>{{ data[title.key] }}</span>
             </td>
             <td>
               <n-button @click="getEditId(data.id)" strong secondary round
                 >修改</n-button
               >
+              <n-button
+                @click="deleteSingleCourse(data.courseId)"
+                strong
+                secondary
+                round
+                >刪除</n-button
+              >
             </td>
           </tr>
         </tbody>
       </n-table>
-      <!-- <div class="row">
-        <table class="col-12 table table-hover align-middle">
-          <thead class="table-secondary table-light">
-            <tr>
-              <th>編號</th>
-              <th>教師姓名</th>
-              <th>課程名稱</th>
-              <th>開課日期</th>
-              <th>報名截止日期</th>
-              <th>上課地點</th>
-              <th>課程分類</th>
-              <th>剩餘名額</th>
-              <th>報名價格</th>
-              <th>開課狀態</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="{
-                courseId,
-                teacherName,
-                courseName,
-                updateDate,
-                closeDate,
-                coursePlace,
-                categoryName,
-                remainPlaces,
-                coursePrice,
-                courseStatus,
-              } in courses"
-              :key="courseId"
-            >
-              <td>{{ courseId }}</td>
-              <td>{{ teacherName }}</td>
-              <td>{{ courseName }}</td>
-              <td>{{ updateDate }}</td>
-              <td>{{ closeDate }}</td>
-              <td>{{ coursePlace }}</td>
-              <td>{{ categoryName }}</td>
-              <td>{{ remainPlaces }}</td>
-              <td>{{ coursePrice }}</td>
-              <td>{{ courseStatus }}</td>
-
-              <td><button>新增</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
     </div>
   </div>
 </template>

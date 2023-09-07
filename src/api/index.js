@@ -133,8 +133,8 @@ const getCoursesByTeacherId = (teacherId) => {
 }
 
 //刪除課程by Id
-const deleteCourse = (id) => {
-  return request.delete(`/course/${id}`)
+const deleteCourse = (courseId) => {
+  return request.delete(`/course/${courseId}`)
 }
 
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/

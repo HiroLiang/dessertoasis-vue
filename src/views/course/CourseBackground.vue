@@ -15,9 +15,9 @@ const datas = async () => {
     console.error(error)
   }
 }
-const deleteSingleCourse = async (id) => {
+const deleteSingleCourse = async (courseId) => {
   try {
-    const response = await deleteCourse(id)
+    const response = await deleteCourse(courseId)
     console.log(response)
     if (response.status === 200) {
       datas()
@@ -29,6 +29,10 @@ const deleteSingleCourse = async (id) => {
     console.error(error)
   }
 }
+// const deleteSingleCourse = async () => {
+//   await deleteCourse(props.courseId)
+//   emits("delete")
+// }
 
 /* 自定義方法 */
 const emit = defineEmits([
@@ -39,6 +43,7 @@ const emit = defineEmits([
   "get-sort-rule",
   "change-page",
   "get-date-rules",
+  "delete",
 ])
 
 /* 定義傳入值 */
@@ -56,7 +61,7 @@ const props = defineProps({
     */
   dataTitles: {
     default: [
-      // { label: "課程編號", key: "courseId", type: "Number" },
+      { label: "課程編號", key: "courseId", type: "Number" },
       { label: "課程名稱", key: "courseName", type: "String" },
       { label: "教師姓名", key: "teacherName", type: "String" },
       { label: "開課日期", key: "courseDate", type: "date" },
@@ -76,6 +81,9 @@ const props = defineProps({
   },
   pages: {
     default: 100,
+  },
+  courseId: {
+    type: Number,
   },
 })
 
@@ -238,7 +246,7 @@ onMounted(() => {
                 >修改</n-button
               >
               <n-button
-                @click="deleteSingleCourse(data.id)"
+                @click="deleteSingleCourse(data.courseId)"
                 strong
                 secondary
                 round
@@ -248,55 +256,6 @@ onMounted(() => {
           </tr>
         </tbody>
       </n-table>
-      <!-- <div class="row">
-        <table class="col-12 table table-hover align-middle">
-          <thead class="table-secondary table-light">
-            <tr>
-              <th>編號</th>
-              <th>教師姓名</th>
-              <th>課程名稱</th>
-              <th>開課日期</th>
-              <th>報名截止日期</th>
-              <th>上課地點</th>
-              <th>課程分類</th>
-              <th>剩餘名額</th>
-              <th>報名價格</th>
-              <th>開課狀態</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="{
-                courseId,
-                teacherName,
-                courseName,
-                updateDate,
-                closeDate,
-                coursePlace,
-                categoryName,
-                remainPlaces,
-                coursePrice,
-                courseStatus,
-              } in courses"
-              :key="courseId"
-            >
-              <td>{{ courseId }}</td>
-              <td>{{ teacherName }}</td>
-              <td>{{ courseName }}</td>
-              <td>{{ updateDate }}</td>
-              <td>{{ closeDate }}</td>
-              <td>{{ coursePlace }}</td>
-              <td>{{ categoryName }}</td>
-              <td>{{ remainPlaces }}</td>
-              <td>{{ coursePrice }}</td>
-              <td>{{ courseStatus }}</td>
-
-              <td><button>新增</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
     </div>
   </div>
 </template>

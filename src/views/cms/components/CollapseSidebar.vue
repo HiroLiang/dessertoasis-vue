@@ -115,6 +115,13 @@ const sendTitle = (title) => {
               >編輯教師個人介紹</router-link
             >
           </div>
+          <div>
+            <router-link
+              @click="sendTitle(`課程管理`)"
+              to="/cms/managerAllTeacher"
+              >所有教師列表</router-link
+            >
+          </div>
         </n-collapse-item>
 
         <n-collapse-item title="訂單管理" name="5">

@@ -1,5 +1,7 @@
 <script setup>
 
+const memberId = 4;
+
 </script>
 
 <template>

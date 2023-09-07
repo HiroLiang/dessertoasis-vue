@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, reactive, computed, watch } from "vue"
 import { getAllCourses } from "@/api"
+import { deleteCourse } from "@/api"
 
 const courses = ref([])
 const datas = async () => {
@@ -10,6 +11,20 @@ const datas = async () => {
     // tableDatas.value = courses.value
     courses.value = res.data
   } catch (error) {
+    console.error(error)
+  }
+}
+const deleteSingleCourse = async (id) => {
+  try {
+    const response = await deleteCourse(id)
+    console.log(response)
+    if (response.status === 200) {
+      datas()
+    } else {
+      console.log("刪除課程失敗")
+    }
+  } catch (error) {
+    console.log(response)
     console.error(error)
   }
 }
@@ -36,14 +51,14 @@ const props = defineProps({
   },
   /*
     表格標頭
-    格式： [{ label : ' 展示名 ', key : ' key ' , type : ' 資料型態 '} , ...] 
+    格式： [{ label : ' 展示名 ', key : ' key ' , type : ' 資料型態 '} , ...]
     */
   dataTitles: {
     default: [
       // { label: "課程編號", key: "courseId", type: "Number" },
       { label: "課程名稱", key: "courseName", type: "String" },
       { label: "教師姓名", key: "teacherName", type: "String" },
-      { label: "開課日期", key: "updateDate", type: "date" },
+      { label: "開課日期", key: "courseDate", type: "date" },
       { label: "報名截止", key: "closeDate", type: "date" },
       { label: "上課地點", key: "coursePlace", type: "String" },
       { label: "剩餘名額", key: "remainPlaces", type: "Number" },
@@ -207,19 +222,26 @@ onMounted(() => {
               <span v-if="title.type === 'String' || title.type === 'Number'">{{
                 data[title.key]
               }}</span>
-              <!-- <span v-else-if="title.type === 'Date' ">{{
+              <span v-else-if="title.type === 'Date'">{{
                 formattedDate(data[title.key])
-              }}</span> -->
-              <span v-else-if="title.type === 'Date'">
+              }}</span>
+              <!-- <span v-else-if="title.type === 'Date'">
                 {{
                   data[title.key] ? formattedDate(data[title.key]) : ""
                 }}</span
-              >
+              > -->
               <span v-else>{{ data[title.key] }}</span>
             </td>
             <td>
               <n-button @click="getEditId(data.id)" strong secondary round
                 >修改</n-button
+              >
+              <n-button
+                @click="deleteSingleCourse(data.id)"
+                strong
+                secondary
+                round
+                >刪除</n-button
               >
             </td>
           </tr>

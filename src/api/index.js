@@ -32,7 +32,14 @@ const reqMemberDetail = (id) => {
 }
 
 //查詢全部會員
+<<<<<<< HEAD
 const reqGetAllMembers = () => request.get("/member/all", {})
+=======
+const reqGetAllMembers = () => request.get('/member/all', {});
+
+//從session 拿出member資料
+const reqSession = () => request.get('/memberSession');
+>>>>>>> b5871e722b1278808edf069e12ba23e510b242e0
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -155,6 +162,7 @@ export {
   reqMember,
   reqMemberDetail,
   reqGetAllMembers,
+  reqSession,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,

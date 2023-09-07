@@ -1,19 +1,48 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { reqMember } from '@/api';
+import { reqMember, reqMemberDetail, reqSession } from '@/api';
 
-const memberId = 1;
-const memberData = ref(null);
+const memberId = ref("");
+
+// const memberData = ref("");
+// const memberMdData = ref("")
+
+const memberName = ref("");
+const memberUserName = ref("");
+const memberIdNumber = ref("");
+const memberBirthday = ref("");
+const memberEmail = ref("");
+const memberAddress = ref("");
+
+
 
 onMounted(async () => {
     try {
-        const response = await reqMember(memberId);
-        memberData.value = response.data;
-        console.log(memberData.value.fullName);
+        const sessionResponse = await reqSession();
+        const sessionData = sessionResponse.data;
+
+        memberId.value = sessionData.id;
+        console.log("我是" + memberId.value);
+        const response = await reqMember(memberId.value);
+        const responseMd = await reqMemberDetail(memberId.value);
+
+        // memberData.value = response.data;
+        memberName.value = response.data.fullName;
+        memberUserName.value = response.data.memberName
+        memberEmail.value = response.data.email
+
+        // memberMdData.value = responseMd.data;
+        memberIdNumber.value = responseMd.data.idNumber
+        memberBirthday.value = responseMd.data.birthday
+        memberAddress.value = responseMd.data.deliveryAddress
+
     } catch (error) {
-        console.error('獲取會員資料時出錯：', error);
+        console.error('獲取會員失敗：', error);
     }
 });
+
+// const handleInput = () => {
+// }
 </script>
 
 
@@ -32,31 +61,36 @@ onMounted(async () => {
 
                         <div class="col-md-6">
                             <label class="form-label" for="nameInput">姓名</label>
-                            <input type="text" class="form-control" id="nameInput">
+                            <input type="text" class="form-control" id="nameInput" v-model="memberName">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label" for="memberNameInput">使用者名稱</label>
+                            <input type="text" class="form-control" id="memberNameInput" v-model="memberUserName">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label" for="identityInput">身分證
                             </label>
-                            <input type="text" class="form-control" id="identityInput">
+                            <input type="text" class="form-control" id="identityInput" v-model="memberIdNumber">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label" for="bdayInput">生日
                             </label>
-                            <input type="text" class="form-control" id="bdayInput" value="">
+                            <input type="text" class="form-control" id="bdayInput" v-model="memberBirthday">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label" for="emailInput">Email
                             </label>
-                            <input type="email" class="form-control" id="emailInput" value="">
+                            <input type="email" class="form-control" id="emailInput" v-model="memberEmail">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label" for="addressInput">住址
                             </label>
-                            <input type="text" class="form-control" id="addressInput" value="">
+                            <input type="text" class="form-control" id="addressInput" v-model="memberAddress">
                         </div>
                     </div>
                 </div>

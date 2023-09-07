@@ -32,7 +32,7 @@ const reqMemberDetail = (id) => {
 }
 
 //查詢全部會員
-const reqGetAllMembers = () => request.get('/member/all', {});
+const reqGetAllMembers = () => request.get("/member/all", {})
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -111,12 +111,12 @@ const insertOrder = (data) => {
 
 //從controller拿到所有課程，export出Promise物件給vue?
 const getAllCourses = () => {
-  return request.get("/course/all")
+  return request.get(`/course/all`)
 }
 
 //檢查教師身分
 const checkTeacherStatus = () => {
-  return request.get("/set-teacher-cookie")
+  return request.get(`/set-teacher-cookie`)
 }
 
 //列出該教師個人資料
@@ -124,10 +124,17 @@ const editTeacherProfile = (teacherId) => {
   return request.get(`/teacher/${teacherId}`)
 }
 
+//刪除課程by Id
+const deleteCourse = (id) => {
+  return request.delete(`/course/${id}`)
+}
+
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
 const getAllProd = (page, pageSize, dataTitles) => {
-  return request.get(`/product/search?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`)
+  return request.get(
+    `/product/search?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`
+  )
 }
 
 /*----------------------------------------  搜索相關請求  -------------------------------------------*/
@@ -160,7 +167,6 @@ export {
   // 教室用
   getReservations,
   getClassrooms,
-  editTeacherProfile,
 
   // 購物車用
   addToCart,
@@ -171,8 +177,12 @@ export {
 
   // 訂單用
   insertOrder,
+
+  //課程用
   getAllCourses,
   checkTeacherStatus,
+  editTeacherProfile,
+  deleteCourse,
 
   /*--------商品用-------*/
   getAllProd,

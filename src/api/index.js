@@ -127,6 +127,11 @@ const editTeacherProfile = (teacherId) => {
   return request.get(`/teacher/${teacherId}`)
 }
 
+//列出該教師所有課程
+const getCoursesByTeacherId = (teacherId) => {
+  return request.get(`/course/teacher/${teacherId}`)
+}
+
 //刪除課程by Id
 const deleteCourse = (id) => {
   return request.delete(`/course/${id}`)
@@ -187,6 +192,7 @@ export {
   checkTeacherStatus,
   editTeacherProfile,
   deleteCourse,
+  getCoursesByTeacherId,
 
   /*--------商品用-------*/
   getAllProd,

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, reactive, computed, watch } from "vue"
+import StandardSearch from "../../components/Standard/Search.vue"
 import { getAllCourses } from "@/api"
 import { deleteCourse } from "@/api"
 

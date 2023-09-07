@@ -44,7 +44,7 @@ const props = defineProps({
       { label: "課程名稱", key: "courseName", type: "String" },
       { label: "教師姓名", key: "teacherName", type: "String" },
       { label: "開課日期", key: "updateDate", type: "date" },
-      { label: "報名截止日期", key: "closeDate", type: "date" },
+      { label: "報名截止", key: "closeDate", type: "date" },
       { label: "上課地點", key: "coursePlace", type: "String" },
       { label: "剩餘名額", key: "remainPlaces", type: "Number" },
       { label: "報名價格", key: "coursePrice", type: "Number" },
@@ -161,7 +161,7 @@ onMounted(() => {
 </script>
 <template>
   <div class="container">
-    <h1 align="center">課程管理</h1>
+    <h1 align="center">所有課程列表</h1>
     <StandardSearch
       :searchOptions="props.dataTitles"
       @get-selected-key="getKey"

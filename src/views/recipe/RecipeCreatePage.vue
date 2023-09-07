@@ -82,9 +82,9 @@ const handleStepData = (textIndex, textContent, imgData) => {
     // })
     // console.log('textIndex:  ' + textIndex);
     // console.log('textContent:  ' + textContent);
-    console.log('imgData:  ' + imgData);
-    console.log('steps:  ');
-    console.log(steps);
+    // console.log('imgData:  ' + imgData);
+    // console.log('steps:  ');
+    // console.log(steps);
 
 }
 
@@ -114,7 +114,7 @@ const getRecipeImg = (e) => {
                 base64Content: base64Data
             }
             recipeJsonData.value = JSON.stringify(jsonData);
-            console.log(recipeJsonData.value);
+            // console.log(recipeJsonData.value);
             recipePicPreviewImageUrl.value = e.target.result
         }
         reader.readAsDataURL(recipeImgData);
@@ -145,43 +145,43 @@ const imgDatas = reactive([])
 
 let formData = new FormData()
 const submitForm = async () => {
-    if (data) {
-        // formData.append('recipeTitle', data.recipeTitle)
-        // formData.append('recipeIntroduction', data.recipeIntroduction)
-        // formData.append('pictureURL', recipeImgData.value)
-        // formData.append('ingredientPersons', data.ingredientPersons)
-        // formData.append('cookingTime', data.cookingTime)
+    // if (data) {
+    // formData.append('recipeTitle', data.recipeTitle)
+    // formData.append('recipeIntroduction', data.recipeIntroduction)
+    // formData.append('pictureURL', recipeImgData.value)
+    // formData.append('ingredientPersons', data.ingredientPersons)
+    // formData.append('cookingTime', data.cookingTime)
 
-        // formData.append('file', recipeImgData.value)
-        // data.pictureURL.push(recipeImgData.value)
+    // formData.append('file', recipeImgData.value)
+    // data.pictureURL.push(recipeImgData.value)
 
-        imgDatas.push(recipeJsonData.value)
-        stepImgs.forEach(stepImg => {
-            imgDatas.push(stepImg)
-        }
-        )
-        // formData.append('pictures', pictures)
-
-        ingredients.forEach(ingredient => {
-            data.ingredients.push(ingredient)
-            console.log(ingredient);
-        })
-        steps.forEach(step => {
-            data.steps.push(step)
-            console.log(step);
-        })
-
-
-        // console.log(formData);
-
-        console.log(data);
-
-        imgDatas.forEach((value, key) => {
-            console.log(`${key}: ${value}`);
-        })
-        await imgTest(imgDatas)
-        imgDatas.splice(0, imgDatas.length)
+    imgDatas.push(recipeJsonData.value)
+    stepImgs.forEach(stepImg => {
+        imgDatas.push(stepImg)
     }
+    )
+    // formData.append('pictures', pictures)
+
+    // ingredients.forEach(ingredient => {
+    //     data.ingredients.push(ingredient)
+    //     console.log(ingredient);
+    // })
+    // steps.forEach(step => {
+    //     data.steps.push(step)
+    //     console.log(step);
+    // })
+
+
+    // console.log(formData);
+    console.log(imgDatas);
+
+    console.log("imgData:  ");
+
+    imgDatas.forEach(data => {
+        console.log(data);
+    })
+    await imgTest(imgDatas)
+    imgDatas.splice(0, imgDatas.length)  // }
 }
 
 const myForm = ref(null)

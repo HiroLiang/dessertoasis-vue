@@ -1,57 +1,26 @@
 <template>
-    <div class="search-input">
-        <!-- <input type="text" placeholder="搜尋"> -->
-
-    </div>
-    <!-- 庫存量
-        <input type="number" name="" />~<input type="number" name="" />
-    </div>
-    <div>
-        銷量
-        <input type="number" name="" />~<input type="number" name="" />
-    </div>
-    <div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                上架中
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                已下架
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                已售完
-            </label>
-        </div>
-    </div>
-
-    <div class="search-btn">
-        <button class="search-button" type="submit">搜尋</button>
-       
-    </div>
-    <div class="btn">
-        <button class="" type="button" @click="">重設</button>
-        
-    </div> -->
     <div v-if="tableDatas && tableDatas.length > 0">
-        <ProdTable :pageSize="pageSize" :page="page" :pages="pages" @get-edit-id="getId" @change-page="changePage"
-            @get-sort-rule="sortBy" :tableDatas="tableDatas" :dataTitles="dataTitles">
+        <ProdTable :pageSize="pageSize" :page="page" :pages="pages" :tableDatas="tableDatas" :dataTitles="dataTitles"
+            @get-edit-id="getId" @change-page="changePage" @get-sort-rule="sortBy" @get-search-rules="getSearch"
+            @get-selected-key="getKey">
+
         </ProdTable>
     </div>
 </template>
 
 <script setup>
-import { getAllProd } from '@/api/index.js'
-import { ref, reactive, computed, onMounted } from 'vue';
-import axios from 'axios';
+// @get-number-range="getNumber" @get-date-rules="getDate"
+import { getAllProd, SearchProd } from '@/api/index.js';
+import { ref, reactive, computed, onMounted, watch } from 'vue';
+//import axios from 'axios';
 import ProdTable from '@/components/Standard/Table.vue';
-
+const page = ref(1);
+const pageSize = ref(20);
+const pages = ref();
+//const searchRules = ref({ key: '', type: '', input: '' });
+//const input = ref();
+const key = ref();
+const tableDatas = ref([]);
 const getId = (id) => {
     console.log(id);
 }
@@ -59,37 +28,53 @@ const getId = (id) => {
 const getPage = (page) => {
     console.log(page);
 }
+const getKey = (key) => {
+    console.log("key:", key);
 
+}
 const changePage = async ([page, pageSize]) => {
     getPage(page, pageSize);
     console.log("Page:", page);
     console.log("PageSize:", pageSize);
 
-    await fetchAndProcessData(page, pageSize, dataTitles.value);
-    // let result = await getAllProd(page, pageSize, dataTitles.value);
-    // let dataResponse = result.data;
-    // console.log(result);
-    // pages.value = dataResponse.totalPages;
-
-    // if (dataResponse && Array.isArray(dataResponse.content)) {
-    //     let datas = dataResponse.content;
-    //     datas.forEach(ele => {
-    //         ele.category = ele.category.categoryName;
-    //     });
-    //     tableDatas.value = datas;
-    // } else {
-    //     console.error('Data from API is not in the expected format:', dataResponse);
-    // }
+    //await fetchAndProcessData(page, pageSize, dataTitles.value, key.value);
+    if (key.value) {
+        await getSearch(key.value, page, pageSize, dataTitles.value);
+    } else {
+        await fetchAndProcessData(page, pageSize, dataTitles.value);
+    }
 }
 
 const sortBy = async (dataTitle) => {
     console.log("dataTitle:", dataTitle);
-    await fetchAndProcessData(page.value, pageSize.value, dataTitle);
+    //await fetchAndProcessData(page.value, pageSize.value, dataTitle, key.value);
+    if (key.value) {
+        await getSearch(key.value, page.value, pageSize.value, dataTitle);
+    } else {
+        await fetchAndProcessData(page.value, pageSize.value, dataTitle);
+    }
 }
 
-const fetchAndProcessData = async (page, pageSize, dataTitles) => {
+
+
+const getSearch = async (key, page, pageSize, dataTitle) => {
+    const searchObj = {};
+    key.forEach((searchRules) => {
+        searchObj[searchRules.key] = searchRules.input;
+    });
+
+    const criteria = JSON.stringify(searchObj, page, pageSize, dataTitle);
+
+    console.log("criteria:", criteria);
+
+    const jsonHeader = { headers: { "Content-Type": "application/json" } };
+
+    await ProcessData2(criteria, jsonHeader, page, pageSize);
+}
+
+const ProcessData2 = async (criteria, jsonHeader, page, pageSize, dataTitle) => {
     try {
-        let result = await getAllProd(page, pageSize, dataTitles);
+        let result = await SearchProd(criteria, jsonHeader, page, pageSize, dataTitle);
         let dataResponse = result.data;
         console.log(result);
         pages.value = dataResponse.totalPages;
@@ -98,6 +83,7 @@ const fetchAndProcessData = async (page, pageSize, dataTitles) => {
             let datas = dataResponse.content;
             datas.forEach(ele => {
                 ele.category = ele.category.categoryName;
+                ele.updateTime = new Date(ele.updateTime);
             });
             tableDatas.value = datas;
         } else {
@@ -107,11 +93,39 @@ const fetchAndProcessData = async (page, pageSize, dataTitles) => {
         console.error('Error fetching and processing data:', error);
     }
 }
-const page = ref(1);
-const pageSize = ref(20);
-const pages = ref();
+// const getNumber = (numberRange) => {
+//     console.log("numberRange:", numberRange);
 
-const tableDatas = ref([]);
+// }
+
+// const getDate = (dateRules) => {
+//     console.log("dateRules:", dateRules);
+
+// }
+
+const fetchAndProcessData = async (page, pageSize, dataTitle) => {
+    try {
+        let result = await getAllProd(page, pageSize, dataTitle);
+        let dataResponse = result.data;
+        console.log(result);
+        pages.value = dataResponse.totalPages;
+
+        if (dataResponse && Array.isArray(dataResponse.content)) {
+            let datas = dataResponse.content;
+            datas.forEach(ele => {
+                ele.category = ele.category.categoryName;
+                ele.updateTime = new Date(ele.updateTime);
+            });
+            tableDatas.value = datas;
+        } else {
+            console.error('Data from API is not in the expected format:', dataResponse);
+        }
+    } catch (error) {
+        console.error('Error fetching and processing data:', error);
+    }
+}
+
+
 onMounted(async () => {
     let result = await getAllProd(page.value, pageSize.value, dataTitles.value);
     let dataResponse = result.data;
@@ -123,6 +137,7 @@ onMounted(async () => {
         let datas = dataResponse.content;
         datas.forEach(ele => {
             ele.category = ele.category.categoryName;
+            ele.updateTime = new Date(ele.updateTime);
         });
         tableDatas.value = datas;
     } else {
@@ -136,12 +151,12 @@ const dataTitles = [
     { label: "分類", key: "category", type: "String" },
     { label: "名稱", key: "prodName", type: "String" },
     // { label: "描述", key: "prodDescription", type: "String" },
-    { label: "價錢", key: "prodPrice", type: "String" },
-    { label: "總銷量", key: "prodPurchase", type: "String" },
-    { label: "庫存", key: "prodStock", type: "String" },
+    { label: "價錢", key: "prodPrice", type: "Number" },
+    { label: "總銷量", key: "prodPurchase", type: "Number" },
+    { label: "庫存", key: "prodStock", type: "Number" },
     { label: "狀態", key: "productStatus", type: "String" },
-    { label: "最後更新日期", key: "updateTime", type: "String" },
-    { label: "更新後銷量", key: "saleAfterUpdate", type: "String" },
+    { label: "最後更新日期", key: "updateTime", type: "Date" },
+    { label: "更新後銷量", key: "saleAfterUpdate", type: "Number" },
     { label: "備註", key: "prodRemark", type: "String" },]
 const props = defineProps({
     /*

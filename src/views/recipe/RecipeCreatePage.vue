@@ -3,6 +3,7 @@ import { ref, reactive, onMounted } from 'vue'
 
 import IngredientInput from '@/views/recipe/components/IngredientInput.vue'
 import StepInput from '@/views/recipe/components/StepInput.vue'
+import { addRecipe, imgTest } from '@/api'
 
 const ingredientCounter = ref(0)
 const ingredients = reactive([])
@@ -15,10 +16,13 @@ const addNewIngredient = () => {
 }
 const stepCounter = ref(0)
 const steps = reactive([])
+const stepImgs = reactive([])
+
 
 //於建立頁新增一個步驟
 const addNewStep = () => {
     steps.push({ id: stepCounter.value, text: '', imgUrl: '' })
+    stepImgs.push()
     stepCounter.value++
     // console.log(JSON.stringify(steps));
 }
@@ -33,15 +37,16 @@ onMounted(() => {
 const handleDeleteStep = (deleteIndex) => {
     console.log(deleteIndex);
     steps.splice(deleteIndex - 1, 1)
+    stepImgs.splice(deleteIndex - 1, 1)
 }
 //刪除對應食材
 const handleDeleteIngredient = (deleteIngredient) => {
     // console.log(deleteIngredient);
     ingredients.splice(deleteIngredient - 1, 1)
 }
-let draggingIndex = null
 
 //拖曳開始位置
+let draggingIndex = null
 const dragStart = (e, index) => {
     console.log('index ' + index)
     draggingIndex = index
@@ -53,10 +58,13 @@ const onDrop = (e, dropIndex) => {
 
     if (draggingIndex !== null && dropIndex !== null) {
         const movedItems = steps.splice(draggingIndex, 1)
+        const movedPicItems = stepImgs.splice(draggingIndex, 1)
         const movedItem = movedItems[0]
+        const movePicItem = movedPicItems[0]
         // console.log("dropIndex   " + dropIndex);
         // console.log("movedItem   " + JSON.stringify(movedItem));
         steps.splice(dropIndex, 0, movedItem)
+        stepImgs.splice(dropIndex, 0, movePicItem)
         draggingIndex = null
     }
 }
@@ -66,11 +74,18 @@ const onDrop = (e, dropIndex) => {
 const handleStepData = (textIndex, textContent, imgData) => {
     steps[textIndex - 1].text = textContent;
     steps[textIndex - 1].imgUrl = imgData;
+    stepImgs[textIndex - 1] = steps[textIndex - 1].imgUrl//處理步驟圖片
+
+    // console.log(stepImgs.value);
+    // stepImgs.forEach(stepImg => {
+    //     console.log(stepImg);
+    // })
     // console.log('textIndex:  ' + textIndex);
     // console.log('textContent:  ' + textContent);
-    // console.log('imgData:  ' + imgData);
-    // console.log('steps:  ');
-    // console.log(steps);
+    console.log('imgData:  ' + imgData);
+    console.log('steps:  ');
+    console.log(steps);
+
 }
 
 const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) => {
@@ -83,23 +98,27 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) =>
     // console.log(ingredients);
 }
 //取得圖片資料
-const recipeImgData = ref(null)
+const recipeJsonData = ref(null)
 //產生預覽圖
 const recipePicPreviewImageUrl = ref(null)
 const getRecipeImg = (e) => {
 
-    recipeImgData.value = e.target.files[0]
-    if (recipeImgData.value) {
+    const recipeImgData = e.target.files[0]
+    if (recipeImgData) {
         const reader = new FileReader();
 
         reader.onload = (e) => {
+            const base64Data = e.target.result.split(',')[1]
+            const jsonData = {
+                fileName: recipeImgData.name,
+                base64Content: base64Data
+            }
+            recipeJsonData.value = JSON.stringify(jsonData);
+            console.log(recipeJsonData.value);
             recipePicPreviewImageUrl.value = e.target.result
         }
-        reader.readAsDataURL(recipeImgData.value);
+        reader.readAsDataURL(recipeImgData);
     }
-
-    // console.log(recipeImgData.value);
-
 }
 
 const data = reactive({
@@ -108,18 +127,40 @@ const data = reactive({
     pictureURL: [],
     ingredientPersons: '',
     cookingTime: '',
-    ingredients: [],
-    steps: []
+    // ingredientList: [
+    //     ingredient: {
+    //         ingredientName: ''
+    //     },
+    //     ingredientQuantity: 0,
+    //     ingredientUnit: '',
+    // ],
+    // recipeSteps: [
+    //     stepNumber: 1,
+    //     stepPicture: '',
+    //     stepContext: ''
+    // ]
 })
-const submitForm = () => {
+
+const imgDatas = reactive([])
+
+let formData = new FormData()
+const submitForm = async () => {
     if (data) {
-        // const formData = new FormData()
         // formData.append('recipeTitle', data.recipeTitle)
         // formData.append('recipeIntroduction', data.recipeIntroduction)
         // formData.append('pictureURL', recipeImgData.value)
         // formData.append('ingredientPersons', data.ingredientPersons)
         // formData.append('cookingTime', data.cookingTime)
-        data.pictureURL.push(recipeImgData.value)
+
+        // formData.append('file', recipeImgData.value)
+        // data.pictureURL.push(recipeImgData.value)
+
+        imgDatas.push(recipeJsonData.value)
+        stepImgs.forEach(stepImg => {
+            imgDatas.push(stepImg)
+        }
+        )
+        // formData.append('pictures', pictures)
 
         ingredients.forEach(ingredient => {
             data.ingredients.push(ingredient)
@@ -129,10 +170,33 @@ const submitForm = () => {
             data.steps.push(step)
             console.log(step);
         })
+
+
+        // console.log(formData);
+
         console.log(data);
+
+        imgDatas.forEach((value, key) => {
+            console.log(`${key}: ${value}`);
+        })
+        await imgTest(imgDatas)
+        imgDatas.splice(0, imgDatas.length)
     }
 }
 
+const myForm = ref(null)
+const handleSubmit = async () => {
+    // const form = myForm.value
+
+    const formDataObj = new FormData(myForm.value)
+    const res = await addRecipe(formDataObj)
+    if (res.data != null && res.data.length != 0) {
+        console.log("新增成功");
+    }
+    formDataObj.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+    })
+}
 
 </script>
 
@@ -142,7 +206,7 @@ const submitForm = () => {
     </div>
     <h2>this is recipe create page</h2>
 
-
+    <!-- <form @submit.prevent="handleSubmit" ref="myForm"> -->
     <div class="container">
         <div class="recipeContainer container">
             <div class="recipeTitleContainer container mt-3">
@@ -165,7 +229,7 @@ const submitForm = () => {
                         <img class="recipePic inputLabel custom-cursor-pointer " id="previewPic0" alt="成品圖片"
                             :src="recipePicPreviewImageUrl || 'https://fakeimg.pl/1180x310/?text=Image'">
                     </div>
-                    <input @change="getRecipeImg" class="form-control visually-hidden" type="file" id="pictureURL"
+                    <input @change="getRecipeImg" class="form-control visually-hidden pic" type="file" id="pictureURL"
                         name="pictureURL" accept="image/*"><br>
                 </label><br><br>
             </div>
@@ -221,6 +285,7 @@ const submitForm = () => {
 
         </div>
         <div class="crudbtn">
+            <input type="submit" value="送出">
             <button class=" btn btn-light" @click="submitForm">發佈</button>
             <button class="btn btn-light">儲存</button>
             <button class="btn btn-light">取消</button>
@@ -229,6 +294,7 @@ const submitForm = () => {
         </div>
 
     </div>
+    <!-- </form> -->
 </template>
 
 <style scoped>

@@ -5,6 +5,7 @@ import ProductCart from '@/views/cart/ProductCart.vue';
 import ReservationCart from '@/views/cart/ReservationCart.vue';
 import CourseCart from '@/views/cart/CourseCart.vue';
 import { insertOrder } from '@/api/index'
+import AddToCartButton from '@/components/AddToCartButton.vue';
 
 const productCart = ref(null)
 const courseCart = ref(null)
@@ -54,6 +55,20 @@ const handleInsertOrder = async () => {
     <div class="container">
         <div class="row">
             <div class="col-8">
+                <!-- 商品課程加入購物車測試 -->
+                <div>
+                    <div>
+                        商品1:
+                        <AddToCartButton :data="{categoryId: 1, interestedId: 1, prodQuantity: 3}"></AddToCartButton>
+                        商品2:
+                        <AddToCartButton :data="{categoryId: 1, interestedId: 2, prodQuantity: 2}"></AddToCartButton>
+                    </div>
+                    <div>
+                        課程1:
+                        <AddToCartButton :data="{categoryId: 2, interestedId: 1}"></AddToCartButton>
+                    </div>
+                </div>
+
                 <ProductCart @getProducts="getProducts"></ProductCart>
                 <CourseCart @getCourses="getCourses"></CourseCart>
                 <ReservationCart @getReservations="getReservations"></ReservationCart>

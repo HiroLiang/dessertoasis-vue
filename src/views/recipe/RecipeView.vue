@@ -20,6 +20,10 @@ let formData = new FormData()
 const getRecipeImg = (e) => {
     formData = new FormData()
     formData.append("file", e.target.files[0])
+    formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+    })
+
 }
 
 const send = async () => {

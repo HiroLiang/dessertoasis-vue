@@ -94,7 +94,6 @@ watch([() => props.date, () => classroom.value], () => {
         </div>
         <div v-else-if="rsv">
             <h4 class="mt-3">※已預訂</h4>
-            <div>{{ rsv }}</div>
         </div>
         <div v-else>
             <div class="my-3">

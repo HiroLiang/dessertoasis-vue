@@ -22,9 +22,20 @@ const reqSignOut = () => {
   return request.post("/memberLogout", null, jsonHeader)
 }
 
-const reqMemberAccess = (memberId) => {
-  return request.get(`/member/details/${memberId}/access`)
+//查詢單筆會員
+const reqMember = (id) => {
+  return request.get(`/member/${id}`)
 }
+//查詢單筆會員詳細資料
+const reqMemberDetail = (id) => {
+  return request.get(`/member/${id}/details`)
+}
+
+//查詢全部會員
+const reqGetAllMembers = () => request.get("/member/all", {})
+
+//從session 拿出member資料
+const reqSession = () => request.get("/memberSession")
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -46,9 +57,14 @@ const req10CategoryRecipe = (categoryId) => {
   console.log("categoryId:" + categoryId)
   return request.get(`/recipe/get10categoryRecipes?cid=${categoryId}`)
 }
-
+//測試圖檔上傳可正確儲存到設定位置
 const imgTest = (file) => {
-  return request.post("/test/uploadimg", file)
+  console.log(file);
+  return request.post("/test/uploadimg", { "file": file, "recipe": "data" })
+}
+//送出建立食譜頁面資料
+const addRecipe = (formData) => {
+  return request.post("/recipe/addrecipe", formData)
 }
 
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
@@ -63,7 +79,7 @@ const getClassrooms = () => {
   return request.get("/classrooms")
 }
 
-/*----------------------------------------  購物車、訂單相關請求  -------------------------------------------*/
+/*----------------------------------------  購物車相關請求  -------------------------------------------*/
 
 // 加入購物車
 const addToCart = (data) => {
@@ -90,21 +106,28 @@ const deleteCart = (cartId) => {
   return request.delete(`/cart/${cartId}`)
 }
 
+/*----------------------------------------  訂單相關請求  -------------------------------------------*/
+
 // 新增訂單
 const insertOrder = (data) => {
   return request.post(`/order`, data)
+}
+
+// 取得單一訂單
+const getOrder = (ordId) => {
+  return request.get(`/order/${ordId}`)
 }
 
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
 
 //從controller拿到所有課程，export出Promise物件給vue?
 const getAllCourses = () => {
-  return request.get("/course/all")
+  return request.get(`/course/all`)
 }
 
 //檢查教師身分
 const checkTeacherStatus = () => {
-  return request.get("/set-teacher-cookie")
+  return request.get(`/set-teacher-cookie`)
 }
 
 //列出該教師個人資料
@@ -112,10 +135,22 @@ const editTeacherProfile = (teacherId) => {
   return request.get(`/teacher/${teacherId}`)
 }
 
+//列出該教師所有課程
+const getCoursesByTeacherId = (teacherId) => {
+  return request.get(`/course/teacher/${teacherId}`)
+}
+
+//刪除課程by Id
+const deleteCourse = (courseId) => {
+  return request.delete(`/course/${courseId}`)
+}
+
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
 const getAllProd = (page, pageSize, dataTitles) => {
-  return request.get(`/product/search?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`)
+  return request.get(
+    `/product/search?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`
+  )
 }
 
 /*----------------------------------------  搜索相關請求  -------------------------------------------*/
@@ -133,7 +168,10 @@ export {
   reqSignIn,
   reqSignUp,
   reqSignOut,
-  reqMemberAccess,
+  reqMember,
+  reqMemberDetail,
+  reqGetAllMembers,
+  reqSession,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,
@@ -141,11 +179,11 @@ export {
   reqTest,
   reqDatas,
   imgTest,
+  addRecipe,
 
   // 教室用
   getReservations,
   getClassrooms,
-  editTeacherProfile,
 
   // 購物車用
   addToCart,
@@ -156,8 +194,14 @@ export {
 
   // 訂單用
   insertOrder,
+
+  //課程用
   getAllCourses,
+  getOrder,
   checkTeacherStatus,
+  editTeacherProfile,
+  deleteCourse,
+  getCoursesByTeacherId,
 
   /*--------商品用-------*/
   getAllProd,

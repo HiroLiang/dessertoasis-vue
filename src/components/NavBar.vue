@@ -104,7 +104,8 @@ async function logout() {
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-lg bg-light">
+    <div style="width: 100%; height: 56px"></div>
+    <nav class="navbar navbar-expand-lg bg-light fixed-top">
         <div class="container-fluid">
             <button @click="removeListClass" class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"

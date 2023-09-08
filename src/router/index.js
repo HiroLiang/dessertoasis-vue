@@ -89,6 +89,12 @@ const router = createRouter({
           name: "course",
           component: () => import("../views/course/CourseBackground.vue"),
         },
+        // {
+        //   path: "/courses/:id",
+        //   name: "courseDetail",
+        //   component: () => import("../views/course/CourseDetail.vue"), // 课程详情页面组件
+        //   props: true, // 将路由参数传递为组件的 props
+        // },
         {
           path: "/cms/addCourse",
           name: "addCourse",

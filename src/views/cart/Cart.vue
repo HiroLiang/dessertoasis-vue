@@ -35,15 +35,15 @@ const total = computed(() => {
     return productTotal.value + courseTotal.value + rsvTotal.value
 })
 
+const order = ref(null)
 const handleInsertOrder = async () => {
     const data = {
         productCartDTOs: productCart.value,
         courseCartDTOs: courseCart.value,
         reservationCartDTOs: rsvCart.value
     }
-    console.log(data)
     const res = await insertOrder(data)
-    console.log(res.data)
+    order.value = res.data
 }
 
 

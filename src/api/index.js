@@ -101,6 +101,11 @@ const getReservationCart = () => {
   return request.get(`/cart/reservation`)
 }
 
+// 更新購物車商品數量
+const reqUpdateProdQuantities = (data) => {
+  return request.patch(`/cart/product`, data)
+}
+
 // 刪除購物車內容
 const deleteCart = (cartId) => {
   return request.delete(`/cart/${cartId}`)
@@ -192,6 +197,7 @@ export {
   getProductCart,
   getCourseCart,
   getReservationCart,
+  reqUpdateProdQuantities,
   deleteCart,
 
   // 訂單用

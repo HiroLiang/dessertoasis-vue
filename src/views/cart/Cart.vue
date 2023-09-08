@@ -41,7 +41,7 @@ const handleInsertOrder = async () => {
         courseCartDTOs: courseCart.value,
         reservationCartDTOs: rsvCart.value
     }
-
+    console.log(data)
     const res = await insertOrder(data)
     console.log(res.data)
 }

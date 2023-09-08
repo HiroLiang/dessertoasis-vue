@@ -97,31 +97,41 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) =>
     // console.log('ingredients:  ');
     // console.log(ingredients);
 }
+
+/*----------------------------------------------圖檔資料處理區塊-------------------------------------------------------*/
 //取得圖片資料
 const recipeJsonData = ref(null)
 //產生預覽圖
 const recipePicPreviewImageUrl = ref(null)
 const getRecipeImg = (e) => {
-
+    //利用change事件取得圖檔
     const recipeImgData = e.target.files[0]
     if (recipeImgData) {
+        //FileReader會自動讀取input中上傳的檔案
         const reader = new FileReader();
-
+        //將圖檔轉成base64編碼
+        reader.readAsDataURL(recipeImgData);
+        //FileReader讀取完成時觸發onload事件
         reader.onload = (e) => {
+            //讀取完成後利用e.target.result取得圖檔的base64編碼數據, 
+            //並將其進行字串處理取得split後的的第二個元素(資料中base64編碼所在位置)
             const base64Data = e.target.result.split(',')[1]
+            //將字串利用物件建立兩個屬性放入對應數據(屬性名稱一定要為fileName: 以及  base64Content:)
             const jsonData = {
-                fileName: recipeImgData.name,
-                base64Content: base64Data
+                fileName: recipeImgData.name, //用以儲存圖檔檔名(const recipeImgData = e.target.files[0]中的name屬性值)
+                base64Content: base64Data  //用以儲存base64字串
             }
+            //jsonData物件轉成JSON格式放入物件內,用以傳送給Server
             recipeJsonData.value = JSON.stringify(jsonData);
-            // console.log(recipeJsonData.value);
+            //用以利用 onbind img標籤內的src產生預覽圖
             recipePicPreviewImageUrl.value = e.target.result
             console.log(recipeJsonData);
         }
-        reader.readAsDataURL(recipeImgData);
     }
 }
+/*----------------------------------------------圖檔資料處理區塊-------------------------------------------------------*/
 
+//recipeBean物件
 const data = reactive({
     recipeTitle: '',
     recipeIntroduction: '',
@@ -146,8 +156,10 @@ const data = reactive({
     ]
 })
 
-const imgDatas = reactive([])
 
+/*----------------------------------------------圖檔傳送給controller區塊-------------------------------------------------------*/
+const imgDatas = reactive([])
+//處理recipeBean要送出給server
 const submitForm = async () => {
     // if (data) {
     // formData.append('recipeTitle', data.recipeTitle)
@@ -159,8 +171,9 @@ const submitForm = async () => {
     // formData.append('file', recipeImgData.value)
     // data.pictureURL.push(recipeImgData.value)
 
-    imgDatas.push(recipeJsonData.value)
-    stepImgs.forEach(stepImg => {
+    //將成品圖與步驟圖的檔名及base64字串放入陣列
+    imgDatas.push(recipeJsonData.value)//成品圖
+    stepImgs.forEach(stepImg => {//步驟圖
         imgDatas.push(stepImg)
     }
     )
@@ -185,13 +198,15 @@ const submitForm = async () => {
         console.log(data);
     })
 
-    //將圖片push進recipeBean 容器中
+    //送出ajax請求給controller將圖檔於特定位置儲存
     let res = await imgTest(imgDatas)
+    //接收controller回傳的儲存位置字串
     let imgPaths = res.data
     console.log('imgPaths:  ');
     console.log(imgPaths);
 
 
+    //將圖片push進recipeBean 物件中
     // 若[0]為"N"(資料有Exception) 或 "F"(沒找到圖片)則不執行
     if (imgPaths[0] !== "N" || imgPaths[0] !== "F") {
         //判斷是否有成品圖 找到[0]的-1則將 [1]中的資料放入
@@ -209,9 +224,10 @@ const submitForm = async () => {
             })
         }
     }
-
+    //清空將成品圖與步驟圖的檔名及base64字串陣列
     imgDatas.splice(0, imgDatas.length)  // }
 }
+/*----------------------------------------------圖檔傳送給controller區塊-------------------------------------------------------*/
 
 const myForm = ref(null)
 const handleSubmit = async () => {

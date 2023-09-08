@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, reactive, computed, watch } from "vue"
+import SweetAlert from "SweetAlert2"
 import StandardSearch from "../../components/Standard/Search.vue"
 import { getAllCourses } from "@/api"
 import { deleteCourse } from "@/api"
@@ -15,11 +16,18 @@ const datas = async () => {
     console.error(error)
   }
 }
+const showSuccessAlert = ref(false)
 const deleteSingleCourse = async (courseId) => {
   try {
     const response = await deleteCourse(courseId)
     console.log(response)
     if (response.status === 200) {
+      // 删除成功，显示 SweetAlert2 提示框
+      SweetAlert.fire({
+        icon: "success",
+        title: "删除成功",
+      })
+      // 更新数据
       datas()
     } else {
       console.log("刪除課程失敗")
@@ -29,10 +37,10 @@ const deleteSingleCourse = async (courseId) => {
     console.error(error)
   }
 }
-// const deleteSingleCourse = async () => {
-//   await deleteCourse(props.courseId)
-//   emits("delete")
-// }
+
+const hideSuccessAlert = () => {
+  showSuccessAlert.value = false
+}
 
 /* 自定義方法 */
 const emit = defineEmits([
@@ -43,7 +51,6 @@ const emit = defineEmits([
   "get-sort-rule",
   "change-page",
   "get-date-rules",
-  "delete",
 ])
 
 /* 定義傳入值 */
@@ -242,9 +249,13 @@ onMounted(() => {
               <span v-else>{{ data[title.key] }}</span>
             </td>
             <td>
+              <!-- <router-link
+                :to="{ name: 'CourseDetail', params: { id: data.id } }"
+              > -->
               <n-button @click="getEditId(data.id)" strong secondary round
                 >修改</n-button
               >
+              <!-- </router-link> -->
               <n-button
                 @click="deleteSingleCourse(data.courseId)"
                 strong
@@ -252,6 +263,16 @@ onMounted(() => {
                 round
                 >刪除</n-button
               >
+              <!-- 弹出框内容 -->
+              <SweetAlert
+                v-if="showSuccessAlert"
+                type="success"
+                title="删除成功"
+                confirmButtonText="确定"
+                @confirm="hideSuccessAlert"
+              >
+                课程已成功删除。
+              </SweetAlert>
             </td>
           </tr>
         </tbody>

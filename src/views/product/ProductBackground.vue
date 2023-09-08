@@ -37,22 +37,22 @@ const changePage = async ([page, pageSize]) => {
     console.log("Page:", page);
     console.log("PageSize:", pageSize);
 
-    //await fetchAndProcessData(page, pageSize, dataTitles.value, key.value);
-    if (key.value) {
-        await getSearch(key.value, page, pageSize, dataTitles.value);
-    } else {
-        await fetchAndProcessData(page, pageSize, dataTitles.value);
-    }
+    await fetchAndProcessData(page, pageSize, dataTitles.value, key.value);
+    // if (key.value) {
+    //     await getSearch(key.value, page, pageSize, dataTitles.value);
+    // } else {
+    //     await fetchAndProcessData(page, pageSize, dataTitles.value);
+    // }
 }
 
 const sortBy = async (dataTitle) => {
     console.log("dataTitle:", dataTitle);
-    //await fetchAndProcessData(page.value, pageSize.value, dataTitle, key.value);
-    if (key.value) {
-        await getSearch(key.value, page.value, pageSize.value, dataTitle);
-    } else {
-        await fetchAndProcessData(page.value, pageSize.value, dataTitle);
-    }
+    await fetchAndProcessData(page.value, pageSize.value, dataTitle, key.value);
+    // if (key.value) {
+    //     await getSearch(key.value, page.value, pageSize.value, dataTitle);
+    // } else {
+    //     await fetchAndProcessData(page.value, pageSize.value, dataTitle);
+    // }
 }
 
 
@@ -102,6 +102,55 @@ const ProcessData2 = async (criteria, jsonHeader) => {
 //     console.log("dateRules:", dateRules);
 
 // }
+// const getSearch = async (key) => {
+//     const searchObj = {};
+//     key.forEach((searchRules) => {
+//         searchObj[searchRules.key] = searchRules.input;
+//     });
+
+//     const criteria = JSON.stringify(searchObj);
+//     console.log("criteria:", criteria);
+
+//     const jsonHeader = { headers: { "Content-Type": "application/json" } };
+
+//     await ProcessData2(criteria, jsonHeader);
+// }
+
+// const changePage = async ([page, pageSize, criteria]) => {
+//     getPage(page, pageSize);
+//     console.log("Page:", page);
+//     console.log("PageSize:", pageSize);
+//     console.log("criteria:", criteria);
+
+//     if (criteria && criteria.length > 0) {
+//         await ProcessData2(criteria, jsonHeader, page, pageSize, dataTitles.value);
+//     } else {
+//         await fetchAndProcessData(page, pageSize, dataTitles.value);
+//     }
+// }
+
+// const sortBy = async (dataTitle, criteria) => {
+//     console.log("dataTitle:", dataTitle);
+//     console.log("criteria:", criteria);
+
+//     if (criteria && criteria.length > 0) {
+//         await ProcessData2(criteria, jsonHeader, page.value, pageSize.value, dataTitle);
+//     } else {
+//         await fetchAndProcessData(page.value, pageSize.value, dataTitle);
+//     }
+// }
+
+
+
+// const ProcessData2 = async (criteria, jsonHeader, page, pageSize, dataTitle) => {
+//     try {
+//         let result = await SearchProd(page, pageSize, dataTitle, criteria, jsonHeader);
+//         processData(result);
+//     } catch (error) {
+//         console.error('Error fetching and processing data:', error);
+//     }
+// }
+
 
 const fetchAndProcessData = async (page, pageSize, dataTitle) => {
     try {
@@ -143,7 +192,7 @@ onMounted(async () => {
     } else {
         console.error('Data from API is not in the expected format:', dataResponse);
     }
-    //dataLoaded.value = true
+
 
 });
 //const dataLoaded = ref(false);

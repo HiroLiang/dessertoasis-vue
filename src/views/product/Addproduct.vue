@@ -33,6 +33,8 @@
         </div>
     </div>
     <div class="dynamic">
+        <p>商品名稱</p>
+        <input name="">
         <p>請建立規格</p>
         <n-dynamic-input v-model:value="customValue" :on-create="onCreate">
             <template #create-button-default>
@@ -55,14 +57,11 @@
     <div class="time">
         <p>上架時間</p>
         <n-date-picker v-model:value="startTimestamp" type="datetime" clearable />
+        <!--<pre>{{ JSON.stringify(startTimestamp) }}</pre>-->
     </div>
-    <div class="time">
-        <p>下架時間</p>
-        <n-date-picker v-model:value="endTimestamp" type="datetime" clearable />
-        <!--<pre>{{ JSON.stringify(timestamp) }}</pre>-->
-    </div>
+
     <div class="editor">
-        <p>商品介紹</p>
+        <p>商品描述</p>
         <CKEditor v-model="editorData" />
     </div>
 </template>
@@ -128,29 +127,83 @@ function removeVideo(index) {
 const selectedCategoryProductTypes = computed(() => {
     return productTypes.value.filter(type => type.categoryId === selectedCategory.value);
 });
+//第一個新增規格
 const customValue = ref([
     {
         isCheck: true,
         num: 1,
-        string: "一个字符串",
-        price: 10, // 添加 price 字段
-        quantity: 5 // 添加 quantity 字段
+        string: "",
+        price: 0, // 添加 price 字段
+        quantity: 0 // 添加 quantity 字段
     }
 ]);
-
+//按+後的新增規格
 const onCreate = () => {
     return {
         isCheck: false,
         num: 1,
-        string: "一个字符串",
-        price: 0, // 默认价格
-        quantity: 0 // 默认数量
+        string: "",
+        price: 0,
+        quantity: 0
     };
 };
 
 const startTimestamp = ref(Date.now());
-const endTimestamp = ref(118313526e4);
+//const endTimestamp = ref(118313526e4);
 const editorData = ref('<p>Initial content</p>');
+console.log("customValue:", customValue);
+
+// onMounted(async () => {
+//     let result = await reqGetCategory(id);
+//     let dataResponse = result.data;
+//     console.log(result);
+//     pages.value = dataResponse.totalPages;
+
+//     if (dataResponse && Array.isArray(dataResponse.content)) {
+
+//         let datas = dataResponse.content;
+//         datas.forEach(ele => {
+//             ele.category = ele.category.categoryName;
+//         });
+//         tableDatas.value = datas;
+//     } else {
+//         console.error('Data from API is not in the expected format:', dataResponse);
+//     }
+
+
+// });
+
+const productData = {
+    prodName: '', // 从表单中获取商品名稱
+    prodPrice: 0, // 从表单中获取價格
+    prodStock: 0, // 从表单中获取數量
+    prodSpecs: [] // 从表单中获取規格，可能是一个包含多个規格的数组
+};
+
+const saveProductToDatabase = async () => {
+    try {
+        // 创建一个包含商品数据的对象
+        const product = {
+            prodName: productData.prodName,
+            prodPrice: productData.prodPrice,
+            prodStock: productData.prodStock,
+            prodSpecs: productData.prodSpecs
+        };
+
+        // 发送POST请求将商品数据发送到服务器保存
+        const response = await axios.post('/api/saveProduct', product); // 替换成实际的API端点
+
+        if (response.status === 200) {
+            console.log('商品已成功保存到資料庫');
+            // 清空表单数据或进行其他操作
+        } else {
+            console.error('保存商品到資料庫失败');
+        }
+    } catch (error) {
+        console.error('保存商品到資料庫失败:', error);
+    }
+};
+
 </script>
 
 <style scoped>

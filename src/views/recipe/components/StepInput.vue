@@ -16,7 +16,7 @@ let emit = defineEmits(['delete-step', 'get-step-data'])
 //子傳父取得刪除案件觸發的index值
 const deleteStep = () => {
     emit('delete-step', props.stepIndex)
-    console.log('delete step Index: ' + props.stepIndex);
+    // console.log('delete step Index: ' + props.stepIndex);
 }
 
 //子傳父取得步驟圖片(轉為base64)及textarea文字資料
@@ -42,7 +42,7 @@ const getStepDatas = () => {
         reader.readAsDataURL(stepPic);
     }
 
-    console.log(stepPic);
+    // console.log(stepPic);
 
 }
 

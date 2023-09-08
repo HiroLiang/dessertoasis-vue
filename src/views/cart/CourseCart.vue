@@ -8,7 +8,7 @@ const cart = ref([])
 const loadCourseCart = async () => {
     const res = await getCourseCart()
     cart.value = res.data
-    checkCourses()
+    emitCourses()
 }
 
 onMounted(() => {
@@ -30,7 +30,7 @@ const emits = defineEmits(["getCourses"])
 
 const checked = ref(true)
 
-const checkCourses = () => {
+const emitCourses = () => {
     if (checked.value && cart.value.length > 0) {
         emits("getCourses", cart.value, total.value)
     } else {
@@ -38,7 +38,7 @@ const checkCourses = () => {
     }
 }
 
-watch(() => checked.value, () => checkCourses())
+watch(checked, emitCourses)
 
 
 

@@ -60,7 +60,7 @@ const req10CategoryRecipe = (categoryId) => {
 //測試圖檔上傳可正確儲存到設定位置
 const imgTest = (file) => {
   console.log(file);
-  return request.post("/test/uploadimg", { "file": file, "recipe": "data" })
+  return request.post("/test/uploadimg", file)
 }
 //送出建立食譜頁面資料
 const addRecipe = (formData) => {
@@ -99,6 +99,11 @@ const getCourseCart = () => {
 // 取得預約教室購物車內容
 const getReservationCart = () => {
   return request.get(`/cart/reservation`)
+}
+
+// 更新購物車商品數量
+const reqUpdateProdQuantities = (data) => {
+  return request.patch(`/cart/product`, data)
 }
 
 // 刪除購物車內容
@@ -152,6 +157,8 @@ const getAllProd = (page, pageSize, dataTitles) => {
     `/product/search?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`
   )
 }
+const SearchProd = (criteria, jsonHeader) =>
+  request.post("/product/criteria", criteria, jsonHeader)
 
 /*----------------------------------------  搜索相關請求  -------------------------------------------*/
 
@@ -198,6 +205,7 @@ export {
   getProductCart,
   getCourseCart,
   getReservationCart,
+  reqUpdateProdQuantities,
   deleteCart,
 
   // 訂單用
@@ -213,7 +221,7 @@ export {
 
   /*--------商品用-------*/
   getAllProd,
-
+  SearchProd,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

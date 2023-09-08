@@ -1,14 +1,14 @@
 <script setup>
-import { getProductCart } from "@/api/index"
-import { computed, onMounted, ref, watch } from "vue";
-import DeleteButton from "./DeleteButton.vue";
+import { getProductCart, reqUpdateProdQuantities } from "@/api/index"
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import DeleteButton from "@/views/cart/DeleteButton.vue";
 
 const cart = ref([])
 
 const loadProductCart = async () => {
     const res = await getProductCart()
     cart.value = res.data
-    checkProduct()
+    emitProduct()
 }
 
 onMounted(() => {
@@ -31,7 +31,7 @@ const emits = defineEmits(["getProducts"])
 
 const checked = ref(true)
 
-const checkProduct = () => {
+const emitProduct = () => {
     if (checked.value && cart.value.length > 0) {
         emits("getProducts", cart.value, total.value)
     } else {
@@ -39,10 +39,32 @@ const checkProduct = () => {
     }
 }
 
-watch(() => checked.value, () => checkProduct())
+watch([checked, cart], emitProduct, { deep: true })
 
 
 
+
+let updatedProducts = [] 
+
+const updateProdQuantity = (qty, updatedItem) => {
+    updatedItem.prodQuantity += qty
+    const index = updatedProducts.findIndex(item => item.cartId == updatedItem.cartId)
+    if (index == -1) {
+        updatedProducts.push(updatedItem)
+    }
+}
+
+onBeforeUnmount(async () => {
+    if (updatedProducts.length != 0) {
+        await reqUpdateProdQuantities(updatedProducts)
+    }
+})
+
+window.addEventListener('beforeunload', async() => {
+    if (updatedProducts.length != 0) {
+        await reqUpdateProdQuantities(updatedProducts)
+    }
+})
 
 </script>
 
@@ -51,7 +73,7 @@ watch(() => checked.value, () => checkProduct())
         <h2>
             商品 <input type="checkbox" v-model="checked" />
         </h2>
-        <table class="table caption-top align-middle">
+        <table class="table align-middle">
             <thead>
                 <tr>
                     <th>商品</th>
@@ -67,7 +89,11 @@ watch(() => checked.value, () => checkProduct())
                         <img src='https://fakeimg.pl/100x100/?text=Image' :alt="cartItem.prodName">
                         {{ cartItem.prodName }}
                     </td>
-                    <td>{{ cartItem.prodQuantity }}</td>
+                    <td>
+                        <button @click="updateProdQuantity(-1, cartItem)" :disabled="cartItem.prodQuantity <= 1"> - </button>
+                        {{ cartItem.prodQuantity }}
+                        <button @click="updateProdQuantity(+1, cartItem)"> + </button>
+                    </td>
                     <td>{{ cartItem.prodPrice }}</td>
                     <td>{{ cartItem.prodQuantity * cartItem.prodPrice }}</td>
                     <td>

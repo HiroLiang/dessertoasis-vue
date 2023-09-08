@@ -62,11 +62,6 @@ function checkIsLoginCookie() {
         }
     }
 
-    console.log("document.cookie:" + document.cookie);
-    console.log('isUserCookieExists:', isUserCookieExists);
-    console.log('isAdminCookieExists:', isAdminCookieExists);
-    console.log('isTeacherCookieExists:', isTeacherCookieExists);
-
     return {
         isUser: isUserCookieExists,
         isAdmin: isAdminCookieExists,

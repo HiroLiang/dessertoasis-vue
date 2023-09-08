@@ -168,7 +168,15 @@ const reqGetHint = (table, column, searchValue) =>
     `/getSearchHint?tableName=${table}&columnName=${column}&searchValue=${searchValue}`
   )
 
+//取得分類資訊
 const reqGetCategory = (id) => request.get(`/category/find?categoryId=${id}`)
+
+const reqGetFavoriteList = () => request.get('/user-favorite-list')
+
+const reqUpdateList = (categoryId, itemId) => {
+  return request.post('/favorite-list/updateList', `{"categoryId":"${categoryId}","itemId":"${itemId}"}`, jsonHeader)
+}
+
 
 export {
   //會員用
@@ -217,4 +225,6 @@ export {
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,
+  reqGetFavoriteList,
+  reqUpdateList
 }

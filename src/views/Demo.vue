@@ -5,10 +5,11 @@ import Navbar from '../components/NavBar.vue'
 import StandardSidebar from '../components/Standard/Sidebar.vue'
 import StandardFooter from '../components/Footer.vue'
 
+
 </script>
 <template>
     <Navbar />
-    <Display />
+    <Display @get-selected-key="getKey" />
     <StandardSidebar />
     <StandardFooter />
 </template>

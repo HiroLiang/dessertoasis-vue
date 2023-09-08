@@ -116,6 +116,7 @@ const getRecipeImg = (e) => {
             recipeJsonData.value = JSON.stringify(jsonData);
             // console.log(recipeJsonData.value);
             recipePicPreviewImageUrl.value = e.target.result
+            console.log(recipeJsonData);
         }
         reader.readAsDataURL(recipeImgData);
     }
@@ -127,23 +128,26 @@ const data = reactive({
     pictureURL: [],
     ingredientPersons: '',
     cookingTime: '',
-    // ingredientList: [
-    //     ingredient: {
-    //         ingredientName: ''
-    //     },
-    //     ingredientQuantity: 0,
-    //     ingredientUnit: '',
-    // ],
-    // recipeSteps: [
-    //     stepNumber: 1,
-    //     stepPicture: '',
-    //     stepContext: ''
-    // ]
+    ingredientList: [
+        {
+            ingredient: {
+                ingredientName: '',
+            },
+            ingredientQuantity: 0,
+            ingredientUnit: ''
+        }
+    ],
+    recipeSteps: [
+        {
+            stepNumber: 1,
+            stepPicture: '',
+            stepContext: ''
+        }
+    ]
 })
 
 const imgDatas = reactive([])
 
-let formData = new FormData()
 const submitForm = async () => {
     // if (data) {
     // formData.append('recipeTitle', data.recipeTitle)
@@ -180,7 +184,32 @@ const submitForm = async () => {
     imgDatas.forEach(data => {
         console.log(data);
     })
-    await imgTest(imgDatas)
+
+    //將圖片push進recipeBean 容器中
+    let res = await imgTest(imgDatas)
+    let imgPaths = res.data
+    console.log('imgPaths:  ');
+    console.log(imgPaths);
+
+
+    // 若[0]為"N"(資料有Exception) 或 "F"(沒找到圖片)則不執行
+    if (imgPaths[0] !== "N" || imgPaths[0] !== "F") {
+        //判斷是否有成品圖 找到[0]的-1則將 [1]中的資料放入
+        //後續迴圈將步驟圖片放入
+        if (imgPaths[0] === "-1") {
+            data.pictureURL.push(imgPaths[1])
+            for (let i = 2; i < imgPaths.length; i++) {
+                const stepImg = imgPaths[i];
+                data.recipeSteps.stepPicture.push(stepImg)
+            }
+        } else {
+            //若沒有成品圖則直接迴圈取出步驟圖片
+            imgPaths.forEach(stepImg => {
+                data.recipeSteps.stepPicture.push(stepImg)
+            })
+        }
+    }
+
     imgDatas.splice(0, imgDatas.length)  // }
 }
 

@@ -60,7 +60,7 @@ const req10CategoryRecipe = (categoryId) => {
 //測試圖檔上傳可正確儲存到設定位置
 const imgTest = (file) => {
   console.log(file);
-  return request.post("/test/uploadimg", { "file": file, "recipe": "data" })
+  return request.post("/test/uploadimg", file)
 }
 //送出建立食譜頁面資料
 const addRecipe = (formData) => {

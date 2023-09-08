@@ -79,7 +79,8 @@ onBeforeMount(async () => {
             <div class="inputContainer">
                 <font-awesome-icon @click="searchValue = ''" :icon="['fas', 'arrows-spin']"
                     style="margin: 0;padding: 0 10px 8px 0;cursor: pointer;" />
-                <StandardInput @get-input-value="getValue" style="margin-bottom: 10px;" :searchSize="160" />
+                <StandardInput :autoClear="false" @get-input-value="getValue" style="margin-bottom: 10px;"
+                    :searchSize="160" />
             </div>
             <ForTree :categoryOptions="options" @get-category-id="getCategoryId" />
         </div>

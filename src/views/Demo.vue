@@ -9,7 +9,7 @@ import StandardFooter from '../components/Footer.vue'
 </script>
 <template>
     <Navbar />
-    <Display @get-selected-key="getKey" />
+    <Display />
     <StandardSidebar />
     <StandardFooter />
 </template>

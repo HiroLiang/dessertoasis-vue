@@ -68,7 +68,7 @@ const router = createRouter({
         },
       ],
     },
-
+    //後台管理系統
     {
       path: "/cms",
       name: "cms",
@@ -149,6 +149,11 @@ const router = createRouter({
           path: "/cms/member",
           name: "member",
           component: () => import("../views/member/MemberBackground.vue"),
+        },
+        {
+          path: '/cms/order',
+          name: 'CmsOrderTable',
+          component: () => import('../views/cms/order/CmsOrderTable.vue')
         },
       ],
     },

@@ -176,9 +176,8 @@ const reqGetCategory = (id) => request.get(`/category/find?categoryId=${id}`)
 
 const reqGetFavoriteList = () => request.get('/user-favorite-list')
 
-const reqUpdateList = (categoryId, itemId) => {
-  return request.post('/favorite-list/updateList', `{"categoryId":"${categoryId}","itemId":"${itemId}"}`, jsonHeader)
-}
+const reqUpdateList = (categoryId, itemId) => request.post('/favorite-list/updateList', `{"categoryId":"${categoryId}","itemId":"${itemId}"}`, jsonHeader)
+
 
 
 export {

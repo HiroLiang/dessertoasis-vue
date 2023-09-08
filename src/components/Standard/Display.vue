@@ -7,6 +7,11 @@
             (4)row：boolean - 是否允許以條列陳列
             (5)block：boolean - 是否允許以卡片陳列  (兩者至少擇一)
             (6)categoryId：分類ID
+        傳出值：
+            (1)'get-selected-key'：送出選擇的recipe.prod.course選項id
+            (2)'get-search-rules'：取得搜尋規則陣列
+            (3)'get-page'：取得換頁資訊
+            (4)'get-number-range'：取得數值搜尋範圍
  -->
 <script setup>
 import { ref, watch, onMounted } from 'vue';

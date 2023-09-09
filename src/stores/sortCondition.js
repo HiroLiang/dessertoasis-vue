@@ -16,21 +16,19 @@ export const useSortCondition = defineStore('sortCondition', () => {
         numEnd: 0
     })
     //填入資料方法
-    const setSearchRules = (rules) => {
-        console.log(rules);
+    const setSearchRules = async (rules) => {
         condition.value.searchRules = rules
-        const result = getOrderPagenation()
-        return result
+        console.log(condition.value);
+        return await getOrderPagenation()
     }
 
-    const setDateRules = (rules) => {
-        console.log(rules);
+    const setDateRules = async (rules) => {
         condition.value.dateRules = rules
-        return getOrderPagenation()
+        console.log(condition.value);
+        return await getOrderPagenation()
     }
 
-    const setNumberRange = (range) => {
-        console.log(range);
+    const setNumberRange = async (range) => {
         condition.value.numKey = null
         condition.value.numStart = 0
         condition.value.numEnd = 0
@@ -38,23 +36,24 @@ export const useSortCondition = defineStore('sortCondition', () => {
             condition.value.numKey = range[0]
             condition.value.numStart = range[1]
             condition.value.numEnd = range[2]
-            return getOrderPagenation()
+            console.log(condition.value);
+            return await getOrderPagenation()
         }
     }
 
-    const setSortBy = (rule) => {
-        console.log(rule);
+    const setSortBy = async (rule) => {
         condition.value.sortBy = rule[0]
         condition.value.sortWay = rule[1]
-        return getOrderPagenation()
+        console.log(condition.value);
+        return await getOrderPagenation()
     }
 
     //更新頁碼
-    const setPageChange = (newPage) => {
-        console.log(newPage)
+    const setPageChange = async (newPage) => {
         condition.value.page = newPage[0]
         condition.value.pageSize = newPage[1]
-        return getOrderPagenation()
+        console.log(condition.value)
+        return await getOrderPagenation()
     }
 
     //分頁搜索
@@ -65,8 +64,8 @@ export const useSortCondition = defineStore('sortCondition', () => {
         return result
     }
     //查詢訂單頁數
-    const getOrderPages = () => {
-        return reqGetCmsOrderPages(condition.value)
+    const getOrderPages = async () => {
+        return await reqGetCmsOrderPages(condition.value)
     }
 
     return {

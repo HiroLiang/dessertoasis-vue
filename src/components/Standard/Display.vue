@@ -15,14 +15,14 @@
  -->
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-import { userFavorList } from '../../stores/favorList.js'
+import { useFavorList } from '../../stores/favorList.js'
 import Search from './Search.vue'
 import DisplayRow from './display/RowType.vue'
 import DisplayBlock from './display/BlockType.vue'
 import { NPagination } from 'naive-ui'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-const store = userFavorList()
+const store = useFavorList()
 
 const emit = defineEmits(['get-selected-key', 'get-search-rules', 'get-page', 'get-number-range'])
 

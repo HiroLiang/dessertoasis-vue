@@ -123,6 +123,15 @@ const getOrder = (ordId) => {
   return request.get(`/order/${ordId}`)
 }
 
+const reqGetOrderPage = (condition) => {
+  return request.post('/order/pagenation', condition, jsonHeader)
+}
+
+//取得總頁數
+const reqGetCmsOrderPages = (condition) => {
+  return request.post('/order/pages', condition, jsonHeader)
+}
+
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
 
 //從controller拿到所有課程，export出Promise物件給vue?
@@ -174,8 +183,10 @@ const reqGetHint = (table, column, searchValue) =>
 //取得分類資訊
 const reqGetCategory = (id) => request.get(`/category/find?categoryId=${id}`)
 
+//取得我的最愛資訊
 const reqGetFavoriteList = () => request.get('/user-favorite-list')
 
+//新增/刪除最愛
 const reqUpdateList = (categoryId, itemId) => request.post('/favorite-list/updateList', `{"categoryId":"${categoryId}","itemId":"${itemId}"}`, jsonHeader)
 
 
@@ -212,6 +223,8 @@ export {
 
   // 訂單用
   insertOrder,
+  reqGetOrderPage,
+  reqGetCmsOrderPages,
 
   //課程用
   getAllCourses,

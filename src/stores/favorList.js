@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import { reqGetFavoriteList } from "../api";
 import { reqUpdateList } from '../api';
 
-export const userFavorList = defineStore('favorList', () => {
+export const useFavorList = defineStore('favorList', () => {
     const favoriteList = ref([
         [],//商品
         [],//課程

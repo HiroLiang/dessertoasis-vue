@@ -126,7 +126,6 @@ const formattedDate = (date) => {
 /* 監視屬性 */
 //傳送換頁需求
 watch(page, () => {
-    console.log([page.value, pageSize.value]);
     emit('change-page', [page.value, pageSize.value])
 })
 //傳送調整頁數大小

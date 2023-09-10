@@ -171,7 +171,7 @@ onBeforeMount(() => {
             </n-button>
         </span>
     </div>
-    <div style="display: flex;justify-content: center;align-items: center;">
+    <div style="display: flex;align-items: center;">
         <template v-if="searchType === 'Number'">
             <div style="padding-left: 15px;">
                 {{ searchName }}:

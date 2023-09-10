@@ -228,6 +228,7 @@ onMounted(() => {
 }
 
 .searchbarContainer {
+    max-width: 1300px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -238,6 +239,7 @@ onMounted(() => {
 }
 
 .displayContainerRow {
+    max-width: 1300px;
     margin: 0 auto;
     padding: 10px;
     width: 90%;
@@ -245,6 +247,7 @@ onMounted(() => {
 }
 
 .displayContainerBlock {
+    max-width: 1300px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;

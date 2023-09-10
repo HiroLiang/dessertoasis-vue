@@ -11,9 +11,11 @@ const router = useRouter()
 
 /**定義變數 */
 //動態頁數
-const pages = ref(10)
+const pages = ref(1)
 //表格陣列
 const tableDatas = ref([])
+//是否有資料
+const hasTable = ref(true)
 //設定查詢表格標題
 const dataTitles = ref([
     { label: "名字", key: "fullName", type: "String" },
@@ -25,6 +27,11 @@ const dataTitles = ref([
 /**更新資料方法 */
 //更新表格資料
 const updateDatas = (datas) => {
+    hasTable.value = true
+    if (!datas) {
+        hasTable.value = false
+        return null
+    }
     datas.forEach(data => {
         dataTitles.value.forEach(title => {
             if (title.type === 'Date') {
@@ -99,6 +106,7 @@ onMounted(async () => {
 })
 </script>
 <template>
+    <p v-if="!hasTable">*無權限或查詢失敗</p>
     <StandardTable :page="1" :pageSize="10" :pages="pages" :tableDatas="tableDatas" :dataTitles="dataTitles"
         @get-edit-id="onGetEditId" @get-number-range="onGetNumberRange" @get-sort-rule="onGetSortRule"
         @get-search-rules="onGetSearchRules" @change-page="onGetPage" @get-date-rules="onGetDateRules" />

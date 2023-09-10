@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { reqSignOut } from "../api"
+import { reqSignOut, reqUserPermission } from "../api";
 import { useRouter } from 'vue-router';
+
 const router = useRouter();
 const props = defineProps({
     ProfilePicture: {
@@ -20,6 +21,7 @@ const props = defineProps({
 
 const listPosition = ref("profile-list");
 
+
 const removeListClass = () => {
     if (listPosition.value != "") {
         listPosition.value = "";
@@ -29,65 +31,48 @@ const removeListClass = () => {
 };
 
 
-const isLoginCookie = ref(false);
-// 頁面啟動時 檢查cookies
-onMounted(() => {
-    setTimeout(() => {
-        isLoginCookie.value = checkIsLoginCookie();
-    }, 500); //  0.5秒後檢查 Cookie
+
+
+const isLogin = ref(false);
+const isAdmin = ref(false);
+const isTeacher = ref(false);
+
+// 頁面載入取得會員權限
+onMounted(async () => {
+    try {
+        const response = await reqUserPermission();
+
+        // 根據會員權限做條件判斷
+        const permission = response.data;
+        isLogin.value = permission === "User is an admin" || permission === "User is a teacher" || permission === "User is a regular user";
+        isAdmin.value = permission === "User is an admin";
+        isTeacher.value = permission === "User is a teacher";
+
+        // console.log(isLogin.value)
+        // console.log(isAdmin.value)
+        // console.log(isTeacher.value)
+
+
+    } catch (error) {
+        console.error('權限取得失敗：', error);
+    }
 });
 
-//檢查cookies是否存在，並依照權限做出不同的條件判斷
-//isLogin=1，管理員
-//isLogin=2，一般會員
-//isLogin=3，教師
-function checkIsLoginCookie() {
-    const cookies = document.cookie;
-
-    let isUserCookieExists = false;
-    let isAdminCookieExists = false;
-    let isTeacherCookieExists = false;
-
-    const cookieArray = cookies.split('; ');
-    for (const cookie of cookieArray) {
-        const [name, value] = cookie.split('=');
-        if (name === 'isLogin' && value === '20') {
-            isUserCookieExists = true;
-        } else if (name === 'isLogin' && value === '10') {
-            isUserCookieExists = true;
-            isAdminCookieExists = true;
-        } else if (name === 'isLogin' && value === '30') {
-            isUserCookieExists = true;
-            isTeacherCookieExists = true;
-        }
-    }
-
-    return {
-        isUser: isUserCookieExists,
-        isAdmin: isAdminCookieExists,
-        isTeacher: isTeacherCookieExists,
-    };
-}
 
 
 
 
-
-
-
-
-
+// 登出
 async function logout() {
     // 清除前端的 "userLogin" Cookie
     document.cookie = "userLogin; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-    //傳回後端清除session
     try {
+        // 清除後端session
         await reqSignOut();
         // 登出成功
-        isLoginCookie.value = false;
-        alert("登出成功")
-        router.push({ name: 'home' });
+        alert("登出成功");
+        router.push({ name: 'logIn' });
         console.log('登出成功');
     } catch (error) {
         // 登出失敗
@@ -95,8 +80,8 @@ async function logout() {
     }
 }
 
-
 </script>
+
 
 <template>
     <div style="width: 100%; height: 56px"></div>
@@ -135,19 +120,19 @@ async function logout() {
                     <li>
                         <router-link to="/demo" class="dropdown-item">Demo</router-link>
                     </li>
-                    <li v-if="!isLoginCookie.isUser">
+                    <li v-if="!isLogin">
                         <router-link to="/logIn" class="dropdown-item">會員登入</router-link>
                     </li>
                     <li v-else>
                         <router-link to="/mem" class="dropdown-item">會員資料</router-link>
                     </li>
-                    <li v-if="isLoginCookie.isAdmin">
+                    <li v-if="isAdmin">
                         <router-link to="/cms" class="dropdown-item">後台管理</router-link>
                     </li>
-                    <li v-if="isLoginCookie.isTeacher">
+                    <li v-if="isTeacher">
                         <router-link to="/cms" class="dropdown-item">我的課程</router-link>
                     </li>
-                    <li v-if="isLoginCookie.isUser">
+                    <li v-if="isLogin">
                         <button class="dropdown-item" @click="logout">登出</button>
                     </li>
                     <!-- 如果非登入，只顯示會員登入 

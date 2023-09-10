@@ -36,6 +36,13 @@ const reqGetAllMembers = () => request.get("/member/all", {})
 
 //從session 拿出member資料
 const reqSession = () => request.get("/memberSession")
+
+//拿到密鑰
+const reqSecretKey = () => request.get("/getSecretKey");
+
+//拿解密後的狀態
+const reqUserPermission = () => request.get("/checkUserPermission");
+
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -209,6 +216,8 @@ export {
   reqMemberDetail,
   reqGetAllMembers,
   reqSession,
+  reqSecretKey,
+  reqUserPermission,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,

@@ -2,8 +2,37 @@
 <script setup>
 // import NavBar from '@/components/NavBar.vue';
 // import ProductMenu from '@/components/ProductMenu.vue';
-import ProductCard from '@/components/ProductCard.vue';
+//import ProductCard from '@/components/ProductCard.vue';
+import ProdDisplay from '@/components/Standard/Display.vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { getAllProd } from '@/api/index.js';
+
+const products = ref([]);
+
+const getkey = (key) => {
+    console.log("key:", key);
+}
+const row = ref(false);
+const block = ref(true);
+const categoryId = ref(1);
+
+const fetchProducts = async () => {
+    try {
+        const response = await getAllProd(page.value);
+        products.value = response.data;
+        console.log(products);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+    }
+};
+
+onMounted(() => {
+    fetchProducts();
+});
 </script>
+
+
 
 
 
@@ -44,8 +73,10 @@ import ProductCard from '@/components/ProductCard.vue';
     <div class="text">
         <h2>熱門商品</h2>
     </div>
-    <div class="ProductCard">
-        <ProductCard></ProductCard>
+    <div class="ProdDisplay">
+        <ProdDisplay :products="products" :searchOptions="searchOptions" :pages="pages" :row="row" :block="block"
+            :categoryId="categoryId" @get-selected-key="getkey" @get-search-rules="getsearch" @get-number-range="getrange"
+            @get-page="getpage"></ProdDisplay>
     </div>
 </template>
 

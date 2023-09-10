@@ -59,7 +59,7 @@ const req10CategoryRecipe = (categoryId) => {
 }
 //測試圖檔上傳可正確儲存到設定位置
 const imgTest = (file) => {
-  console.log(file);
+  console.log(file)
   return request.post("/test/uploadimg", file)
 }
 //送出建立食譜頁面資料
@@ -145,6 +145,11 @@ const deleteCourse = (courseId) => {
   return request.delete(`/course/${courseId}`)
 }
 
+//查詢單筆課程
+const showSingleCourse = (courseId) => {
+  return request.get(`/course/${courseId}`)
+}
+
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
 const getAllProd = (page, pageSize, dataTitles) => {
@@ -204,6 +209,7 @@ export {
   editTeacherProfile,
   deleteCourse,
   getCoursesByTeacherId,
+  showSingleCourse,
 
   /*--------商品用-------*/
   getAllProd,

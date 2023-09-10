@@ -6,6 +6,7 @@
             (3)myPlaceholder：input顯示字串
             (4)searchOptions：搜索選項
             (5)numberRange：各數值key最大最小值
+            (6)autoClear：自動清空輸入
         自定義方法：
             (1)get-search-rules：取得搜索條件
             (2)'get-number-range'：取得數值範圍
@@ -54,6 +55,10 @@ const props = defineProps({
         default: [
             { label: ' - 無對應結果', value: ' ', disabled: true }
         ]
+    },
+    autoClear: {
+        type: Boolean,
+        default: true
     }
 })
 
@@ -166,7 +171,7 @@ onBeforeMount(() => {
             </n-button>
         </span>
     </div>
-    <div style="display: flex;justify-content: center;align-items: center;">
+    <div style="display: flex;align-items: center;">
         <template v-if="searchType === 'Number'">
             <div style="padding-left: 15px;">
                 {{ searchName }}:

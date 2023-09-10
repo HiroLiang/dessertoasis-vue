@@ -42,6 +42,10 @@ const props = defineProps({
         default: [
             { label: '無對應結果', value: ' ', disabled: true }
         ]
+    },
+    autoClear: {
+        type: Boolean,
+        default: true
     }
 })
 
@@ -66,7 +70,8 @@ const searchType = computed(() => {
 const getInputValue = (value) => {
     if (value != '' && value != null && props.searchRange !== '') {
         emit('get-input-value', value)
-        searchValue.value = ''
+        if (props.autoClear)
+            searchValue.value = ''
     }
 }
 

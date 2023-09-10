@@ -1,13 +1,14 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { reqSignIn } from '../../api';
 
+const router = useRouter();
 
 const account = ref('');
 const passwords = ref('');
-const router = useRouter();
+const rememberInput = ref(true)
 
 
 
@@ -18,6 +19,8 @@ const router = useRouter();
 const login = async () => {
     let loginState = await reqSignIn(account.value, passwords.value)
     if (loginState.data === 'Y') {
+        if (rememberInput.value)
+            localStorage.setItem('remberedAccount', account.value)
         alert("登入成功")
         router.push({ name: 'home' })
     } else {
@@ -26,6 +29,10 @@ const login = async () => {
         passwords.value = ''
     }
 }
+
+onMounted(() => {
+    account.value = localStorage.getItem('remberedAccount')
+})
 
 </script>
 <template>
@@ -45,7 +52,8 @@ const login = async () => {
                 <div class="col d-flex justify-content-center">
 
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+                        <input class="form-check-input" type="checkbox" v-model="rememberInput" id="form2Example31"
+                            checked />
                         <label class="form-check-label" for="form2Example31"> 記住帳號密碼 </label>
                     </div>
                 </div>

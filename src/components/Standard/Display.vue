@@ -6,14 +6,23 @@
             (3)pages：總頁數
             (4)row：boolean - 是否允許以條列陳列
             (5)block：boolean - 是否允許以卡片陳列  (兩者至少擇一)
+            (6)categoryId：分類ID
+        傳出值：
+            (1)'get-selected-key'：送出選擇的recipe.prod.course選項id
+            (2)'get-search-rules'：取得搜尋規則陣列
+            (3)'get-page'：取得換頁資訊
+            (4)'get-number-range'：取得數值搜尋範圍
  -->
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+import { useFavorList } from '../../stores/favorList.js'
 import Search from './Search.vue'
 import DisplayRow from './display/RowType.vue'
 import DisplayBlock from './display/BlockType.vue'
 import { NPagination } from 'naive-ui'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+const store = useFavorList()
 
 const emit = defineEmits(['get-selected-key', 'get-search-rules', 'get-page', 'get-number-range'])
 
@@ -88,6 +97,10 @@ const props = defineProps({
     },
     block: {
         default: true
+    },
+    categoryId: {
+        type: Number,
+        default: 1
     }
 })
 
@@ -112,7 +125,7 @@ const blockClass = () => {
 
 //送出選擇的選項id
 const sendKey = (id) => {
-    console.log(1);
+    console.log(id);
     emit('get-selected-key', id)
 }
 
@@ -124,8 +137,8 @@ const getRange = (range) => {
     emit('get-number-range', range)
 }
 
-const addLike = () => {
-    console.log('like');
+const updateList = (id) => {
+    store.updateList(props.categoryId, id)
 }
 
 //送出換頁條件
@@ -135,6 +148,10 @@ watch(page, () => {
 watch(pageSize, () => {
     page.value = 1
     emit('get-page', page.value, pageSize.value)
+})
+
+onMounted(() => {
+    store.initFavorList();
 })
 
 </script>
@@ -160,7 +177,10 @@ watch(pageSize, () => {
         <!-- 陳列區 -->
         <div v-for=" product  in  products " @click="sendKey(product.id)" class="itemContainer">
             <div class="anchor">
-                <font-awesome-icon @click.stop="addLike" :icon="['far', 'heart']" style="color: #b87373;" size="xl" />
+                <font-awesome-icon v-if="!store.favoriteList[categoryId - 1].includes(product.id)"
+                    @click.stop="updateList(product.id)" :icon="['far', 'heart']" style="color: #b87373;" size="xl" />
+                <font-awesome-icon v-if="store.favoriteList[categoryId - 1].includes(product.id)"
+                    @click.stop="updateList(product.id)" :icon="['fas', 'heart']" style="color: #d94343;" size="xl" />
             </div>
             <DisplayRow :product="product" />
         </div>
@@ -175,6 +195,12 @@ watch(pageSize, () => {
         <!-- 陳列區 -->
         <div class="blockContainer">
             <div v-for=" product  in  products " :key="product.id" @click="sendKey(product.id)" class="itemContainer">
+                <div class="anchor">
+                    <font-awesome-icon v-if="!store.favoriteList[categoryId - 1].includes(product.id)"
+                        @click.stop="updateList(product.id)" :icon="['far', 'heart']" style="color: #b87373;" size="xl" />
+                    <font-awesome-icon v-if="store.favoriteList[categoryId - 1].includes(product.id)"
+                        @click.stop="updateList(product.id)" :icon="['fas', 'heart']" style="color: #d94343;" size="xl" />
+                </div>
                 <DisplayBlock :product="product" />
             </div>
         </div>
@@ -198,10 +224,11 @@ watch(pageSize, () => {
 .anchor svg {
     position: absolute;
     cursor: pointer;
-    transform: translateX(20px) translateY(20px);
+    transform: translateX(17px) translateY(20px);
 }
 
 .searchbarContainer {
+    max-width: 1300px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -212,6 +239,7 @@ watch(pageSize, () => {
 }
 
 .displayContainerRow {
+    max-width: 1300px;
     margin: 0 auto;
     padding: 10px;
     width: 90%;
@@ -219,6 +247,7 @@ watch(pageSize, () => {
 }
 
 .displayContainerBlock {
+    max-width: 1300px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;

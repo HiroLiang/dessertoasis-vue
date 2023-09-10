@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount, watch, computed } from 'vue'
+import { ref, onBeforeMount, watch } from 'vue'
 import { reqGetCategory } from '../../api/index.js'
 import ForTree from './ForTree.vue'
 import StandardInput from './Input.vue'
@@ -79,7 +79,8 @@ onBeforeMount(async () => {
             <div class="inputContainer">
                 <font-awesome-icon @click="searchValue = ''" :icon="['fas', 'arrows-spin']"
                     style="margin: 0;padding: 0 10px 8px 0;cursor: pointer;" />
-                <StandardInput @get-input-value="getValue" style="margin-bottom: 10px;" :searchSize="160" />
+                <StandardInput :autoClear="false" @get-input-value="getValue" style="margin-bottom: 10px;"
+                    :searchSize="160" />
             </div>
             <ForTree :categoryOptions="options" @get-category-id="getCategoryId" />
         </div>
@@ -93,6 +94,7 @@ onBeforeMount(async () => {
     display: flex;
     position: fixed;
     left: 0;
+    padding-top: 56px;
     top: 0;
     height: 100%;
     width: 280px;

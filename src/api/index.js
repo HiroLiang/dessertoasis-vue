@@ -101,6 +101,11 @@ const getReservationCart = () => {
   return request.get(`/cart/reservation`)
 }
 
+// 更新購物車商品數量
+const reqUpdateProdQuantities = (data) => {
+  return request.patch(`/cart/product`, data)
+}
+
 // 刪除購物車內容
 const deleteCart = (cartId) => {
   return request.delete(`/cart/${cartId}`)
@@ -116,6 +121,15 @@ const insertOrder = (data) => {
 // 取得單一訂單
 const getOrder = (ordId) => {
   return request.get(`/order/${ordId}`)
+}
+
+const reqGetOrderPage = (condition) => {
+  return request.post('/order/pagenation', condition, jsonHeader)
+}
+
+//取得總頁數
+const reqGetCmsOrderPages = (condition) => {
+  return request.post('/order/pages', condition, jsonHeader)
 }
 
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
@@ -160,6 +174,9 @@ const getAllProd = (page, pageSize, dataTitles) => {
 const SearchProd = (criteria, jsonHeader) =>
   request.post("/product/criteria", criteria, jsonHeader)
 
+// const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
+// request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
+
 /*----------------------------------------  搜索相關請求  -------------------------------------------*/
 
 //取得搜索提示(暫無用)
@@ -168,7 +185,16 @@ const reqGetHint = (table, column, searchValue) =>
     `/getSearchHint?tableName=${table}&columnName=${column}&searchValue=${searchValue}`
   )
 
+//取得分類資訊
 const reqGetCategory = (id) => request.get(`/category/find?categoryId=${id}`)
+
+//取得我的最愛資訊
+const reqGetFavoriteList = () => request.get('/user-favorite-list')
+
+//新增/刪除最愛
+const reqUpdateList = (categoryId, itemId) => request.post('/favorite-list/updateList', `{"categoryId":"${categoryId}","itemId":"${itemId}"}`, jsonHeader)
+
+
 
 export {
   //會員用
@@ -197,10 +223,13 @@ export {
   getProductCart,
   getCourseCart,
   getReservationCart,
+  reqUpdateProdQuantities,
   deleteCart,
 
   // 訂單用
   insertOrder,
+  reqGetOrderPage,
+  reqGetCmsOrderPages,
 
   //課程用
   getAllCourses,
@@ -217,4 +246,6 @@ export {
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,
+  reqGetFavoriteList,
+  reqUpdateList
 }

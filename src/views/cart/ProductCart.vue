@@ -1,6 +1,6 @@
 <script setup>
-import { getProductCart } from "@/api/index"
-import { computed, onMounted, ref, watch } from "vue";
+import { getProductCart, reqUpdateProdQuantities } from "@/api/index"
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import DeleteButton from "@/views/cart/DeleteButton.vue";
 
 const cart = ref([])
@@ -44,6 +44,28 @@ watch([checked, cart], emitProduct, { deep: true })
 
 
 
+let updatedProducts = [] 
+
+const updateProdQuantity = (qty, updatedItem) => {
+    updatedItem.prodQuantity += qty
+    const index = updatedProducts.findIndex(item => item.cartId == updatedItem.cartId)
+    if (index == -1) {
+        updatedProducts.push(updatedItem)
+    }
+}
+
+onBeforeUnmount(async () => {
+    if (updatedProducts.length != 0) {
+        await reqUpdateProdQuantities(updatedProducts)
+    }
+})
+
+window.addEventListener('beforeunload', async() => {
+    if (updatedProducts.length != 0) {
+        await reqUpdateProdQuantities(updatedProducts)
+    }
+})
+
 </script>
 
 <template>
@@ -68,9 +90,9 @@ watch([checked, cart], emitProduct, { deep: true })
                         {{ cartItem.prodName }}
                     </td>
                     <td>
-                        <button @click="cartItem.prodQuantity--" :disabled="cartItem.prodQuantity <= 1"> - </button>
+                        <button @click="updateProdQuantity(-1, cartItem)" :disabled="cartItem.prodQuantity <= 1"> - </button>
                         {{ cartItem.prodQuantity }}
-                        <button @click="cartItem.prodQuantity++"> + </button>
+                        <button @click="updateProdQuantity(+1, cartItem)"> + </button>
                     </td>
                     <td>{{ cartItem.prodPrice }}</td>
                     <td>{{ cartItem.prodQuantity * cartItem.prodPrice }}</td>

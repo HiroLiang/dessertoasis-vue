@@ -3,20 +3,14 @@ import { getOrder } from '@/api/index'
 import { onMounted, ref } from 'vue';
 
 const props = defineProps({
-    ordId: {
-        type: Number
-    }
+    order: Object
 })
 
-const order = ref(null)
-
-onMounted(async () => {
-    order.value = await getOrder(ordId)
-})
+const order = props.order
 
 
 </script>
 
 <template>
-
+    order
 </template>

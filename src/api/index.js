@@ -67,6 +67,15 @@ const addRecipe = (formData) => {
   return request.post("/recipe/addrecipe", formData)
 }
 
+const reqGetRecipePage = (condition) => {
+  return request.post('/recipe/pagenation', condition, jsonHeader)
+}
+
+//取得總頁數
+const reqGetCmsRecipePages = (condition) => {
+  return request.post('/recipe/pages', condition, jsonHeader)
+}
+
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
 
 // 取出指定教室兩日期之間的預約資料
@@ -208,6 +217,8 @@ export {
   reqDatas,
   imgTest,
   addRecipe,
+  reqGetRecipePage,
+  reqGetCmsRecipePages,
 
   // 教室用
   getReservations,

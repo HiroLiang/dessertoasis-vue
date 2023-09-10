@@ -52,7 +52,7 @@ const sendTitle = (title) => {
 
         <n-collapse-item title="食譜管理" name="2">
           <div>
-            <router-link @click="sendTitle(`食譜管理`)" to="/cms/recipe">recipe</router-link>
+            <router-link @click="sendTitle(`食譜管理`)" to="/cms/recipe">食譜管理</router-link>
           </div>
         </n-collapse-item>
 

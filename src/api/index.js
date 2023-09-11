@@ -38,10 +38,10 @@ const reqGetAllMembers = () => request.get("/member/all", {})
 const reqSession = () => request.get("/memberSession")
 
 //拿到密鑰
-const reqSecretKey = () => request.get("/getSecretKey");
+const reqSecretKey = () => request.get("/getSecretKey")
 
 //拿解密後的狀態
-const reqUserPermission = () => request.get("/checkUserPermission");
+const reqUserPermission = () => request.get("/checkUserPermission")
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
@@ -75,12 +75,12 @@ const addRecipe = (formData) => {
 }
 
 const reqGetRecipePage = (condition) => {
-  return request.post('/recipe/pagenation', condition, jsonHeader)
+  return request.post("/recipe/pagenation", condition, jsonHeader)
 }
 
 //取得總頁數
 const reqGetCmsRecipePages = (condition) => {
-  return request.post('/recipe/pages', condition, jsonHeader)
+  return request.post("/recipe/pages", condition, jsonHeader)
 }
 
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
@@ -140,12 +140,12 @@ const getOrder = (ordId) => {
 }
 
 const reqGetOrderPage = (condition) => {
-  return request.post('/order/pagenation', condition, jsonHeader)
+  return request.post("/order/pagenation", condition, jsonHeader)
 }
 
 //取得總頁數
 const reqGetCmsOrderPages = (condition) => {
-  return request.post('/order/pages', condition, jsonHeader)
+  return request.post("/order/pages", condition, jsonHeader)
 }
 
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
@@ -180,6 +180,18 @@ const showSingleCourse = (courseId) => {
   return request.get(`/course/${courseId}`)
 }
 
+const getCourse = (page, pageSize) => {
+  return request.get(`/course/search?page=${page}&pageSize=${pageSize}`)
+}
+
+const getAllCourse = (page, pageSize, dataTitles) => {
+  return request.get(
+    `/course/search?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`
+  )
+}
+
+const searchCourse = (criteria, jsonHeader) =>
+  request.post("/course/criteria", criteria, jsonHeader)
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
 const getAllProd = (page, pageSize, dataTitles) => {
@@ -191,9 +203,7 @@ const SearchProd = (criteria, jsonHeader) =>
   request.post("/product/criteria", criteria, jsonHeader)
 
 const getProd = (page, pageSize) => {
-  return request.get(
-    `/product/search?page=${page}&pageSize=${pageSize}`
-  )
+  return request.get(`/product/search?page=${page}&pageSize=${pageSize}`)
 }
 
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
@@ -211,12 +221,15 @@ const reqGetHint = (table, column, searchValue) =>
 const reqGetCategory = (id) => request.get(`/category/find?categoryId=${id}`)
 
 //取得我的最愛資訊
-const reqGetFavoriteList = () => request.get('/user-favorite-list')
+const reqGetFavoriteList = () => request.get("/user-favorite-list")
 
 //新增/刪除最愛
-const reqUpdateList = (categoryId, itemId) => request.post('/favorite-list/updateList', `{"categoryId":"${categoryId}","itemId":"${itemId}"}`, jsonHeader)
-
-
+const reqUpdateList = (categoryId, itemId) =>
+  request.post(
+    "/favorite-list/updateList",
+    `{"categoryId":"${categoryId}","itemId":"${itemId}"}`,
+    jsonHeader
+  )
 
 export {
   //會員用
@@ -265,6 +278,9 @@ export {
   deleteCourse,
   getCoursesByTeacherId,
   showSingleCourse,
+  getCourse,
+  getAllCourse,
+  searchCourse,
 
   /*--------商品用-------*/
   getAllProd,
@@ -274,5 +290,5 @@ export {
   reqGetHint,
   reqGetCategory,
   reqGetFavoriteList,
-  reqUpdateList
+  reqUpdateList,
 }

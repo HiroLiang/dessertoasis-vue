@@ -203,8 +203,15 @@ const getAllProd = (page, pageSize, dataTitles) => {
 const SearchProd = (criteria, jsonHeader) =>
   request.post("/product/criteria", criteria, jsonHeader)
 
-const getProd = (page, pageSize) => {
-  return request.get(`/product/search?page=${page}&pageSize=${pageSize}`)
+const getProd = (page, pageSize, queryString) => {
+  return request.get(
+    `/product/search?page=${page}&pageSize=${pageSize}&${queryString}`
+  )
+}
+const getProd1 = (queryParams) => {
+  return request.get(
+    `/product/search?${queryParams}`
+  )
 }
 
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
@@ -287,6 +294,8 @@ export {
   getAllProd,
   SearchProd,
   getProd,
+  getProd1,
+
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

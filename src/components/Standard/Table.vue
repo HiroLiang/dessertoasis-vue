@@ -6,6 +6,7 @@
             (3)page：現在頁數
             (4)pages：總頁數
             (5)pageSize：單頁筆數
+            (6)numberRanges：型態為Number的options數值範圍
         自定義方法：
             (1)get-search-rules：取得Like搜索
             (2)get-number-range：取得範圍搜索
@@ -56,7 +57,10 @@ const props = defineProps({
     },
     pages: {
         default: 100
-    }
+    },
+    numberRanges: {
+        default: [{ key: "age", max: 100, min: 0 }]
+    },
 })
 
 /* 分頁資訊 */
@@ -159,8 +163,8 @@ pageSize.value = props.pageSize
 
 </script>
 <template>
-    <StandardSearch :searchOptions="props.dataTitles" @get-selected-key="getKey" @get-search-rules="getRules"
-        @get-number-range="getNumberRange" />
+    <StandardSearch :numberRanges="numberRanges" :searchOptions="props.dataTitles" @get-selected-key="getKey"
+        @get-search-rules="getRules" @get-number-range="getNumberRange" />
     <div class="tableArea">
         <n-table :bordered="false" :single-line="false" size="small">
             <thead>

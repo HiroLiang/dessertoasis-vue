@@ -44,7 +44,7 @@ watch([checked, cart], emitProduct, { deep: true })
 
 
 
-let updatedProducts = [] 
+let updatedProducts = []
 
 const updateProdQuantity = (qty, updatedItem) => {
     updatedItem.prodQuantity += qty
@@ -60,7 +60,7 @@ onBeforeUnmount(async () => {
     }
 })
 
-window.addEventListener('beforeunload', async() => {
+window.addEventListener('beforeunload', async () => {
     if (updatedProducts.length != 0) {
         await reqUpdateProdQuantities(updatedProducts)
     }
@@ -90,7 +90,8 @@ window.addEventListener('beforeunload', async() => {
                         {{ cartItem.prodName }}
                     </td>
                     <td>
-                        <button @click="updateProdQuantity(-1, cartItem)" :disabled="cartItem.prodQuantity <= 1"> - </button>
+                        <button @click="updateProdQuantity(-1, cartItem)" :disabled="cartItem.prodQuantity <= 1"> -
+                        </button>
                         {{ cartItem.prodQuantity }}
                         <button @click="updateProdQuantity(+1, cartItem)"> + </button>
                     </td>

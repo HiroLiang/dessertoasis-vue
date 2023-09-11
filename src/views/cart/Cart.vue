@@ -1,11 +1,11 @@
 <script setup>
-import NavBar from '@/components/NavBar.vue'
 import { ref, computed } from 'vue';
 import ProductCart from '@/views/cart/ProductCart.vue';
 import ReservationCart from '@/views/cart/ReservationCart.vue';
 import CourseCart from '@/views/cart/CourseCart.vue';
-import { insertOrder } from '@/api/index'
 import AddToCartButton from '@/components/AddToCartButton.vue';
+import { useRouter } from 'vue-router';
+import { useCartStore } from '@/stores/cart'
 
 const productCart = ref(null)
 const courseCart = ref(null)
@@ -35,25 +35,22 @@ const total = computed(() => {
     return productTotal.value + courseTotal.value + rsvTotal.value
 })
 
-const order = ref(null)
-const handleInsertOrder = async () => {
-    const data = {
-        productCartDTOs: productCart.value,
-        courseCartDTOs: courseCart.value,
-        reservationCartDTOs: rsvCart.value
-    }
-    const res = await insertOrder(data)
-    order.value = res.data
+
+const router = useRouter()
+const cart = useCartStore()
+const gotoPay = () => {
+    cart.productCart = productCart.value
+    cart.courseCart = courseCart.value
+    cart.rsvCart = rsvCart.value
+    router.push("/cart/pay")
 }
-
-
 
 </script>
 
 <template>
-    <NavBar></NavBar>
     <div class="container">
         <div class="row mt-3">
+            <h1>購物車</h1>
             <div class="col-8">
                 <!-- 商品課程加入購物車測試 -->
                 <div>
@@ -83,7 +80,7 @@ const handleInsertOrder = async () => {
                         <hr>
                         <div class="mb-3">總共: {{ total }}</div>
                         <div class="d-grid gap-2">
-                            <button class="btn btn-primary" type="button" @click="handleInsertOrder">去結帳</button>
+                            <button class="btn btn-primary" type="button" @click="gotoPay">去結帳</button>
                         </div>
                     </div>
                 </div>

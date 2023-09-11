@@ -74,15 +74,20 @@ const addRecipe = (formData) => {
   return request.post("/recipe/addrecipe", formData)
 }
 
+//取得總頁數
+const reqGetCmsRecipePages = (condition) => {
+  return request.post('/recipe/pages', condition, jsonHeader)
+}
+
+const reqGetFrontRecipePages = (condition) => {
+  return request.post('/recipe/recipeFrontPagenation', condition, jsonHeader)
+}
+/*----------------------------------------  食譜後台相關請求  -------------------------------------------*/
 //取得現在頁數內的資料
 const reqGetRecipePage = (condition) => {
   return request.post("/recipe/pagenation", condition, jsonHeader)
 }
 
-//取得總頁數
-const reqGetCmsRecipePages = (condition) => {
-  return request.post("/recipe/pages", condition, jsonHeader)
-}
 
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
 
@@ -131,7 +136,7 @@ const deleteCart = (cartId) => {
 /*----------------------------------------  訂單相關請求  -------------------------------------------*/
 
 // 新增訂單
-const insertOrder = (data) => {
+const reqInsertOrder = (data) => {
   return request.post(`/order`, data)
 }
 
@@ -213,10 +218,25 @@ const getAllProd = (page, pageSize, dataTitles) => {
 const SearchProd = (criteria, jsonHeader) =>
   request.post("/product/criteria", criteria, jsonHeader)
 
-const getProd = (page, pageSize) => {
-  return request.get(`/product/search?page=${page}&pageSize=${pageSize}`)
+const getProd = (page, pageSize, queryString) => {
+  return request.get(
+    `/product/search?page=${page}&pageSize=${pageSize}&${queryString}`
+  )
+}
+const getProd1 = (queryParams) => {
+  return request.get(
+    `/product/search?${queryParams}`
+  )
 }
 
+const reqGetProductPage = (condition) => {
+  return request.post("/product/pagenation", condition, jsonHeader)
+}
+
+//取得總頁數
+const reqGetCmsProductPages = (condition) => {
+  return request.post("/product/pages", condition, jsonHeader)
+}
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
 // request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
 
@@ -263,6 +283,7 @@ export {
   addRecipe,
   reqGetRecipePage,
   reqGetCmsRecipePages,
+  reqGetFrontRecipePages,
 
   // 教室用
   getReservations,
@@ -277,7 +298,7 @@ export {
   deleteCart,
 
   // 訂單用
-  insertOrder,
+  reqInsertOrder,
   reqGetOrderPage,
   reqGetCmsOrderPages,
 
@@ -299,6 +320,9 @@ export {
   getAllProd,
   SearchProd,
   getProd,
+  getProd1,
+  reqGetProductPage,
+  reqGetCmsProductPages,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

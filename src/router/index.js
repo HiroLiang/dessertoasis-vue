@@ -242,10 +242,22 @@ const router = createRouter({
     {
       path: "/cart",
       name: "cart",
-      component: () => import("../views/cart/Cart.vue"),
+      component: () => import("../views/cart/CartView.vue"),
       children: [
         {
-          path: "/cart/"
+          path: "",
+          name: "cart",
+          component: () => import("../views/cart/Cart.vue")
+        },
+        {
+          path: "/cart/pay",
+          name: "pay",
+          component: () => import("../views/cart/Pay.vue"),
+        },
+        {
+          path: "/cart/pay_success",
+          name: "paySuccess",
+          component: () => import("../views/cart/PaySuccess.vue")
         }
       ]
     },

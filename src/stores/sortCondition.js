@@ -1,10 +1,7 @@
 import { ref } from "vue"
 import { defineStore } from "pinia"
-<<<<<<< HEAD
-import { reqGetOrderPage, reqGetCmsOrderPages, reqGetRecipePage, reqGetCmsRecipePages, reqGetFrontRecipePages } from "../api"
-=======
-import { reqGetOrderPage, reqGetCmsOrderPages, reqGetRecipePage, reqGetCmsRecipePages, reqGetProductPage, reqGetCmsProductPages, } from "../api"
->>>>>>> origin/test
+
+import { reqGetOrderPage, reqGetCmsOrderPages, reqGetRecipePage, reqGetCmsRecipePages, reqGetProductPage, reqGetCmsProductPages, reqGetFrontRecipePages } from "../api"
 
 export const useSortCondition = defineStore('sortCondition', () => {
     //定義state
@@ -201,13 +198,11 @@ export const useSortCondition = defineStore('sortCondition', () => {
         return await reqGetCmsRecipePages(condition.value)
     }
 
-<<<<<<< HEAD
     const getFrontRecipePagenation = async () => {
         let result = await reqGetFrontRecipePages(condition.value)
         console.log(result.data);
         return result
     }
-=======
     /*------------------------商品--------------------------------*/
     //查詢頁面
     const getProductPagenation = async () => {
@@ -220,7 +215,6 @@ export const useSortCondition = defineStore('sortCondition', () => {
         return await reqGetCmsProductPages(condition.value)
     }
 
->>>>>>> origin/test
 
     return {
         //搜索條件
@@ -228,13 +222,11 @@ export const useSortCondition = defineStore('sortCondition', () => {
         // 條件設置方法
         setPageChange, setSearchRules, setSortBy, setNumberRange, setDateRules,
         // 食譜條件設置
-<<<<<<< HEAD
         setRecipeSearchRules, setRecipeDateRules, setRecipeNumberRange, setRecipeSortBy, setRecipePageChange, setFrontRecipePageChange, setFrontRecipeSortBy, setFrontRecipeNumberRange,
         //cms order 分頁方法
         getOrderPagenation, getOrderPages,
         //cms recipe 分頁方法
-        getRecipePagenation, getRecipePages, getFrontRecipePagenation
-=======
+        getRecipePagenation, getRecipePages, getFrontRecipePagenation,
         setRecipeSearchRules, setRecipeDateRules, setRecipeNumberRange, setRecipeSortBy, setRecipePageChange,
         // 商品條件設置方法
         setProductPageChange, setProductSearchRules, setProductSortBy, setProductNumberRange, setProductDateRules,
@@ -244,7 +236,6 @@ export const useSortCondition = defineStore('sortCondition', () => {
         getRecipePagenation, getRecipePages,
         //cms Product 分頁方法
         getProductPagenation, getProductPages,
->>>>>>> origin/test
     }
 
 

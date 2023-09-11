@@ -75,7 +75,7 @@ const handleInsertOrder = async () => {
             </div>
             <div class="col-4">
                 <div class="vh-100 position-fixed col-3">
-                    <div class="card p-3">
+                    <div class="card p-5">
                         <h2>結帳</h2>
                         <div v-if="productCart">商品: {{ productTotal }}</div>
                         <div v-if="courseCart">課程: {{ courseTotal }}</div>

@@ -114,7 +114,7 @@ const deleteCart = (cartId) => {
 /*----------------------------------------  訂單相關請求  -------------------------------------------*/
 
 // 新增訂單
-const insertOrder = (data) => {
+const reqInsertOrder = (data) => {
   return request.post(`/order`, data)
 }
 
@@ -222,7 +222,7 @@ export {
   deleteCart,
 
   // 訂單用
-  insertOrder,
+  reqInsertOrder,
   reqGetOrderPage,
   reqGetCmsOrderPages,
 

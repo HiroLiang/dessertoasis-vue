@@ -1,6 +1,6 @@
 import { ref } from "vue"
 import { defineStore } from "pinia"
-import { reqGetOrderPage, reqGetCmsOrderPages, reqGetRecipePage, reqGetCmsRecipePages } from "../api"
+import { reqGetOrderPage, reqGetCmsOrderPages, reqGetRecipePage, reqGetCmsRecipePages, reqGetProductPage, reqGetCmsProductPages, } from "../api"
 
 export const useSortCondition = defineStore('sortCondition', () => {
     //定義state

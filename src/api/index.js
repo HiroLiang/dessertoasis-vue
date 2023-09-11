@@ -88,13 +88,6 @@ const reqGetRecipePage = (condition) => {
   return request.post("/recipe/pagenation", condition, jsonHeader)
 }
 
-<<<<<<< HEAD
-=======
-//取得總頁數
-const reqGetCmsRecipePages = (condition) => {
-  return request.post("/recipe/pages", condition, jsonHeader)
-}
->>>>>>> origin/test
 
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
 

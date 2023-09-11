@@ -1,9 +1,33 @@
 <script setup>
 import NavBar from "@/components/NavBar.vue"
 import HeaderShow from "@/components/HeaderShow.vue"
-import CourseCard from "@/components/CourseCard.vue"
-import Pagination from "@/components/Pagination.vue"
-import { reactive } from "vue"
+// import CourseCard from "@/components/CourseCard.vue"
+// import Pagination from "@/components/Pagination.vue"
+import CourseDisplay from "@/components/Standard/Display.vue"
+import { getAllCourse, getCourse } from "@/api/index.js"
+import { reactive, ref, onMounted } from "vue"
+const course = ref()
+const courses = ref([])
+const getkey = (key) => {
+  console.log("key:", key)
+}
+const getpage = async (page, pageSize) => {
+  console.log("Page:", page)
+  console.log("PageSize:", pageSize)
+
+  await fetchCourses(page, pageSize)
+}
+
+const searchOptions = ref([
+  { key: "price", label: "價格", type: "Number" },
+  { key: "name", label: "課程名稱", type: "String" },
+])
+const row = ref(true)
+const block = ref(true)
+const categoryId = ref(1)
+const pageSize = ref(10)
+const pages = ref()
+const page = ref(1)
 const navBarList = reactive([
   { title: "食譜", toUrl: "/recipes" },
   { title: "課程", toUrl: "/courses" },
@@ -14,27 +38,63 @@ const navBarList = reactive([
     toUrl: "/courses/aboutTeacher",
   },
 ])
+const fetchCourses = async (page, pageSize) => {
+  try {
+    let result = await getCourse(page, pageSize)
+    let dataResponse = result.data
+    console.log(dataResponse)
+    if (dataResponse && Array.isArray(dataResponse.content)) {
+      let datas = dataResponse.content
+      datas.forEach((ele) => {
+        ele.category = ele.category.categoryName
+        ele.updateTime = new Date(ele.updateTime)
+      })
+
+      courses.value = datas.map((item) => ({
+        id: item.id,
+        picture: item.pictures,
+        name: item.courseName,
+        teacher: item.teacher.teacherName,
+        price: item.coursePrice,
+        description: item.courseIntroduction,
+      }))
+      pages.value = dataResponse.totalPages
+
+      console.log(courses.value)
+    } else {
+      console.error(
+        "Data from API is not in the expected format:",
+        dataResponse
+      )
+    }
+  } catch (error) {
+    console.error("Error fetching and processing data:", error)
+  }
+}
+onMounted(async () => {
+  fetchCourses(page.value, pageSize.value)
+})
 </script>
 <template>
   <NavBar :NavBarList="navBarList" />
   <HeaderShow />
   <!-- RouterView 放會變的東西 -->
   <!-- <RouterView/> -->
-  <div class="container">
-    <!-- <carousel></carousel> -->
-    <!-- 導航層次結構 -->
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item active"><a href="#">首頁</a></li>
-      </ol>
-    </nav>
-    <!-- 成為老師按鈕 -->
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <button class="btn btn-primary me-md-2" type="button">成為老師</button>
-    </div>
-    <h1>推薦課程</h1>
-    <!-- 搜尋課程 -->
-    <nav class="row">
+  <!-- <div class="container"> -->
+  <!-- <carousel></carousel> -->
+  <!-- 導航層次結構 -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active"><a href="#">首頁</a></li>
+    </ol>
+  </nav>
+  <!-- 成為老師按鈕 -->
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button class="btn btn-primary me-md-2" type="button">成為老師</button>
+  </div>
+  <h1>推薦課程</h1>
+  <!-- 搜尋課程 -->
+  <!-- <nav class="row">
       <div class="col-6 center">
         <div class="input-group mb-3">
           <input
@@ -61,20 +121,20 @@ const navBarList = reactive([
           </ul>
         </div>
       </div>
-    </nav>
+    </nav> -->
 
-    <!-- 課程分類右方選單 -->
-    <aside class="dropdown">
+  <!-- 課程分類右方選單 -->
+  <!-- <aside class="dropdown">
       <a href="#" class="dropdown-btn">課程分類</a>
       <ul class="menu">
         <li><a href="#">推薦課程</a></li>
         <li><a href="#">適合新手</a></li>
         <li><a href="#">一日課程</a></li>
       </ul>
-    </aside>
+    </aside> -->
 
-    <!-- 課程卡片 -->
-    <main class="row">
+  <!-- 課程卡片 -->
+  <!-- <main class="row">
       <CourseCard></CourseCard>
       <CourseCard></CourseCard>
       <CourseCard></CourseCard>
@@ -83,11 +143,27 @@ const navBarList = reactive([
       <CourseCard></CourseCard>
       <CourseCard></CourseCard>
       <CourseCard></CourseCard>
-    </main>
-
-    <!-- 分頁 -->
-    <Pagination></Pagination>
+    </main> -->
+  <div class="CourseDisplay">
+    <CourseDisplay
+      :products="courses"
+      :searchOptions="searchOptions"
+      :page="page"
+      :pages="pages"
+      :row="row"
+      :block="block"
+      :categoryId="categoryId"
+      :pageSize="pageSize"
+      @get-selected-key="getkey"
+      @get-search-rules="getsearch"
+      @get-number-range="getrange"
+      @get-page="getpage"
+    ></CourseDisplay>
   </div>
+
+  <!-- 分頁 -->
+  <!-- <Pagination></Pagination> -->
+  <!-- </div> -->
 </template>
 <style scoped>
 * {

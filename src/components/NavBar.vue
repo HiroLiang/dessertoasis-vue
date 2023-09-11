@@ -64,9 +64,9 @@ onMounted(async () => {
 
 // 登出
 async function logout() {
-    // 清除前端的 "userLogin" Cookie
-    document.cookie = "userLogin; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
+    // 清除前端的Cookie
+    // 調用函数以删除所有cookie
+    deleteAllCookies();
     try {
         // 清除後端session
         await reqSignOut();
@@ -79,6 +79,20 @@ async function logout() {
         console.error('登出失败：', error);
     }
 }
+
+//删除所有cookie
+function deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+}
+
+
 
 </script>
 

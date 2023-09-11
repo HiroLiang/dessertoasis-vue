@@ -10,12 +10,48 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 
-import { createApp } from 'vue'
+import { ref, createApp } from 'vue'
 import { createPinia } from 'pinia'
 import naive from 'naive-ui'
 
 import App from './App.vue'
 import router from './router'
+import { reqUserPermission } from "./api";
+
+const isLogin = ref(false)
+const isAdmin = ref(false)
+const isTeacher = ref(false)
+
+async function checkIsLogin() {
+    try {
+        const response = await reqUserPermission()
+        const permission = response.data
+        isLogin.value = permission === "User is an admin" || permission === "User is a teacher" || permission === "User is a regular user"
+        isAdmin.value = permission === "User is an admin";
+        isTeacher.value = permission === "User is a teacher";
+
+    } catch (error) {
+        console.error('Error checking user permission:', error)
+        isLogin.value = false
+        isAdmin.value = false
+    }
+}
+
+router.beforeEach(async (to, from, next) => {
+    await checkIsLogin()
+
+
+    if (!isLogin.value && to.path === '/cms') {//沒登入無法進入/cms頁面，會導向login頁面。除了cms都可以進入。
+        next({ name: 'logIn' })
+    } else if (isLogin.value && isAdmin.value && to.path === '/cms') {//登入且是管理員可以進入/cms頁面
+        next()
+    } else if (isLogin.value && !isAdmin.value && to.path === '/cms') {//登入非管理員無法進入/cms頁面，會導向首頁
+        next({ name: 'home' })
+    } else {//可以進行其他導向
+        next()
+    }
+
+});
 
 const app = createApp(App)
 

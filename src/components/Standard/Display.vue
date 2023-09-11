@@ -108,6 +108,8 @@ const page = ref(0)
 
 const pageSize = ref(10)
 
+const pages = computed(() => props.pages)
+
 //改變顯示方式
 const blockType = ref(props.block)
 const rowType = ref(props.row)
@@ -147,6 +149,11 @@ watch(page, () => {
 watch(pageSize, () => {
     page.value = 1
     emit('get-page', page.value, pageSize.value)
+})
+
+//防止超頁
+watch(pages, () => {
+    page.value = 1
 })
 
 onMounted(() => {

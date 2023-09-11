@@ -74,6 +74,7 @@ const addRecipe = (formData) => {
   return request.post("/recipe/addrecipe", formData)
 }
 
+//取得現在頁數內的資料
 const reqGetRecipePage = (condition) => {
   return request.post('/recipe/pagenation', condition, jsonHeader)
 }

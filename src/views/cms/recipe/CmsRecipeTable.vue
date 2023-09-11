@@ -19,7 +19,7 @@ const hasTable = ref(true)
 //設定查詢表格標題
 const dataTitles = ref([
     { label: "食譜名稱", key: "recipeTitle", type: "String" },
-    { label: "撰寫者", key: "fullName", type: "String" },
+    { label: "撰寫者", key: "recipeAuthor", type: "String" },
     // { label: "分類", key: "recipeCategories", type: "int" },
     { label: "建立日期", key: "recipeCreateDate", type: "Date" },
     { label: "公開狀態", key: "recipeStatus", type: "int" },

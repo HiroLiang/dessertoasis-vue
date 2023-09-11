@@ -13,18 +13,18 @@ const RecipeHpOff = () => {
 
 }
 
-const recipeImgData = ref(null)
+// const recipeImgData = ref(null)
 
-let formData = new FormData()
+// let formData = new FormData()
 
-const getRecipeImg = (e) => {
-    formData = new FormData()
-    formData.append("file", e.target.files[0])
-    formData.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-    })
+// const getRecipeImg = (e) => {
+//     formData = new FormData()
+//     formData.append("file", e.target.files[0])
+//     formData.forEach((value, key) => {
+//         console.log(`${key}: ${value}`);
+//     })
 
-}
+// }
 
 const send = async () => {
     let res = await imgTest(formData)
@@ -44,9 +44,6 @@ const send = async () => {
     </div>
     <hr>
     <RouterView></RouterView>
-
-    <input type="file" @change="getRecipeImg">
-    <button @click="send">送出圖片</button>
 </template>
 
 <style scoped>

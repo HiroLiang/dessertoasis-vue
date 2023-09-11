@@ -214,6 +214,14 @@ const getProd1 = (queryParams) => {
   )
 }
 
+const reqGetProductPage = (condition) => {
+  return request.post("/product/pagenation", condition, jsonHeader)
+}
+
+//取得總頁數
+const reqGetCmsProductPages = (condition) => {
+  return request.post("/product/pages", condition, jsonHeader)
+}
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
 // request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
 
@@ -295,7 +303,8 @@ export {
   SearchProd,
   getProd,
   getProd1,
-
+  reqGetProductPage,
+  reqGetCmsProductPages,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

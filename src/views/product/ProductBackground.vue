@@ -249,8 +249,8 @@ const props = defineProps({
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import ProdTable from '../../../components/Standard/Table.vue'
-import { useSortCondition } from '../../../stores/sortCondition.js'
+import ProdTable from '@/components/Standard/Table.vue';
+import { useSortCondition } from '../../stores/sortCondition.js'
 
 //使用 pinia 整合搜索條件
 const store = useSortCondition()
@@ -299,14 +299,14 @@ const updateDatas = (datas) => {
 
 //更新總頁數
 const updatePages = async () => {
-    let num = await store.getOrderPages()
+    let num = await store.getProductPages()
     pages.value = num.data
 }
 
 /**傳值送 Pinia 整合搜索條件 */
 //換頁
 const onGetPage = async (newPage) => {
-    let result = await store.setPageChange(newPage)
+    let result = await store.setProductPageChange(newPage)
     if (result != null) {
         let datas = result.data
         updateDatas(datas)
@@ -314,7 +314,7 @@ const onGetPage = async (newPage) => {
 }
 //搜索條件(多筆)
 const onGetSearchRules = async (rules) => {
-    let result = await store.setSearchRules(rules)
+    let result = await store.setProductSearchRules(rules)
     if (result != null) {
         let datas = result.data
         updateDatas(datas)
@@ -322,7 +322,7 @@ const onGetSearchRules = async (rules) => {
 }
 //排序條件(單筆)
 const onGetSortRule = async (rule) => {
-    let result = await store.setSortBy(rule)
+    let result = await store.setProductSortBy(rule)
     if (result != null) {
         let datas = result.data
         updateDatas(datas)
@@ -330,7 +330,7 @@ const onGetSortRule = async (rule) => {
 }
 //數值範圍(單筆)
 const onGetNumberRange = async (range) => {
-    let result = await store.setNumberRange(range)
+    let result = await store.setProductNumberRange(range)
     if (result != null) {
         let datas = result.data
         updateDatas(datas)
@@ -338,7 +338,7 @@ const onGetNumberRange = async (range) => {
 }
 //日期範圍(多筆)
 const onGetDateRules = async (rules) => {
-    let result = await store.setDateRules(rules)
+    let result = await store.setProductDateRules(rules)
     if (result != null) {
         let datas = result.data
         updateDatas(datas)
@@ -352,7 +352,7 @@ const onGetEditId = (id) => {
 
 /** 初始化資料 */
 onMounted(async () => {
-    let result = await store.setPageChange([1, 10])
+    let result = await store.setProductPageChange([1, 10])
     if (result != null) {
         let datas = result.data
         updateDatas(datas)

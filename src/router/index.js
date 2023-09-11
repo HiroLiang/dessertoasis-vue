@@ -82,7 +82,7 @@ const router = createRouter({
         {
           path: "/cms/recipe",
           name: "recipe",
-          component: () => import("../views/recipe/RecipeBackground.vue"),
+          component: () => import("../views/cms/recipe/CmsRecipeTable.vue"),
         },
         {
           path: "/cms/course",
@@ -94,6 +94,11 @@ const router = createRouter({
         //   name: "courseDetail",
         //   component: () => import("../views/course/CourseDetail.vue"), // 课程详情页面组件
         //   props: true, // 将路由参数传递为组件的 props
+        // },
+        // {
+        //   path: "/course/:courseId",
+        //   name: "courseDetail",
+        //   component: CourseDetail,
         // },
         {
           path: "/cms/addCourse",
@@ -123,7 +128,7 @@ const router = createRouter({
         {
           path: "/cms/chat",
           name: "chat",
-          component: () => import("../views/ChatRoom.vue"),
+          component: () => import("../components/Standard/ChatRoom.vue"),
         },
         {
           path: "/cms/product",

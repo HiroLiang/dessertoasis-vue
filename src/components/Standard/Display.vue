@@ -125,7 +125,6 @@ const blockClass = () => {
 
 //送出選擇的選項id
 const sendKey = (id) => {
-    console.log(id);
     emit('get-selected-key', id)
 }
 
@@ -222,6 +221,7 @@ onMounted(() => {
 }
 
 .anchor svg {
+    z-index: 1;
     position: absolute;
     cursor: pointer;
     transform: translateX(17px) translateY(20px);

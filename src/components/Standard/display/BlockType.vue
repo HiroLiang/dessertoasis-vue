@@ -20,6 +20,7 @@ const props = defineProps({
             <div class="picWrap">
                 <img :src="`/images/display/${product.picture}`" :alt="product.name">
             </div>
+            <p class="description">{{ product.description }}</p>
         </div>
         <h2>{{ product.name }}</h2>
         <span v-if="product.teacher">{{ product.teacher }}</span>
@@ -79,17 +80,37 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     overflow: hidden;
 }
 
 .picWrap {
     width: 100%;
     height: 100%;
+    transition: all 0.2s ease-in-out;
 }
 
 .picContainer img {
     width: 100%;
     height: 100%;
+    -webkit-user-drag: none;
     object-fit: cover;
+}
+
+.description {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.7);
+    color: rgb(77, 87, 95);
+    transform: translateY(200px);
+    transition: all 0.4s ease-in-out;
+}
+
+.cardContainer:hover .picWrap {
+    width: 107%;
+    height: 107%;
+}
+
+.cardContainer:hover .description {
+    transform: translateY(70px);
 }
 </style>

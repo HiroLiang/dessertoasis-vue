@@ -95,6 +95,11 @@ const router = createRouter({
         //   component: () => import("../views/course/CourseDetail.vue"), // 课程详情页面组件
         //   props: true, // 将路由参数传递为组件的 props
         // },
+        // {
+        //   path: "/course/:courseId",
+        //   name: "courseDetail",
+        //   component: CourseDetail,
+        // },
         {
           path: "/cms/addCourse",
           name: "addCourse",
@@ -237,10 +242,22 @@ const router = createRouter({
     {
       path: "/cart",
       name: "cart",
-      component: () => import("../views/cart/Cart.vue"),
+      component: () => import("../views/cart/CartView.vue"),
       children: [
         {
-          path: "/cart/"
+          path: "",
+          name: "cart",
+          component: () => import("../views/cart/Cart.vue")
+        },
+        {
+          path: "/cart/pay",
+          name: "pay",
+          component: () => import("../views/cart/Pay.vue"),
+        },
+        {
+          path: "/cart/pay_success",
+          name: "paySuccess",
+          component: () => import("../views/cart/PaySuccess.vue")
         }
       ]
     },

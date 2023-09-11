@@ -2,8 +2,11 @@
 import { ref, onMounted, reactive, computed, watch } from "vue"
 import SweetAlert from "SweetAlert2"
 import StandardSearch from "../../components/Standard/Search.vue"
+import CourseDetail from "@/components/CourseDetail.vue" // 导入显示课程详细信息的组件
+
 import { getAllCourses } from "@/api"
 import { deleteCourse } from "@/api"
+import { showSingleCourse } from "@/api"
 
 const courses = ref([])
 const datas = async () => {
@@ -184,6 +187,20 @@ watch(pages, () => {
 page.value = props.page
 pageSize.value = props.pageSize
 
+const showModal = ref(false) // 控制模态框显示/隐藏
+const selectedCourseId = ref(null) // 存储选中的课程 ID
+
+// 当点击 "修改" 按钮时，显示模态框并设置选定课程的ID
+const showCourseDetail = (courseId) => {
+  selectedCourseId.value = courseId
+  showModal.value = true
+}
+
+// 关闭模态框
+const closeModal = () => {
+  showModal.value = false
+}
+
 // onMounted(datas)
 onMounted(() => {
   // 在組件掛載後獲取資料
@@ -252,9 +269,24 @@ onMounted(() => {
               <!-- <router-link
                 :to="{ name: 'CourseDetail', params: { id: data.id } }"
               > -->
-              <n-button @click="getEditId(data.id)" strong secondary round
+              <n-button
+                @click="showCourseDetail(data.id)"
+                strong
+                secondary
+                round
                 >修改</n-button
               >
+              <!-- 模态框 -->
+              <div v-if="showModal" class="modal">
+                <div class="modal-content">
+                  <!-- 在模态框中加载并显示课程详细信息 -->
+                  <CourseDetail :courseId="selectedCourseId" />
+                  <button @click="closeModal">关闭</button>
+                </div>
+              </div>
+              <!-- <n-button @click="getEditId(data.id)" strong secondary round
+                >修改</n-button
+              > -->
               <!-- </router-link> -->
               <n-button
                 @click="deleteSingleCourse(data.courseId)"

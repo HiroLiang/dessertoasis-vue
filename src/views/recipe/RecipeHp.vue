@@ -115,7 +115,6 @@ const item = reactive([
 <template>
     <h2>this is recipe homepage</h2>
     <div>
-        <DropDownSelector></DropDownSelector>
         <hr>
         <Selector></Selector>
         <hr>
@@ -132,28 +131,4 @@ const item = reactive([
     </div>
 </template>
 
-<style scoped>
-.recipeListContainer {
-    margin: 0;
-    padding-left: 60px;
-    padding-right: 60px;
-    display: block;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.searchBarBackground {
-    max-width: 100vw;
-    overflow: hidden;
-    max-height: 70vh;
-    margin-bottom: 10px;
-    margin-top: 10px;
-
-}
-
-.searchBarBackground img {
-    max-width: 100%;
-    max-height: 10%;
-    height: auto
-}
-</style>
+<style scoped></style>

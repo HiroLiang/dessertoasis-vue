@@ -69,8 +69,7 @@ const register = async () => {
                 <label class="form-check-label" for="form2Example3">同意註冊 <a href="#" class="mb-0">合約</a></label>
             </div>
             <div class="row p-2">
-                <button type="button" class="btn btn-primary btn-block mb-4" :disable="!isAgree"
-                    @click="register">註冊</button>
+                <button type="button" class="btn btn-primary btn-block mb-4" @click="register">註冊</button>
             </div>
             <div class="text-center sign-link">
                 <p>已經是會員 <router-link to="/logIn">登入</router-link> </p>

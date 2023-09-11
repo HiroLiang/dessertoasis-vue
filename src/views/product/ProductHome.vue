@@ -2,8 +2,72 @@
 <script setup>
 // import NavBar from '@/components/NavBar.vue';
 // import ProductMenu from '@/components/ProductMenu.vue';
-import ProductCard from '@/components/ProductCard.vue';
+//import ProductCard from '@/components/ProductCard.vue';
+import ProdDisplay from '@/components/Standard/Display.vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { getAllProd, getProd } from '@/api/index.js';
+const product = ref();
+const products = ref([]);
+const getkey = (key) => {
+    console.log("key:", key);
+}
+
+// const getpage = (page) => {
+//     console.log("page:", page.value);
+//     console.log("pageSize:", pageSize.value);
+// }
+const getpage = async (page, pageSize) => {
+    console.log("Page:", page);
+    console.log("PageSize:", pageSize);
+
+    await fetchProducts(page, pageSize);
+}
+const searchOptions = ref([
+    { key: 'price', label: '價格', type: 'Number' },
+    { key: 'name', label: '商品名稱', type: 'String' },
+]);
+const row = ref(false);
+const block = ref(true);
+const categoryId = ref(1);
+const pageSize = ref(10)
+const pages = ref();
+const page = ref(1);
+const fetchProducts = async (page, pageSize) => {
+    try {
+        let result = await getProd(page, pageSize);
+        let dataResponse = result.data;
+
+        if (dataResponse && Array.isArray(dataResponse.content)) {
+            let datas = dataResponse.content;
+            datas.forEach(ele => {
+                ele.category = ele.category.categoryName;
+                ele.updateTime = new Date(ele.updateTime);
+            });
+
+            products.value = datas.map(item => ({
+                id: item.id,
+                picture: item.pictures,
+                name: item.prodName,
+                price: item.prodPrice,
+            }));
+            pages.value = dataResponse.totalPages;
+
+            console.log(products.value);
+        } else {
+            console.error('Data from API is not in the expected format:', dataResponse);
+        }
+    } catch (error) {
+        console.error('Error fetching and processing data:', error);
+    }
+};
+
+onMounted(async () => {
+    fetchProducts(page.value, pageSize.value);
+});
 </script>
+
+
 
 
 
@@ -44,8 +108,10 @@ import ProductCard from '@/components/ProductCard.vue';
     <div class="text">
         <h2>熱門商品</h2>
     </div>
-    <div class="ProductCard">
-        <ProductCard></ProductCard>
+    <div class="ProdDisplay">
+        <ProdDisplay :products="products" :searchOptions="searchOptions" :page="page" :pages="pages" :row="row"
+            :block="block" :categoryId="categoryId" :pageSize="pageSize" @get-selected-key="getkey"
+            @get-search-rules="getsearch" @get-number-range="getrange" @get-page="getpage"></ProdDisplay>
     </div>
 </template>
 

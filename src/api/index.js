@@ -36,6 +36,13 @@ const reqGetAllMembers = () => request.get("/member/all", {})
 
 //從session 拿出member資料
 const reqSession = () => request.get("/memberSession")
+
+//拿到密鑰
+const reqSecretKey = () => request.get("/getSecretKey");
+
+//拿解密後的狀態
+const reqUserPermission = () => request.get("/checkUserPermission");
+
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -65,6 +72,15 @@ const imgTest = (file) => {
 //送出建立食譜頁面資料
 const addRecipe = (formData) => {
   return request.post("/recipe/addrecipe", formData)
+}
+
+const reqGetRecipePage = (condition) => {
+  return request.post('/recipe/pagenation', condition, jsonHeader)
+}
+
+//取得總頁數
+const reqGetCmsRecipePages = (condition) => {
+  return request.post('/recipe/pages', condition, jsonHeader)
 }
 
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
@@ -174,6 +190,12 @@ const getAllProd = (page, pageSize, dataTitles) => {
 const SearchProd = (criteria, jsonHeader) =>
   request.post("/product/criteria", criteria, jsonHeader)
 
+const getProd = (page, pageSize) => {
+  return request.get(
+    `/product/search?page=${page}&pageSize=${pageSize}`
+  )
+}
+
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
 // request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
 
@@ -205,6 +227,8 @@ export {
   reqMemberDetail,
   reqGetAllMembers,
   reqSession,
+  reqSecretKey,
+  reqUserPermission,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,
@@ -213,6 +237,8 @@ export {
   reqDatas,
   imgTest,
   addRecipe,
+  reqGetRecipePage,
+  reqGetCmsRecipePages,
 
   // 教室用
   getReservations,
@@ -243,6 +269,7 @@ export {
   /*--------商品用-------*/
   getAllProd,
   SearchProd,
+  getProd,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

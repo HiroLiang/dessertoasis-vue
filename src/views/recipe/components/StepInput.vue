@@ -51,8 +51,8 @@ const getStepDatas = () => {
 <template>
     <div class="stepContainer container">
         <div :class="'step' + stepIndex + 'Container' + ' row justify-content-between'">
-            <div class="stepImgContainer col-3 align-self-center" :id="'imgContainer' + stepIndex">
-                <h3>步驟{{ stepIndex }}</h3><br>
+            <h5 class="mb-2 mt-2">步驟{{ stepIndex }}</h5><br>
+            <div class="stepImgContainer col-3 align-self-start" :id="'imgContainer' + stepIndex">
                 <label :for="'recipeStepInput' + stepIndex" class="inputLabel custom-cursor-pointer">
                     <img :class="'recipeStep' + stepIndex + 'Pic'" :id="'previewPic' + stepIndex"
                         :alt="'步驟' + stepIndex + '圖片'" :src="previewImageUrl || 'https://fakeimg.pl/250x200/?text=Image'">
@@ -60,12 +60,12 @@ const getStepDatas = () => {
                 <input @change="getStepDatas" class="form-control visually-hidden " ref="textPic" type="file"
                     :id="'recipeStepInput' + stepIndex" :name="'recipeStep' + stepIndex" accept="image/*"><br>
             </div>
-            <div class="introText col-6 align-self-center">
-                <textarea @blur="getStepDatas" v-model="textContent" class="recipeIntroduction form-control mt-3" rows="9"
+            <div class="introText col-6 align-self-center mb-2 ">
+                <textarea @blur="getStepDatas" v-model="textContent" class="recipeIntroduction form-control " rows="6"
                     cols="20" style="resize: none;" :id="'recipeIntroduction' + stepIndex"
                     :name="'recipeIntroduction' + stepIndex" required="required"></textarea>
             </div>
-            <div class="stepBtn col-3 mt-5">
+            <div class="stepBtn col-3">
                 <button class="btn btn-light" :id="'deleteStep' + stepIndex" @click="deleteStep">刪除</button>
                 <button class="btn btn-light" :id="'moveStep' + stepIndex">移動</button>
             </div>
@@ -82,5 +82,15 @@ const getStepDatas = () => {
 
 .custom-cursor-pointer {
     cursor: pointer !important;
+}
+
+.stepImgContainer h5 {
+    margin-bottom: 0.5rem;
+    /* 设置 <h5> 元素的下外边距为 0.5rem（根据需要调整） */
+}
+
+.stepImgContainer input {
+    margin-top: 0.5rem;
+    /* 设置 <input> 元素的上外边距为 0.5rem（根据需要调整） */
 }
 </style>

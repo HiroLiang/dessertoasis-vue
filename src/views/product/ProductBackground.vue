@@ -266,7 +266,7 @@ const tableDatas = ref([])
 const hasTable = ref(true)
 //設定查詢表格標題
 const dataTitles = ref([
-    { label: "分類", key: "category", type: "String" },
+    { label: "分類", key: "categoryName", type: "String" },
     { label: "名稱", key: "prodName", type: "String" },
     // { label: "描述", key: "prodDescription", type: "String" },
     { label: "價錢", key: "prodPrice", type: "Number" },

@@ -142,11 +142,11 @@ const updateList = (id) => {
 
 //送出換頁條件
 watch(page, () => {
-    emit('get-page', page.value, pageSize.value)
+    emit('get-page', [page.value, pageSize.value])
 })
 watch(pageSize, () => {
     page.value = 1
-    emit('get-page', page.value, pageSize.value)
+    emit('get-page', [page.value, pageSize.value])
 })
 
 onMounted(() => {

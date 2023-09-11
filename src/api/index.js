@@ -74,15 +74,20 @@ const addRecipe = (formData) => {
   return request.post("/recipe/addrecipe", formData)
 }
 
+//取得總頁數
+const reqGetCmsRecipePages = (condition) => {
+  return request.post('/recipe/pages', condition, jsonHeader)
+}
+
+const reqGetFrontRecipePages = (condition) => {
+  return request.post('/recipe/recipeFrontPagenation', condition, jsonHeader)
+}
+/*----------------------------------------  食譜後台相關請求  -------------------------------------------*/
 //取得現在頁數內的資料
 const reqGetRecipePage = (condition) => {
   return request.post('/recipe/pagenation', condition, jsonHeader)
 }
 
-//取得總頁數
-const reqGetCmsRecipePages = (condition) => {
-  return request.post('/recipe/pages', condition, jsonHeader)
-}
 
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
 
@@ -235,6 +240,7 @@ export {
   addRecipe,
   reqGetRecipePage,
   reqGetCmsRecipePages,
+  reqGetFrontRecipePages,
 
   // 教室用
   getReservations,

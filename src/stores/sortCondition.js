@@ -1,6 +1,6 @@
 import { ref } from "vue"
 import { defineStore } from "pinia"
-import { reqGetOrderPage, reqGetCmsOrderPages, reqGetRecipePage, reqGetCmsRecipePages } from "../api"
+import { reqGetOrderPage, reqGetCmsOrderPages, reqGetRecipePage, reqGetCmsRecipePages, reqGetFrontRecipePages } from "../api"
 
 export const useSortCondition = defineStore('sortCondition', () => {
     //定義state
@@ -59,7 +59,7 @@ export const useSortCondition = defineStore('sortCondition', () => {
         return await getOrderPagenation()
     }
 
-    /*------------------------食譜--------------------------------*/
+    /*------------------------食譜  後台--------------------------------*/
     const setRecipeSearchRules = async (rules) => {
         condition.value.searchRules = rules
         console.log(condition.value);
@@ -92,13 +92,42 @@ export const useSortCondition = defineStore('sortCondition', () => {
         return await getRecipePagenation()
     }
 
-    //更新頁碼
+    //更新後台頁碼
     const setRecipePageChange = async (newPage) => {
         condition.value.page = newPage[0]
         condition.value.pageSize = newPage[1]
         console.log(condition.value)
         return await getRecipePagenation()
     }
+    /*------------------------食譜  前台--------------------------------*/
+
+    const setFrontRecipePageChange = async (newPage) => {
+        condition.value.page = newPage[0]
+        condition.value.pageSize = newPage[1]
+        console.log(condition.value)
+        return await getFrontRecipePagenation()
+    }
+
+    const setFrontRecipeSortBy = async (rule) => {
+        condition.value.sortBy = rule[0]
+        condition.value.sortWay = rule[1]
+        console.log(condition.value);
+        return await getFrontRecipePagenation()
+    }
+
+    const setFrontRecipeNumberRange = async (range) => {
+        condition.value.numKey = null
+        condition.value.numStart = 0
+        condition.value.numEnd = 0
+        if (range !== null) {
+            condition.value.numKey = range[0]
+            condition.value.numStart = range[1]
+            condition.value.numEnd = range[2]
+            console.log(condition.value);
+            return await getFrontRecipePagenation()
+        }
+    }
+
 
     //分頁搜索
     /*------------------------訂單--------------------------------*/
@@ -124,16 +153,22 @@ export const useSortCondition = defineStore('sortCondition', () => {
         return await reqGetCmsRecipePages(condition.value)
     }
 
+    const getFrontRecipePagenation = async () => {
+        let result = await reqGetFrontRecipePages(condition.value)
+        console.log(result.data);
+        return result
+    }
+
     return {
         //搜索條件
         condition,
         // 條件設置方法
         setPageChange, setSearchRules, setSortBy, setNumberRange, setDateRules,
         // 食譜條件設置
-        setRecipeSearchRules, setRecipeDateRules, setRecipeNumberRange, setRecipeSortBy, setRecipePageChange,
+        setRecipeSearchRules, setRecipeDateRules, setRecipeNumberRange, setRecipeSortBy, setRecipePageChange, setFrontRecipePageChange, setFrontRecipeSortBy, setFrontRecipeNumberRange,
         //cms order 分頁方法
         getOrderPagenation, getOrderPages,
         //cms recipe 分頁方法
-        getRecipePagenation, getRecipePages,
+        getRecipePagenation, getRecipePages, getFrontRecipePagenation
     }
 })

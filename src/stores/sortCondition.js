@@ -15,17 +15,19 @@ export const useSortCondition = defineStore('sortCondition', () => {
         numStart: 0,
         numEnd: 0
     })
+
     //填入資料方法
     /*------------------------訂單--------------------------------*/
+
     const setSearchRules = async (rules) => {
         condition.value.searchRules = rules
-        console.log(condition.value);
+        console.log(rules);
         return await getOrderPagenation()
     }
 
     const setDateRules = async (rules) => {
         condition.value.dateRules = rules
-        console.log(condition.value);
+        console.log(rules);
         return await getOrderPagenation()
     }
 
@@ -37,7 +39,7 @@ export const useSortCondition = defineStore('sortCondition', () => {
             condition.value.numKey = range[0]
             condition.value.numStart = range[1]
             condition.value.numEnd = range[2]
-            console.log(condition.value);
+            console.log(range);
             return await getOrderPagenation()
         }
     }
@@ -45,7 +47,7 @@ export const useSortCondition = defineStore('sortCondition', () => {
     const setSortBy = async (rule) => {
         condition.value.sortBy = rule[0]
         condition.value.sortWay = rule[1]
-        console.log(condition.value);
+        console.log(rule);
         return await getOrderPagenation()
     }
 
@@ -53,7 +55,7 @@ export const useSortCondition = defineStore('sortCondition', () => {
     const setPageChange = async (newPage) => {
         condition.value.page = newPage[0]
         condition.value.pageSize = newPage[1]
-        console.log(condition.value)
+        console.log(newPage)
         return await getOrderPagenation()
     }
 

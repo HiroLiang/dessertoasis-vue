@@ -123,7 +123,7 @@ const router = createRouter({
         {
           path: "/cms/chat",
           name: "chat",
-          component: () => import("../views/ChatRoom.vue"),
+          component: () => import("../components/Standard/ChatRoom.vue"),
         },
         {
           path: "/cms/product",

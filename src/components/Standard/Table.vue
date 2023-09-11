@@ -73,20 +73,27 @@ const sortWay = ref(true)
 //排序key
 const nowSortBy = ref('')
 
+const dateRules = ref([])
+
+const searchRules = ref([])
+
 /* 定義傳出值方法 */
 //傳出日期、模糊搜索條件 ( 可多值 )
 const getRules = (rules) => {
-    let dateRules = []
-    let searchRules = []
+    let date = []
+    let search = []
     for (let i = 0; i < rules.length; i++) {
         if (rules[i].type === 'Date') {
-            dateRules.push(rules[i])
+            date.push(rules[i])
         } else {
-            searchRules.push(rules[i])
+            search.push(rules[i])
         }
     }
-    emit('get-date-rules', dateRules)
-    emit('get-search-rules', searchRules)
+    if (dateRules.value != date)
+        dateRules.value = date
+    if (searchRules.value != search)
+        searchRules.value = search
+
 }
 //傳出數字範圍條件 ( 單一條件 )
 const getNumberRange = (numberRange) => {
@@ -138,6 +145,13 @@ watch(pageSize, () => {
 watch(pages, () => {
     page.value = 1
 })
+watch(dateRules, () => {
+    emit('get-date-rules', dateRules.value)
+})
+watch(searchRules, () => {
+    emit('get-search-rules', searchRules.value)
+})
+
 
 /* 初始化需求 */
 page.value = props.page

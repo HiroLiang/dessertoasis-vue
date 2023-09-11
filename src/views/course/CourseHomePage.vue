@@ -52,7 +52,7 @@ const fetchCourses = async (page, pageSize) => {
 
       courses.value = datas.map((item) => ({
         id: item.id,
-        picture: item.pictures,
+        picture: item.coursePictureList[0].courseImgURL,
         name: item.courseName,
         teacher: item.teacher.teacherName,
         price: item.coursePrice,

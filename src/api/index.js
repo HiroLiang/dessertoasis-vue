@@ -193,6 +193,16 @@ const getAllCourse = (page, pageSize, dataTitles) => {
 
 const searchCourse = (criteria, jsonHeader) =>
   request.post("/course/criteria", criteria, jsonHeader)
+
+const reqGetCoursePage = (condition) => {
+  return request.post("/course/pagenation", condition, jsonHeader)
+}
+
+//取得總頁數
+const reqGetCmsCoursePages = (condition) => {
+  return request.post("/course/pages", condition, jsonHeader)
+}
+
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
 const getAllProd = (page, pageSize, dataTitles) => {
@@ -282,6 +292,8 @@ export {
   getCourse,
   getAllCourse,
   searchCourse,
+  reqGetCoursePage,
+  reqGetCmsCoursePages,
 
   /*--------商品用-------*/
   getAllProd,

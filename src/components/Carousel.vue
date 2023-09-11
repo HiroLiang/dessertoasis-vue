@@ -1,5 +1,6 @@
 <template>
     <div class="carouselContainer container">
+
         <div class="txtwrap">
             <router-link :to="props.link" class="custom-router-link">
                 <h5 class="titleTxt ">
@@ -35,7 +36,7 @@
   
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { Navigation, Slide, Pagination, Carousel } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 
@@ -43,8 +44,13 @@ const windowWidth = ref();
 const itemToShow = ref(); //輪播顯示數量
 
 onMounted(() => {
-    windowWidth.value = window.innerWidth; // 確保初始值是預期的
+    windowWidth.value = window.innerWidth; // 確保初始值
     window.addEventListener('resize', handleResize);
+});
+
+//避免其他頁面受監聽影響
+onBeforeUnmount(() => {
+    window.removeEventListener('resize', handleResize);
 });
 //監聽頁面大小變化
 const handleResize = () => {
@@ -52,7 +58,7 @@ const handleResize = () => {
     if (windowWidth.value !== newWidth) {
         windowWidth.value = newWidth;
     }
-    console.log('window:  ' + window.innerWidth);
+    // console.log('window:  ' + window.innerWidth);
 };
 
 //視窗大小變化時回傳改動圖片數量
@@ -83,8 +89,8 @@ function getItemToShow(width) {
 // 監聽窗口大小的變化，並在變化時更新輪播顯示數量
 watch(windowWidth, (newWidth) => {
     itemToShow.value = getItemToShow(newWidth);
-    console.log('newWidth:  ' + newWidth);
-    console.log('itemToShow:  ' + itemToShow.value);
+    // console.log('newWidth:  ' + newWidth);
+    // console.log('itemToShow:  ' + itemToShow.value);
 });
 
 const wrapAround = true //循環模式
@@ -160,7 +166,8 @@ const props = defineProps({
 
 /* 輪播外框調整 */
 .txtwrap {
-    max-width: 200px;
+    max-width: 70%;
+    width: 200px;
     display: block;
     align-items: center;
     text-align: center;

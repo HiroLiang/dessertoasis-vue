@@ -1,120 +1,11 @@
 
-<script setup>
-// import NavBar from '@/components/NavBar.vue';
-// import ProductMenu from '@/components/ProductMenu.vue';
-//import ProductCard from '@/components/ProductCard.vue';
-import ProdDisplay from '@/components/Standard/Display.vue';
-import { ref, onMounted, computed } from 'vue';
-import axios from 'axios';
-import { getAllProd, getProd, getProd1 } from '@/api/index.js';
-const product = ref();
-const products = ref([]);
-const searchOptions = ref([
-    { key: 'prodPrice', label: '價格', type: 'Number' },
-    { key: 'prodName', label: '商品名稱', type: 'String' },
-]);
-const row = ref(false);
-const block = ref(true);
-const categoryId = ref(1);
-const pageSize = ref(10);
-const pages = ref();
-const page = ref(1);
-const rule = ref();
-const queryString = ref('');
-const getkey = (key) => {
-    console.log("key:", key);
-}
-
-// const getpage = (page) => {
-//     console.log("page:", page.value);
-//     console.log("pageSize:", pageSize.value);
-// }
-// const getpage = async (page, pageSize) => {
-//     console.log("Page:", page);
-//     console.log("PageSize:", pageSize);
-
-//     await fetchProducts(page, pageSize);
-
-// }
-
-// const getsearch = async (rules, page, pageSize) => {
-
-//     const queryString = rules.map(rule => `${rule.key}=${rule.input}`).join('&');
-
-//     console.log("queryString:", queryString);
-
-
-//     await fetchProducts(page, pageSize, queryString);
-// }
-const fetchProducts = async () => {
-    try {
-        const result = await getProd(page.value, pageSize.value, queryString.value);
-        const dataResponse = result.data;
-
-        if (dataResponse && Array.isArray(dataResponse.content)) {
-            const datas = dataResponse.content;
-            datas.forEach(ele => {
-                ele.category = ele.category.categoryName;
-                ele.updateTime = new Date(ele.updateTime);
-            });
-
-            products.value = datas.map(item => ({
-                id: item.id,
-                picture: item.pictures,
-                name: item.prodName,
-                price: item.prodPrice,
-            }));
-            pages.value = dataResponse.totalPages;
-        } else {
-            console.error('Data from API is not in the expected format:', dataResponse);
-        }
-    } catch (error) {
-        console.error('Error fetching and processing data:', error);
-    }
-};
-
-const getsearch = async (rules) => {
-    // const queryParams = searchOptions.value
-    //     .filter(rule => rule.input !== null)
-    //     .map(rule => `${rule.key}=${rule.input}`)
-    //     .join('&');
-    let queryParams = rules.map(rule => `${rule.key}=${rule.input}`).join('&');
-    queryString.value = queryParams;
-    page.value = 1;
-    console.log("page:", page.value);
-    console.log(" queryString:", queryString);
-    fetchProducts(queryString);
-};
-
-const getpage = async (page, pageSize) => {
-    console.log("Page:", page);
-    console.log("PageSize:", pageSize);
-
-    await fetchProducts(page, pageSize);
-};
-
-onMounted(async () => {
-    const initialQueryString = searchOptions.value.map(rule => `${rule.key}=`).join('&');
-    queryString.value = initialQueryString;
-    await fetchProducts();
-    getpage(page.value, pageSize.value);
-});
-
-</script>
-
-
-
-
-
-
-
 <template>
-    <!-- <div class="content-container">
+    <div class="content-container">
         <NavBar></NavBar>
     </div>
     <div class="ProductMenu">
         <ProductMenu></ProductMenu>
-    </div> -->
+    </div>
     <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active headerpic" data-bs-interval="10000">
@@ -144,12 +35,159 @@ onMounted(async () => {
         <h2>熱門商品</h2>
     </div>
     <div class="ProdDisplay">
-        <ProdDisplay :products="products" :searchOptions="searchOptions" :page="page" :pages="pages" :row="row"
-            :block="block" :categoryId="categoryId" :pageSize="pageSize" :rules="rules" @get-selected-key="getkey"
-            @get-search-rules="getsearch" @get-number-range="getrange" @get-page="getpage"></ProdDisplay>
+        <div>
+            <ProdDisplay :searchOptions="searchOptions" :products="tableDatas" :row="false" :block="true"
+                :categoryId="categoryId" :pages="pages" @get-selected-key="onGetSelectedKey"
+                @get-search-rules="onGetSearchRules" @get-page="onGetPage" @get-number-range="onGetNumberRange">
+            </ProdDisplay>
+        </div>
     </div>
 </template>
+<script setup>
+import ProdDisplay from '@/components/Standard/Display.vue';
+import { ref, reactive, onMounted, computed } from 'vue';
+import axios from 'axios';
+import { getAllProd, getProd, getProd1 } from '@/api/index.js';
+import { useRouter } from 'vue-router'
+import { useSortCondition } from '../../stores/sortCondition.js'
+//使用 pinia 整合搜索條件
+const store = useSortCondition()
+//使用 router
+const router = useRouter()
+const product = ref();
+const products = reactive([]);
+const searchOptions = ref([
+    { key: 'prodPrice', label: '價格', type: 'Number' },
+    { key: 'prodName', label: '商品名稱', type: 'String' },
+]);
+const categoryId = ref(1);
+const pageSize = ref([]);
+//const pageSize = ref(10);
+const page = ref(1);
 
+/**定義變數 */
+//動態頁數
+const pages = ref(1)
+//表格陣列
+const tableDatas = ref([])
+//是否有資料
+const hasTable = ref(true)
+
+/**更新資料方法 */
+//更新表格資料
+const updateDatas = (datas) => {
+    hasTable.value = true
+    if (!datas) {
+        hasTable.value = false
+        return null
+    }
+    let array = datas.map(data => ({
+        id: data.id,
+        picture: data.pictures,
+        name: data.prodName,
+        price: data.prodPrice,
+    }))
+
+    console.log('datas');
+    console.log(array);
+    tableDatas.value = array
+    updatePages()
+}
+
+
+//更新總頁數
+const updatePages = async () => {
+    let num = await store.getProductPages()
+    pages.value = num.data
+}
+
+/**傳值送 Pinia 整合搜索條件 */
+//換頁
+const onGetPage = async (page) => {
+    console.log('page');
+    console.log(page);
+    let result = await store.setProductPageChange(page)
+    if (result != null) {
+        let datas = result.data
+        updateDatas(datas)
+        console.log(result.data);
+    }
+}
+
+const onGetSelectedKey = (key) => {
+    console.log('key');
+    console.log(key);
+}
+//搜索條件(多筆)
+const onGetSearchRules = async (rule) => {
+    console.log('rule');
+    console.log(rule);
+    let result = await store.setProductSearchRules(rule)
+    if (result != null) {
+        let datas = result.data
+        updateDatas(datas)
+        console.log(result.data);
+    }
+}
+
+//排序條件(單筆)
+const onGetSortRule = async (rule) => {
+    let result = await store.setProductSortBy(rule)
+    if (result != null) {
+        let datas = result.data
+        updateDatas(datas)
+    }
+}
+//數值範圍(單筆)
+const onGetNumberRange = async (range) => {
+    console.log('range');
+    console.log(range);
+    let result = await store.setProductNumberRange(range)
+    if (result != null) {
+        let datas = result.data
+        updateDatas(datas)
+        console.log(result.data);
+    }
+}
+
+//日期範圍(多筆)
+const onGetDateRules = async (rules) => {
+    let result = await store.setProductDateRules(rules)
+    if (result != null) {
+        let datas = result.data
+        updateDatas(datas)
+    }
+}
+
+//取得修改的 id 並跳轉頁面 (路徑需自己指定)
+const onGetEditId = (id) => {
+    router.push({ path: '/', query: { id } })
+}
+
+/** 初始化資料 */
+// onMounted(async () => {
+//     let result = await store.setProductPageChange([1, 10])
+//     if (result != null) {
+//         let datas = result.data
+//         products.value = datas.map(item => ({
+//             id: item.id,
+//             picture: item.pictures,
+//             name: item.prodName,
+//             price: item.prodPrice,
+//         }));
+//         updateDatas(datas)
+//     }
+// })
+onMounted(async () => {
+    let result = await store.setProductPageChange([1, 10])
+    if (result != null) {
+        let datas = result.data
+        updateDatas(datas)
+    }
+})
+
+
+</script>
 
 
 <style scoped>

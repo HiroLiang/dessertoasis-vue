@@ -73,12 +73,12 @@ const gotoPay = () => {
             <div class="col-4">
                 <div class="vh-100 position-fixed col-3">
                     <div class="card p-5">
-                        <h2>結帳</h2>
+                        <h2>總合</h2>
                         <div v-if="productCart">商品: {{ productTotal }}</div>
                         <div v-if="courseCart">課程: {{ courseTotal }}</div>
                         <div v-if="rsvCart">預約教室: {{ rsvTotal }}</div>
                         <hr>
-                        <div class="mb-3">總共: {{ total }}</div>
+                        <div class="mb-3">NT$ {{ total }}</div>
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary" type="button" @click="gotoPay">去結帳</button>
                         </div>

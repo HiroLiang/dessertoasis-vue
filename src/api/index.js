@@ -43,6 +43,16 @@ const reqSecretKey = () => request.get("/getSecretKey")
 //拿解密後的狀態
 const reqUserPermission = () => request.get("/checkUserPermission")
 
+//更新密碼
+const reqChangepassword = (account, oldPassword, newPassword) => {
+  const requestData = {
+    account: account,
+    oldPassword: oldPassword,
+    newPassword: newPassword
+  };
+  return request.post("/member/changepassword", requestData);
+};
+
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -282,6 +292,7 @@ export {
   reqSession,
   reqSecretKey,
   reqUserPermission,
+  reqChangepassword,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,

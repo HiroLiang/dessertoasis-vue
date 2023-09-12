@@ -84,6 +84,111 @@ const fetchData = async () => {
 }
 onMounted(fetchData)
 
+// 放置要利用下拉選單顯示的資料
+const itemsFromParent = ref([
+    {
+        url: '#/recipes/ToSomerecipe',
+        name: '全部食譜'
+    },
+    {
+        url: '#about',
+        name: '麵包',
+        children: [
+            {
+                url: '#service1',
+                name: '吐司'
+            },
+            {
+                url: '#service2',
+                name: '甜麵包'
+            },
+            {
+                url: '#service3',
+                name: '鹹麵包'
+            },
+            {
+                url: '#service3',
+                name: '貝果'
+            },
+            {
+                url: '#service3',
+                name: '披薩'
+            }
+        ]
+    },
+    {
+        url: '#service',
+        name: '甜點',
+        children: [
+            {
+                url: '#service1',
+                name: '蛋糕'
+            },
+            {
+                url: '#service2',
+                name: '餅乾'
+            },
+            {
+                url: '#service3',
+                name: '塔派類'
+            },
+            {
+                url: '#service3',
+                name: '免烤箱'
+            },
+            {
+                url: '#service3',
+                name: '布丁'
+            },
+            {
+                url: '#service3',
+                name: '冰淇淋'
+            },
+            {
+                url: '#service3',
+                name: '泡芙'
+            },
+        ]
+    },
+    {
+        url: '#service',
+        name: '食材',
+        children: [
+            {
+                url: '#service1',
+                name: '檸檬'
+            },
+            {
+                url: '#service2',
+                name: '肉桂'
+            },
+            {
+                url: '#service3',
+                name: '巧克力'
+            },
+        ]
+    },
+    {
+        url: '#contact',
+        name: '難易度',
+        children: [
+            {
+                url: '#service1',
+                name: '簡單'
+            },
+            {
+                url: '#service1',
+                name: '中等'
+            },
+            {
+                url: '#service1',
+                name: '困難'
+            },
+        ]
+
+    }
+
+]);
 
 const link = reactive([
     "/recipes/ToSomerecipe",
@@ -116,7 +221,7 @@ const item = reactive([
     <h2>this is recipe homepage</h2>
     <div>
         <hr>
-        <Selector></Selector>
+        <Selector :items="itemsFromParent"></Selector>
         <hr>
         <Carousel :title="'每月熱門食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10HottestRecipes" />
         <Carousel :title="'最新食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10LatestRecipes" />

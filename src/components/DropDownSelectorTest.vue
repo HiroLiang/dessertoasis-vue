@@ -2,108 +2,113 @@
 import { ref } from 'vue';
 
 
-const items = [
-    {
-        url: '#/recipes/ToSomerecipe',
-        name: '全部食譜'
-    },
-    {
-        url: '#about',
-        name: '麵包',
-        children: [
+const props = defineProps({
+    items: {
+        default: [
             {
-                url: '#service1',
-                name: '吐司'
+                url: '#/recipes/ToSomerecipe',
+                name: '全部食譜'
             },
             {
-                url: '#service2',
-                name: '甜麵包'
+                url: '#about',
+                name: '麵包',
+                children: [
+                    {
+                        url: '#service1',
+                        name: '吐司'
+                    },
+                    {
+                        url: '#service2',
+                        name: '甜麵包'
+                    },
+                    {
+                        url: '#service3',
+                        name: '鹹麵包'
+                    },
+                    {
+                        url: '#service3',
+                        name: '貝果'
+                    },
+                    {
+                        url: '#service3',
+                        name: '披薩'
+                    }
+                ]
             },
             {
-                url: '#service3',
-                name: '鹹麵包'
+                url: '#service',
+                name: '甜點',
+                children: [
+                    {
+                        url: '#service1',
+                        name: '蛋糕'
+                    },
+                    {
+                        url: '#service2',
+                        name: '餅乾'
+                    },
+                    {
+                        url: '#service3',
+                        name: '塔派類'
+                    },
+                    {
+                        url: '#service3',
+                        name: '免烤箱'
+                    },
+                    {
+                        url: '#service3',
+                        name: '布丁'
+                    },
+                    {
+                        url: '#service3',
+                        name: '冰淇淋'
+                    },
+                    {
+                        url: '#service3',
+                        name: '泡芙'
+                    },
+                ]
             },
             {
-                url: '#service3',
-                name: '貝果'
+                url: '#service',
+                name: '食材',
+                children: [
+                    {
+                        url: '#service1',
+                        name: '檸檬'
+                    },
+                    {
+                        url: '#service2',
+                        name: '肉桂'
+                    },
+                    {
+                        url: '#service3',
+                        name: '巧克力'
+                    },
+                ]
             },
             {
-                url: '#service3',
-                name: '披薩'
+                url: '#contact',
+                name: '難易度',
+                children: [
+                    {
+                        url: '#service1',
+                        name: '簡單'
+                    },
+                    {
+                        url: '#service1',
+                        name: '中等'
+                    },
+                    {
+                        url: '#service1',
+                        name: '困難'
+                    },
+                ]
+
             }
         ]
-    },
-    {
-        url: '#service',
-        name: '甜點',
-        children: [
-            {
-                url: '#service1',
-                name: '蛋糕'
-            },
-            {
-                url: '#service2',
-                name: '餅乾'
-            },
-            {
-                url: '#service3',
-                name: '塔派類'
-            },
-            {
-                url: '#service3',
-                name: '免烤箱'
-            },
-            {
-                url: '#service3',
-                name: '布丁'
-            },
-            {
-                url: '#service3',
-                name: '冰淇淋'
-            },
-            {
-                url: '#service3',
-                name: '泡芙'
-            },
-        ]
-    },
-    {
-        url: '#service',
-        name: '食材',
-        children: [
-            {
-                url: '#service1',
-                name: '檸檬'
-            },
-            {
-                url: '#service2',
-                name: '肉桂'
-            },
-            {
-                url: '#service3',
-                name: '巧克力'
-            },
-        ]
-    },
-    {
-        url: '#contact',
-        name: '難易度',
-        children: [
-            {
-                url: '#service1',
-                name: '簡單'
-            },
-            {
-                url: '#service1',
-                name: '中等'
-            },
-            {
-                url: '#service1',
-                name: '困難'
-            },
-        ]
     }
-];
+})
 const openedDropdown = ref('');
 
 const openDropdown = (name) => {

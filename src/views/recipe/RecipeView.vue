@@ -52,7 +52,7 @@ const send = async () => {
 .searchBarBackground {
     max-width: 100vw;
     overflow: hidden;
-    max-height: 70vh;
+    max-height: 50vh;
     margin-bottom: 10px;
     margin-top: 10px;
 

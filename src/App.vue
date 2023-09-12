@@ -1,13 +1,15 @@
 <script setup>
 import { RouterView } from 'vue-router';
-import { NBackTop, NLoadingBarProvider } from 'naive-ui'
+import { NBackTop, NLoadingBarProvider, NMessageProvider } from 'naive-ui'
 
 </script>
 <template>
-  <n-loading-bar-provider>
-    <RouterView />
-  </n-loading-bar-provider>
-  <n-back-top :right="50" />
+  <n-message-provider>
+    <n-loading-bar-provider>
+      <RouterView />
+    </n-loading-bar-provider>
+    <n-back-top :right="50" />
+  </n-message-provider>
 </template>
 
 <style scoped>

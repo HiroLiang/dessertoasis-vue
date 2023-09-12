@@ -1,35 +1,36 @@
 <template>
     <div class="carouselContainer container">
-
-        <div class="txtwrap">
-            <router-link :to="props.link" class="custom-router-link">
-                <h5 class="titleTxt ">
-                    {{ props.title }}
-                </h5>
-            </router-link>
-        </div>
-        <div class="container border">
-            <div class="container mt-3">
-                <Carousel :items-to-show="itemToShow" :wrap-around="wrapAround" :autoplay="autoplay"
-                    :pauseAutoplayOnHover="pauseAutoplayOnHover">
-                    <Slide v-for="(item, index) in props.itemsList" :key="index">
-                        <router-link :to="item.toUrl" class="custom-router-link">
-                            <div class="card">
-                                <img class="carousel__item slideImgs card-img-top" :src="item.imageUrl">
-                                <div class="card-body">
-                                    <p class="card-text">{{ item.text }}</p>
-                                </div>
-                            </div>
-                        </router-link>
-                    </Slide>
-
-                    <template #addons>
-                        <Navigation />
-                        <Pagination />
-                    </template>
-                </Carousel>
+        <div class="d-flex flex-column">
+            <div class="txtwrap ">
+                <router-link :to="props.link" class="custom-router-link">
+                    <h5 class="titleTxt ">
+                        {{ props.title }}
+                    </h5>
+                </router-link>
             </div>
+            <div class="border cardContainer">
+                <div class="mt-3">
+                    <Carousel :items-to-show="itemToShow" :wrap-around="wrapAround" :autoplay="autoplay"
+                        :pauseAutoplayOnHover="pauseAutoplayOnHover">
+                        <Slide v-for="(item, index) in props.itemsList" :key="index">
+                            <router-link :to="item.toUrl" class="custom-router-link">
+                                <div class="card">
+                                    <img class="carousel__item slideImgs card-img-top" :src="item.imageUrl">
+                                    <div class="card-body">
+                                        <p class="card-text">{{ item.text }}</p>
+                                    </div>
+                                </div>
+                            </router-link>
+                        </Slide>
 
+                        <template #addons>
+                            <Navigation />
+                            <Pagination />
+                        </template>
+                    </Carousel>
+                </div>
+
+            </div>
         </div>
     </div>
 </template>
@@ -140,11 +141,11 @@ const props = defineProps({
 </script>
 <style >
 .carousel__next {
-    right: -50px;
+    right: -30px;
 }
 
 .carousel__prev {
-    left: -50px;
+    left: -30px;
 }
 
 .slideImgs {
@@ -171,6 +172,7 @@ const props = defineProps({
     display: block;
     align-items: center;
     text-align: center;
+
 }
 
 

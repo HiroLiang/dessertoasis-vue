@@ -4,48 +4,104 @@ import { ref } from 'vue';
 
 const items = [
     {
-        url: '#home',
-        name: 'Home'
+        url: '#/recipes/ToSomerecipe',
+        name: '全部食譜'
     },
     {
         url: '#about',
-        name: 'About',
+        name: '麵包',
         children: [
             {
                 url: '#service1',
-                name: 'Service1'
+                name: '吐司'
             },
             {
                 url: '#service2',
-                name: 'Service2'
+                name: '甜麵包'
             },
             {
                 url: '#service3',
-                name: 'Service3'
+                name: '鹹麵包'
+            },
+            {
+                url: '#service3',
+                name: '貝果'
+            },
+            {
+                url: '#service3',
+                name: '披薩'
+            }
+        ]
+    },
+    {
+        url: '#service',
+        name: '甜點',
+        children: [
+            {
+                url: '#service1',
+                name: '蛋糕'
+            },
+            {
+                url: '#service2',
+                name: '餅乾'
+            },
+            {
+                url: '#service3',
+                name: '塔派類'
+            },
+            {
+                url: '#service3',
+                name: '免烤箱'
+            },
+            {
+                url: '#service3',
+                name: '布丁'
+            },
+            {
+                url: '#service3',
+                name: '冰淇淋'
+            },
+            {
+                url: '#service3',
+                name: '泡芙'
             },
         ]
     },
     {
         url: '#service',
-        name: 'Service',
+        name: '食材',
         children: [
             {
                 url: '#service1',
-                name: 'Service1'
+                name: '檸檬'
             },
             {
                 url: '#service2',
-                name: 'Service2'
+                name: '肉桂'
             },
             {
                 url: '#service3',
-                name: 'Service3'
+                name: '巧克力'
             },
         ]
     },
     {
         url: '#contact',
-        name: 'Contact'
+        name: '難易度',
+        children: [
+            {
+                url: '#service1',
+                name: '簡單'
+            },
+            {
+                url: '#service1',
+                name: '中等'
+            },
+            {
+                url: '#service1',
+                name: '困難'
+            },
+        ]
     }
 ];
 const openedDropdown = ref('');
@@ -111,8 +167,20 @@ header {
     display: block;
     height: auto;
     padding: 20px;
-    color: #fff;
+    color: #151212;
     text-decoration: none;
+}
+
+#nav>ul>li:hover {
+    background-color: #ccc;
+    /* 設置父項被hover變色  */
+}
+
+/* 子菜单项的鼠标悬停样式 */
+#nav>ul>li>span>ul>li:hover>a {
+    background-color: #706e6e;
+    /* 設置子項被hover變色 */
+
 }
 
 #nav>ul>li>span {
@@ -120,7 +188,8 @@ header {
     display: block;
     height: auto;
     padding: 20px;
-    color: #fff;
+
+    color: #151212(0, 6%, 7%);
     text-decoration: none;
     cursor: pointer;
 }
@@ -149,7 +218,7 @@ header {
 .dropdownSelector li a {
     display: block;
     padding: 10px;
-    color: #fff;
+    color: #ffffff;
     text-decoration: none;
 }
 

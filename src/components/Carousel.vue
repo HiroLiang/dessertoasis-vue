@@ -141,16 +141,19 @@ const props = defineProps({
 </script>
 <style >
 .carousel__next {
-    right: -30px;
+    right: -40px;
 }
 
 .carousel__prev {
-    left: -30px;
+    left: -40px;
 }
 
+
+
 .slideImgs {
-    max-width: 200px;
-    max-height: 150px;
+    height: 150px;
+    width: 200px;
+
 }
 
 .carousel__pagination {
@@ -163,6 +166,7 @@ const props = defineProps({
 
 .carouselContainer {
     max-width: 70%;
+
 }
 
 /* 輪播外框調整 */
@@ -207,7 +211,7 @@ const props = defineProps({
     /* 隱藏超出部分 */
     text-overflow: ellipsis;
     /* 顯示省略符號 */
-    max-width: 150px;
+    width: 150px;
     /* 設置輪播文字最大寬度 */
 }
 </style>

@@ -16,8 +16,8 @@ const props = defineProps({
             <div class="imgContainer  col-lg-12 col-xl-6">
                 <img :src="stepPicture" alt="" class="img-fluid rounded">
             </div>
-            <div class="stepTextContainer col-lg-12  col-xl-6 ">
-                <p class="stepText">{{ stepContext }}</p>
+            <div class="stepTextContainer border-start col-lg-12  col-xl-6 ">
+                <p class="stepText mt-2">{{ stepContext }}</p>
             </div>
         </div>
 

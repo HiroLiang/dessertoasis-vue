@@ -238,6 +238,10 @@ const reqGetProductPage = (condition) => {
   return request.post("/product/pagenation", condition, jsonHeader)
 }
 
+const AddProduct = (formData) => {
+  return request.post("/product/add", formData)
+}
+
 //取得總頁數
 const reqGetCmsProductPages = (condition) => {
   return request.post("/product/pages", condition, jsonHeader)
@@ -329,6 +333,7 @@ export {
   getProd1,
   reqGetProductPage,
   reqGetCmsProductPages,
+  AddProduct,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

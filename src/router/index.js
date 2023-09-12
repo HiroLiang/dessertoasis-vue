@@ -262,6 +262,13 @@ const router = createRouter({
       ]
     },
 
+    // 我的訂單
+    {
+      path: "/order",
+      name: "order",
+      component: () => import("../views/order/MyOrder.vue")
+    },
+
     {
       path: "/demo",
       name: "demo",

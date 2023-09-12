@@ -145,6 +145,11 @@ const getOrder = (ordId) => {
   return request.get(`/order/${ordId}`)
 }
 
+// 取得會員的訂單
+const reqGetMemberOrders = (page) => {
+  return request.get(`/order/member/page/${page}`)
+}
+
 const reqGetOrderPage = (condition) => {
   return request.post("/order/pagenation", condition, jsonHeader)
 }
@@ -299,6 +304,7 @@ export {
 
   // 訂單用
   reqInsertOrder,
+  reqGetMemberOrders,
   reqGetOrderPage,
   reqGetCmsOrderPages,
 

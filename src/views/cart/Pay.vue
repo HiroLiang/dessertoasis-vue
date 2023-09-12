@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { reqInsertOrder } from '@/api/index'
 import { useCartStore } from '@/stores/cart'
+import { useRouter } from 'vue-router'
 import ProductOrderTable from '@/views/order/ProductOrderTable.vue'
 import CourseOrderTable from '@/views/order/CourseOrderTable.vue'
 import ReservationTable from '@/views/order/ReservationTable.vue'
@@ -44,6 +45,8 @@ const getTotal = () => {
     return getProductTotal() + getCourseTotal() + getRsvTotal()
 }
 
+
+const router = useRouter()
 const placeOrder = async () => {
     const data = {
         prodOrderAddress: (address.value == '') ? 'N' : address.value,
@@ -52,7 +55,11 @@ const placeOrder = async () => {
         reservationCartDTOs: cart.rsvCart
     }
     const res = await reqInsertOrder(data)
-    console.log(res)
+    if (res.data == 1) {
+        router.push("/order")
+    } else {
+        console.log(res.data)
+    }
 }
 
 </script>

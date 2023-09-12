@@ -14,7 +14,7 @@
             (4)'get-number-range'：取得數值搜尋範圍
  -->
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 import { useFavorList } from '../../stores/favorList.js'
 import Search from './Search.vue'
 import DisplayRow from './display/RowType.vue'

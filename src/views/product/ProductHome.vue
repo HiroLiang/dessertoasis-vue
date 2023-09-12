@@ -4,7 +4,7 @@
 // import ProductMenu from '@/components/ProductMenu.vue';
 //import ProductCard from '@/components/ProductCard.vue';
 import ProdDisplay from '@/components/Standard/Display.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import { getAllProd, getProd, getProd1 } from '@/api/index.js';
 const product = ref();
@@ -97,7 +97,7 @@ onMounted(async () => {
     const initialQueryString = searchOptions.value.map(rule => `${rule.key}=`).join('&');
     queryString.value = initialQueryString;
     await fetchProducts();
-    getpage(page.value, pageSize.value); // 在页面加载时调用
+    getpage(page.value, pageSize.value);
 });
 
 </script>

@@ -11,12 +11,12 @@ const props = defineProps({
 
 <template>
     <div class="container mb-3">
-        <h3>步驟{{ stepNumber }}</h3>
+        <h5>步驟{{ stepNumber }}</h5>
         <div class="row justify-content-start">
-            <div class="imgContainer flex-shrink-0  col-md-6 col-lg-4">
-                <img :src="stepPicture" alt="" class="">
+            <div class="imgContainer  col-lg-12 col-xl-6">
+                <img :src="stepPicture" alt="" class="img-fluid rounded">
             </div>
-            <div class="stepTextContainer col-md-6  col-lg-4 ">
+            <div class="stepTextContainer col-lg-12  col-xl-6 ">
                 <p class="stepText">{{ stepContext }}</p>
             </div>
         </div>
@@ -25,6 +25,11 @@ const props = defineProps({
 </template>
 
 <style scoped>
+imgContainer img {
+    max-width: 100%;
+    height: auto;
+}
+
 .stepText {
     white-space: pre-line
 }

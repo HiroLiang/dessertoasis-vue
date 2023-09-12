@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
     <div v-if="tableDatas && tableDatas.length > 0">
         <ProdTable :pageSize="pageSize" :page="page" :pages="pages" :tableDatas="tableDatas" :dataTitles="dataTitles"
             @get-edit-id="getId" @change-page="changePage" @get-sort-rule="sortBy" @get-search-rules="getSearch"
@@ -200,12 +200,12 @@ const dataTitles = [
     { label: "分類", key: "category", type: "String" },
     { label: "名稱", key: "prodName", type: "String" },
     // { label: "描述", key: "prodDescription", type: "String" },
-    { label: "價錢", key: "prodPrice", type: "Number" },
-    { label: "總銷量", key: "prodPurchase", type: "Number" },
-    { label: "庫存", key: "prodStock", type: "Number" },
+    { label: "價錢", key: "prodPrice", type: "String" },
+    { label: "總銷量", key: "prodPurchase", type: "String" },
+    { label: "庫存", key: "prodStock", type: "String" },
     { label: "狀態", key: "productStatus", type: "String" },
-    { label: "最後更新日期", key: "updateTime", type: "Date" },
-    { label: "更新後銷量", key: "saleAfterUpdate", type: "Number" },
+    { label: "最後更新日期", key: "updateTime", type: "String" },
+    { label: "更新後銷量", key: "saleAfterUpdate", type: "String" },
     { label: "備註", key: "prodRemark", type: "String" },]
 const props = defineProps({
     /*
@@ -244,9 +244,9 @@ const props = defineProps({
 </script>
 
 
-<style scoped></style> -->
+<style scoped></style>
 
-<script setup>
+<!-- <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import ProdTable from '@/components/Standard/Table.vue';
@@ -266,7 +266,8 @@ const tableDatas = ref([])
 const hasTable = ref(true)
 //設定查詢表格標題
 const dataTitles = ref([
-    { label: "分類", key: "categoryName", type: "String" },
+    { label: "id", key: "id", type: "String" },
+    // { label: "分類", key: "categoryName", type: "String" },
     { label: "名稱", key: "prodName", type: "String" },
     // { label: "描述", key: "prodDescription", type: "String" },
     { label: "價錢", key: "prodPrice", type: "Number" },
@@ -294,6 +295,7 @@ const updateDatas = (datas) => {
         })
     })
     tableDatas.value = datas
+    console.log(tableDatas.value)
     updatePages()
 }
 
@@ -364,4 +366,4 @@ onMounted(async () => {
     <ProdTable :page="1" :pageSize="10" :pages="pages" :tableDatas="tableDatas" :dataTitles="dataTitles"
         @get-edit-id="onGetEditId" @get-number-range="onGetNumberRange" @get-sort-rule="onGetSortRule"
         @get-search-rules="onGetSearchRules" @change-page="onGetPage" @get-date-rules="onGetDateRules" />
-</template>
+</template> -->

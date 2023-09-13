@@ -252,8 +252,15 @@ const reqGetProductPage = (condition) => {
   return request.post("/product/pagenation", condition, jsonHeader)
 }
 
-const AddProduct = (formData) => {
-  return request.post("/product/add", formData)
+const AddProduct = (productData) => {
+  return request.post("/product/add", productData, jsonHeader)
+}
+
+const UploadProdImage = (productId, imageFormData, config, thumbnailFormData, thumbnailConfig) => {
+  return request.post(`/product/uploadImage?productId=${productId}`, imageFormData, config, thumbnailFormData, thumbnailConfig);
+}
+const UploadProdImage1 = (productId, thumbnailFormData, thumbnailConfig) => {
+  return request.post(`/product/uploadImage?productId=${productId}`, thumbnailFormData, thumbnailConfig);
 }
 
 //取得總頁數
@@ -350,6 +357,8 @@ export {
   reqGetProductPage,
   reqGetCmsProductPages,
   AddProduct,
+  UploadProdImage,
+  UploadProdImage1,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

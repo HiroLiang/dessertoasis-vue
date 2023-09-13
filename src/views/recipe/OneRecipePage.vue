@@ -4,6 +4,7 @@ import Steps from '../recipe/components/Steps.vue'
 import { NList, NListItem, NThing, NDescriptions, NDescriptionsItem, NGrid, NGi, NStatistic, NIcon, NAvatar, NCol, NRow, NButton } from 'naive-ui'
 import { reactive, computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { getRecipePicture } from '@/api'
 
 const route = useRoute()
 const recipeId = computed(() => {
@@ -45,9 +46,26 @@ const ingredients = reactive([
 
 const introduction = ref("外型小巧可愛的可麗露也被稱為天使的鈴鐺，傳統的做法中需要用到蜂蠟和銅模，因此試做的難度比較高，這次分享的配方及做法盡量簡化成一般在家裡就能做的版本")
 
+const img = ref(null)
+const getImg = async (id) => {
+    let res = await getRecipePicture(id)
+    const body = res.data
+    const header = res.headers['content-type']
+
+    console.log(body);
+    console.log(header);
+
+    img.value = `data:${header};base64,${body}`
+
+}
+
+
 </script>
 
 <template>
+    <button @click="getImg(13)">測試</button>
+    <img :src="img" alt="">
+
     <div class="container contextContainer">
         <h2>this is a recipe page{{ recipeId }}</h2>
         <div class="imgContainer ">
@@ -115,7 +133,7 @@ const introduction = ref("外型小巧可愛的可麗露也被稱為天使的鈴
 
                 <hr>
                 <n-list>
-                    <n-row gutter="12">
+                    <n-row gutter="12" class="authorContainer justify-content-center">
                         <n-col span="4">
                             <n-list-item>
                                 <div class="icon-title-container">
@@ -131,9 +149,9 @@ const introduction = ref("外型小巧可愛的可麗露也被稱為天使的鈴
 
                         </n-col>
 
-                        <n-col span="12">
+                        <n-col span="18">
                             <div class="content-with-line-breaks fs-4">作者簡介</div>
-                            <p>{{ author.context }}</p>
+                            <p class="w-100">{{ author.context }}</p>
                         </n-col>
                     </n-row>
                 </n-list>
@@ -175,5 +193,12 @@ const introduction = ref("外型小巧可愛的可麗露也被稱為天使的鈴
 .stepText {
     white-space: pre-line;
     font-size: 20px
+}
+
+@media (max-width: 1200px) {
+    .authorContainer {
+        flex-direction: column;
+    }
+
 }
 </style>

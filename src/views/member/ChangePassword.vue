@@ -25,7 +25,7 @@ const handleSubmit = async () => {
         const response = await reqChangepassword(requestData);
 
         if (response.status === 200) {
-            successMessage.value = '密碼已更改';
+            successMessage.value = '密碼更新成功';
             oldPassword.value = '';
             newPassword.value = '';
             newAgainPassword.value = '';
@@ -68,7 +68,6 @@ const handleSubmit = async () => {
 
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-lg mt-5">更新密碼</button>
-                            <button type="button" class="btn btn-danger btn-lg mt-5">刪除帳號</button>
                         </div>
                     </div>
                 </div>

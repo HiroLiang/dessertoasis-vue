@@ -130,7 +130,10 @@ const getRecipeImg = (e) => {
             recipeJsonData.value = JSON.stringify(jsonData);
             //用以利用 onbind img標籤內的src產生預覽圖
             recipePicPreviewImageUrl.value = e.target.result
-            console.log(recipeJsonData);
+            console.log('recipeJsonData');
+            console.log(recipeJsonData.value);
+            console.log('base64');
+            console.log(base64Data);
         }
     }
 }
@@ -186,23 +189,30 @@ const isDataEmpty = () => {
     if (data.recipe.cookingTime <= 0) {
         errors.push('烹調時間不可小於0')
     }
-
     ingredients.forEach(ingredient => {
         if (ingredient.ingredientName.trim() === '') {
             errors.push('食材名稱不可空白')
         }
-        if (!ingredient.ingredientQty) {
+    })
+
+    console.log('BEFORE IN');
+    ingredients.forEach(ingredient => {
+        console.log(ingredient.ingredientQty);
+        if (parseInt(ingredient.ingredientQty) <= 0 || (ingredient.ingredientQty).trim() === '') {
             console.log(ingredient.ingredientQty);
             errors.push('食材份量不可小於0')
         }
+        console.log('IN');
     })
+    console.log('AFTER IN');
+
     steps.forEach(step => {
         if (step.text.trim() === '')
             errors.push('步驟內容不可空白')
     })
     if (errors.length > 0) {
         errors.forEach(error => {
-            message.error(error); // 使用 message.error 显示错误消息
+            message.info(error); // 使用 message.error 显示错误消息
         });
         return false; // 返回 false 表示有错误
 
@@ -230,10 +240,12 @@ const submitForm = async () => {
                 ingredientQuantity: ingredient.ingerdientQty,
                 ingredientUnit: ''
             })
+        })
+        ingredients.forEach(ingredient => {
             data.ingredients.push({
-                ingredientName: ingredient.ingerdientName,
+                ingredientName: ingredient.ingredientName
             })
-            console.log(ingredient);
+            console.log('ingredientName' + ingredient.ingredientName);
         })
         steps.forEach(step => {
             data.recipe.recipeSteps.push({
@@ -246,7 +258,7 @@ const submitForm = async () => {
 
 
         // console.log(formData);
-        console.log(imgDatas);
+        // console.log(imgDatas);
 
         console.log("imgData:  ");
 
@@ -285,25 +297,26 @@ const submitForm = async () => {
         //清空成品圖與步驟圖的檔名及base64字串陣列
         imgDatas.splice(0, imgDatas.length)  // }
         let recipeData = await addRecipe(data)
+        message.success("成功發佈食譜")
         console.log(recipeData);
     }
 
 }
 /*----------------------------------------------圖檔傳送給controller區塊-------------------------------------------------------*/
 
-const myForm = ref(null)
-const handleSubmit = async () => {
-    // const form = myForm.value
+// const myForm = ref(null)
+// const handleSubmit = async () => {
+//     // const form = myForm.value
 
-    const formDataObj = new FormData(myForm.value)
-    const res = await addRecipe(formDataObj)
-    if (res.data != null && res.data.length != 0) {
-        console.log("新增成功");
-    }
-    formDataObj.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-    })
-}
+//     const formDataObj = new FormData(myForm.value)
+//     const res = await addRecipe(formDataObj)
+//     if (res.data != null && res.data.length != 0) {
+//         console.log("新增成功");
+//     }
+//     formDataObj.forEach((value, key) => {
+//         console.log(`${key}: ${value}`);
+//     })
+// }
 
 </script>
 
@@ -314,97 +327,96 @@ const handleSubmit = async () => {
     <h2>this is recipe create page</h2>
 
 
-    <form @submit.prevent="submitForm">
-        <div class="container">
-            <div class="row ">
-                <div class="recipeContainer container col-md-10 border border-dark rounded">
-                    <div class="recipeTitleContainer container mt-3">
-                        <label for="recipeTitle" class="form-label">食譜名稱:</label><br>
-                        <input class="form-control" v-model="data.recipe.recipeTitle" type="text" id="recipeTitle"
-                            name="recipeTitle" required="required">
-                    </div>
-                    <div class="recipeIntroductionContainer container mt-3">
-                        <label for="recipeIntroduction" class="form-label">食譜簡介:</label><br>
-                        <textarea class="recipeIntroduction form-control" style="resize: none;"
-                            v-model="data.recipe.recipeIntroduction" id="recipeIntroduction" name="recipeIntroduction"
-                            required="required"></textarea>
-                        <br>
-
-                    </div>
-
-                    <h4>成品圖片:</h4>
-                    <div class="picContainer container ">
-                        <label for="pictureURL">
-                            <div class="imageContainer container">
-                                <img class="recipePic inputLabel custom-cursor-pointer " id="previewPic0" alt="成品圖片"
-                                    :src="recipePicPreviewImageUrl || 'https://fakeimg.pl/1180x310/?text=Image'">
-                            </div>
-                            <input @change="getRecipeImg" class="form-control visually-hidden pic" type="file"
-                                id="pictureURL" name="pictureURL" accept="image/*"><br>
-                        </label><br><br>
-                    </div>
-                    <div class="container ml-3">
-                        <div class="ingredientContainer row justify-content-start">
-                            <div class="ingredientQtyContainer col-4">
-                                <p class="form-label">食材份量(人份)</p>
-                                <select class="form-select" v-model="data.recipe.ingredientPersons" id="ingredientPersons">
-                                    <option selected value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10+</option>
-                                </select>
-                            </div>
-                            <div class="cookingTimeContainer col-4">
-                                <label for="cookingTime" class="form-label">烹調時間(分鐘)</label><br>
-                                <input class="form-control" v-model="data.recipe.cookingTime" type="text" id="cookingTime"
-                                    name="cookingTime" required="required">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container ml-3">
-                        <div class="ingredientContainer row justify-content-start  ">
-                            <IngredientInput v-for="(ingredient, index) in ingredients" :key="ingredient.id"
-                                :ingerdientIndex="index + 1" @delete-ingredient="handleDeleteIngredient"
-                                @get-ingredient-data="handleIngredientData">
-                            </IngredientInput>
-                        </div>
-
-
-                        <div class="newRecipeStepContainer d-grid mt-3">
-                            <button class="btn btn-light" @click="addNewIngredient">+ 增加食材</button>
-                        </div>
-                    </div>
-                    <div class="recipeStepsContainer container mt-3">
-                        <StepInput v-for="(step, index) in steps" :key="step.id" :stepIndex="index + 1"
-                            @delete-step="handleDeleteStep" draggable="true" @dragstart="dragStart($event, index)"
-                            @drop="onDrop($event, index)" @dragenter.prevent @dragover.prevent
-                            @get-step-data="handleStepData">
-                        </StepInput>
-                    </div>
-                    <div class="newRecipeStepContainer d-grid mb-3 mt-2">
-                        <button class="btn btn-light" @click="addNewStep">+ 增加步驟</button>
-                    </div>
+    <!-- <form @submit.prevent="submitForm"> -->
+    <div class="container">
+        <div class="row ">
+            <div class="recipeContainer container col-md-10 border border-dark rounded">
+                <div class="recipeTitleContainer container mt-3">
+                    <label for="recipeTitle" class="form-label">食譜名稱:</label><br>
+                    <input class="form-control" v-model="data.recipe.recipeTitle" type="text" id="recipeTitle"
+                        name="recipeTitle" required="required">
+                </div>
+                <div class="recipeIntroductionContainer container mt-3">
+                    <label for="recipeIntroduction" class="form-label">食譜簡介:</label><br>
+                    <textarea class="recipeIntroduction form-control" style="resize: none;"
+                        v-model="data.recipe.recipeIntroduction" id="recipeIntroduction" name="recipeIntroduction"
+                        required="required"></textarea>
+                    <br>
 
                 </div>
-                <div class=" crudbtn col-md-1 align-self-start position-sticky" style="top: 100px;">
-                    <div class="btn row border border-dark rounded px-4 pb-2">
 
-                        <button type="submit" class=" btn btn-light mb-2 mt-2" @click="submitForm">發佈</button>
-                        <button class="btn btn-light mb-2">儲存</button>
-                        <button class="btn btn-light mb-2">取消</button>
-                        <button class="btn btn-light mb-2">刪除</button>
-
+                <h4>成品圖片:</h4>
+                <div class="picContainer container ">
+                    <label for="pictureURL">
+                        <div class="imageContainer container">
+                            <img class="recipePic inputLabel custom-cursor-pointer " id="previewPic0" alt="成品圖片"
+                                :src="recipePicPreviewImageUrl || 'https://fakeimg.pl/1180x310/?text=Image'">
+                        </div>
+                        <input @change="getRecipeImg" class="form-control visually-hidden pic" type="file" id="pictureURL"
+                            name="pictureURL" accept="image/*"><br>
+                    </label><br><br>
+                </div>
+                <div class="container ml-3">
+                    <div class="ingredientContainer row justify-content-start">
+                        <div class="ingredientQtyContainer col-4">
+                            <p class="form-label">食材份量(人份)</p>
+                            <select class="form-select" v-model="data.recipe.ingredientPersons" id="ingredientPersons">
+                                <option selected value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10+</option>
+                            </select>
+                        </div>
+                        <div class="cookingTimeContainer col-4">
+                            <label for="cookingTime" class="form-label">烹調時間(分鐘)</label><br>
+                            <input class="form-control" v-model="data.recipe.cookingTime" type="text" id="cookingTime"
+                                name="cookingTime" required="required">
+                        </div>
                     </div>
+                </div>
+                <div class="container ml-3">
+                    <div class="ingredientContainer row justify-content-start  ">
+                        <IngredientInput v-for="(ingredient, index) in ingredients" :key="ingredient.id"
+                            :ingerdientIndex="index + 1" @delete-ingredient="handleDeleteIngredient"
+                            @get-ingredient-data="handleIngredientData">
+                        </IngredientInput>
+                    </div>
+
+
+                    <div class="newRecipeStepContainer d-grid mt-3">
+                        <button class="btn btn-light" @click="addNewIngredient">+ 增加食材</button>
+                    </div>
+                </div>
+                <div class="recipeStepsContainer container mt-3">
+                    <StepInput v-for="(step, index) in steps" :key="step.id" :stepIndex="index + 1"
+                        @delete-step="handleDeleteStep" draggable="true" @dragstart="dragStart($event, index)"
+                        @drop="onDrop($event, index)" @dragenter.prevent @dragover.prevent @get-step-data="handleStepData">
+                    </StepInput>
+                </div>
+                <div class="newRecipeStepContainer d-grid mb-3 mt-2">
+                    <button class="btn btn-light" @click="addNewStep">+ 增加步驟</button>
+                </div>
+
+            </div>
+            <div class=" crudbtn col-md-1 align-self-start position-sticky" style="top: 100px;">
+                <div class="btn row border border-dark rounded px-4 pb-2">
+
+                    <button type="submit" class=" btn btn-light mb-2 mt-2" @click="submitForm">發佈</button>
+                    <button class="btn btn-light mb-2">儲存</button>
+                    <button type="reset" class="btn btn-light mb-2">取消</button>
+                    <button class="btn btn-light mb-2">刪除</button>
+
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+    <!-- </form> -->
 </template>
 
 <style scoped>

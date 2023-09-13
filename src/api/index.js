@@ -93,7 +93,7 @@ const reqGetFrontRecipePages = (condition) => {
 }
 
 const getRecipePicture = (recipeId) => {
-  return request.post('recipe/getPic', recipeId, jsonHeader)
+  return request.post("recipe/getPic", recipeId, jsonHeader)
 }
 /*----------------------------------------  食譜後台相關請求  -------------------------------------------*/
 //取得現在頁數內的資料
@@ -198,6 +198,26 @@ const deleteCourse = (courseId) => {
   return request.delete(`/course/${courseId}`)
 }
 
+const AddCourse = (courseData) => {
+  return request.post("/course/add", courseData, jsonHeader)
+}
+
+const UploadCourseImage = (
+  courseId,
+  imageFormData,
+  config,
+  thumbnailFormData,
+  thumbnailConfig
+) => {
+  return request.post(
+    `/course/uploadImage?courseId=${courseId}`,
+    imageFormData,
+    config,
+    thumbnailFormData,
+    thumbnailConfig
+  )
+}
+
 //查詢單筆課程
 const showSingleCourse = (courseId) => {
   return request.get(`/course/${courseId}`)
@@ -261,11 +281,27 @@ const AddProduct = (productData) => {
   return request.post("/product/add", productData, jsonHeader)
 }
 
-const UploadProdImage = (productId, imageFormData, config, thumbnailFormData, thumbnailConfig) => {
-  return request.post(`/product/uploadImage?productId=${productId}`, imageFormData, config, thumbnailFormData, thumbnailConfig);
+const UploadProdImage = (
+  productId,
+  imageFormData,
+  config,
+  thumbnailFormData,
+  thumbnailConfig
+) => {
+  return request.post(
+    `/product/uploadImage?productId=${productId}`,
+    imageFormData,
+    config,
+    thumbnailFormData,
+    thumbnailConfig
+  )
 }
 const UploadProdImage1 = (productId, thumbnailFormData, thumbnailConfig) => {
-  return request.post(`/product/uploadImage?productId=${productId}`, thumbnailFormData, thumbnailConfig);
+  return request.post(
+    `/product/uploadImage?productId=${productId}`,
+    thumbnailFormData,
+    thumbnailConfig
+  )
 }
 
 //取得總頁數
@@ -355,6 +391,8 @@ export {
   reqGetCmsCoursePages,
   reqGetTeacherPage,
   reqGetCmsTeacherPages,
+  AddCourse,
+  UploadCourseImage,
 
   /*--------商品用-------*/
   getAllProd,

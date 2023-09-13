@@ -47,10 +47,11 @@ const reqUserPermission = () => request.get("/checkUserPermission")
 const reqChangepassword = (requestData) => {
   const requestBody = {
     oldPassword: requestData.oldPassword,
-    newPassword: requestData.newPassword,
-  }
-  return request.post("/member/changepassword", requestBody, jsonHeader)
-}
+    newPassword: requestData.newPassword
+  };
+  return request.post("/member/changepassword", requestBody, jsonHeader);
+};
+
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
@@ -85,21 +86,22 @@ const addRecipe = (formData) => {
 
 //取得總頁數
 const reqGetCmsRecipePages = (condition) => {
-  return request.post("/recipe/pages", condition, jsonHeader)
+  return request.post('/recipe/pages', condition, jsonHeader)
 }
 
 const reqGetFrontRecipePages = (condition) => {
-  return request.post("/recipe/recipeFrontPagenation", condition, jsonHeader)
+  return request.post('/recipe/recipeFrontPagenation', condition, jsonHeader)
 }
 
 const getRecipePicture = (recipeId) => {
-  return request.post("recipe/getPic", recipeId, jsonHeader)
+  return request.post('recipe/getPic', recipeId, jsonHeader)
 }
 /*----------------------------------------  食譜後台相關請求  -------------------------------------------*/
 //取得現在頁數內的資料
 const reqGetRecipePage = (condition) => {
   return request.post("/recipe/pagenation", condition, jsonHeader)
 }
+
 
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
 
@@ -198,26 +200,6 @@ const deleteCourse = (courseId) => {
   return request.delete(`/course/${courseId}`)
 }
 
-const AddCourse = (courseData) => {
-  return request.post("/course/add", courseData, jsonHeader)
-}
-
-const UploadCourseImage = (
-  courseId,
-  imageFormData,
-  config,
-  thumbnailFormData,
-  thumbnailConfig
-) => {
-  return request.post(
-    `/course/uploadImage?courseId=${courseId}`,
-    imageFormData,
-    config,
-    thumbnailFormData,
-    thumbnailConfig
-  )
-}
-
 //查詢單筆課程
 const showSingleCourse = (courseId) => {
   return request.get(`/course/${courseId}`)
@@ -245,15 +227,6 @@ const reqGetCmsCoursePages = (condition) => {
   return request.post("/course/pages", condition, jsonHeader)
 }
 
-const reqGetTeacherPage = (condition) => {
-  return request.post("/teacher/pagenation", condition, jsonHeader)
-}
-
-//取得總頁數
-const reqGetCmsTeacherPages = (condition) => {
-  return request.post("/teacher/pages", condition, jsonHeader)
-}
-
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
 const getAllProd = (page, pageSize, dataTitles) => {
@@ -270,7 +243,9 @@ const getProd = (page, pageSize, queryString) => {
   )
 }
 const getProd1 = (queryParams) => {
-  return request.get(`/product/search?${queryParams}`)
+  return request.get(
+    `/product/search?${queryParams}`
+  )
 }
 
 const reqGetProductPage = (condition) => {
@@ -281,27 +256,11 @@ const AddProduct = (productData) => {
   return request.post("/product/add", productData, jsonHeader)
 }
 
-const UploadProdImage = (
-  productId,
-  imageFormData,
-  config,
-  thumbnailFormData,
-  thumbnailConfig
-) => {
-  return request.post(
-    `/product/uploadImage?productId=${productId}`,
-    imageFormData,
-    config,
-    thumbnailFormData,
-    thumbnailConfig
-  )
+const UploadProdImage = (productId, imageFormData, config, thumbnailFormData, thumbnailConfig) => {
+  return request.post(`/product/uploadImage?productId=${productId}`, imageFormData, config, thumbnailFormData, thumbnailConfig);
 }
 const UploadProdImage1 = (productId, thumbnailFormData, thumbnailConfig) => {
-  return request.post(
-    `/product/uploadImage?productId=${productId}`,
-    thumbnailFormData,
-    thumbnailConfig
-  )
+  return request.post(`/product/uploadImage?productId=${productId}`, thumbnailFormData, thumbnailConfig);
 }
 
 //取得總頁數
@@ -389,10 +348,6 @@ export {
   searchCourse,
   reqGetCoursePage,
   reqGetCmsCoursePages,
-  reqGetTeacherPage,
-  reqGetCmsTeacherPages,
-  AddCourse,
-  UploadCourseImage,
 
   /*--------商品用-------*/
   getAllProd,

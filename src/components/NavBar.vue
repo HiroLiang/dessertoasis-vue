@@ -81,7 +81,9 @@ async function logout() {
     // 調用函数以删除所有cookie
     deleteAllCookies();
     try {
-        localStorage.clear();
+        // 删除名为 "myKey" 的 localStorage 项
+        localStorage.removeItem("googleLoggedIn");
+        localStorage.removeItem("googleLoginData");
         // 清除後端session
         await reqSignOut();
         // 登出成功

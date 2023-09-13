@@ -136,7 +136,6 @@ const imagesData = {
 const thumbnailData = ref({
     file: null, // 縮圖文件
     url: ""     // 縮圖的URL
-
 });
 function addImage(event) {
     const files = event.target.files;
@@ -155,7 +154,6 @@ function addThumbnail(event) {
     const url = URL.createObjectURL(file);
     thumbnailData.url = url;
     thumbnailData.file = file;
-
 }
 
 function removeThumbnail() {

@@ -129,9 +129,9 @@ const closeDropdown = () => {
     <header>
         <nav id="nav">
             <ul>
-                <li v-for="item in items" :key="item.name">
+                <li v-for="item in items" :key="item.name" class="dropdownContainer">
                     <a v-if="!item.children" :href="item.url">{{ item.name }}</a>
-                    <span v-else @mouseover="openDropdown(item.name)" @mouseleave="closeDropdown">
+                    <span class="ml-3" v-else @mouseover="openDropdown(item.name)" @mouseleave="closeDropdown">
                         {{ item.name }}
                         <ul class="dropdownSelector dropdown" :class="{ isOpen: openedDropdown === item.name }">
                             <li v-for="child in item.children" :key="child.name">
@@ -156,7 +156,6 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
     max-width: 1280px;
     margin: 0 auto;
 }
@@ -167,6 +166,8 @@ header {
     padding: 0;
     list-style-type: none;
 }
+
+
 
 #nav>ul>li>a {
     display: block;
@@ -192,8 +193,8 @@ header {
     position: relative;
     display: block;
     height: auto;
-    padding: 20px;
-
+    padding: 20px 20px 20px 10px;
+    width: 130px;
     color: #151212(0, 6%, 7%);
     text-decoration: none;
     cursor: pointer;
@@ -213,10 +214,11 @@ header {
     padding: 0;
     list-style-type: none;
     background-color: rgb(173, 172, 172);
+
 }
 
 .dropdownSelector li {
-    width: 250px;
+    width: 180px;
     border-bottom: 1px solid #fff;
 }
 
@@ -225,6 +227,12 @@ header {
     padding: 10px;
     color: #ffffff;
     text-decoration: none;
+}
+
+.dropdownContainer {
+
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 .isOpen {

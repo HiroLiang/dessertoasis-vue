@@ -2,6 +2,18 @@
 import { ref, onMounted } from "vue";
 import { reqSignOut, reqUserPermission } from "../api";
 import { useRouter } from 'vue-router';
+import { googleLogout } from 'vue3-google-login';
+
+const storedData = localStorage.getItem('googleLoginData');
+const isGoogleLoggedIn = localStorage.getItem('googleLoggedIn');
+
+if (isGoogleLoggedIn === 'true' && storedData) {
+    // 用户已登录，将存储的数据转换回对象
+    const loginData = JSON.parse(storedData);
+    // 使用 loginData 进行其他操作
+} else {
+    // 用户未登录或数据不存在
+}
 
 const router = useRouter();
 const props = defineProps({
@@ -64,10 +76,12 @@ onMounted(async () => {
 
 // 登出
 async function logout() {
+
     // 清除前端的Cookie
     // 調用函数以删除所有cookie
     deleteAllCookies();
     try {
+        localStorage.clear();
         // 清除後端session
         await reqSignOut();
         // 登出成功
@@ -132,7 +146,7 @@ function deleteAllCookies() {
                     <li>
                         <router-link to="/demo" class="dropdown-item">Demo</router-link>
                     </li>
-                    <li v-if="!isLogin">
+                    <li v-if="!isLogin && !isGoogleLoggedIn">
                         <router-link to="/logIn" class="dropdown-item">會員登入</router-link>
                     </li>
                     <li v-else>
@@ -146,6 +160,9 @@ function deleteAllCookies() {
                     </li>
                     <li v-if="isLogin">
                         <button class="dropdown-item" @click="logout">登出</button>
+                    </li>
+                    <li v-if="isGoogleLoggedIn">
+                        <button class="dropdown-item" @click="logout">google登出</button>
                     </li>
                     <!-- 如果非登入，只顯示會員登入 
                          如果登入後，一定會顯示登出，且依照不同權限顯示不同畫面

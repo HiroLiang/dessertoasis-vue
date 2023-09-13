@@ -156,17 +156,23 @@ const router = createRouter({
           component: () => import("../views/member/MemberBackground.vue"),
         },
         {
-          path: '/cms/order',
-          name: 'CmsOrderTable',
-          component: () => import('../views/cms/order/CmsOrderTable.vue')
+          path: "/cms/order",
+          name: "CmsOrderTable",
+          component: () => import("../views/cms/order/CmsOrderTable.vue"),
         },
       ],
     },
     {
       path: "/courses",
-      name: "courses",
-      component: () => import("../views/course/CourseHomePage.vue"),
+      name: "CourseHomePage",
+      component: () => import("../views/course/CourseView.vue"),
       children: [
+        {
+          //首頁PATH設為空  即可進入則導入首頁頁面
+          path: "",
+          name: "CourseHp",
+          component: () => import("../views/course/CourseHp.vue"),
+        },
         {
           path: "/courses/aboutTeacher",
           name: "aboutTeacher",
@@ -247,7 +253,7 @@ const router = createRouter({
         {
           path: "",
           name: "cart",
-          component: () => import("../views/cart/Cart.vue")
+          component: () => import("../views/cart/Cart.vue"),
         },
         {
           path: "/cart/pay",
@@ -257,16 +263,16 @@ const router = createRouter({
         {
           path: "/cart/pay_success",
           name: "paySuccess",
-          component: () => import("../views/cart/PaySuccess.vue")
-        }
-      ]
+          component: () => import("../views/cart/PaySuccess.vue"),
+        },
+      ],
     },
 
     // 我的訂單
     {
       path: "/order",
       name: "order",
-      component: () => import("../views/order/MyOrder.vue")
+      component: () => import("../views/order/MyOrder.vue"),
     },
 
     {

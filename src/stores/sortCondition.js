@@ -10,6 +10,8 @@ import {
   reqGetFrontRecipePages,
   reqGetCoursePage,
   reqGetCmsCoursePages,
+  reqGetTeacherPage,
+  reqGetCmsTeacherPages,
 } from "../api"
 
 export const useSortCondition = defineStore("sortCondition", () => {
@@ -201,7 +203,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
       condition.value.numStart = range[1]
       condition.value.numEnd = range[2]
       console.log(range)
-      return await getOrderPagenation()
+      return await getCoursePagenation()
     }
   }
 
@@ -221,6 +223,47 @@ export const useSortCondition = defineStore("sortCondition", () => {
   }
 
   //分頁搜索
+
+  /*------------------------老師--------------------------------*/
+  const setTeacherSearchRules = async (rules) => {
+    condition.value.searchRules = rules
+    console.log(rules)
+    return await getTeacherPagenation()
+  }
+
+  const setTeacherDateRules = async (rules) => {
+    condition.value.dateRules = rules
+    console.log(rules)
+    return await getTeacherPagenation()
+  }
+
+  const setTeacherNumberRange = async (range) => {
+    condition.value.numKey = null
+    condition.value.numStart = 0
+    condition.value.numEnd = 0
+    if (range !== null) {
+      condition.value.numKey = range[0]
+      condition.value.numStart = range[1]
+      condition.value.numEnd = range[2]
+      console.log(range)
+      return await getTeacherPagenation()
+    }
+  }
+
+  const setTeacherSortBy = async (rule) => {
+    condition.value.sortBy = rule[0]
+    condition.value.sortWay = rule[1]
+    console.log(rule)
+    return await getTeacherPagenation()
+  }
+
+  //更新頁碼
+  const setTeacherPageChange = async (newPage) => {
+    condition.value.page = newPage[0]
+    condition.value.pageSize = newPage[1]
+    console.log(newPage)
+    return await getTeacherPagenation()
+  }
   /*------------------------訂單--------------------------------*/
   //查詢訂單頁面
   const getOrderPagenation = async () => {
@@ -272,6 +315,17 @@ export const useSortCondition = defineStore("sortCondition", () => {
   const getCoursePages = async () => {
     return await reqGetCmsCoursePages(condition.value)
   }
+  /*-----------------------老師---------------------------------*/
+  //查詢課程頁面
+  const getTeacherPagenation = async () => {
+    let result = await reqGetTeacherPage(condition.value)
+    console.log(result.data)
+    return result
+  }
+  //查詢頁數
+  const getTeacherPages = async () => {
+    return await reqGetCmsTeacherPages(condition.value)
+  }
   return {
     //搜索條件
     condition,
@@ -315,6 +369,12 @@ export const useSortCondition = defineStore("sortCondition", () => {
     setCourseNumberRange,
     setCourseSortBy,
     setCoursePageChange,
+    // 教師條件設置
+    setTeacherSearchRules,
+    setTeacherDateRules,
+    setTeacherNumberRange,
+    setTeacherSortBy,
+    setTeacherPageChange,
     //cms order 分頁方法
     getOrderPagenation,
     getOrderPages,
@@ -327,5 +387,8 @@ export const useSortCondition = defineStore("sortCondition", () => {
     //course 分頁方法
     getCoursePagenation,
     getCoursePages,
+    //teacher 分頁方法
+    getTeacherPagenation,
+    getTeacherPages,
   }
 })

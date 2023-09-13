@@ -63,7 +63,7 @@ const getImg = async (id) => {
 </script>
 
 <template>
-    <button @click="getImg(13)">測試</button>
+    <button @click="getImg(54)">測試</button>
     <img :src="img" alt="">
 
     <div class="container contextContainer">

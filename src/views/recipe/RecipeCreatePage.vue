@@ -400,7 +400,7 @@ const submitForm = async () => {
 
             </div>
             <div class=" crudbtn col-md-1 align-self-start position-sticky" style="top: 100px;">
-                <div class="btn row border border-dark rounded px-4 pb-2">
+                <div class="btn row border border-dark rounded px-2 pb-2">
 
                     <button type="submit" class=" btn btn-light mb-2 mt-2" @click="submitForm">發佈</button>
                     <button class="btn btn-light mb-2">儲存</button>

@@ -72,9 +72,9 @@ const tableDatas = ref([])
 const hasTable = ref(true)
 
 const searchOptions = ref([
-    { key: 'name', label: '食譜名稱', type: 'String' },
+    { key: 'recipeTitle', label: '食譜名稱', type: 'String' },
     { key: 'difficulty', label: '難易度', type: 'String' },
-    { key: 'author', label: '撰寫者', type: 'String' },
+    { key: 'fullName', label: '撰寫者', type: 'String' },
 ])
 
 //更新表格資料
@@ -127,7 +127,7 @@ const onGetSelectedKey = (key) => {
 const onGetSearchRules = async (rule) => {
     console.log('rule');
     console.log(rule);
-    let result = await store.setFrontRecipePageChange(rule)
+    let result = await store.setFrontRecipeSearchRules(rule)
     if (result != null) {
         let datas = result.data
         updateDatas(datas)

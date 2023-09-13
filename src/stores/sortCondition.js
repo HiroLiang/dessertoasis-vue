@@ -111,6 +111,12 @@ export const useSortCondition = defineStore("sortCondition", () => {
   }
   /*------------------------食譜  前台--------------------------------*/
 
+  const setFrontRecipeSearchRules = async (rules) => {
+    condition.value.searchRules = rules
+    console.log(condition.value)
+    return await getFrontRecipePagenation()
+  }
+
   const setFrontRecipePageChange = async (newPage) => {
     condition.value.page = newPage[0]
     condition.value.pageSize = newPage[1]
@@ -290,6 +296,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
     setFrontRecipePageChange,
     setFrontRecipeSortBy,
     setFrontRecipeNumberRange,
+    setFrontRecipeSearchRules,
     //cms order 分頁方法
     getOrderPagenation,
     getOrderPages,

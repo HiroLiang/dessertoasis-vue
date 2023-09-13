@@ -92,6 +92,10 @@ const reqGetCmsRecipePages = (condition) => {
 const reqGetFrontRecipePages = (condition) => {
   return request.post('/recipe/recipeFrontPagenation', condition, jsonHeader)
 }
+
+const getRecipePicture = (recipeId) => {
+  return request.post('recipe/getPic', recipeId, jsonHeader)
+}
 /*----------------------------------------  食譜後台相關請求  -------------------------------------------*/
 //取得現在頁數內的資料
 const reqGetRecipePage = (condition) => {
@@ -304,6 +308,7 @@ export {
   reqGetRecipePage,
   reqGetCmsRecipePages,
   reqGetFrontRecipePages,
+  getRecipePicture,
 
   // 教室用
   getReservations,

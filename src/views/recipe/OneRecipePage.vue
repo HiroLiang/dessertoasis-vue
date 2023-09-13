@@ -166,7 +166,7 @@ const getImg = async (id) => {
 </template>
 <style scoped>
 .imgContainer {
-    width: 58vw;
+    /* width: 58vw; */
 }
 
 .imgContainer img {

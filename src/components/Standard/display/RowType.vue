@@ -21,7 +21,7 @@ const props = defineProps({
             <div>
                 <div class="picContainer">
                     <div class="picWrap">
-                        <img :src="`/images/display/${product.picture}`" :alt="product.name">
+                        <img :src="`${product.picture}`" :alt="product.name">
                     </div>
                 </div>
             </div>

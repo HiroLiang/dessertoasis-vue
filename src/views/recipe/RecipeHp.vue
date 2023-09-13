@@ -218,22 +218,17 @@ const item = reactive([
 </script>
 
 <template>
-    <h2>this is recipe homepage</h2>
-    <div>
-        <hr>
-        <Selector :items="itemsFromParent"></Selector>
-        <hr>
-        <Carousel :title="'每月熱門食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10HottestRecipes" />
-        <Carousel :title="'最新食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10LatestRecipes" />
-        <Carousel :title="'麵包食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="get10BreadRecipes" />
-        <Carousel :title="'甜點食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="get10DessertRecipes" />
+    <Selector :items="itemsFromParent"></Selector>
+    <hr>
+    <Carousel :title="'每月熱門食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10HottestRecipes" />
+    <Carousel :title="'最新食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10LatestRecipes" />
+    <Carousel :title="'麵包食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="get10BreadRecipes" />
+    <Carousel :title="'甜點食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="get10DessertRecipes" />
 
 
-        <Carousel v-for="(title, index) in carouselTitles" :key="index" :title="title" :link="link[index]"
-            :itemsList="item" />
+    <Carousel v-for="(title, index) in carouselTitles" :key="index" :title="title" :link="link[index]" :itemsList="item" />
 
-        <Carousel :title="'每月熱門食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10HottestRecipes.value" />
-    </div>
+    <Carousel :title="'每月熱門食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10HottestRecipes.value" />
 </template>
 
 <style scoped></style>

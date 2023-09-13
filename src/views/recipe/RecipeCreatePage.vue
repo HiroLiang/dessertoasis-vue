@@ -321,12 +321,6 @@ const submitForm = async () => {
 </script>
 
 <template>
-    <div>
-
-    </div>
-    <h2>this is recipe create page</h2>
-
-
     <!-- <form @submit.prevent="submitForm"> -->
     <div class="container">
         <div class="row ">
@@ -344,8 +338,9 @@ const submitForm = async () => {
                     <br>
 
                 </div>
-
-                <h4>成品圖片:</h4>
+                <div class="container">
+                    <h5>成品圖片:</h5>
+                </div>
                 <div class="picContainer container ">
                     <label for="pictureURL">
                         <div class="imageContainer container">

@@ -22,7 +22,7 @@ const timeMap = {
 </script>
 
 <template>
-    <table class="table align-middle" v-if="orders">
+    <table class="table align-middle" v-if="orders && orders.length > 0">
         <thead>
             <tr>
                 <th>教室</th>

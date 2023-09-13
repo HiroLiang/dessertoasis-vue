@@ -44,14 +44,14 @@ const reqSecretKey = () => request.get("/getSecretKey")
 const reqUserPermission = () => request.get("/checkUserPermission")
 
 //更新密碼
-const reqChangepassword = (account, oldPassword, newPassword) => {
-  const requestData = {
-    account: account,
-    oldPassword: oldPassword,
-    newPassword: newPassword
+const reqChangepassword = (requestData) => {
+  const requestBody = {
+    oldPassword: requestData.oldPassword,
+    newPassword: requestData.newPassword
   };
-  return request.post("/member/changepassword", requestData);
+  return request.post("/member/changepassword", requestBody, jsonHeader);
 };
+
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試

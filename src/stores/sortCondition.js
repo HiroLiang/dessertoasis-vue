@@ -209,7 +209,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
     condition.value.sortBy = rule[0]
     condition.value.sortWay = rule[1]
     console.log(rule)
-    return await getOrderPagenation()
+    return await getCoursePagenation()
   }
 
   //更新頁碼

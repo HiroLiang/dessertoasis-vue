@@ -18,7 +18,10 @@ const selectedClassroom = ref("classroom1") // 預設選中的教室
 const customLocation = ref("") // 自己填寫的地點
 
 const addCourse = () => {
-  console.log(courseDate, courseLocation)
+  // console.log(courseDate, courseLocation)
+  FormData.forEach((element) => {
+    console.log(element)
+  })
   //沒有上課日期和地點，暫停送資料
   if (!courseDate.value || !courseLocation.value) {
     alert("請填寫完整課程資料")

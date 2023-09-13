@@ -27,7 +27,7 @@
 
                         <div class="text-center">
                             <button type="button" class="btn btn-primary btn-lg mt-5">Update profile</button>
-                            <button type="button" class="btn btn-danger btn-lg mt-5">Delete profile</button>
+
                         </div>
 
 

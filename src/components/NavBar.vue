@@ -125,9 +125,7 @@ function deleteAllCookies() {
                     <img class="loginIcon" :src="`/images/navbar/${props.ProfilePicture}`" alt="ProfilePicture" />
                 </a>
                 <ul :class="`dropdown-menu ${listPosition}`" aria-labelledby="dropdownMenuLink">
-                    <li>
-                        <router-link to="/cms" class="dropdown-item">後台管理(測試)</router-link>
-                    </li>
+
                     <li>
                         <router-link to="/cart" class="dropdown-item">購物車</router-link>
                     </li>

@@ -66,7 +66,7 @@ const register = async () => {
             </div>
             <div class="form-check d-flex justify-content-center mb-3">
                 <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
-                <label class="form-check-label" for="form2Example3">同意註冊 <a href="#" class="mb-0">合約</a></label>
+                <label class="form-check-label" for="form2Example3">同意註冊 <a href="#" class="mb-0">服務條款</a></label>
             </div>
             <div class="row p-2">
                 <button type="button" class="btn btn-primary btn-block mb-4" @click="register">註冊</button>

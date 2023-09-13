@@ -1,31 +1,49 @@
 <script setup>
 import { ref } from 'vue';
-import { reqChangepassword } from '../../api'; // 請替換成實際的導入路徑
+import { reqChangepassword } from '../../api';
 
-const account = ref('');
 const oldPassword = ref('');
 const newPassword = ref('');
 const newAgainPassword = ref('');
-const passwordUpdated = ref(false);
+const successMessage = ref('');
+const passwordsDoNotMatch = ref(false);
 
 const handleSubmit = async () => {
-    if (newPassword.value === newAgainPassword.value) {
-        try {
-            await reqChangepassword(account.value, oldPassword.value, newPassword.value);
-            // 密碼更新成功，設置密碼更新狀態為 true
-            passwordUpdated.value = true;
-        } catch (error) {
-            // 密碼更新失敗
-            console.error('密碼更新失敗:', error);
+    if (newPassword.value !== newAgainPassword.value) {
+        passwordsDoNotMatch.value = true;
+        successMessage.value = '';
+        return;
+    }
+
+    passwordsDoNotMatch.value = false;
+
+    try {
+        const requestData = {
+            oldPassword: oldPassword.value,
+            newPassword: newPassword.value
+        };
+        const response = await reqChangepassword(requestData);
+
+        if (response.status === 200) {
+            successMessage.value = '密碼已更改';
+            oldPassword.value = '';
+            newPassword.value = '';
+            newAgainPassword.value = '';
+        } else {
+            console.error('密碼更新失败', response.data);
+
         }
-    } else {
-        // 兩次輸入的密碼不相同
-        console.error('兩次輸入的密碼不相同');
+    } catch (error) {
+        console.error('密碼更新失败', error.response.data);
+
     }
 };
 </script>
 
 <template>
+    <div v-if="passwordsDoNotMatch" class="alert alert-danger">密碼輸入錯誤或密碼輸入不一致</div>
+    <div v-if="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
     <form @submit.prevent="handleSubmit">
         <div class="row mb-5 gx-5">
             <div class="mb-5 mb-xxl-0">
@@ -58,6 +76,9 @@ const handleSubmit = async () => {
         </div>
     </form>
 </template>
+  
+
+  
 
 <style scoped>
 button {

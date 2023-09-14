@@ -60,6 +60,7 @@ const updatemember = async () => {
     // 執行更新 API 請求
     const res = await reqChangeMember(updatedMemberDetail)
     console.log(res.data);
+    alert("更新成功")
     // const response = await fetch('/member/update', {
     //     method: 'PUT',
     //     headers: {

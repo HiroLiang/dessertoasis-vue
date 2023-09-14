@@ -168,10 +168,10 @@ onMounted(() => {
                         <router-link to="/cms" class="dropdown-item">後台管理</router-link>
                     </li>
                     <li v-if="isTeacher">
-                        <router-link to="/cms" class="dropdown-item">我的課程</router-link>
+                        <router-link to="/teacher" class="dropdown-item">我的課程</router-link>
                     </li>
                     <li v-if="!isTeacher && !isAdmin">
-                        <router-link to="/" class="dropdown-item">成為老師</router-link>
+                        <router-link to="/becomeTeacher" class="dropdown-item">成為老師</router-link>
                     </li>
                     <li v-if="isLogin">
                         <button class="dropdown-item" @click="logout">登出</button>

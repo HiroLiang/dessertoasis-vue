@@ -37,7 +37,7 @@ const reqGetAllMembers = () => request.get("/member/all", {})
 //從session 拿出member資料
 const reqSession = () => request.get("/memberSession")
 
-const reqGetMemberId = () => request.get('/member/loggedInUserId')
+const reqGetMemberId = () => request.get("/member/loggedInUserId")
 
 //拿到密鑰
 const reqSecretKey = () => request.get("/getSecretKey")
@@ -49,15 +49,14 @@ const reqUserPermission = () => request.get("/checkUserPermission")
 const reqChangepassword = (requestData) => {
   const requestBody = {
     oldPassword: requestData.oldPassword,
-    newPassword: requestData.newPassword
-  };
-  return request.post("/member/changepassword", requestBody, jsonHeader);
-};
+    newPassword: requestData.newPassword,
+  }
+  return request.post("/member/changepassword", requestBody, jsonHeader)
+}
 
 const reqChangeMember = (detail) => {
   return request.put("/member/update", detail, jsonHeader)
 }
-
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
@@ -92,15 +91,15 @@ const addRecipe = (formData) => {
 
 //取得總頁數
 const reqGetCmsRecipePages = (condition) => {
-  return request.post('/recipe/pages', condition, jsonHeader)
+  return request.post("/recipe/pages", condition, jsonHeader)
 }
 
 const reqGetFrontRecipePages = (condition) => {
-  return request.post('/recipe/recipeFrontPagenation', condition, jsonHeader)
+  return request.post("/recipe/recipeFrontPagenation", condition, jsonHeader)
 }
 
 const getRecipePicture = (recipeId) => {
-  return request.post('recipe/getPic', recipeId, jsonHeader)
+  return request.post("recipe/getPic", recipeId, jsonHeader)
 }
 
 const getRecipe = (recipeId) => {
@@ -111,7 +110,6 @@ const getRecipe = (recipeId) => {
 const reqGetRecipePage = (condition) => {
   return request.post("/recipe/pagenation", condition, jsonHeader)
 }
-
 
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
 
@@ -242,6 +240,10 @@ const reqGetCmsCoursePages = (condition) => {
   return request.post("/course/pages", condition, jsonHeader)
 }
 
+const getTeacher = (teacherId) => {
+  return request.get(`/teacher/${teacherId}`, jsonHeader)
+}
+
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
 const getAllProd = (page, pageSize, dataTitles) => {
@@ -258,9 +260,7 @@ const getProd = (page, pageSize, queryString) => {
   )
 }
 const getProd1 = (queryParams) => {
-  return request.get(
-    `/product/search?${queryParams}`
-  )
+  return request.get(`/product/search?${queryParams}`)
 }
 
 const reqGetProductPage = (condition) => {
@@ -271,11 +271,27 @@ const AddProduct = (productData) => {
   return request.post("/product/add", productData, jsonHeader)
 }
 
-const UploadProdImage = (productId, imageFormData, config, thumbnailFormData, thumbnailConfig) => {
-  return request.post(`/product/uploadImage?productId=${productId}`, imageFormData, config, thumbnailFormData, thumbnailConfig);
+const UploadProdImage = (
+  productId,
+  imageFormData,
+  config,
+  thumbnailFormData,
+  thumbnailConfig
+) => {
+  return request.post(
+    `/product/uploadImage?productId=${productId}`,
+    imageFormData,
+    config,
+    thumbnailFormData,
+    thumbnailConfig
+  )
 }
 const UploadProdImage1 = (productId, thumbnailFormData, thumbnailConfig) => {
-  return request.post(`/product/uploadImage?productId=${productId}`, thumbnailFormData, thumbnailConfig);
+  return request.post(
+    `/product/uploadImage?productId=${productId}`,
+    thumbnailFormData,
+    thumbnailConfig
+  )
 }
 
 //取得總頁數
@@ -312,9 +328,6 @@ const reqUpdateList = (categoryId, itemId) =>
 const reqGetChatDatas = (sender, catcher) => {
   return request.get(`/message/history?sender=${sender}&catcher=${catcher}`)
 }
-
-
-
 
 export {
   //會員用
@@ -376,6 +389,7 @@ export {
   searchCourse,
   reqGetCoursePage,
   reqGetCmsCoursePages,
+  getTeacher,
 
   /*--------商品用-------*/
   getAllProd,
@@ -395,5 +409,4 @@ export {
 
   /*----------------------------------------  聊天室相關請求  -------------------------------------------*/
   reqGetChatDatas,
-
 }

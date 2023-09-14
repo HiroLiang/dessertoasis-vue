@@ -1,16 +1,18 @@
 import { ref } from "vue"
 import { defineStore } from "pinia"
+import { reqGetChatDatas } from "../api"
 
 export const useChatMessage = defineStore('chatMessage', () => {
 
-    const unreadMessage = ref([])
-    const readedMessage = ref([])
+    const messages = ref([])
 
-    const initMessage = () => {
-
+    const initMessages = async (sender, catcher) => {
+        let list = await reqGetChatDatas(sender, catcher)
+        console.log(list.data);
     }
 
     return {
-        messageData
+        messages,
+        initMessages
     }
 })

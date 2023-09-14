@@ -1,7 +1,10 @@
 <script setup>
 import { ref, onMounted, computed } from "vue"
 import { checkTeacherStatus } from "@/api"
-import { AddCourse, UploadCourseImage } from "@/api/index.js"
+
+/* ---------------------------------error--------------------------------  */
+// import { AddCourse, UploadCourseImage } from "@/api/index.js"
+/* ---------------------------------error--------------------------------  */
 
 const isTeacher = ref(false) // 預設用戶不是老師
 
@@ -45,10 +48,12 @@ const formData = {
   courseDestination: "",
   serviceTarget: "",
   closeDate: null,
-  updateDate: null,
+  updateDate: Date.now(),
   courseDate: null,
   coursePlace: "",
   coursePrice: 0,
+  remainPlaces: 0,
+  courseStatus: "未開課",
 }
 const imagesData = {
   images: [],
@@ -137,38 +142,41 @@ async function submitCourse() {
   try {
     const courseData = {
       courseName: formData.courseName,
-
       courseIntroduction: formData.courseIntroduction,
-      courseFeature: "",
-      courseDestination: "",
-      serviceTarget: "",
-      closeDate: null,
-      updateDate: null,
-      courseDate: null,
-      coursePlace: "",
-      coursePrice: 0,
+      courseFeature: formData.courseFeature,
+      courseDestination: formData.courseDestination,
+      serviceTarget: formData.serviceTarget,
+      closeDate: formData.closeDate,
+      updateDate: formData.updateDate,
+      courseDate: formData.courseDate,
+      coursePlace: formData.coursePlace,
+      remainPlaces: formData.remainPlaces,
+      coursePrice: formData.coursePrice,
+      courseStatus: formData.courseStatus,
     }
 
-    const courseResponse = await AddCourse(courseData)
-    console.log("courseResponse", courseResponse)
-    const courseId = courseResponse.data
-    console.log("couresId", courseId)
-    console.log("課程已成功上傳", courseId)
-    if (thumbnailData.file) {
-      const thumbnailFormData = new FormData()
-      thumbnailFormData.append("image", thumbnailData.file)
-      const thumbnailConfig = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-      const thumbnailResponse = await UploadCourseImage(
-        courseId,
-        thumbnailFormData,
-        thumbnailConfig
-      )
-      console.log("縮圖已成功上傳", thumbnailResponse.data)
-    }
+    /* ---------------------------------error--------------------------------  */
+    // const courseResponse = await AddCourse(courseData)
+    // console.log("courseResponse", courseResponse)
+    // const courseId = courseResponse.data
+    // console.log("couresId", courseId)
+    // console.log("課程已成功上傳", courseId)
+    // if (thumbnailData.file) {
+    //   const thumbnailFormData = new FormData()
+    //   thumbnailFormData.append("image", thumbnailData.file)
+    //   const thumbnailConfig = {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   }
+    //   const thumbnailResponse = await UploadCourseImage(
+    //     courseId,
+    //     thumbnailFormData,
+    //     thumbnailConfig
+    //   )
+    //   console.log("縮圖已成功上傳", thumbnailResponse.data)
+    // }
+    /* ---------------------------------error--------------------------------  */
     const imageUploadPromises = imagesData.images.map(async (image, index) => {
       const imageFormData = new FormData()
       imageFormData.append("image", image.file)
@@ -245,6 +253,18 @@ async function submitCourse() {
             v-model="formData.courseIntroduction"
           ></textarea>
         </div>
+        <div class="mb-2">
+          <label>課程特色:</label>
+          <input v-model="formData.courseFeature" />
+        </div>
+        <div class="mb-2">
+          <label>課程目標:</label>
+          <input v-model="formData.courseDestination" />
+        </div>
+        <div class="mb-2">
+          <label>課程對象:</label>
+          <input v-model="formData.serviceTarget" />
+        </div>
         <!-- 沒寫上課地點，顯示錯誤訊息 -->
         <div class="mb-2">
           <label>上課地點:</label>
@@ -276,6 +296,10 @@ async function submitCourse() {
             <input type="text" v-model="customLocation" />
           </div>
         </div>
+        <div class="mb-2">
+          <label>自己填寫地點：</label>
+          <input type="text" v-model="formData.coursePlace" />
+        </div>
         <!-- 課程分類id -->
         <div class="mb-2">
           <label for="remainingPlaces">可報名人數:</label>
@@ -296,17 +320,17 @@ async function submitCourse() {
           />
         </div>
         <div class="mb-2">
-          <label>課程分類:</label>
-          <select v-model="coursePrice" id="">
+          <!-- <label>課程分類:</label> -->
+          <!-- <select v-model="" id="">
             <option value="">1</option>
             <option value="">2</option>
-          </select>
+          </select> -->
         </div>
         <div class="mb-2">
-          <label for="courseLength">課程長度:</label>
+          <!-- <label for="courseLength">課程長度:</label>
           <select v-model="courseLength" id="courseLength">
             <option value="">一天</option>
-          </select>
+          </select> -->
           <!-- <input type="text" v-model="courseLength" id="courseLength" /> -->
         </div>
 
@@ -314,10 +338,10 @@ async function submitCourse() {
           <label for="recipes">課程食譜:</label>
           <input type="text" v-model="courseLength" id="courseLength" />
         </div>
-        <div class="mb-2">
-          <label for="courseLength">開課狀態:</label>
-          <input type="text" v-model="courseLength" id="courseLength" />
-        </div>
+        <!-- <div class="mb-2">
+          <label>開課狀態:</label>
+          <input type="text" v-model="formData.courseStatus" />
+        </div> -->
       </div>
       <!-- 課程圖片路徑 -->
       <div class="col-6 row">
@@ -367,10 +391,12 @@ async function submitCourse() {
 .error-message {
   color: red;
 }
+
 .upload-image {
   min-width: 100%;
   max-width: 100%;
 }
+
 .upload-video {
   width: 100%;
   width: 100%;

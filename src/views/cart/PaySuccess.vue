@@ -1,16 +1,11 @@
 <script setup>
-import { getOrder } from '@/api/index'
-import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const props = defineProps({
-    order: Object
-})
-
-const order = props.order
 
 
 </script>
 
 <template>
-    order
+    <div>訂單已成立</div>
+    <RouterLink to="/order">前往我的訂單查看</RouterLink>
 </template>

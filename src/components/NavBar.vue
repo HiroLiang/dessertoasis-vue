@@ -2,6 +2,19 @@
 import { ref, onMounted } from "vue";
 import { reqSignOut, reqUserPermission } from "../api";
 import { useRouter } from 'vue-router';
+import { googleLogout } from 'vue3-google-login';
+import { useCartStore } from "../stores/cart";
+
+const storedData = localStorage.getItem('googleLoginData');
+const isGoogleLoggedIn = localStorage.getItem('googleLoggedIn');
+
+if (isGoogleLoggedIn === 'true' && storedData) {
+    // 用户已登录，将存储的数据转换回对象
+    const loginData = JSON.parse(storedData);
+    // 使用 loginData 进行其他操作
+} else {
+    // 用户未登录或数据不存在
+}
 
 const router = useRouter();
 const props = defineProps({
@@ -58,16 +71,16 @@ onMounted(async () => {
     }
 });
 
-
-
-
-
 // 登出
 async function logout() {
+
     // 清除前端的Cookie
     // 調用函数以删除所有cookie
     deleteAllCookies();
     try {
+        // 删除名为 "myKey" 的 localStorage 项
+        localStorage.removeItem("googleLoggedIn");
+        localStorage.removeItem("googleLoginData");
         // 清除後端session
         await reqSignOut();
         // 登出成功
@@ -92,6 +105,11 @@ function deleteAllCookies() {
     }
 }
 
+// 取得購物車內容數量
+const cart = useCartStore();
+onMounted(() => {
+    cart.getCartCount()
+})
 
 
 </script>
@@ -119,6 +137,9 @@ function deleteAllCookies() {
                     </li>
                 </ul>
             </div>
+            <div class="mx-4">
+                <router-link to="/cart" class="dropdown-item">購物車({{ cart.count }})</router-link>
+            </div>
             <div class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -127,12 +148,12 @@ function deleteAllCookies() {
                 <ul :class="`dropdown-menu ${listPosition}`" aria-labelledby="dropdownMenuLink">
 
                     <li>
-                        <router-link to="/cart" class="dropdown-item">購物車</router-link>
+                        <router-link to="/order" class="dropdown-item">我的訂單</router-link>
                     </li>
                     <li>
                         <router-link to="/demo" class="dropdown-item">Demo</router-link>
                     </li>
-                    <li v-if="!isLogin">
+                    <li v-if="!isLogin && !isGoogleLoggedIn">
                         <router-link to="/logIn" class="dropdown-item">會員登入</router-link>
                     </li>
                     <li v-else>
@@ -146,6 +167,9 @@ function deleteAllCookies() {
                     </li>
                     <li v-if="isLogin">
                         <button class="dropdown-item" @click="logout">登出</button>
+                    </li>
+                    <li v-if="isGoogleLoggedIn">
+                        <button class="dropdown-item" @click="logout">google登出</button>
                     </li>
                     <!-- 如果非登入，只顯示會員登入 
                          如果登入後，一定會顯示登出，且依照不同權限顯示不同畫面

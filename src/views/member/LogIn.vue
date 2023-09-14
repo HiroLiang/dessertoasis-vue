@@ -3,7 +3,6 @@ import NavBar from '@/components/NavBar.vue';
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import { reqSignIn } from '../../api';
-
 const router = useRouter();
 
 const account = ref('');
@@ -34,6 +33,26 @@ onMounted(() => {
     account.value = localStorage.getItem('remberedAccount')
 })
 
+
+import { googleTokenLogin } from 'vue3-google-login'
+
+const GOOGLE_CLIENT_ID = '159356890132-eqq8r76bgodqlmq0oajjgibkva6rjfn7.apps.googleusercontent.com'
+const googleLoggin = ref(false)
+const data = ref()
+
+const handleGoogleAccessTokenLogin = () => {
+    googleTokenLogin({
+        clientId: GOOGLE_CLIENT_ID
+    }).then((response) => {
+        data.value = response;
+        googleLoggin.value = true;
+        console.log(data.value)
+        localStorage.setItem('googleLoginData', JSON.stringify(response));
+        localStorage.setItem('googleLoggedIn', true);
+        router.push({ name: 'home' })
+    })
+}
+
 </script>
 <template>
     <NavBar />
@@ -54,7 +73,7 @@ onMounted(() => {
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" v-model="rememberInput" id="form2Example31"
                             checked />
-                        <label class="form-check-label" for="form2Example31"> 記住帳號密碼 </label>
+                        <label class="form-check-label" for="form2Example31"> 記住帳號 </label>
                     </div>
                 </div>
 
@@ -77,14 +96,12 @@ onMounted(() => {
 
                 <div class="icon-container">
                     <div class="icon">
-                        <a href="#"><font-awesome-icon :icon="['fab', 'google']" size="xl" style="color: #4285f4;"
-                                class="bounce-icon" /></a>
+                        <button type="button" @click="handleGoogleAccessTokenLogin">
+                            Google 登入
+                        </button>
                     </div>
 
-                    <div class="icon">
-                        <a href="#"><font-awesome-icon :icon="['fab', 'facebook']" size="xl" style="color: #4267b2;"
-                                class="bounce-icon" /></a>
-                    </div>
+
                 </div>
 
 

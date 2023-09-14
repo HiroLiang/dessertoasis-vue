@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { reqMember, reqMemberDetail, reqSession } from '@/api';
+import { reqMember, reqMemberDetail, reqSession, reqChangeMember } from '@/api';
 
 const memberId = ref("");
 
@@ -13,8 +13,8 @@ const memberIdNumber = ref("");
 const memberBirthday = ref("");
 const memberEmail = ref("");
 const memberAddress = ref("");
-
-
+const memberpic = ref("");
+const memberfolderURL = ref("");
 
 onMounted(async () => {
     try {
@@ -35,11 +35,51 @@ onMounted(async () => {
         memberIdNumber.value = responseMd.data.idNumber
         memberBirthday.value = responseMd.data.birthday
         memberAddress.value = responseMd.data.deliveryAddress
+        memberpic.value = responseMd.data.pic
+        memberfolderURL.value = responseMd.data.folderURL
 
     } catch (error) {
         console.error('獲取會員失敗：', error);
     }
 });
+
+
+const updatemember = async () => {
+    // try {
+
+
+    let updatedMemberDetail = {
+        id: memberId.value,
+        idNumber: memberIdNumber.value,
+        birthday: memberBirthday.value,
+        deliveryAddress: memberAddress.value,
+        pic: memberpic.value,
+        folderURL: memberfolderURL.value
+    };
+    console.log(updatedMemberDetail.idNumber)
+    // 執行更新 API 請求
+    const res = await reqChangeMember(updatedMemberDetail)
+    console.log(res.data);
+    // const response = await fetch('/member/update', {
+    //     method: 'PUT',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: updatedMemberDetail,
+    // });
+
+    // 檢查響應是否成功
+    //     if (response.ok) {
+    //         // 更新成功
+    //         console.log('更新成功');
+    //     } else {
+    //         // 更新失敗
+    //         console.error('更新失敗');
+    //     }
+    // } catch (error) {
+    //     console.error('更新會員失敗：', error);
+    // }
+};
 
 // const handleInput = () => {
 // }
@@ -50,7 +90,7 @@ onMounted(async () => {
 
 
 <template >
-    <form class="file-upload">
+    <form class="file-upload" @submit="updatemember">
         <div class="row mb-5 gx-5">
 
             <!-- 基本資料 -->
@@ -121,9 +161,7 @@ onMounted(async () => {
 
 
         <div class="text-center">
-            <button type="button" class="btn btn-primary btn-lg mt-5">Update profile</button>
-
-
+            <button type="submit" class="btn btn-primary btn-lg mt-5">Update profile</button>
         </div>
     </form>
 </template>

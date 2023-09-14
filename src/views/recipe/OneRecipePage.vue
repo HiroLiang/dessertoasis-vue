@@ -4,7 +4,7 @@ import Steps from '../recipe/components/Steps.vue'
 import { NList, NListItem, NThing, NDescriptions, NDescriptionsItem, NGrid, NGi, NStatistic, NIcon, NAvatar, NCol, NRow, NButton } from 'naive-ui'
 import { reactive, computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { getRecipePicture, getRecipe } from '@/api'
+import { getRecipePicture, getRecipe, getStepPictures } from '@/api'
 
 const route = useRoute()
 const recipeId = computed(() => {
@@ -61,28 +61,77 @@ const getImg = async (id) => {
 
 }
 /*----------------------﹀﹀﹀﹀﹀﹀﹀﹀前端接收圖片範例﹀﹀﹀﹀﹀﹀﹀﹀--------------------------*/
-const getRecipeData = async () => {
-    console.log(recipeId.value);
 
-    let res = await getRecipe(recipeId.value)
+const recipeData = ref({
+    recipeTitle: "",
+    recipeIntroduction: "",
+    pictureUrl: "",
+    recipePersons: "",
+    cookingTime: Number,
+    recipeAthor: {},
+    ingredients: {},
+    stpes: [{
+        // stepNumber: Number,
+        // stepPicture: `data:${header};base64,${body}`,
+        // stepContext: String
+    }],
+})
+
+
+
+const getRecipeData = async () => {
     console.log("recipeId");
+    console.log(recipeId.value);
+    let mainPic = await getRecipePicture(recipeId.value)
+    let mainPicBody = mainPic.data
+    let mainPicHeader = mainPic.headers['content-type']
+    recipeData.value.pictureUrl = `data:${mainPicHeader};base64,${mainPicBody}`
+
+    //處理步驟圖片
+    let stepPic = await getStepPictures(recipeId.value)
+    let headers = []
+    let bodies = []
+    let stepPics = stepPic.data
+    for (let i = 0; i < stepPics.length; i += 2) {
+        if (i + 1 < stepPics.length) {
+            headers.push(stepPics[i])
+            bodies.push(stepPics[i + 1])
+        }
+    }
+
+    let recipe = await getRecipe(recipeId.value)
+    let datas = recipe.data
+
+    //處理食譜步驟
+    for (let i = 0; i < datas.recipeSteps.length; i++) {
+        const stepHeader = headers[i];
+        const stepBody = bodies[i];
+
+        let step = {
+            stepNumber: datas.recipeSteps[i].stepNumber,
+            stepPicture: `data:${stepHeader};base64,${stepBody}`,
+            stepContext: datas.recipeSteps[i].stepContext
+        }
+        recipeData.value.stpes.push(step)
+    }
+    console.log("steps");
+    console.log(recipeData.value.stpes);
+
 
     console.log("response");
-    console.log(res.data);
+    console.log(datas);
 }
 
 
 </script>
 
 <template>
-<<<<<<< HEAD
-    <button @click="getImg(54)">測試</button>
-=======
-    <button @click="getImg(19)">測試</button>
->>>>>>> origin/test
+    <button @click="getImg(55)">測試</button>
     <img :src="img" alt="">
 
-    <button @click="getRecipeData(recipeId)">測試取得食譜資料</button>
+    <button @click="getRecipeData(55)">測試取得食譜資料</button>
+
+
 
     <div class="container contextContainer">
         <h2>this is a recipe page{{ recipeId }}</h2>

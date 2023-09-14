@@ -98,8 +98,13 @@ const reqGetFrontRecipePages = (condition) => {
   return request.post("/recipe/recipeFrontPagenation", condition, jsonHeader)
 }
 
+//取得成品圖
 const getRecipePicture = (recipeId) => {
   return request.post("recipe/getPic", recipeId, jsonHeader)
+}
+
+const getStepPictures = (recipeId) => {
+  return request.post('recipe/getStepPics', recipeId, jsonHeader)
 }
 
 const getRecipe = (recipeId) => {
@@ -343,6 +348,7 @@ export {
   reqGetMemberId,
   reqChangepassword,
   reqChangeMember,
+
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,
@@ -355,6 +361,7 @@ export {
   reqGetCmsRecipePages,
   reqGetFrontRecipePages,
   getRecipePicture,
+  getStepPictures,
   getRecipe,
 
   // 教室用

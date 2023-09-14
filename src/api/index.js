@@ -37,6 +37,8 @@ const reqGetAllMembers = () => request.get("/member/all", {})
 //從session 拿出member資料
 const reqSession = () => request.get("/memberSession")
 
+const reqGetMemberId = () => request.get('/member/loggedInUserId')
+
 //拿到密鑰
 const reqSecretKey = () => request.get("/getSecretKey")
 
@@ -230,27 +232,36 @@ const reqGetCmsProductPages = (condition) => {
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
 // request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
 
-/*----------------------------------------  搜索相關請求  -------------------------------------------*/
+/**----------------------------------------  搜索相關請求  -------------------------------------------*/
 
-//取得搜索提示(暫無用)
+/**取得搜索提示(暫無用)*/
 const reqGetHint = (table, column, searchValue) =>
   request.get(
     `/getSearchHint?tableName=${table}&columnName=${column}&searchValue=${searchValue}`
   )
 
-//取得分類資訊
+/**取得分類資訊*/
 const reqGetCategory = (id) => request.get(`/category/find?categoryId=${id}`)
 
-//取得我的最愛資訊
+/**取得我的最愛資訊*/
 const reqGetFavoriteList = () => request.get("/user-favorite-list")
 
-//新增/刪除最愛
+/**新增/刪除最愛*/
 const reqUpdateList = (categoryId, itemId) =>
   request.post(
     "/favorite-list/updateList",
     `{"categoryId":"${categoryId}","itemId":"${itemId}"}`,
     jsonHeader
   )
+
+/*----------------------------------------  聊天室相關請求  -------------------------------------------*/
+
+const reqGetChatDatas = (sender, catcher) => {
+  return request.get(`/message/history?sender=${sender}&catcher=${catcher}`)
+}
+
+
+
 
 export {
   //會員用
@@ -263,6 +274,7 @@ export {
   reqSession,
   reqSecretKey,
   reqUserPermission,
+  reqGetMemberId,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,
@@ -316,4 +328,8 @@ export {
   reqGetCategory,
   reqGetFavoriteList,
   reqUpdateList,
+
+  /*----------------------------------------  聊天室相關請求  -------------------------------------------*/
+  reqGetChatDatas,
+
 }

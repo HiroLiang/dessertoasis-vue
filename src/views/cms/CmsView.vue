@@ -3,7 +3,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import CmsNavbar from './components/CmsNavbar.vue'
 import CollapseSidebar from './components/CollapseSidebar.vue'
 
-const ifSidebar = ref(true)
+const ifSidebar = ref(false)
 
 const navTitle = ref('管理系統')
 
@@ -48,10 +48,10 @@ onBeforeUnmount(() => {
 }
 
 .sideBarContain {
-    width: 250px;
+    width: 270px;
     height: 100vh;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: hidden;
     flex-shrink: 0;
     background-color: rgb(75, 75, 75);
     transition: all 0.5s;

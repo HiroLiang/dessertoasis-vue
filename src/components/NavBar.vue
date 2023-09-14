@@ -170,7 +170,7 @@ onMounted(() => {
                     <li v-if="isTeacher">
                         <router-link to="/cms" class="dropdown-item">我的課程</router-link>
                     </li>
-                    <li v-if="!isTeacher && !isAdmin">
+                    <li v-if="isLogin && !isTeacher && !isAdmin">
                         <router-link to="/" class="dropdown-item">成為老師</router-link>
                     </li>
                     <li v-if="isLogin">

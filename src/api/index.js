@@ -104,7 +104,7 @@ const getRecipePicture = (recipeId) => {
 }
 
 const getStepPictures = (recipeId) => {
-  return request.post('recipe/getStepPics', recipeId, jsonHeader)
+  return request.post("recipe/getStepPics", recipeId, jsonHeader)
 }
 
 const getRecipe = (recipeId) => {
@@ -247,6 +247,15 @@ const reqGetCmsCoursePages = (condition) => {
 
 const getTeacher = (teacherId) => {
   return request.get(`/teacher/${teacherId}`, jsonHeader)
+}
+
+const reqGetTeacherPage = (condition) => {
+  return request.post("/teacher/pagenation", condition, jsonHeader)
+}
+
+//取得總頁數
+const reqGetCmsTeacherPages = (condition) => {
+  return request.post("/teacher/pages", condition, jsonHeader)
 }
 
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
@@ -397,6 +406,8 @@ export {
   reqGetCoursePage,
   reqGetCmsCoursePages,
   getTeacher,
+  reqGetTeacherPage,
+  reqGetCmsTeacherPages,
 
   /*--------商品用-------*/
   getAllProd,

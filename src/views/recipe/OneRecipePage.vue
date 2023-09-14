@@ -4,7 +4,7 @@ import Steps from '../recipe/components/Steps.vue'
 import { NList, NListItem, NThing, NDescriptions, NDescriptionsItem, NGrid, NGi, NStatistic, NIcon, NAvatar, NCol, NRow, NButton } from 'naive-ui'
 import { reactive, computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { getRecipePicture } from '@/api'
+import { getRecipePicture, getRecipe } from '@/api'
 
 const route = useRoute()
 const recipeId = computed(() => {
@@ -46,6 +46,8 @@ const ingredients = reactive([
 
 const introduction = ref("外型小巧可愛的可麗露也被稱為天使的鈴鐺，傳統的做法中需要用到蜂蠟和銅模，因此試做的難度比較高，這次分享的配方及做法盡量簡化成一般在家裡就能做的版本")
 
+
+/*----------------------﹀﹀﹀﹀﹀﹀﹀﹀前端接收圖片範例﹀﹀﹀﹀﹀﹀﹀﹀--------------------------*/
 const img = ref(null)
 const getImg = async (id) => {
     let res = await getRecipePicture(id)
@@ -58,13 +60,25 @@ const getImg = async (id) => {
     img.value = `data:${header};base64,${body}`
 
 }
+/*----------------------﹀﹀﹀﹀﹀﹀﹀﹀前端接收圖片範例﹀﹀﹀﹀﹀﹀﹀﹀--------------------------*/
+const getRecipeData = async () => {
+    console.log(recipeId.value);
+
+    let res = await getRecipe(recipeId.value)
+    console.log("recipeId");
+
+    console.log("response");
+    console.log(res.data);
+}
 
 
 </script>
 
 <template>
-    <button @click="getImg(13)">測試</button>
+    <button @click="getImg(19)">測試</button>
     <img :src="img" alt="">
+
+    <button @click="getRecipeData(recipeId)">測試取得食譜資料</button>
 
     <div class="container contextContainer">
         <h2>this is a recipe page{{ recipeId }}</h2>

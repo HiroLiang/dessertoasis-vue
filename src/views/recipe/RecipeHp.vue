@@ -198,8 +198,8 @@ const link = reactive([
 ])
 
 const carouselTitles = reactive([
-    "每月熱門食譜",
-    "最新食譜",
+    // "每月熱門食譜",
+    // "最新食譜",
     "麵包食譜",
     "甜點食譜"
 ])
@@ -222,13 +222,13 @@ const item = reactive([
     <hr>
     <Carousel :title="'每月熱門食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10HottestRecipes" />
     <Carousel :title="'最新食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10LatestRecipes" />
-    <Carousel :title="'麵包食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="get10BreadRecipes" />
-    <Carousel :title="'甜點食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="get10DessertRecipes" />
+    <!-- <Carousel :title="'麵包食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="get10BreadRecipes" />
+    <Carousel :title="'甜點食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="get10DessertRecipes" /> -->
 
 
     <Carousel v-for="(title, index) in carouselTitles" :key="index" :title="title" :link="link[index]" :itemsList="item" />
 
-    <Carousel :title="'每月熱門食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10HottestRecipes.value" />
+    <!-- <Carousel :title="'每月熱門食譜'" :link="'/recipes/ToSomerecipe'" :itemsList="top10HottestRecipes.value" /> -->
 </template>
 
 <style scoped></style>

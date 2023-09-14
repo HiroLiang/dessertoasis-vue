@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import { reqSignOut, reqUserPermission } from "../api";
 import { useRouter } from 'vue-router';
 import { googleLogout } from 'vue3-google-login';
+import { useCartStore } from "../stores/cart";
 
 const storedData = localStorage.getItem('googleLoginData');
 const isGoogleLoggedIn = localStorage.getItem('googleLoggedIn');
@@ -70,10 +71,6 @@ onMounted(async () => {
     }
 });
 
-
-
-
-
 // 登出
 async function logout() {
 
@@ -108,6 +105,11 @@ function deleteAllCookies() {
     }
 }
 
+// 取得購物車內容數量
+const cart = useCartStore();
+onMounted(() => {
+    cart.getCartCount()
+})
 
 
 </script>
@@ -135,6 +137,9 @@ function deleteAllCookies() {
                     </li>
                 </ul>
             </div>
+            <div class="mx-4">
+                <router-link to="/cart" class="dropdown-item">購物車({{ cart.count }})</router-link>
+            </div>
             <div class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -143,7 +148,7 @@ function deleteAllCookies() {
                 <ul :class="`dropdown-menu ${listPosition}`" aria-labelledby="dropdownMenuLink">
 
                     <li>
-                        <router-link to="/cart" class="dropdown-item">購物車</router-link>
+                        <router-link to="/order" class="dropdown-item">我的訂單</router-link>
                     </li>
                     <li>
                         <router-link to="/demo" class="dropdown-item">Demo</router-link>
@@ -152,13 +157,21 @@ function deleteAllCookies() {
                         <router-link to="/logIn" class="dropdown-item">會員登入</router-link>
                     </li>
                     <li v-else>
+                    <li>
                         <router-link to="/mem" class="dropdown-item">會員資料</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/" class="dropdown-item">我的食譜</router-link>
+                    </li>
                     </li>
                     <li v-if="isAdmin">
                         <router-link to="/cms" class="dropdown-item">後台管理</router-link>
                     </li>
                     <li v-if="isTeacher">
                         <router-link to="/cms" class="dropdown-item">我的課程</router-link>
+                    </li>
+                    <li v-if="!isTeacher && !isAdmin">
+                        <router-link to="/" class="dropdown-item">成為老師</router-link>
                     </li>
                     <li v-if="isLogin">
                         <button class="dropdown-item" @click="logout">登出</button>

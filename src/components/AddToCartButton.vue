@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { addToCart } from '../api/index'
+import { useCartStore } from "../stores/cart";
 
 const props = defineProps({
     /*
@@ -31,6 +32,8 @@ const props = defineProps({
     }
 })
 
+const cart = useCartStore()
+
 const handleAddToCart = async () => {
     const data = {
         categoryId: props.data.categoryId,
@@ -43,8 +46,11 @@ const handleAddToCart = async () => {
         detail: props.rcData.detail
     }
     const res = await addToCart(data)
+    await cart.getCartCount()
     console.log(res.data)
 }
+
+
 
 </script>
 

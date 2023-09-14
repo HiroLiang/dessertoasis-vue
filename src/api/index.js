@@ -52,6 +52,10 @@ const reqChangepassword = (requestData) => {
   return request.post("/member/changepassword", requestBody, jsonHeader);
 };
 
+const reqChangeMember = (detail) => {
+  return request.put("/member/update", detail, jsonHeader)
+}
+
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
@@ -304,6 +308,7 @@ export {
   reqSecretKey,
   reqUserPermission,
   reqChangepassword,
+  reqChangeMember,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,

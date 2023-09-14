@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { reqMember, reqMemberDetail, reqSession } from '@/api';
+import { reqMember, reqMemberDetail, reqSession, reqChangeMember } from '@/api';
 
 const memberId = ref("");
 
@@ -45,38 +45,40 @@ onMounted(async () => {
 
 
 const updatemember = async () => {
-    try {
+    // try {
 
 
-        const updatedMemberDetail = {
-            id: memberId.value,
-            idNumber: memberIdNumber.value,
-            birthday: memberBirthday.value,
-            deliveryAddress: memberAddress.value,
-            pic: memberpic.value,
-            folderURL: memberfolderURL.value
-        };
-        console.log(idNumber)
-        // 執行更新 API 請求
-        const response = await fetch('/member/update', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedMemberDetail),
-        });
+    let updatedMemberDetail = {
+        id: memberId.value,
+        idNumber: memberIdNumber.value,
+        birthday: memberBirthday.value,
+        deliveryAddress: memberAddress.value,
+        pic: memberpic.value,
+        folderURL: memberfolderURL.value
+    };
+    console.log(updatedMemberDetail.idNumber)
+    // 執行更新 API 請求
+    const res = await reqChangeMember(updatedMemberDetail)
+    console.log(res.data);
+    // const response = await fetch('/member/update', {
+    //     method: 'PUT',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: updatedMemberDetail,
+    // });
 
-        // 檢查響應是否成功
-        if (response.ok) {
-            // 更新成功
-            console.log('更新成功');
-        } else {
-            // 更新失敗
-            console.error('更新失敗');
-        }
-    } catch (error) {
-        console.error('更新會員失敗：', error);
-    }
+    // 檢查響應是否成功
+    //     if (response.ok) {
+    //         // 更新成功
+    //         console.log('更新成功');
+    //     } else {
+    //         // 更新失敗
+    //         console.error('更新失敗');
+    //     }
+    // } catch (error) {
+    //     console.error('更新會員失敗：', error);
+    // }
 };
 
 // const handleInput = () => {

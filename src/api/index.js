@@ -147,6 +147,11 @@ const deleteCart = (cartId) => {
   return request.delete(`/cart/${cartId}`)
 }
 
+// 取出會員購物車商品數量
+const reqGetCartCount = () => {
+  return request.get(`/cart/count`)
+}
+
 /*----------------------------------------  訂單相關請求  -------------------------------------------*/
 
 // 新增訂單
@@ -328,6 +333,7 @@ export {
   getReservationCart,
   reqUpdateProdQuantities,
   deleteCart,
+  reqGetCartCount,
 
   // 訂單用
   reqInsertOrder,

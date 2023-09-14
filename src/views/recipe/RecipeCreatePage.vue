@@ -4,6 +4,11 @@ import { ref, reactive, onMounted } from 'vue'
 import IngredientInput from '@/views/recipe/components/IngredientInput.vue'
 import StepInput from '@/views/recipe/components/StepInput.vue'
 import { addRecipe, imgTest } from '@/api'
+import { useMessage } from 'naive-ui'
+import { useRouter } from 'vue-router'
+
+const message = useMessage()
+const router = useRouter
 
 const ingredientCounter = ref(0)
 const ingredients = reactive([])
@@ -125,7 +130,10 @@ const getRecipeImg = (e) => {
             recipeJsonData.value = JSON.stringify(jsonData);
             //用以利用 onbind img標籤內的src產生預覽圖
             recipePicPreviewImageUrl.value = e.target.result
-            console.log(recipeJsonData);
+            console.log('recipeJsonData');
+            console.log(recipeJsonData.value);
+            console.log('base64');
+            console.log(base64Data);
         }
     }
 }
@@ -133,63 +141,124 @@ const getRecipeImg = (e) => {
 
 //recipeBean物件
 const data = reactive({
-    recipeTitle: '',
-    recipeIntroduction: '',
-    pictureURL: '',
-    ingredientPersons: '',
-    cookingTime: '',
-    ingredientList: [
+    recipe: {
+        recipeTitle: '',
+        recipeIntroduction: '',
+        pictureURL: '',
+        ingredientPersons: 1,
+        cookingTime: '',
+        ingredientList: [
+            // {
+            //     ingredientQuantity: 0,
+            //     ingredientUnit: ''
+            // }
+        ],
+        recipeSteps: [
+            // {
+            //     stepNumber: 1,
+            //     stepPicture: '',
+            //     stepContext: ''
+            // }
+        ],
+    },
+    ingredients: [
         // {
-        //     ingredient: {
-        //         ingredientName: '',
-        //     },
-        //     ingredientQuantity: 0,
-        //     ingredientUnit: ''
+        //     ingredientName: "test"
+        // },
+        // {
+        //     ingredientName: "test2"
+        // },
+        // {
+        //     ingredientName: "test"
         // }
     ],
-    recipeSteps: [
-        // {
-        //     stepNumber: 1,
-        //     stepPicture: '',
-        //     stepContext: ''
-        // }
-    ]
+    // categories: [
+
+    // ]
 })
+
+const isDataEmpty = () => {
+    let errors = []
+
+    if (data.recipe.recipeTitle.trim() === '') {
+        errors.push('食譜標題不能空白')
+    }
+    if (data.recipe.recipeIntroduction.trim() === '') {
+        errors.push('食譜簡介不能空白')
+    }
+    if (data.recipe.cookingTime <= 0) {
+        errors.push('烹調時間不可小於0')
+    }
+    ingredients.forEach(ingredient => {
+        if (ingredient.ingredientName.trim() === '') {
+            errors.push('食材名稱不可空白')
+        }
+    })
+
+    console.log('BEFORE IN');
+    ingredients.forEach(ingredient => {
+        console.log(ingredient.ingredientQty);
+        if (parseInt(ingredient.ingredientQty) <= 0 || (ingredient.ingredientQty).trim() === '') {
+            console.log(ingredient.ingredientQty);
+            errors.push('食材份量不可小於0')
+        }
+        console.log('IN');
+    })
+    console.log('AFTER IN');
+
+    steps.forEach(step => {
+        if (step.text.trim() === '')
+            errors.push('步驟內容不可空白')
+    })
+    if (errors.length > 0) {
+        errors.forEach(error => {
+            message.info(error); // 使用 message.error 显示错误消息
+        });
+        return false; // 返回 false 表示有错误
+
+    }
+
+    return true; // 没有错误则返回 true
+}
 
 
 /*----------------------------------------------圖檔傳送給controller區塊-------------------------------------------------------*/
 const imgDatas = reactive([])
 //處理recipeBean要送出給server
 const submitForm = async () => {
+
     //將成品圖與步驟圖的檔名及base64字串放入陣列
     imgDatas.push(recipeJsonData.value)//成品圖
     stepImgs.forEach(stepImg => {//步驟圖
         imgDatas.push(stepImg)
-    }
-    )
-    if (data) {
+    })
+    if (!isDataEmpty()) {
+        return
+    } else {
         ingredients.forEach(ingredient => {
-            data.ingredientList.push({
-                ingredient: {
-                    ingredientName: ingredient.ingerdientName,
-                },
+            data.recipe.ingredientList.push({
                 ingredientQuantity: ingredient.ingerdientQty,
                 ingredientUnit: ''
             })
-            console.log(ingredient);
+        })
+        ingredients.forEach(ingredient => {
+            data.ingredients.push({
+                ingredientName: ingredient.ingredientName
+            })
+            console.log('ingredientName' + ingredient.ingredientName);
         })
         steps.forEach(step => {
-            data.recipeSteps.push({
-                stepNumber: data.recipeSteps.length + 1,
-                stepPicture: null,
-                stepContext: step.stepContext
+            data.recipe.recipeSteps.push({
+                stepNumber: data.recipe.recipeSteps.length + 1,
+                stepPicture: '',
+                stepContext: step.text
             })
             console.log(step);
         })
 
 
         // console.log(formData);
-        console.log(imgDatas);
+        // console.log(imgDatas);
 
         console.log("imgData:  ");
 
@@ -206,72 +275,72 @@ const submitForm = async () => {
 
         //將圖片push進recipeBean 物件中
         // 若[0]為"N"(資料有Exception) 或 "F"(沒找到圖片)則不執行
-        if (imgPaths[0] !== "N" || imgPaths[0] !== "F") {
+        if (imgPaths[0] !== "N" && imgPaths[0] !== "F") {
             //判斷是否有成品圖 找到[0]的-1則將 [1]中的資料放入
             //後續迴圈將步驟圖片放入
-            if (imgPaths[0] === "-1") {
-                data.pictureURL = imgPaths[1]
+            if (imgPaths[0] == "-1") {
+                data.recipe.pictureURL = imgPaths[1]
                 for (let i = 2; i < imgPaths.length; i++) {
                     const stepImg = imgPaths[i];
-                    data.recipeSteps[i - 2].stepPicture = stepImg
+                    data.recipe.recipeSteps[i - 2].stepPicture = stepImg
                 }
             } else {
                 //若沒有成品圖則直接迴圈取出步驟圖片
+                data.recipe.pictureURL = null
                 imgPaths.forEach((stepImg, index) => {
-                    if (data.recipeSteps[index]) {
-                        data.recipeSteps[index].stepPicture = stepImg
+                    if (data.recipe.recipeSteps[index]) {
+                        data.recipe.recipeSteps[index].stepPicture = stepImg
                     }
                 })
             }
         }
         //清空成品圖與步驟圖的檔名及base64字串陣列
         imgDatas.splice(0, imgDatas.length)  // }
+        let recipeData = await addRecipe(data)
+        message.success("成功發佈食譜")
+        console.log(recipeData);
     }
+
 }
 /*----------------------------------------------圖檔傳送給controller區塊-------------------------------------------------------*/
 
-const myForm = ref(null)
-const handleSubmit = async () => {
-    // const form = myForm.value
+// const myForm = ref(null)
+// const handleSubmit = async () => {
+//     // const form = myForm.value
 
-    const formDataObj = new FormData(myForm.value)
-    const res = await addRecipe(formDataObj)
-    if (res.data != null && res.data.length != 0) {
-        console.log("新增成功");
-    }
-    formDataObj.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-    })
-}
+//     const formDataObj = new FormData(myForm.value)
+//     const res = await addRecipe(formDataObj)
+//     if (res.data != null && res.data.length != 0) {
+//         console.log("新增成功");
+//     }
+//     formDataObj.forEach((value, key) => {
+//         console.log(`${key}: ${value}`);
+//     })
+// }
 
 </script>
 
 <template>
-    <div>
-
-    </div>
-    <h2>this is recipe create page</h2>
-
-    <!-- <form @submit.prevent="handleSubmit" ref="myForm"> -->
-
+    <!-- <form @submit.prevent="submitForm"> -->
     <div class="container">
         <div class="row ">
             <div class="recipeContainer container col-md-10 border border-dark rounded">
                 <div class="recipeTitleContainer container mt-3">
                     <label for="recipeTitle" class="form-label">食譜名稱:</label><br>
-                    <input class="form-control" v-model="data.recipeTitle" type="text" id="recipeTitle" name="recipeTitle"
-                        required="required">
+                    <input class="form-control" v-model="data.recipe.recipeTitle" type="text" id="recipeTitle"
+                        name="recipeTitle" required="required">
                 </div>
                 <div class="recipeIntroductionContainer container mt-3">
                     <label for="recipeIntroduction" class="form-label">食譜簡介:</label><br>
                     <textarea class="recipeIntroduction form-control" style="resize: none;"
-                        v-model="data.recipeIntroduction" id="recipeIntroduction" name="recipeIntroduction"
+                        v-model="data.recipe.recipeIntroduction" id="recipeIntroduction" name="recipeIntroduction"
                         required="required"></textarea>
                     <br>
 
                 </div>
-
-                <h4>成品圖片:</h4>
+                <div class="container">
+                    <h5>成品圖片:</h5>
+                </div>
                 <div class="picContainer container ">
                     <label for="pictureURL">
                         <div class="imageContainer container">
@@ -286,7 +355,7 @@ const handleSubmit = async () => {
                     <div class="ingredientContainer row justify-content-start">
                         <div class="ingredientQtyContainer col-4">
                             <p class="form-label">食材份量(人份)</p>
-                            <select class="form-select" v-model="data.ingredientPersons" id="ingredientPersons">
+                            <select class="form-select" v-model="data.recipe.ingredientPersons" id="ingredientPersons">
                                 <option selected value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -301,7 +370,7 @@ const handleSubmit = async () => {
                         </div>
                         <div class="cookingTimeContainer col-4">
                             <label for="cookingTime" class="form-label">烹調時間(分鐘)</label><br>
-                            <input class="form-control" v-model="data.cookingTime" type="text" id="cookingTime"
+                            <input class="form-control" v-model="data.recipe.cookingTime" type="text" id="cookingTime"
                                 name="cookingTime" required="required">
                         </div>
                     </div>
@@ -330,19 +399,18 @@ const handleSubmit = async () => {
                 </div>
 
             </div>
-            <div class=" crudbtn container col-md-1 align-self-start position-sticky" style="top: 100px;">
-                <div class="btn row border border-dark rounded">
+            <div class=" crudbtn col-md-1 align-self-start position-sticky" style="top: 100px;">
+                <div class="btn row border border-dark rounded px-4 pb-2">
 
-                    <button class=" btn btn-light mb-2 mt-2" @click="submitForm">發佈</button>
+                    <button type="submit" class=" btn btn-light mb-2 mt-2" @click="submitForm">發佈</button>
                     <button class="btn btn-light mb-2">儲存</button>
-                    <button class="btn btn-light mb-2">取消</button>
+                    <button type="reset" class="btn btn-light mb-2">取消</button>
                     <button class="btn btn-light mb-2">刪除</button>
 
                 </div>
             </div>
         </div>
     </div>
-
     <!-- </form> -->
 </template>
 

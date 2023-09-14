@@ -14,6 +14,9 @@ import { ref, createApp } from 'vue'
 import { createPinia } from 'pinia'
 import naive from 'naive-ui'
 
+import vue3GoogleLogin from 'vue3-google-login'
+const CLIENT_ID = "159356890132-eqq8r76bgodqlmq0oajjgibkva6rjfn7.apps.googleusercontent.com"
+
 import App from './App.vue'
 import router from './router'
 import { reqUserPermission } from "./api";
@@ -58,7 +61,9 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(naive)
-
+app.use(vue3GoogleLogin, {
+    clientId: CLIENT_ID
+})
 
 library.add(fas, fab, far)
 

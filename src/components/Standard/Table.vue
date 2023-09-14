@@ -206,7 +206,7 @@ pageSize.value = props.pageSize
 
 .tableArea {
     height: auto;
-    max-height: 520px;
+    max-height: 80vh;
     overflow: scroll;
 }
 </style>

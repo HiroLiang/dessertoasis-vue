@@ -31,10 +31,8 @@ const title = reactive([
     { label: "姓名", key: "fullName" },
     { label: "使用者名稱", key: "memberName" },
     { label: "帳號", key: "account" },
-    { label: "密碼", key: "passwords" },
     { label: "Email", key: "email" },
     { label: "第三方授權Email", key: "emailForCode" },
-    { label: "第三方授權碼", key: "code" },
     { label: "權限", key: "access" },
     { label: "狀態", key: "memberStatus" },
     { label: "創立時間", key: "signDate" },
@@ -43,9 +41,6 @@ const title = reactive([
 
 </script>
 <template >
-    <h2>會員帳戶管理</h2>
-
-
     <cmsTable :dataTitles="title" :tableDatas="tableDatas" @get-edit-id="getId"></cmsTable>
 </template>
 <style scoped>

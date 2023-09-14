@@ -2,52 +2,113 @@
 import { ref } from 'vue';
 
 
-const items = [
-    {
-        url: '#home',
-        name: 'Home'
-    },
-    {
-        url: '#about',
-        name: 'About',
-        children: [
+const props = defineProps({
+    items: {
+        default: [
             {
-                url: '#service1',
-                name: 'Service1'
+                url: '#/recipes/ToSomerecipe',
+                name: '全部食譜'
             },
             {
-                url: '#service2',
-                name: 'Service2'
+                url: '#about',
+                name: '麵包',
+                children: [
+                    {
+                        url: '#service1',
+                        name: '吐司'
+                    },
+                    {
+                        url: '#service2',
+                        name: '甜麵包'
+                    },
+                    {
+                        url: '#service3',
+                        name: '鹹麵包'
+                    },
+                    {
+                        url: '#service3',
+                        name: '貝果'
+                    },
+                    {
+                        url: '#service3',
+                        name: '披薩'
+                    }
+                ]
             },
             {
-                url: '#service3',
-                name: 'Service3'
+                url: '#service',
+                name: '甜點',
+                children: [
+                    {
+                        url: '#service1',
+                        name: '蛋糕'
+                    },
+                    {
+                        url: '#service2',
+                        name: '餅乾'
+                    },
+                    {
+                        url: '#service3',
+                        name: '塔派類'
+                    },
+                    {
+                        url: '#service3',
+                        name: '免烤箱'
+                    },
+                    {
+                        url: '#service3',
+                        name: '布丁'
+                    },
+                    {
+                        url: '#service3',
+                        name: '冰淇淋'
+                    },
+                    {
+                        url: '#service3',
+                        name: '泡芙'
+                    },
+                ]
             },
+            {
+                url: '#service',
+                name: '食材',
+                children: [
+                    {
+                        url: '#service1',
+                        name: '檸檬'
+                    },
+                    {
+                        url: '#service2',
+                        name: '肉桂'
+                    },
+                    {
+                        url: '#service3',
+                        name: '巧克力'
+                    },
+                ]
+            },
+            {
+                url: '#contact',
+                name: '難易度',
+                children: [
+                    {
+                        url: '#service1',
+                        name: '簡單'
+                    },
+                    {
+                        url: '#service1',
+                        name: '中等'
+                    },
+                    {
+                        url: '#service1',
+                        name: '困難'
+                    },
+                ]
+
+            }
         ]
-    },
-    {
-        url: '#service',
-        name: 'Service',
-        children: [
-            {
-                url: '#service1',
-                name: 'Service1'
-            },
-            {
-                url: '#service2',
-                name: 'Service2'
-            },
-            {
-                url: '#service3',
-                name: 'Service3'
-            },
-        ]
-    },
-    {
-        url: '#contact',
-        name: 'Contact'
     }
-];
+})
 const openedDropdown = ref('');
 
 const openDropdown = (name) => {
@@ -68,9 +129,9 @@ const closeDropdown = () => {
     <header>
         <nav id="nav">
             <ul>
-                <li v-for="item in items" :key="item.name">
+                <li v-for="item in items" :key="item.name" class="dropdownContainer">
                     <a v-if="!item.children" :href="item.url">{{ item.name }}</a>
-                    <span v-else @mouseover="openDropdown(item.name)" @mouseleave="closeDropdown">
+                    <span class="ml-3" v-else @mouseover="openDropdown(item.name)" @mouseleave="closeDropdown">
                         {{ item.name }}
                         <ul class="dropdownSelector dropdown" :class="{ isOpen: openedDropdown === item.name }">
                             <li v-for="child in item.children" :key="child.name">
@@ -95,7 +156,6 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
     max-width: 1280px;
     margin: 0 auto;
 }
@@ -107,20 +167,35 @@ header {
     list-style-type: none;
 }
 
+
+
 #nav>ul>li>a {
     display: block;
     height: auto;
     padding: 20px;
-    color: #fff;
+    color: #151212;
     text-decoration: none;
+}
+
+#nav>ul>li:hover {
+    background-color: #ccc;
+    /* 設置父項被hover變色  */
+}
+
+/* 子菜单项的鼠标悬停样式 */
+#nav>ul>li>span>ul>li:hover>a {
+    background-color: #706e6e;
+    /* 設置子項被hover變色 */
+
 }
 
 #nav>ul>li>span {
     position: relative;
     display: block;
     height: auto;
-    padding: 20px;
-    color: #fff;
+    padding: 20px 20px 20px 10px;
+    width: 130px;
+    color: #151212(0, 6%, 7%);
     text-decoration: none;
     cursor: pointer;
 }
@@ -139,18 +214,25 @@ header {
     padding: 0;
     list-style-type: none;
     background-color: rgb(173, 172, 172);
+
 }
 
 .dropdownSelector li {
-    width: 250px;
+    width: 180px;
     border-bottom: 1px solid #fff;
 }
 
 .dropdownSelector li a {
     display: block;
     padding: 10px;
-    color: #fff;
+    color: #ffffff;
     text-decoration: none;
+}
+
+.dropdownContainer {
+
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 .isOpen {

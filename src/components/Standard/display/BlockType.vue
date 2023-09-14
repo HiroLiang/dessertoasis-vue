@@ -18,7 +18,7 @@ const props = defineProps({
     <div class="cardContainer">
         <div class="picContainer">
             <div class="picWrap">
-                <img :src="`/images/display/${product.picture}`" :alt="product.name">
+                <img :src="`${product.picture}`" :alt="product.name">
             </div>
             <p class="description">{{ product.description }}</p>
         </div>

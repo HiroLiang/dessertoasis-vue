@@ -48,19 +48,11 @@ const send = async () => {
 
 <style scoped>
 /*調整食譜縮圖列外框線位置*/
-.recipeListContainer {
-    margin: 0;
-    padding-left: 60px;
-    padding-right: 60px;
-    display: block;
-    align-items: center;
-    flex-wrap: wrap;
-}
 
 .searchBarBackground {
     max-width: 100vw;
     overflow: hidden;
-    max-height: 70vh;
+    max-height: 50vh;
     margin-bottom: 10px;
     margin-top: 10px;
 

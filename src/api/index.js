@@ -45,6 +45,20 @@ const reqSecretKey = () => request.get("/getSecretKey")
 //拿解密後的狀態
 const reqUserPermission = () => request.get("/checkUserPermission")
 
+//更新密碼
+const reqChangepassword = (requestData) => {
+  const requestBody = {
+    oldPassword: requestData.oldPassword,
+    newPassword: requestData.newPassword
+  };
+  return request.post("/member/changepassword", requestBody, jsonHeader);
+};
+
+const reqChangeMember = (detail) => {
+  return request.put("/member/update", detail, jsonHeader)
+}
+
+
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -83,6 +97,10 @@ const reqGetCmsRecipePages = (condition) => {
 
 const reqGetFrontRecipePages = (condition) => {
   return request.post('/recipe/recipeFrontPagenation', condition, jsonHeader)
+}
+
+const getRecipePicture = (recipeId) => {
+  return request.post('recipe/getPic', recipeId, jsonHeader)
 }
 /*----------------------------------------  食譜後台相關請求  -------------------------------------------*/
 //取得現在頁數內的資料
@@ -135,6 +153,11 @@ const deleteCart = (cartId) => {
   return request.delete(`/cart/${cartId}`)
 }
 
+// 取出會員購物車商品數量
+const reqGetCartCount = () => {
+  return request.get(`/cart/count`)
+}
+
 /*----------------------------------------  訂單相關請求  -------------------------------------------*/
 
 // 新增訂單
@@ -145,6 +168,11 @@ const reqInsertOrder = (data) => {
 // 取得單一訂單
 const getOrder = (ordId) => {
   return request.get(`/order/${ordId}`)
+}
+
+// 取得會員的訂單
+const reqGetMemberOrders = (page) => {
+  return request.get(`/order/member/page/${page}`)
 }
 
 const reqGetOrderPage = (condition) => {
@@ -200,6 +228,16 @@ const getAllCourse = (page, pageSize, dataTitles) => {
 
 const searchCourse = (criteria, jsonHeader) =>
   request.post("/course/criteria", criteria, jsonHeader)
+
+const reqGetCoursePage = (condition) => {
+  return request.post("/course/pagenation", condition, jsonHeader)
+}
+
+//取得總頁數
+const reqGetCmsCoursePages = (condition) => {
+  return request.post("/course/pages", condition, jsonHeader)
+}
+
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
 const getAllProd = (page, pageSize, dataTitles) => {
@@ -223,6 +261,17 @@ const getProd1 = (queryParams) => {
 
 const reqGetProductPage = (condition) => {
   return request.post("/product/pagenation", condition, jsonHeader)
+}
+
+const AddProduct = (productData) => {
+  return request.post("/product/add", productData, jsonHeader)
+}
+
+const UploadProdImage = (productId, imageFormData, config, thumbnailFormData, thumbnailConfig) => {
+  return request.post(`/product/uploadImage?productId=${productId}`, imageFormData, config, thumbnailFormData, thumbnailConfig);
+}
+const UploadProdImage1 = (productId, thumbnailFormData, thumbnailConfig) => {
+  return request.post(`/product/uploadImage?productId=${productId}`, thumbnailFormData, thumbnailConfig);
 }
 
 //取得總頁數
@@ -275,6 +324,8 @@ export {
   reqSecretKey,
   reqUserPermission,
   reqGetMemberId,
+  reqChangepassword,
+  reqChangeMember,
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,
@@ -286,6 +337,7 @@ export {
   reqGetRecipePage,
   reqGetCmsRecipePages,
   reqGetFrontRecipePages,
+  getRecipePicture,
 
   // 教室用
   getReservations,
@@ -298,9 +350,11 @@ export {
   getReservationCart,
   reqUpdateProdQuantities,
   deleteCart,
+  reqGetCartCount,
 
   // 訂單用
   reqInsertOrder,
+  reqGetMemberOrders,
   reqGetOrderPage,
   reqGetCmsOrderPages,
 
@@ -315,6 +369,8 @@ export {
   getCourse,
   getAllCourse,
   searchCourse,
+  reqGetCoursePage,
+  reqGetCmsCoursePages,
 
   /*--------商品用-------*/
   getAllProd,
@@ -323,6 +379,9 @@ export {
   getProd1,
   reqGetProductPage,
   reqGetCmsProductPages,
+  AddProduct,
+  UploadProdImage,
+  UploadProdImage1,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

@@ -153,7 +153,8 @@ const props = defineProps({
 .slideImgs {
     height: 150px;
     width: 200px;
-
+    object-fit: cover;
+    object-position: center;
 }
 
 .carousel__pagination {

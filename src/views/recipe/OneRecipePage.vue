@@ -2,7 +2,7 @@
 import Bulletinboard from '../recipe/components/BulletinBoard.vue'
 import Steps from '../recipe/components/Steps.vue'
 import { NList, NListItem, NThing, NDescriptions, NDescriptionsItem, NGrid, NGi, NStatistic, NIcon, NAvatar, NCol, NRow, NButton } from 'naive-ui'
-import { reactive, computed, ref } from 'vue';
+import { reactive, computed, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { getRecipePicture, getRecipe, getStepPictures } from '@/api'
 
@@ -69,19 +69,28 @@ const recipeData = ref({
     recipePersons: "",
     cookingTime: Number,
     recipeAthor: {},
-    ingredients: {},
-    stpes: [{
-        // stepNumber: Number,
-        // stepPicture: `data:${header};base64,${body}`,
-        // stepContext: String
-    }],
+    ingredients: [
+        //     {
+        //     // label: '牛奶', 
+        //     // text: 550, 
+        //     // unit: 'ml'
+        // }
+    ],
+    stpes: [
+        //     {
+        //     // stepNumber: Number,
+        //     // stepPicture: `data:${header};base64,${body}`,
+        //     // stepContext: String
+        // }
+    ],
 })
 
 
 
-const getRecipeData = async () => {
+onMounted(async () => {
     console.log("recipeId");
     console.log(recipeId.value);
+    //處理成品圖片
     let mainPic = await getRecipePicture(recipeId.value)
     let mainPicBody = mainPic.data
     let mainPicHeader = mainPic.headers['content-type']
@@ -102,11 +111,16 @@ const getRecipeData = async () => {
     let recipe = await getRecipe(recipeId.value)
     let datas = recipe.data
 
+    recipeData.value.recipeTitle = datas.recipeTitle
+    recipeData.value.recipeIntroduction = datas.recipeIntroduction
+    recipeData.value.cookingTime = datas.cookingTime
+    recipeData.value.recipePersons = datas.recipePersons
+    recipeData.value.recipeAthor = datas.recipeAuthor.fullName
+
     //處理食譜步驟
     for (let i = 0; i < datas.recipeSteps.length; i++) {
         const stepHeader = headers[i];
         const stepBody = bodies[i];
-
         let step = {
             stepNumber: datas.recipeSteps[i].stepNumber,
             stepPicture: `data:${stepHeader};base64,${stepBody}`,
@@ -116,34 +130,49 @@ const getRecipeData = async () => {
     }
     console.log("steps");
     console.log(recipeData.value.stpes);
+    //處理食材
+    for (let i = 0; i < datas.ingredientList.length; i++) {
+        let ingredient = {
+            label: datas.ingredientList[i].ingredient.ingredientName,
+            text: datas.ingredientList[i].ingredientQuantity,
+            unit: datas.ingredientList[i].ingredientUnit
+
+        }
+        recipeData.value.ingredients.push(ingredient)
+    }
+    console.log("ingredients");
+    console.log(recipeData.value.ingredients);
+
+
+    console.log("recipeData");
+    console.log(recipeData);
 
 
     console.log("response");
     console.log(datas);
-}
+})
 
 
 </script>
 
 <template>
-    <button @click="getImg(55)">測試</button>
+    <!-- <button @click="getImg(55)">測試</button>
     <img :src="img" alt="">
 
-    <button @click="getRecipeData(55)">測試取得食譜資料</button>
+    <button @click="getRecipeData(18)">測試取得食譜資料</button> -->
 
 
 
     <div class="container contextContainer">
-        <h2>this is a recipe page{{ recipeId }}</h2>
+        <!-- <h2>this is a recipe page{{ recipeId }}</h2> -->
         <div class="imgContainer ">
-            <img src="https://img-global.cpcdn.com/recipes/41750248e9f7fc9b/1360x964cq70/%E5%8F%AF%E9%BA%97%E9%9C%B29%E5%B7%B75%E5%BC%84-%E9%A3%9F%E8%AD%9C%E6%88%90%E5%93%81%E7%85%A7%E7%89%87.webp"
-                alt="" class="img-fluid rounded">
+            <img :src="recipeData.pictureUrl" alt="" class="img-fluid rounded">
         </div>
 
         <div class="container border rounded mt-2">
             <!-- <div class="container border rounded mt-2"> -->
-            <div class="title mt-2 mb-2 container">
-                <h4>經典可麗露</h4>
+            <div class="title mt-3 mb-2 container">
+                <h4>{{ recipeData.recipeTitle }}</h4>
             </div>
             <!-- </div> -->
             <hr>
@@ -153,7 +182,7 @@ const getRecipeData = async () => {
                     <hr>
                     <n-list-item>
                         <n-thing class="stepText">
-                            {{ introduction }} <br>
+                            {{ recipeData.recipeIntroduction }} <br>
 
                         </n-thing>
                     </n-list-item>
@@ -166,16 +195,16 @@ const getRecipeData = async () => {
                     <hr>
                     <n-grid :cols="2">
                         <n-gi>
-                            <n-statistic label="份量" :value="`${quantity}人份`" />
+                            <n-statistic label="份量" :value="`${recipeData.recipePersons}人份`" />
                         </n-gi>
                         <n-gi>
-                            <n-statistic label="時間" :value="`${time} 分鐘`" />
+                            <n-statistic label="時間" :value="`${recipeData.cookingTime} 分鐘`" />
                         </n-gi>
                     </n-grid>
 
                     <hr>
                     <n-descriptions label-placement="left" :column="2">
-                        <n-descriptions-item v-for="ingredient in ingredients" :label=ingredient.label>
+                        <n-descriptions-item v-for="ingredient in recipeData.ingredients" :label=ingredient.label>
                             {{ ingredient.text }}{{ ingredient.unit }}
                         </n-descriptions-item>
                     </n-descriptions>
@@ -186,12 +215,12 @@ const getRecipeData = async () => {
             <!-- </div> -->
         </div>
 
-        <div class="stepContainer container border rounded mt-3">
-            <div class="container mt-3">
+        <div class="stepContainer p-3 border rounded mt-3">
+            <div class="container mt-1">
                 <h5>料理步驟</h5>
             </div>
             <hr>
-            <Steps v-for="item in items" v-bind="item"></Steps>
+            <Steps v-for="item in recipeData.stpes" v-bind="item"></Steps>
         </div>
 
         <div class="container border rounded mt-3">
@@ -201,7 +230,7 @@ const getRecipeData = async () => {
                 <hr>
                 <n-list>
                     <n-row gutter="12" class="authorContainer justify-content-center">
-                        <n-col span="4">
+                        <n-col span="4" class="iconContainer">
                             <n-list-item>
                                 <div class="icon-title-container">
                                     <a class="icon-container" href="">
@@ -210,15 +239,15 @@ const getRecipeData = async () => {
                                         </n-icon>
                                     </a>
                                 </div>
-                                <div class="content-with-line-breaks fs-4">{{ author.name }}</div>
+                                <div class="content-with-line-breaks fs-4">{{ recipeData.recipeAthor }}</div>
                                 <n-button>查看作者食譜</n-button>
                             </n-list-item>
 
                         </n-col>
 
-                        <n-col span="18">
+                        <n-col span="18" class="border-start mb-3 px-4 mt-1">
                             <div class="content-with-line-breaks fs-4">作者簡介</div>
-                            <p class="w-100">{{ author.context }}</p>
+                            <p class="w-100 ">{{ author.context }}</p>
                         </n-col>
                     </n-row>
                 </n-list>
@@ -228,17 +257,18 @@ const getRecipeData = async () => {
         <hr>
 
         <!-- <Bulletinboard></Bulletinboard> -->
-        <h2>what the hell</h2>
     </div>
 </template>
 <style scoped>
 .imgContainer {
-    /* width: 58vw; */
+    /* width: 100vw; */
 }
 
 .imgContainer img {
-    max-width: 100%;
-    max-height: 60%;
+    width: 100%;
+    max-height: 80vh;
+    object-fit: cover;
+    object-position: center;
 }
 
 .n-descriptions {
@@ -267,5 +297,12 @@ const getRecipeData = async () => {
         flex-direction: column;
     }
 
+}
+
+@media (max-width: 1200px) {
+    .iconContainer {
+        width: auto;
+        display: block;
+    }
 }
 </style>

@@ -68,6 +68,11 @@ const router = createRouter({
         },
       ],
     },
+    // {
+    //   path: "/prod",
+    //   name: "prod",
+    //   component: () => import("../views/product/Product1.vue"),
+    // },
     //後台管理系統
     {
       path: "/cms",
@@ -195,6 +200,11 @@ const router = createRouter({
           component: () => import("../views/course/AboutTeacher.vue"),
         },
         {
+          path: "/courses/oneTeacher",
+          name: "oneTeacher",
+          component: () => import("../views/course/OneTeacher.vue"),
+        },
+        {
           path: "/courses/enrollCourse",
           name: "enrollCourse",
           component: () => import("../views/course/EnrollCourse.vue"),
@@ -282,20 +292,16 @@ const router = createRouter({
           component: () => import("../views/member/ChangePassword.vue"),
         },
         {
-          path: "/mem/creditcard",
-          name: "creditcard",
-          component: () => import("../views/member/CreditCard.vue"),
-        },
-        {
           path: "/mem/bankaccount",
           name: "bankaccount",
           component: () => import("../views/member/BankAccount.vue"),
         },
         {
-          path: "/mem/vompanyprofile",
-          name: "vompanyprofile",
-          component: () => import("../views/member/CompanyProfile.vue"),
+          path: "/mem/memberpic",
+          name: "memberpic",
+          component: () => import("../views/member/MemberPic.vue"),
         },
+
       ],
     },
 
@@ -335,6 +341,11 @@ const router = createRouter({
       name: "demo",
       component: () => import("../views/Demo.vue"),
     },
+    {
+      path: "/test",
+      name: "test",
+      component: () => import("../views/classroom/PersonalCalendar.vue")
+    }
   ],
 })
 

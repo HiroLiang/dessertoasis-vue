@@ -3,6 +3,7 @@ import display from '../../components/Standard/Display.vue'
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSortCondition } from '../../stores/sortCondition.js'
+import { getRecipePicture } from '@/api'
 
 //使用 pinia 整合搜索條件
 const store = useSortCondition()
@@ -119,7 +120,17 @@ const onGetPage = async (page) => {
     }
 }
 
-const onGetSelectedKey = (key) => {
+
+
+
+const onGetSelectedKey = async (key) => {
+
+    //轉跳頁面
+    router.push({
+        path: '/recipes/recipe',
+        query: { id: key }
+    })
+
     console.log('key');
     console.log(key);
 }
@@ -155,6 +166,9 @@ onMounted(async () => {
         updateDatas(datas)
     }
 })
+
+
+
 
 </script>
 

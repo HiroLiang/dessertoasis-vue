@@ -56,8 +56,7 @@ const placeOrder = async () => {
     }
     const res = await reqInsertOrder(data)
     if (res.data == 1) {
-        alert("訂單成立，前往我的訂單")
-        router.push("/order")
+        router.push("/cart/pay_success")
     } else {
         console.log(res.data)
     }

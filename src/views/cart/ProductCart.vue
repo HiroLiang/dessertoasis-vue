@@ -2,6 +2,7 @@
 import { getProductCart, reqUpdateProdQuantities } from "@/api/index"
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import DeleteButton from "@/views/cart/DeleteButton.vue";
+import { NButton } from 'naive-ui'
 
 const cart = ref([])
 
@@ -90,10 +91,9 @@ window.addEventListener('beforeunload', async () => {
                         {{ cartItem.prodName }}
                     </td>
                     <td>
-                        <button @click="updateProdQuantity(-1, cartItem)" :disabled="cartItem.prodQuantity <= 1"> -
-                        </button>
+                        <n-button circle @click="updateProdQuantity(-1, cartItem)" :disabled="cartItem.prodQuantity <= 1">-</n-button>
                         {{ cartItem.prodQuantity }}
-                        <button @click="updateProdQuantity(+1, cartItem)"> + </button>
+                        <n-button circle @click="updateProdQuantity(+1, cartItem)">+</n-button>
                     </td>
                     <td>{{ cartItem.prodPrice }}</td>
                     <td>{{ cartItem.prodQuantity * cartItem.prodPrice }}</td>

@@ -21,5 +21,5 @@ const handleDeleteCart = async () => {
 </script>
 
 <template>
-    <button @click="handleDeleteCart">刪除</button>
+    <button type="button" class="btn-close" aria-label="Close" @click="handleDeleteCart"></button>
 </template>

@@ -35,7 +35,7 @@ const reqMemberDetail = (id) => {
 const reqGetAllMembers = () => request.get("/member/all", {})
 
 //從session 拿出member資料
-const reqSession = () => request.get("/memberSession")
+const reqSession = () => request.post("/memberSession")
 
 const reqGetMemberId = () => request.get("/member/loggedInUserId")
 
@@ -53,9 +53,14 @@ const reqChangepassword = (requestData) => {
   }
   return request.post("/member/changepassword", requestBody, jsonHeader)
 }
-
+//更新會員資料
 const reqChangeMember = (detail) => {
   return request.put("/member/update", detail, jsonHeader)
+}
+//傳圖到特定路徑
+const memberImg = (file) => {
+  console.log(file)
+  return request.post("/member/uploadMemberImg", file)
 }
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
@@ -182,6 +187,11 @@ const reqGetMemberOrders = (page) => {
   return request.get(`/order/member/page/${page}`)
 }
 
+// 取得會員的所有預約
+const reqGetMemberReservations = () => {
+  return request.get(`/order/reservation`)
+}
+
 const reqGetOrderPage = (condition) => {
   return request.post("/order/pagenation", condition, jsonHeader)
 }
@@ -287,7 +297,9 @@ const getProd = (page, pageSize, queryString) => {
   )
 }
 const getProd1 = (queryParams) => {
-  return request.get(`/product/search?${queryParams}`)
+  return request.get(
+    `/product/search?${queryParams}`
+  )
 }
 
 const reqGetProductPage = (condition) => {
@@ -298,27 +310,15 @@ const AddProduct = (productData) => {
   return request.post("/product/add", productData, jsonHeader)
 }
 
-const UploadProdImage = (
-  productId,
-  imageFormData,
-  config,
-  thumbnailFormData,
-  thumbnailConfig
-) => {
-  return request.post(
-    `/product/uploadImage?productId=${productId}`,
-    imageFormData,
-    config,
-    thumbnailFormData,
-    thumbnailConfig
-  )
+const UploadProdImage = (productId, imageFormData, config, thumbnailFormData, thumbnailConfig) => {
+  return request.post(`/product/uploadImage?productId=${productId}`, imageFormData, config, thumbnailFormData, thumbnailConfig);
 }
-const UploadProdImage1 = (productId, thumbnailFormData, thumbnailConfig) => {
-  return request.post(
-    `/product/uploadImage?productId=${productId}`,
-    thumbnailFormData,
-    thumbnailConfig
-  )
+const getProductImage = (id) => {
+  return request.post('product/getImage', id, jsonHeader)
+}
+
+const getAllProductImage = (id) => {
+  return request.post('product/getAllImage', id, jsonHeader)
 }
 
 //取得總頁數
@@ -369,6 +369,7 @@ export {
   reqUserPermission,
   reqGetMemberId,
   reqChangepassword,
+  memberImg,
   reqChangeMember,
 
   /*--------食譜用-------*/
@@ -402,6 +403,7 @@ export {
   // 訂單用
   reqInsertOrder,
   reqGetMemberOrders,
+  reqGetMemberReservations,
   reqGetOrderPage,
   reqGetCmsOrderPages,
 
@@ -437,7 +439,8 @@ export {
   reqGetCmsProductPages,
   AddProduct,
   UploadProdImage,
-  UploadProdImage1,
+  getProductImage,
+  getAllProductImage,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

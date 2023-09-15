@@ -4,6 +4,7 @@ import { reqSignOut, reqUserPermission } from "../api";
 import { useRouter } from 'vue-router';
 import { googleLogout } from 'vue3-google-login';
 import { useCartStore } from "../stores/cart";
+import { NBadge, NAvatar } from "naive-ui";
 
 const storedData = localStorage.getItem('googleLoginData');
 const isGoogleLoggedIn = localStorage.getItem('googleLoggedIn');
@@ -138,7 +139,11 @@ onMounted(() => {
                 </ul>
             </div>
             <div class="mx-4">
-                <router-link to="/cart" class="dropdown-item">購物車({{ cart.count }})</router-link>
+                <router-link to="/cart" class="dropdown-item">
+                    <n-badge :value="cart.count">
+                        <n-avatar src="/images/navbar/cart.png"/>
+                    </n-badge>
+                </router-link>
             </div>
             <div class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
@@ -170,7 +175,7 @@ onMounted(() => {
                     <li v-if="isTeacher">
                         <router-link to="/teacher" class="dropdown-item">我的課程</router-link>
                     </li>
-                    <li v-if="!isTeacher && !isAdmin">
+                    <li v-if="isLogin && !isTeacher && !isAdmin">
                         <router-link to="/becomeTeacher" class="dropdown-item">成為老師</router-link>
                     </li>
                     <li v-if="isLogin">

@@ -248,6 +248,7 @@ const reqGetCmsCoursePages = (condition) => {
 
 //#region ----------------------------------- 課程後台請求  ---------------------------------------*/
 
+//取得單一課程資料
 const reqGetCourseData = (id) => {
   return request.get(`course/course-desplay?id=${id}`)
 }
@@ -265,6 +266,10 @@ const reqGetCmsTeacherPages = (condition) => {
   return request.post("/teacher/pages", condition, jsonHeader)
 }
 
+//更新課程
+const reqUpdateCourse = (courseData) => {
+  return request.post('course/updateCourse', courseData, jsonHeader)
+}
 
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
@@ -419,7 +424,7 @@ export {
 
   //#region 課程後台
   reqGetCourseData,
-
+  reqUpdateCourse,
 
   //#endregion 課程後台
 

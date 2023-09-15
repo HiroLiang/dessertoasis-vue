@@ -1,7 +1,8 @@
 <script setup>
 import { ref, watch, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
-import { reqGetCourseData } from '../../../api';
+import { reqGetCourseData, reqUpdateCourse } from '../../../api';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { NButton, NSwitch, NForm, NFormItem, NInput, NDynamicTags, NDatePicker, NSelect, NRadioGroup, NRadioButton, NInputNumber } from "naive-ui"
 
 //取得陳列課程Id
@@ -21,19 +22,50 @@ const showPicture = (index) => {
     selectedImg.value = index
 }
 
+const insertImg = (e) => {
+    const newPic = e.target.files[0]
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        const base64String = event.target.result
+        console.log(base64String);
+        courseData.value.coursePictureList.push({
+            courseImgURL: base64String
+        })
+    }
+    reader.readAsDataURL(newPic)
+
+}
+
+const deletePic = (url) => {
+    if (courseData.value.coursePictureList.length > 1) {
+        for (let i = 0; i < courseData.value.coursePictureList.length; i++) {
+            let pic = courseData.value.coursePictureList[i]
+            if (pic.courseImgURL === url) {
+                courseData.value.coursePictureList.splice(i, 1)
+                return
+            }
+        }
+    }
+}
+
 //標籤
 const dynamicTagsValue = ref([])
 
-watch(dynamicTagsValue, (nValue, oValue) => {
-    if (nValue.length > oValue.length) {
+watch(dynamicTagsValue, () => {
+    console.log(dynamicTagsValue.value.length);
+    console.log(courseData.value.courseList.length);
+    if (dynamicTagsValue.value.length > courseData.value.courseList.length) {
         courseData.value.courseList.push({
-            ctag: { courseTagName: nValue[nValue.length] }
+            ctag: { courseTagName: dynamicTagsValue.value[2] }
         })
-    } else {
+        console.log(courseData.value.courseList);
+    } else if (dynamicTagsValue.value.length < courseData.value.courseList.length) {
         for (let i = 0; i < courseData.value.courseList.length; i++) {
             let tag = courseData.value.courseList[i]
-            if (!nValue.includes(tag.ctag.courseTagName)) {
+            console.log(dynamicTagsValue.value.includes(tag.ctag.courseTagName));
+            if (!dynamicTagsValue.value.includes(tag.ctag.courseTagName)) {
                 courseData.value.courseList.splice(i, 1)
+                console.log(courseData.value.courseList);
                 return
             }
         }
@@ -51,8 +83,13 @@ const checkClassroom = () => {
 const stateOptions = [{ label: '停用', value: '停用' }, { label: '啟用', value: '啟用' }]
 
 //變更.刪除
-const submitChange = () => {
-
+const submitChange = async () => {
+    let conf = confirm('是否修改課程資料？')
+    console.log(conf);
+    if (conf) {
+        let result = await reqUpdateCourse(courseData.value)
+        console.log(result.data);
+    }
 }
 
 const deleteCourse = () => {
@@ -85,14 +122,24 @@ onBeforeMount(async () => {
             <div class="allPicContainer">
                 <div v-for="(img, index) in courseData.coursePictureList" :key="img.id"
                     :class="index == selectedImg ? `imgDisplay selectedPic` : `imgDisplay`" @click="showPicture(index)">
-                    <div>
+                    <div v-if="updateDisabled" class="deleteContain">
+                        <span class="dlelBtnContainer">
+                            <font-awesome-icon @click.stop="deletePic(img.courseImgURL)" :icon="['fas', 'trash']"
+                                style="color: #9a7373;" size="lg" />
+                        </span>
+                    </div>
+                    <div class="picContainer">
                         <img :src="img.courseImgURL" :alt="img.id">
                     </div>
                 </div>
-                <div>
-                    <div>
-                        <font-awesome-icon :icon="['far', 'image']" />
-                    </div>
+                <div class="imgDisplay ">
+                    <label for="imgList">
+                        <div class="inputLabel picContainer" name="imgList" style="cursor: pointer;">
+                            <img style="opacity: 0.4;" src="/images/navbar/add-image.png" alt="image-gallery.png">
+                        </div>
+                        <input :disabled="!updateDisabled" @change="insertImg" name="imgList"
+                            class="form-control visually-hidden pic" type="file" id="imgList">
+                    </label>
                 </div>
             </div>
         </div>
@@ -148,7 +195,7 @@ onBeforeMount(async () => {
         <n-button round type="primary" @click="submitChange" :disabled="updateDisabled ? false : true">
             送出
         </n-button>
-        <n-button round type="error" @click="submitChange" :disabled="updateDisabled ? false : true">
+        <n-button round type="error" @click="deleteCourse" :disabled="updateDisabled ? false : true">
             刪除
         </n-button>
     </div>
@@ -180,6 +227,7 @@ onBeforeMount(async () => {
     width: 90%;
     height: 90%;
     flex-grow: 3;
+    overflow: hidden;
     background-color: aliceblue;
 }
 
@@ -205,6 +253,7 @@ onBeforeMount(async () => {
     width: auto;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
     margin-top: 5px;
     padding-top: 20px;
     padding-left: 20px;
@@ -221,7 +270,7 @@ onBeforeMount(async () => {
     background-color: rgb(222, 221, 221);
 }
 
-.allPicContainer>div>div {
+.picContainer {
     height: 120px;
     width: 120px;
 }
@@ -230,6 +279,24 @@ onBeforeMount(async () => {
     height: 100%;
     width: 100%;
     object-fit: cover;
+}
+
+.deleteContain {
+    position: relative;
+}
+
+.dlelBtnContainer {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0px;
+    right: 0px;
+    transform: translateX(22px) translateY(-100px);
+    transition: all 0.2s;
+}
+
+.imgDisplay:hover .dlelBtnContainer {
+    transform: translateX(22px) translateY(-52px);
 }
 
 /* 表單陳列 */

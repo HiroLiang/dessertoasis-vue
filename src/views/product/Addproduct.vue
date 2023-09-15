@@ -1,35 +1,29 @@
 <template>
-    <!-- <div class="container">
+    <div class="container">
         <p>請選擇分類</p>
+
         <n-space>
-            <n-cascader v-model:value="selectedValue" clearable placeholder="所有商品"
+            <n-cascader v-model:value="selectedValue" @change="handleCascaderChange" clearable placeholder="所有商品"
                 :max-tag-count="settings.responsiveMaxTagCount ? 'responsive' : undefined"
-                :expand-trigger="settings.hoverTrigger ? 'hover' : 'click'" :options="customOptions" :show-path="true"
+                :expand-trigger="settings.hoverTrigger ? 'hover' : 'click'" :options="customOption" :show-path="true"
                 :filterable="settings.filterable" :clear-filter-after-select="settings.clearFilterAfterSelect"
                 size="large" />
         </n-space>
-    </div> -->
+    </div>
     <form>
         <div class="container">
 
             <p></p>
             <div class="image-upload">
-                <p>新增縮圖</p>
-                <input type="file" @change="addThumbnail" accept="image/*" />
-                <div v-if="thumbnailData.url" class="uploaded-item">
-                    <img :src="thumbnailData.url" alt="Uploaded Thumbnail" />
-                    <button @click="removeThumbnail">刪除</button>
-                </div>
-            </div>
-            <div class="image-upload">
                 <p>新增圖片</p>
                 <input type="file" @change="addImage" accept="image/*" multiple />
                 <div v-for="(image, index) in imagesData.images" :key="index" class="uploaded-item">
-                    <img :src="image.url" alt="Uploaded Image" />
-                    <button @click="removeImage(index)">刪除</button>
+                    <div class="image-preview">
+                        <img :src="image.url" alt="Uploaded Image" />
+                        <button @click="removeImage(index)">刪除</button>
+                    </div>
                 </div>
             </div>
-
 
             <!-- <div class="video-upload">
             <p>新增影片</p>
@@ -75,54 +69,43 @@
 </template>
   
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onBeforeMount, watch } from "vue";
 import { NSpace, NCascader } from 'naive-ui';
 import CKEditor from '@/components/CKEditor.vue';
-import { AddProduct, UploadProdImage } from '@/api/index.js';
-// const customOptions = [
-//     {
-//         value: "v-1",
-//         label: "烘焙食材",
-//         children: [
-//             {
-//                 value: "v-1-1",
-//                 label: "麵粉",
-//             }
-//         ]
-//     },
-//     {
-//         value: "v-2",
-//         label: "包裝材料",
-//         children: [
-//             {
-//                 value: "v-2-1",
-//                 label: "吐司袋、麵包袋",
-//             }
-//         ]
-//     },
+import { AddProduct, UploadProdImage, reqGetCategory } from '@/api/index.js';
 
-// ];
-// const settings = {
-//     hoverTrigger: ref(true),
-//     //value: ref(null),
-//     selectedValue: ref(null),
-//     filterable: ref(true),
-//     clearFilterAfterSelect: ref(true),
-// };
+const settings = {
+    hoverTrigger: ref(true),
+    //value: ref(null),
+    selectedValue: ref(null),
+    filterable: ref(true),
+    clearFilterAfterSelect: ref(true),
 
-//const images = ref([]);
-// const videos = ref([]);
-// const prodName = ref("");
+};
 
-// const prodPrice = ref(0);
-// const prodStock = ref(0);
+const images = ref([]);
+const videos = ref([]);
+const prodName = ref("");
 
-// const prodRemark = ref("");
-// const updateTime = ref(Date.now());
-// const prodDescription = ref('<div>Initial content</div>');
+const prodPrice = ref(0);
+const prodStock = ref(0);
 
+const prodRemark = ref("");
+const updateTime = ref(Date.now());
+const prodDescription = ref('<div>Initial content</div>');
+const selectedValue = ref(null);
+const options = ref([])
+
+const ajaxOptions = ref([])
+
+const handleCascaderChange = (value) => {
+    console.log(value);
+    formData.categoryId = value;
+    console.log(formData.categoryId);
+}
 const formData = {
     prodName: "",
+    categoryId: 1,
     prodPrice: 0,
     prodStock: 0,
     prodRemark: "",
@@ -130,36 +113,26 @@ const formData = {
     prodDescription: '<div></div>',
 };
 
-const imagesData = {
-    images: [],
-};
-const thumbnailData = ref({
-    file: null, // 縮圖文件
-    url: ""     // 縮圖的URL
+const imagesData = ref({
+    images: []
 });
+
 function addImage(event) {
+    console.log('addImage function called');
     const files = event.target.files;
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const url = URL.createObjectURL(file);
-        imagesData.images.push({ url, file });
+        imagesData.value.images.push({ url, file });
+        console.log("imagesData.images", imagesData.value.images);
     }
 }
 
 function removeImage(index) {
     imagesData.images.splice(index, 1);
 }
-function addThumbnail(event) {
-    const file = event.target.files[0];
-    const url = URL.createObjectURL(file);
-    thumbnailData.url = url;
-    thumbnailData.file = file;
-}
 
-function removeThumbnail() {
-    thumbnailData.url = "";
-    thumbnailData.file = null;
-}
+
 // function addVideo(event) {
 //     const file = event.target.files[0];
 //     const url = URL.createObjectURL(file);
@@ -173,6 +146,7 @@ async function submitProduct() {
     try {
         const productData = {
             prodName: formData.prodName,
+            categoryId: formData.categoryId,
             prodPrice: formData.prodPrice,
             prodStock: formData.prodStock,
             prodRemark: formData.prodRemark,
@@ -186,21 +160,8 @@ async function submitProduct() {
         console.log("productId", productId);
         console.log("商品已成功上傳", productId);
 
-        // 检查是否存在縮圖
-        if (thumbnailData.file) {
-            const thumbnailFormData = new FormData();
-            thumbnailFormData.append("image", thumbnailData.file);
-            const thumbnailConfig = {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            };
 
-            const thumbnailResponse = await UploadProdImage(productId, thumbnailFormData, thumbnailConfig);
-            console.log("縮圖已成功上傳", thumbnailResponse.data);
-        }
-
-        const imageUploadPromises = imagesData.images.map(async (image, index) => {
+        const imageUploadPromises = imagesData.value.images.map(async (image, index) => {
             const imageFormData = new FormData();
             imageFormData.append("image", image.file);
             console.log("imageFormData", imageFormData);
@@ -221,11 +182,80 @@ async function submitProduct() {
         console.error("上傳圖片時有誤", error);
     }
 }
+const props = defineProps({
+    categoryId: {
+        type: Number,
+        default: 1
+    }
+})
+
+//const customOptions = [
+// {
+//     value: "v-1",
+//     label: "烘焙食材",
+//     children: [
+//         {
+//             value: "v-1-1",
+//             label: "麵粉",
+//         }
+//     ]
+// },
+// {
+//     value: "v-2",
+//     label: "包裝材料",
+//     children: [
+//         {
+//             value: "v-2-1",
+//             label: "吐司袋、麵包袋",
+//         }
+//     ]
+// },
+
+//];
+const customOption = ref([]);
 
 
+let customOptions = [];
 
 
+onBeforeMount(async () => {
+    try {
+        const categoryData = await reqGetCategory(props.categoryId)
+        const data = categoryData.data;
+        console.log(data)
+        customOptions = mapArr([data])
+        customOption.value = customOptions;
+        console.log("customOptions", customOption.value);
+    } catch (error) {
+        console.error(error);
+    }
+});
 
+const mapArr = (arr) => {
+    if (arr.length > 0) {
+        return arr.map(item => {
+            return {
+                value: item.id,
+                label: item.categoryName,
+                children: mapArr(item.children),
+            }
+        })
+    } else {
+        return null
+    }
+}
+
+const handleChange = (value) => {
+    console.log(value);
+}
+
+const handleSearch = (value) => {
+    console.log(value);
+}
+
+const handleSelect = (value) => {
+    console.log(value);
+}
 
 </script>
 
@@ -244,5 +274,12 @@ async function submitProduct() {
 .editor {
     max-width: 90%;
     padding-left: 50px;
+}
+
+.image-preview img {
+    max-width: 200px;
+    /* 设置最大宽度 */
+    max-height: 200px;
+    /* 设置最大高度 */
 }
 </style>

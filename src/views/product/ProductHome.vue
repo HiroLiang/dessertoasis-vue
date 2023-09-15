@@ -42,9 +42,7 @@
             </ProdDisplay>
         </div>
     </div>
-    <button @click="getImg(129)">測試</button>
-    <img :src="img" alt="">
-    <h2>this is a recipe page{{ productId }}</h2>
+    <!-- <button @click="getImg(1)">測試</button> <img :src="img" alt=""> -->
 </template>
 <script setup>
 import ProdDisplay from '@/components/Standard/Display.vue';
@@ -78,36 +76,82 @@ const hasTable = ref(true)
 
 /**更新資料方法 */
 //更新表格資料
-const updateDatas = (datas) => {
+// const updateDatas = (datas) => {
+//     console.log('datas', datas)
+//     hasTable.value = true
+//     if (!datas) {
+//         hasTable.value = false
+//         return null
+//     }
+
+//     let array = datas.map(data => ({
+//         id: data.id,
+//         picture: datas.pictureURL,
+//         name: data.prodName,
+//         price: data.prodPrice,
+//     }))
+
+//     console.log('datas');
+//     console.log(array);
+//     tableDatas.value = array
+//     updatePages()
+// }
+const updateDatas = async (datas) => {
     console.log('datas', datas)
     hasTable.value = true
     if (!datas) {
         hasTable.value = false
         return null
     }
-    let array = datas.map(data => ({
-        id: data.id,
-        //picture:
-        name: data.prodName,
-        price: data.prodPrice,
-    }))
+
+    let array = datas.map(data => {
+        if (data.pictureURL) {
+            const pictureURLs = data.pictureURL.split(', '); // 将字符串拆分成数组
+            const picture = pictureURLs[0]; // 选择第一个图片路径
+            return {
+                id: data.id,
+                picture: picture,
+                name: data.prodName,
+                price: data.prodPrice,
+            };
+        } else {
+            return {
+                id: data.id,
+                picture: '',
+                name: data.prodName,
+                price: data.prodPrice,
+            };
+        }
+    });
 
     console.log('datas');
     console.log(array);
     tableDatas.value = array
     updatePages()
 }
+
+
+
+
+
+// const img = ref(null)
+// const getImg = async (key) => {
+//     let res = await getProductImage(key)
+//     const body = res.data
+//     const header = res.headers['content-type']
+
+//     console.log(body);
+//     console.log(header);
+
+//     img.value = `data:${body[0]};base64,${body[1]}`
+
+// }
 const img = ref(null)
-const getImg = async (id) => {
-    let res = await getProductImage(id)
+const getImg = async (data) => {
+    let res = await getProductImage(data.id)
     const body = res.data
     const header = res.headers['content-type']
-
-    console.log(body);
-    console.log(header);
-
-    img.value = `data:${header};base64,${body}`
-
+    return `data:${body[0]};base64,${body[1]}` // Return the image data
 }
 
 //更新總頁數

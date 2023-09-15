@@ -307,13 +307,16 @@ const getProductImage = (id) => {
   return request.post('product/getImage', id, jsonHeader)
 }
 
+const getAllProductImage = (id) => {
+  return request.post('product/getAllImage', id, jsonHeader)
+}
+
 //取得總頁數
 const reqGetCmsProductPages = (condition) => {
   return request.post("/product/pages", condition, jsonHeader)
 }
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
 // request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
-
 
 /**----------------------------------------  搜索相關請求  -------------------------------------------*/
 
@@ -426,6 +429,7 @@ export {
   AddProduct,
   UploadProdImage,
   getProductImage,
+  getAllProductImage,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

@@ -187,6 +187,11 @@ const reqGetMemberOrders = (page) => {
   return request.get(`/order/member/page/${page}`)
 }
 
+// 取得會員的所有預約
+const reqGetMemberReservations = () => {
+  return request.get(`/order/reservation`)
+}
+
 const reqGetOrderPage = (condition) => {
   return request.post("/order/pagenation", condition, jsonHeader)
 }
@@ -287,7 +292,9 @@ const getProd = (page, pageSize, queryString) => {
   )
 }
 const getProd1 = (queryParams) => {
-  return request.get(`/product/search?${queryParams}`)
+  return request.get(
+    `/product/search?${queryParams}`
+  )
 }
 
 const reqGetProductPage = (condition) => {
@@ -298,27 +305,15 @@ const AddProduct = (productData) => {
   return request.post("/product/add", productData, jsonHeader)
 }
 
-const UploadProdImage = (
-  productId,
-  imageFormData,
-  config,
-  thumbnailFormData,
-  thumbnailConfig
-) => {
-  return request.post(
-    `/product/uploadImage?productId=${productId}`,
-    imageFormData,
-    config,
-    thumbnailFormData,
-    thumbnailConfig
-  )
+const UploadProdImage = (productId, imageFormData, config, thumbnailFormData, thumbnailConfig) => {
+  return request.post(`/product/uploadImage?productId=${productId}`, imageFormData, config, thumbnailFormData, thumbnailConfig);
 }
-const UploadProdImage1 = (productId, thumbnailFormData, thumbnailConfig) => {
-  return request.post(
-    `/product/uploadImage?productId=${productId}`,
-    thumbnailFormData,
-    thumbnailConfig
-  )
+const getProductImage = (id) => {
+  return request.post('product/getImage', id, jsonHeader)
+}
+
+const getAllProductImage = (id) => {
+  return request.post('product/getAllImage', id, jsonHeader)
 }
 
 //取得總頁數
@@ -403,6 +398,7 @@ export {
   // 訂單用
   reqInsertOrder,
   reqGetMemberOrders,
+  reqGetMemberReservations,
   reqGetOrderPage,
   reqGetCmsOrderPages,
 
@@ -438,7 +434,8 @@ export {
   reqGetCmsProductPages,
   AddProduct,
   UploadProdImage,
-  UploadProdImage1,
+  getProductImage,
+  getAllProductImage,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

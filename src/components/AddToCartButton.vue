@@ -55,5 +55,5 @@ const handleAddToCart = async () => {
 </script>
 
 <template>
-    <button @click="handleAddToCart">{{ btnName }}</button>
+    <button class="btn btn-primary" @click="handleAddToCart">{{ btnName }}</button>
 </template>

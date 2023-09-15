@@ -20,9 +20,8 @@ const getTotal = () => {
         <thead>
             <tr>
                 <th>課程</th>
+                <th>上課日期</th>
                 <th>上課地點</th>
-                <th>剩餘名額</th>
-                <th>報名截止日期</th>
                 <th>價格</th>
             </tr>
         </thead>
@@ -32,14 +31,13 @@ const getTotal = () => {
                     <img src='https://fakeimg.pl/100x100/?text=Image' :alt="order.prodName">
                     {{ order.courseName }}
                 </td>
+                <td>{{ order.courseDate }}</td>
                 <td>{{ order.coursePlace }}</td>
-                <td>{{ order.remainPlaces }}</td>
-                <td>{{ order.closeDate }}</td>
                 <td>{{ order.coursePrice }}</td>
             </tr>
         </tbody>
         <tfoot>
-            <td colspan='4'></td>
+            <td colspan='3'></td>
             <td>總共: {{ getTotal() }}</td>
         </tfoot>
     </table>

@@ -8,7 +8,7 @@ import { useMessage } from 'naive-ui'
 import { useRouter } from 'vue-router'
 
 const message = useMessage()
-const router = useRouter
+const router = useRouter()
 
 const ingredientCounter = ref(0)
 const ingredients = reactive([])
@@ -297,6 +297,10 @@ const submitForm = async () => {
         //清空成品圖與步驟圖的檔名及base64字串陣列
         imgDatas.splice(0, imgDatas.length)  // }
         let recipeData = await addRecipe(data)
+        router.replace({
+            path: '/recipes/recipe',
+            query: { id: recipeData.data }
+        })
         message.success("成功發佈食譜")
         console.log(recipeData);
     }
@@ -400,7 +404,7 @@ const submitForm = async () => {
 
             </div>
             <div class=" crudbtn col-md-1 align-self-start position-sticky" style="top: 100px;">
-                <div class="btn row border border-dark rounded px-4 pb-2">
+                <div class="btn row border border-dark rounded px-2 pb-2">
 
                     <button type="submit" class=" btn btn-light mb-2 mt-2" @click="submitForm">發佈</button>
                     <button class="btn btn-light mb-2">儲存</button>

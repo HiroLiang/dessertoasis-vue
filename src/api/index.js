@@ -37,7 +37,7 @@ const reqGetAllMembers = () => request.get("/member/all", {})
 //從session 拿出member資料
 const reqSession = () => request.get("/memberSession")
 
-const reqGetMemberId = () => request.get('/member/loggedInUserId')
+const reqGetMemberId = () => request.get("/member/loggedInUserId")
 
 //拿到密鑰
 const reqSecretKey = () => request.get("/getSecretKey")
@@ -49,15 +49,14 @@ const reqUserPermission = () => request.get("/checkUserPermission")
 const reqChangepassword = (requestData) => {
   const requestBody = {
     oldPassword: requestData.oldPassword,
-    newPassword: requestData.newPassword
-  };
-  return request.post("/member/changepassword", requestBody, jsonHeader);
-};
+    newPassword: requestData.newPassword,
+  }
+  return request.post("/member/changepassword", requestBody, jsonHeader)
+}
 
 const reqChangeMember = (detail) => {
   return request.put("/member/update", detail, jsonHeader)
 }
-
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
@@ -92,22 +91,30 @@ const addRecipe = (formData) => {
 
 //取得總頁數
 const reqGetCmsRecipePages = (condition) => {
-  return request.post('/recipe/pages', condition, jsonHeader)
+  return request.post("/recipe/pages", condition, jsonHeader)
 }
 
 const reqGetFrontRecipePages = (condition) => {
-  return request.post('/recipe/recipeFrontPagenation', condition, jsonHeader)
+  return request.post("/recipe/recipeFrontPagenation", condition, jsonHeader)
 }
 
+//取得成品圖
 const getRecipePicture = (recipeId) => {
-  return request.post('recipe/getPic', recipeId, jsonHeader)
+  return request.post("recipe/getPic", recipeId, jsonHeader)
+}
+
+const getStepPictures = (recipeId) => {
+  return request.post("recipe/getStepPics", recipeId, jsonHeader)
+}
+
+const getRecipe = (recipeId) => {
+  return request.get(`recipe/getRecipe?recipeId=${recipeId}`, jsonHeader)
 }
 /*----------------------------------------  食譜後台相關請求  -------------------------------------------*/
 //取得現在頁數內的資料
 const reqGetRecipePage = (condition) => {
   return request.post("/recipe/pagenation", condition, jsonHeader)
 }
-
 
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
 
@@ -238,14 +245,26 @@ const reqGetCmsCoursePages = (condition) => {
   return request.post("/course/pages", condition, jsonHeader)
 }
 
+
 //#region ----------------------------------- 課程後台請求  ---------------------------------------*/
 
 const reqGetCourseData = (id) => {
   return request.get(`course/course-desplay?id=${id}`)
 }
 
+const getTeacher = (teacherId) => {
+  return request.get(`/teacher/${teacherId}`, jsonHeader)
+}
 
-//#endregion  ------------------------------- 課程後台請求  ---------------------------------------*/
+const reqGetTeacherPage = (condition) => {
+  return request.post("/teacher/pagenation", condition, jsonHeader)
+}
+
+//取得總頁數
+const reqGetCmsTeacherPages = (condition) => {
+  return request.post("/teacher/pages", condition, jsonHeader)
+}
+
 
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
@@ -263,9 +282,7 @@ const getProd = (page, pageSize, queryString) => {
   )
 }
 const getProd1 = (queryParams) => {
-  return request.get(
-    `/product/search?${queryParams}`
-  )
+  return request.get(`/product/search?${queryParams}`)
 }
 
 const reqGetProductPage = (condition) => {
@@ -276,11 +293,27 @@ const AddProduct = (productData) => {
   return request.post("/product/add", productData, jsonHeader)
 }
 
-const UploadProdImage = (productId, imageFormData, config, thumbnailFormData, thumbnailConfig) => {
-  return request.post(`/product/uploadImage?productId=${productId}`, imageFormData, config, thumbnailFormData, thumbnailConfig);
+const UploadProdImage = (
+  productId,
+  imageFormData,
+  config,
+  thumbnailFormData,
+  thumbnailConfig
+) => {
+  return request.post(
+    `/product/uploadImage?productId=${productId}`,
+    imageFormData,
+    config,
+    thumbnailFormData,
+    thumbnailConfig
+  )
 }
 const UploadProdImage1 = (productId, thumbnailFormData, thumbnailConfig) => {
-  return request.post(`/product/uploadImage?productId=${productId}`, thumbnailFormData, thumbnailConfig);
+  return request.post(
+    `/product/uploadImage?productId=${productId}`,
+    thumbnailFormData,
+    thumbnailConfig
+  )
 }
 
 //取得總頁數
@@ -318,9 +351,6 @@ const reqGetChatDatas = (sender, catcher) => {
   return request.get(`/message/history?sender=${sender}&catcher=${catcher}`)
 }
 
-
-
-
 export {
   //會員用
   reqSignIn,
@@ -335,6 +365,7 @@ export {
   reqGetMemberId,
   reqChangepassword,
   reqChangeMember,
+
   /*--------食譜用-------*/
   reqTop10HotRecipe,
   reqTop10LatestRecipe,
@@ -347,6 +378,8 @@ export {
   reqGetCmsRecipePages,
   reqGetFrontRecipePages,
   getRecipePicture,
+  getStepPictures,
+  getRecipe,
 
   // 教室用
   getReservations,
@@ -380,6 +413,9 @@ export {
   searchCourse,
   reqGetCoursePage,
   reqGetCmsCoursePages,
+  getTeacher,
+  reqGetTeacherPage,
+  reqGetCmsTeacherPages,
 
   //#region 課程後台
   reqGetCourseData,
@@ -405,5 +441,4 @@ export {
 
   /*----------------------------------------  聊天室相關請求  -------------------------------------------*/
   reqGetChatDatas,
-
 }

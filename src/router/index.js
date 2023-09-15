@@ -199,8 +199,47 @@ const router = createRouter({
           name: "enrollCourse",
           component: () => import("../views/course/EnrollCourse.vue"),
         },
+        // {
+        //   path: "/courses/myCourses",
+        //   name: "myCourses",
+        //   component: () => import("../views/course/MyCourses.vue"),
+        // },
       ],
       // children:[{}],//{}放要變化的東西
+    },
+    {
+      path: "/teacher",
+      name: "TeacherHomePage",
+      component: () => import("../views/teacher/TeacherView.vue"),
+      children: [
+        {
+          //首頁PATH設為空  即可進入則導入首頁頁面
+          path: "",
+          name: "teacherHp",
+          component: () => import("../views/teacher/TeacherHp.vue"),
+        },
+        {
+          path: "/teacher/myCourses",
+          name: "myCourses",
+          component: () => import("../views/teacher/MyCourses.vue"),
+        },
+        {
+          path: "/teacher/editCourse",
+          name: "editCourse",
+          component: () => import("../views/teacher/EditCourse.vue"),
+        },
+        {
+          path: "/teacher/editProfile",
+          name: "editProfile",
+          component: () => import("../views/teacher/EditProfile.vue"),
+        },
+      ],
+      // children:[{}],//{}放要變化的東西
+    },
+    {
+      path: "/becomeTeacher",
+      name: "becomeTeacher",
+      component: () => import("../views/teacher/BecomeTeacher.vue"),
     },
     {
       path: "/register",
@@ -298,7 +337,5 @@ const router = createRouter({
     },
   ],
 })
-
-
 
 export default router

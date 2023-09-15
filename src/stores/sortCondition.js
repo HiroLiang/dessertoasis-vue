@@ -10,8 +10,8 @@ import {
   reqGetFrontRecipePages,
   reqGetCoursePage,
   reqGetCmsCoursePages,
-  // reqGetTeacherPage,
-  // reqGetCmsTeacherPages,
+  reqGetTeacherPage,
+  reqGetCmsTeacherPages,
 } from "../api"
 
 export const useSortCondition = defineStore("sortCondition", () => {

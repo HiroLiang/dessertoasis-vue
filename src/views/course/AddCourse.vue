@@ -6,7 +6,6 @@ import { checkTeacherStatus } from "@/api"
 // import { AddCourse, UploadCourseImage } from "@/api/index.js"
 /* ---------------------------------error--------------------------------  */
 
-
 const isTeacher = ref(false) // 預設用戶不是老師
 
 // const today = new Date().toISOString().split("T")[0] // 獲取當前日期
@@ -49,10 +48,12 @@ const formData = {
   courseDestination: "",
   serviceTarget: "",
   closeDate: null,
-  updateDate: null,
+  updateDate: Date.now(),
   courseDate: null,
   coursePlace: "",
   coursePrice: 0,
+  remainPlaces: 0,
+  courseStatus: "未開課",
 }
 const imagesData = {
   images: [],
@@ -141,16 +142,17 @@ async function submitCourse() {
   try {
     const courseData = {
       courseName: formData.courseName,
-
       courseIntroduction: formData.courseIntroduction,
-      courseFeature: "",
-      courseDestination: "",
-      serviceTarget: "",
-      closeDate: null,
-      updateDate: null,
-      courseDate: null,
-      coursePlace: "",
-      coursePrice: 0,
+      courseFeature: formData.courseFeature,
+      courseDestination: formData.courseDestination,
+      serviceTarget: formData.serviceTarget,
+      closeDate: formData.closeDate,
+      updateDate: formData.updateDate,
+      courseDate: formData.courseDate,
+      coursePlace: formData.coursePlace,
+      remainPlaces: formData.remainPlaces,
+      coursePrice: formData.coursePrice,
+      courseStatus: formData.courseStatus,
     }
 
     /* ---------------------------------error--------------------------------  */
@@ -221,13 +223,23 @@ async function submitCourse() {
 
         <div class="mb-2">
           <label>開課日期：</label>
-          <input type="date" id="courseDate" v-model="formData.courseDate" @input="checkDate" />
+          <input
+            type="date"
+            id="courseDate"
+            v-model="formData.courseDate"
+            @input="checkDate"
+          />
           <span v-if="!courseDate" class="error-message">請選擇課程日期</span>
         </div>
 
         <div>
           <label>報名截止日期：</label>
-          <input type="date" v-model="formData.closeDate" class="mb-2" @input="checkDate" />
+          <input
+            type="date"
+            v-model="formData.closeDate"
+            class="mb-2"
+            @input="checkDate"
+          />
         </div>
         <p v-if="error" style="color: red">{{ error }}</p>
         <!-- <div v-if="error" class="error-message">
@@ -236,13 +248,36 @@ async function submitCourse() {
 
         <div class="mb-2">
           <label>課程介紹:</label>
-          <textarea type="text" v-model="formData.courseIntroduction"></textarea>
+          <textarea
+            type="text"
+            v-model="formData.courseIntroduction"
+          ></textarea>
+        </div>
+        <div class="mb-2">
+          <label>課程特色:</label>
+          <input v-model="formData.courseFeature" />
+        </div>
+        <div class="mb-2">
+          <label>課程目標:</label>
+          <input v-model="formData.courseDestination" />
+        </div>
+        <div class="mb-2">
+          <label>課程對象:</label>
+          <input v-model="formData.serviceTarget" />
         </div>
         <!-- 沒寫上課地點，顯示錯誤訊息 -->
         <div class="mb-2">
           <label>上課地點:</label>
-          <input type="radio" v-model="locationChoice" value="applyClassroom" />申請教室
-          <input type="radio" v-model="locationChoice" value="writeLocation" />自己填寫
+          <input
+            type="radio"
+            v-model="locationChoice"
+            value="applyClassroom"
+          />申請教室
+          <input
+            type="radio"
+            v-model="locationChoice"
+            value="writeLocation"
+          />自己填寫
           <!-- <input type="text" v-model="courseLocation" id="courseLocation" /> -->
           <!-- <span v-if="!courseLocation" class="error-message"
               >請填入上課地點</span
@@ -261,27 +296,41 @@ async function submitCourse() {
             <input type="text" v-model="customLocation" />
           </div>
         </div>
+        <div class="mb-2">
+          <label>自己填寫地點：</label>
+          <input type="text" v-model="formData.coursePlace" />
+        </div>
         <!-- 課程分類id -->
         <div class="mb-2">
           <label for="remainingPlaces">可報名人數:</label>
-          <input type="number" v-model="remainingPlaces" min="0" id="remainingPlaces" />
+          <input
+            type="number"
+            v-model="remainingPlaces"
+            min="0"
+            id="remainingPlaces"
+          />
         </div>
         <div class="mb-2">
           <label for="coursePrice">報名價格:</label>
-          <input type="number" min="0" v-model="formData.coursePrice" id="coursePrice" />
+          <input
+            type="number"
+            min="0"
+            v-model="formData.coursePrice"
+            id="coursePrice"
+          />
         </div>
         <div class="mb-2">
-          <label>課程分類:</label>
-          <select v-model="coursePrice" id="">
+          <!-- <label>課程分類:</label> -->
+          <!-- <select v-model="" id="">
             <option value="">1</option>
             <option value="">2</option>
-          </select>
+          </select> -->
         </div>
         <div class="mb-2">
-          <label for="courseLength">課程長度:</label>
+          <!-- <label for="courseLength">課程長度:</label>
           <select v-model="courseLength" id="courseLength">
             <option value="">一天</option>
-          </select>
+          </select> -->
           <!-- <input type="text" v-model="courseLength" id="courseLength" /> -->
         </div>
 
@@ -289,10 +338,10 @@ async function submitCourse() {
           <label for="recipes">課程食譜:</label>
           <input type="text" v-model="courseLength" id="courseLength" />
         </div>
-        <div class="mb-2">
-          <label for="courseLength">開課狀態:</label>
-          <input type="text" v-model="courseLength" id="courseLength" />
-        </div>
+        <!-- <div class="mb-2">
+          <label>開課狀態:</label>
+          <input type="text" v-model="formData.courseStatus" />
+        </div> -->
       </div>
       <!-- 課程圖片路徑 -->
       <div class="col-6 row">
@@ -324,7 +373,10 @@ async function submitCourse() {
         </div> -->
       </div>
       <!-- 課程影片id,食譜id,標籤id -->
-      <button @click.prevent="submitCourse" class="btn btn-primary col-6 justify-content-center align-items-center">
+      <button
+        @click.prevent="submitCourse"
+        class="btn btn-primary col-6 justify-content-center align-items-center"
+      >
         提交
       </button>
     </form>

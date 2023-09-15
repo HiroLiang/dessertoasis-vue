@@ -76,6 +76,7 @@ const hasTable = ref(true)
 /**更新資料方法 */
 //更新表格資料
 const updateDatas = (datas) => {
+    console.log('datas', datas)
     hasTable.value = true
     if (!datas) {
         hasTable.value = false
@@ -83,7 +84,7 @@ const updateDatas = (datas) => {
     }
     let array = datas.map(data => ({
         id: data.id,
-        picture: data.pictures,
+        picture: data.pictures[0].pictureURL,
         name: data.prodName,
         price: data.prodPrice,
     }))

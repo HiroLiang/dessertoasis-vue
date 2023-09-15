@@ -163,41 +163,45 @@ pageSize.value = props.pageSize
 
 </script>
 <template>
-    <StandardSearch :numberRanges="numberRanges" :searchOptions="props.dataTitles" @get-selected-key="getKey"
-        @get-search-rules="getRules" @get-number-range="getNumberRange" />
-    <div class="tableArea">
-        <n-table :bordered="false" :single-line="false" size="small">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th v-for="title in props.dataTitles" @click="getSortRule(title.key)" class="sortableTh">
-                        {{ title.label }}
-                        <font-awesome-icon v-if="nowSortBy === title.key && sortWay" :icon="['fas', 'angle-up']" size="2xs"
-                            style="color: #f80000;" />
-                        <font-awesome-icon v-else-if="nowSortBy === title.key && !sortWay" :icon="['fas', 'angle-down']"
-                            size="2xs" style="color: #ff0000;" />
-                        <font-awesome-icon v-else :icon="['fas', 'angle-down']" size="2xs" />
-                    </th>
-                    <th>修改</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(data, index) in props.tableDatas">
-                    <td>{{ index + 1 }}</td>
-                    <td v-for="title in props.dataTitles">
-                        <span v-if="title.type === 'String' || title.type === 'Number'">{{ data[title.key] }}</span>
-                        <span v-else-if="title.type === 'Date'">{{ formattedDate(data[title.key]) }}</span>
-                        <span v-else>{{ data[title.key] }}</span>
-                    </td>
-                    <td>
-                        <n-button @click="getEditId(data.id)" strong secondary round>修改</n-button>
-                    </td>
-                </tr>
-            </tbody>
-        </n-table>
+    <div style="display: flex;justify-content: center;align-items: center;">
+        <div style="width: 95%;margin-top: 15px;">
+            <StandardSearch :numberRanges="numberRanges" :searchOptions="props.dataTitles" @get-selected-key="getKey"
+                @get-search-rules="getRules" @get-number-range="getNumberRange" />
+            <div class="tableArea">
+                <n-table :bordered="false" :single-line="false" size="small">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th v-for="title in props.dataTitles" @click="getSortRule(title.key)" class="sortableTh">
+                                {{ title.label }}
+                                <font-awesome-icon v-if="nowSortBy === title.key && sortWay" :icon="['fas', 'angle-up']"
+                                    size="2xs" style="color: #f80000;" />
+                                <font-awesome-icon v-else-if="nowSortBy === title.key && !sortWay"
+                                    :icon="['fas', 'angle-down']" size="2xs" style="color: #ff0000;" />
+                                <font-awesome-icon v-else :icon="['fas', 'angle-down']" size="2xs" />
+                            </th>
+                            <th>修改</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(data, index) in props.tableDatas">
+                            <td>{{ index + 1 }}</td>
+                            <td v-for="title in props.dataTitles">
+                                <span v-if="title.type === 'String' || title.type === 'Number'">{{ data[title.key] }}</span>
+                                <span v-else-if="title.type === 'Date'">{{ formattedDate(data[title.key]) }}</span>
+                                <span v-else>{{ data[title.key] }}</span>
+                            </td>
+                            <td>
+                                <n-button @click="getEditId(data.id)" strong secondary round>修改</n-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </n-table>
+            </div>
+            <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[5, 10, 20, 50]"
+                size="medium" show-quick-jumper show-size-picker />
+        </div>
     </div>
-    <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[5, 10, 20, 50]"
-        size="medium" show-quick-jumper show-size-picker />
 </template>
 <style scoped>
 .sortableTh {
@@ -206,7 +210,7 @@ pageSize.value = props.pageSize
 
 .tableArea {
     height: auto;
-    max-height: 80vh;
+    max-height: 73vh;
     overflow: scroll;
 }
 </style>

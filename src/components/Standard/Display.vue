@@ -31,7 +31,7 @@ const props = defineProps({
         default: [
             {
                 id: 1,
-                picture: 'product/prod.jpg',
+                picture: '/images/display/product/prod.jpg',
                 // difficulty: 'Super Hard',
                 teacher: '怪醫秦博士',
                 // author: '鬼塚治虫',
@@ -41,7 +41,7 @@ const props = defineProps({
             },
             {
                 id: 2,
-                picture: 'product/michal-parzuchowski-pMsvOrnIF3Y-unsplash.jpg',
+                picture: '/images/display/product/michal-parzuchowski-pMsvOrnIF3Y-unsplash.jpg',
                 difficulty: 'Super Hard',
                 // teacher: '怪醫秦博士',
                 author: '鬼塚治K不二雄',
@@ -51,7 +51,7 @@ const props = defineProps({
             },
             {
                 id: 3,
-                picture: 'product/prod.jpg',
+                picture: '/images/display/product/prod.jpg',
                 // difficulty: 'Super Hard',
                 teacher: '怪醫秦博士',
                 // author: '鬼塚治虫',
@@ -61,7 +61,7 @@ const props = defineProps({
             },
             {
                 id: 4,
-                picture: 'product/michal-parzuchowski-pMsvOrnIF3Y-unsplash.jpg',
+                picture: '/images/display/product/michal-parzuchowski-pMsvOrnIF3Y-unsplash.jpg',
                 difficulty: 'Super Hard',
                 // teacher: '怪醫秦博士',
                 author: '鬼塚治貓',
@@ -71,7 +71,7 @@ const props = defineProps({
             },
             {
                 id: 5,
-                picture: 'product/prod.jpg',
+                picture: '/images/display/product/prod.jpg',
                 // difficulty: 'Super Hard',
                 teacher: '怪醫秦博士',
                 // author: '鬼塚治虫',

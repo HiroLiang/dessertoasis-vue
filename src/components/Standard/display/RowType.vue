@@ -4,7 +4,7 @@ const props = defineProps({
     product: {
         default: {
             id: 1,
-            picture: 'product/prod.jpg',
+            picture: '/images/display/product/prod.jpg',
             // difficulty: 'Super Hard',
             teacher: '怪醫秦博士',
             // author: '鬼塚治虫',

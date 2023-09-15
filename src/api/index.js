@@ -245,6 +245,13 @@ const reqGetCmsCoursePages = (condition) => {
   return request.post("/course/pages", condition, jsonHeader)
 }
 
+
+//#region ----------------------------------- 課程後台請求  ---------------------------------------*/
+
+const reqGetCourseData = (id) => {
+  return request.get(`course/course-desplay?id=${id}`)
+}
+
 const getTeacher = (teacherId) => {
   return request.get(`/teacher/${teacherId}`, jsonHeader)
 }
@@ -257,6 +264,7 @@ const reqGetTeacherPage = (condition) => {
 const reqGetCmsTeacherPages = (condition) => {
   return request.post("/teacher/pages", condition, jsonHeader)
 }
+
 
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
@@ -408,6 +416,12 @@ export {
   getTeacher,
   reqGetTeacherPage,
   reqGetCmsTeacherPages,
+
+  //#region 課程後台
+  reqGetCourseData,
+
+
+  //#endregion 課程後台
 
   /*--------商品用-------*/
   getAllProd,

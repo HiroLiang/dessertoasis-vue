@@ -5,8 +5,8 @@ import SweetAlert from "SweetAlert2"
 import CourseDetail from "@/components/CourseDetail.vue" // 导入显示课程详细信息的组件
 
 import { useRouter } from "vue-router"
-import StandardTable from "../../components/Standard/Table.vue"
-import { useSortCondition } from "../../stores/sortCondition.js"
+import StandardTable from "../../../components/Standard/Table.vue"
+import { useSortCondition } from "../../../stores/sortCondition.js"
 
 import { getAllCourses } from "@/api"
 import { deleteCourse } from "@/api"
@@ -108,7 +108,7 @@ const onGetDateRules = async (rules) => {
 
 //取得修改的 id 並跳轉頁面 (路徑需自己指定)
 const onGetEditId = (id) => {
-  router.push({ path: "/", query: { id } })
+  router.push({ path: "/cms/editCourse", query: { id } })
 }
 
 // const courses = ref([])
@@ -320,7 +320,9 @@ const closeModal = () => {
 </script>
 <template>
   <div class="container">
-    <h1 align="center">所有課程列表</h1>
+    <div style="display: flex;justify-content: center; align-items: center;">
+      <h1>所有課程列表</h1>
+    </div>
     <!-- <StandardSearch
       :searchOptions="props.dataTitles"
       @get-selected-key="getKey"
@@ -328,19 +330,13 @@ const closeModal = () => {
       @get-number-range="getNumberRange"
     /> -->
     <p v-if="!hasTable">*無權限或查詢失敗</p>
-    <StandardTable
-      :page="1"
-      :pageSize="10"
-      :pages="pages"
-      :tableDatas="tableDatas"
-      :dataTitles="dataTitles"
-      @get-edit-id="onGetEditId"
-      @get-number-range="onGetNumberRange"
-      @get-sort-rule="onGetSortRule"
-      @get-search-rules="onGetSearchRules"
-      @change-page="onGetPage"
-      @get-date-rules="onGetDateRules"
-    />
+    <StandardTable :page="1" :pageSize="10" :pages="pages" :tableDatas="tableDatas" :dataTitles="dataTitles"
+      @get-edit-id="onGetEditId" @get-number-range="onGetNumberRange" @get-sort-rule="onGetSortRule"
+      @get-search-rules="onGetSearchRules" @change-page="onGetPage" @get-date-rules="onGetDateRules" />
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+h1 {
+  font-size: 28px;
+}
+</style>

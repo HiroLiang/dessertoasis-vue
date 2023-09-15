@@ -282,7 +282,9 @@ const getProd = (page, pageSize, queryString) => {
   )
 }
 const getProd1 = (queryParams) => {
-  return request.get(`/product/search?${queryParams}`)
+  return request.get(
+    `/product/search?${queryParams}`
+  )
 }
 
 const reqGetProductPage = (condition) => {
@@ -293,27 +295,11 @@ const AddProduct = (productData) => {
   return request.post("/product/add", productData, jsonHeader)
 }
 
-const UploadProdImage = (
-  productId,
-  imageFormData,
-  config,
-  thumbnailFormData,
-  thumbnailConfig
-) => {
-  return request.post(
-    `/product/uploadImage?productId=${productId}`,
-    imageFormData,
-    config,
-    thumbnailFormData,
-    thumbnailConfig
-  )
+const UploadProdImage = (productId, imageFormData, config, thumbnailFormData, thumbnailConfig) => {
+  return request.post(`/product/uploadImage?productId=${productId}`, imageFormData, config, thumbnailFormData, thumbnailConfig);
 }
-const UploadProdImage1 = (productId, thumbnailFormData, thumbnailConfig) => {
-  return request.post(
-    `/product/uploadImage?productId=${productId}`,
-    thumbnailFormData,
-    thumbnailConfig
-  )
+const getProductImage = (id) => {
+  return request.post('product/getImage', id, jsonHeader)
 }
 
 //取得總頁數
@@ -322,6 +308,7 @@ const reqGetCmsProductPages = (condition) => {
 }
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
 // request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
+
 
 /**----------------------------------------  搜索相關請求  -------------------------------------------*/
 
@@ -432,7 +419,7 @@ export {
   reqGetCmsProductPages,
   AddProduct,
   UploadProdImage,
-  UploadProdImage1,
+  getProductImage,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

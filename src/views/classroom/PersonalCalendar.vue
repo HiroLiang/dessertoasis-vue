@@ -1,14 +1,3 @@
-<template>
-    <div class="container">
-        <div class="my-2">
-            <span class="p-1 me-2 rounded text-white dodgerblue">早上</span>
-            <span class="p-1 me-2 rounded text-white green">下午</span>
-            <span class="p-1 me-2 rounded text-white pink">晚上</span>
-        </div>
-      <FullCalendar :options="calendarOptions" ref="calendar" />  
-    </div>
-</template>
-
 <script setup>
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -29,17 +18,10 @@ const calendarOptions = reactive({
     },
     initialView: 'dayGridMonth',
     events: [],
-    //selectable: true,
-    //unselectAuto: false,
-    //select: handleDateSelect,
     eventClick: handleEventClick,
     eventMouseEnter: handleEventMouseEnter,
     eventMouseLeave: handleEventMouseLeave
 })
-
-// function handleDateSelect(selectInfo) {
-//     emit('dateClick', selectInfo.start)
-// }
 
 function handleEventClick(clickInfo) {
     console.log(clickInfo.event.extendedProps)
@@ -86,6 +68,17 @@ const getMemberReservations = async () => {
 onMounted(getMemberReservations)
 
 </script>
+
+<template>
+    <div class="container">
+        <div class="my-2">
+            <span class="p-1 me-2 rounded text-white dodgerblue">早上</span>
+            <span class="p-1 me-2 rounded text-white green">下午</span>
+            <span class="p-1 me-2 rounded text-white pink">晚上</span>
+        </div>
+      <FullCalendar :options="calendarOptions" ref="calendar" />  
+    </div>
+</template>
 
 <style scoped>
 .dodgerblue {

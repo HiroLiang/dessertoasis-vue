@@ -182,6 +182,11 @@ const reqGetMemberOrders = (page) => {
   return request.get(`/order/member/page/${page}`)
 }
 
+// 取得會員的所有預約
+const reqGetMemberReservations = () => {
+  return request.get(`/order/reservation`)
+}
+
 const reqGetOrderPage = (condition) => {
   return request.post("/order/pagenation", condition, jsonHeader)
 }
@@ -389,6 +394,7 @@ export {
   // 訂單用
   reqInsertOrder,
   reqGetMemberOrders,
+  reqGetMemberReservations,
   reqGetOrderPage,
   reqGetCmsOrderPages,
 

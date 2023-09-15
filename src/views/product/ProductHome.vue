@@ -42,12 +42,15 @@
             </ProdDisplay>
         </div>
     </div>
+    <button @click="getImg(129)">測試</button>
+    <img :src="img" alt="">
+    <h2>this is a recipe page{{ productId }}</h2>
 </template>
 <script setup>
 import ProdDisplay from '@/components/Standard/Display.vue';
 import { ref, reactive, onMounted, computed } from 'vue';
 import axios from 'axios';
-import { getAllProd, getProd, getProd1 } from '@/api/index.js';
+import { getAllProd, getProd, getProd1, getProductImage } from '@/api/index.js';
 import { useRouter } from 'vue-router'
 import { useSortCondition } from '../../stores/sortCondition.js'
 //使用 pinia 整合搜索條件
@@ -84,7 +87,7 @@ const updateDatas = (datas) => {
     }
     let array = datas.map(data => ({
         id: data.id,
-        picture: data.pictures[0].pictureURL,
+        //picture:
         name: data.prodName,
         price: data.prodPrice,
     }))
@@ -94,7 +97,18 @@ const updateDatas = (datas) => {
     tableDatas.value = array
     updatePages()
 }
+const img = ref(null)
+const getImg = async (id) => {
+    let res = await getProductImage(id)
+    const body = res.data
+    const header = res.headers['content-type']
 
+    console.log(body);
+    console.log(header);
+
+    img.value = `data:${header};base64,${body}`
+
+}
 
 //更新總頁數
 const updatePages = async () => {

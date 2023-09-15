@@ -8,9 +8,9 @@ const router = useRouter()
 // })
 </script>
 <template>
-  <h1>老師首頁</h1>
-  <!-- <div>
-    <h1>目标页面</h1>
+  <h1>老師個人頁面</h1>
+  <div>
+    <h1>目標頁面</h1>
     <p>编辑的ID: {{ $route.query.id }}</p>
-  </div> -->
+  </div>
 </template>

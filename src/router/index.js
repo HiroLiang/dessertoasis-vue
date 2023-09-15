@@ -68,6 +68,11 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/prod",
+      name: "prod",
+      component: () => import("../views/product/Product1.vue"),
+    },
     //後台管理系統
     {
       path: "/cms",
@@ -81,13 +86,18 @@ const router = createRouter({
         },
         {
           path: "/cms/recipe",
-          name: "recipe",
+          name: "cmsrecipe",
           component: () => import("../views/cms/recipe/CmsRecipeTable.vue"),
         },
         {
           path: "/cms/course",
-          name: "course",
-          component: () => import("../views/course/CourseBackground.vue"),
+          name: "cmscourse",
+          component: () => import("../views/cms/course/CourseBackground.vue"),
+        },
+        {
+          path: "/cms/editCourse",
+          name: "cmsEditCourse",
+          component: () => import("../views/cms/course/EditCourse.vue"),
         },
         // {
         //   path: "/courses/:id",
@@ -102,24 +112,35 @@ const router = createRouter({
         // },
         {
           path: "/cms/addCourse",
-          name: "addCourse",
+          name: "cmsaddCourse",
           component: () => import("../views/course/AddCourse.vue"),
         },
+
+
+        //等待移動
         {
           path: "/cms/teacherCourseManager",
           name: "trCourseManger",
           component: () => import("../views/course/TeacherCourseManager.vue"),
         },
+        //
+
+
         {
           path: "/cms/addTeacherProfile",
-          name: "addTeacherProfile",
+          name: "cmsaddTeacherProfile",
           component: () => import("../views/course/AddTeacherProfile.vue"),
         },
+
+
+        //等待移動
         {
           path: "/cms/editTeacherProfile",
           name: "addteacherProfile",
           component: () => import("../views/course/EditTeacherProfile.vue"),
         },
+        //
+
         {
           path: "/cms/managerAllTeacher",
           name: "managerAllTeacher",
@@ -177,6 +198,11 @@ const router = createRouter({
           path: "/courses/aboutTeacher",
           name: "aboutTeacher",
           component: () => import("../views/course/AboutTeacher.vue"),
+        },
+        {
+          path: "/courses/oneTeacher",
+          name: "oneTeacher",
+          component: () => import("../views/course/OneTeacher.vue"),
         },
         {
           path: "/courses/enrollCourse",

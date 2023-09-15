@@ -179,6 +179,11 @@ const router = createRouter({
           component: () => import("../views/course/AboutTeacher.vue"),
         },
         {
+          path: "/courses/oneTeacher",
+          name: "oneTeacher",
+          component: () => import("../views/course/OneTeacher.vue"),
+        },
+        {
           path: "/courses/enrollCourse",
           name: "enrollCourse",
           component: () => import("../views/course/EnrollCourse.vue"),

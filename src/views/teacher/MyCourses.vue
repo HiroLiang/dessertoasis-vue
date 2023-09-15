@@ -130,7 +130,15 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <h1>我的課程</h1>
+  <div style="position: relative" class="mb-5">
+    <button
+      class="btn btn-outline-primary btn-lg"
+      style="position: absolute; right: 100px; top: 20px"
+    >
+      新增課程
+    </button>
+    <h1>我的課程</h1>
+  </div>
   <CourseDisplay
     :products="tableDatas"
     :searchOptions="searchOptions"

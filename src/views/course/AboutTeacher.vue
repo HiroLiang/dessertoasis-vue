@@ -68,9 +68,11 @@ const onGetPage = async (page) => {
   }
 }
 
-const onGetSelectedKey = (key) => {
-  console.log("key")
-  console.log(key)
+//取得修改的 id 並跳轉頁面 (路徑需自己指定)
+const onGetSelectedKey = (id) => {
+  console.log("id")
+  console.log(id)
+  router.push({ path: "/courses/oneTeacher", query: { id } })
 }
 
 //搜索條件(多筆)
@@ -115,11 +117,6 @@ const onGetDateRules = async (rules) => {
   }
 }
 
-//取得修改的 id 並跳轉頁面 (路徑需自己指定)
-const onGetEditId = (id) => {
-  router.push({ path: "/", query: { id } })
-}
-
 // const navBarList = reactive([
 //   { title: "食譜", toUrl: "/recipes" },
 //   { title: "課程", toUrl: "/courses" },
@@ -144,7 +141,7 @@ onMounted(async () => {
   <!-- <NavBar :NavBarList="navBarList" /> -->
 
   <h1>關於教師</h1>
-
+  <!-- <button @click="onGetEditId(1)">跳轉到單一教師頁面測試</button> -->
   <TeacherDisplay
     :products="tableDatas"
     :searchOptions="searchOptions"

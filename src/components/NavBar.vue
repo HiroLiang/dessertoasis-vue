@@ -4,7 +4,7 @@ import { reqSignOut, reqUserPermission } from "../api";
 import { useRouter } from 'vue-router';
 import { googleLogout } from 'vue3-google-login';
 import { useCartStore } from "../stores/cart";
-import { NBadge, NAvatar } from "naive-ui";
+import { NBadge } from "naive-ui";
 
 const storedData = localStorage.getItem('googleLoginData');
 const isGoogleLoggedIn = localStorage.getItem('googleLoggedIn');

@@ -56,6 +56,7 @@ const placeOrder = async () => {
     }
     const res = await reqInsertOrder(data)
     if (res.data == 1) {
+        cart.getCartCount()
         router.push("/cart/pay_success")
     } else {
         console.log(res.data)

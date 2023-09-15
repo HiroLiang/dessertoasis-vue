@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { reqMember, reqMemberDetail, reqSession, reqChangeMember } from '@/api';
+import { reqMember, reqMemberDetail, reqSession, reqChangeMember, imgTest } from '@/api';
 
 const memberId = ref("");
 
@@ -13,9 +13,8 @@ const memberIdNumber = ref("");
 const memberBirthday = ref("");
 const memberEmail = ref("");
 const memberAddress = ref("");
-const memberpic = ref("");
+const memberpic = ref();
 const memberfolderURL = ref("");
-
 onMounted(async () => {
     try {
         const sessionResponse = await reqSession();
@@ -43,10 +42,13 @@ onMounted(async () => {
     }
 });
 
+const myForm = ref(null)
 
 const updatemember = async () => {
     // try {
 
+    console.log(FormData);
+    console.log(myForm);
 
     let updatedMemberDetail = {
         id: memberId.value,
@@ -61,29 +63,15 @@ const updatemember = async () => {
     const res = await reqChangeMember(updatedMemberDetail)
     console.log(res.data);
     alert("更新成功")
-    // const response = await fetch('/member/update', {
-    //     method: 'PUT',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: updatedMemberDetail,
-    // });
+    location.reload();
 
-    // 檢查響應是否成功
-    //     if (response.ok) {
-    //         // 更新成功
-    //         console.log('更新成功');
-    //     } else {
-    //         // 更新失敗
-    //         console.error('更新失敗');
-    //     }
-    // } catch (error) {
-    //     console.error('更新會員失敗：', error);
-    // }
 };
 
-// const handleInput = () => {
-// }
+
+
+
+
+
 </script>
 
 
@@ -91,47 +79,52 @@ const updatemember = async () => {
 
 
 <template >
-    <form class="file-upload" @submit="updatemember">
+    <form class="file-upload" @submit.prevent="updatemember" ref="myForm">
         <div class="row mb-5 gx-5">
 
             <!-- 基本資料 -->
-            <div class="col-xxl-8 mb-5 mb-xxl-0">
+            <div class="mb-5 mb-xxl-0">
                 <div class="bg-secondary-soft px-4 py-5 rounded">
                     <div class="row g-3">
                         <h4 class="mb-4 mt-0">基本資料</h4>
 
                         <div class="col-md-6">
-                            <label class="form-label" for="nameInput">姓名</label>
-                            <input type="text" class="form-control" id="nameInput" v-model="memberName">
+                            <label class="form-label" for="memberName">姓名</label>
+                            <input type="text" class="form-control" id="memberName" name="memberName" v-model="memberName">
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label" for="memberNameInput">使用者名稱</label>
-                            <input type="text" class="form-control" id="memberNameInput" v-model="memberUserName">
+                            <label class="form-label" for="memberUserName">使用者名稱</label>
+                            <input type="text" class="form-control" id="memberUserName" name="memberUserName"
+                                v-model="memberUserName">
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label" for="identityInput">身分證
+                            <label class="form-label" for="memberIdNumber">身分證
                             </label>
-                            <input type="text" class="form-control" id="identityInput" v-model="memberIdNumber">
+                            <input type="text" class="form-control" id="memberIdNumber" name="memberIdNumber"
+                                v-model="memberIdNumber">
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label" for="bdayInput">生日
+                            <label class="form-label" for="memberBirthday">生日
                             </label>
-                            <input type="text" class="form-control" id="bdayInput" v-model="memberBirthday">
+                            <input type="text" class="form-control" id="memberBirthday" name="memberBirthday"
+                                v-model="memberBirthday">
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label" for="emailInput">Email
+                            <label class="form-label" for="memberEmail">Email
                             </label>
-                            <input type="email" class="form-control" id="emailInput" v-model="memberEmail">
+                            <input type="email" class="form-control" id="memberEmail" name="memberEmail"
+                                v-model="memberEmail">
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label" for="addressInput">住址
+                            <label class="form-label" for="memberAddress">住址
                             </label>
-                            <input type="text" class="form-control" id="addressInput" v-model="memberAddress">
+                            <input type="text" class="form-control" id="memberAddress" name="memberAddress"
+                                v-model="memberAddress">
                         </div>
                     </div>
                 </div>
@@ -139,25 +132,24 @@ const updatemember = async () => {
 
 
             <!-- 上傳圖片 -->
-            <div class="col-xxl-4">
+            <!-- <div class="col-xxl-4">
                 <div class="bg-secondary-soft px-4 py-5 rounded">
                     <div class="row g-3">
-                        <h4 class="mb-4 mt-0">上傳頭像圖片</h4>
-
                         <div class="text-center">
-
-                            <div class="square position-relative display-2 mb-3">
-                                <font-awesome-icon :icon="['far', 'user']" />
-                            </div>
-
-                            <input type="file" id="customFile" name="file" hidden>
-                            <label class="btn btn-outline-success" for="customFile">上傳</label>
-
-                            <button type="button" class="btn btn-outline-danger">移除</button>
+                            <h4 class="mb-4 mt-0">點擊上傳頭像圖片</h4>
+                          
+                            <label for="memberpic">
+                                <div class="imageContainer container">
+                                    <img class="memberPicture inputLabel custom-cursor-pointer " id="previewPic0" alt="頭像圖片"
+                                        :src="memberPicPreviewImageUrl || 'https://fakeimg.pl/1180x310/?text=Image'">
+                                </div>
+                                <input @change="getMemberImg" class="form-control visually-hidden pic" type="file"
+                                    id="memberpic" name="memberpic" accept="image/*"><br>
+                            </label><br><br>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
 
@@ -174,5 +166,17 @@ const updatemember = async () => {
 <style scoped>
 button {
     margin: auto 15px;
+}
+
+.memberPicture {
+    width: 300px;
+    /* 设置为您希望的正方形边长 */
+    height: 300px;
+    /* 设置为与宽度相同的值，以确保图像是正方形 */
+    object-fit: contain
+}
+
+.custom-cursor-pointer {
+    cursor: pointer !important;
 }
 </style>

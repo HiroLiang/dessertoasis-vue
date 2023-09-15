@@ -35,7 +35,7 @@ const reqMemberDetail = (id) => {
 const reqGetAllMembers = () => request.get("/member/all", {})
 
 //從session 拿出member資料
-const reqSession = () => request.get("/memberSession")
+const reqSession = () => request.post("/memberSession")
 
 const reqGetMemberId = () => request.get("/member/loggedInUserId")
 
@@ -53,9 +53,14 @@ const reqChangepassword = (requestData) => {
   }
   return request.post("/member/changepassword", requestBody, jsonHeader)
 }
-
+//更新會員資料
 const reqChangeMember = (detail) => {
   return request.put("/member/update", detail, jsonHeader)
+}
+//傳圖到特定路徑
+const memberImg = (file) => {
+  console.log(file)
+  return request.post("/member/uploadMemberImg", file)
 }
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
@@ -364,6 +369,7 @@ export {
   reqUserPermission,
   reqGetMemberId,
   reqChangepassword,
+  memberImg,
   reqChangeMember,
 
   /*--------食譜用-------*/

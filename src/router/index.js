@@ -287,20 +287,16 @@ const router = createRouter({
           component: () => import("../views/member/ChangePassword.vue"),
         },
         {
-          path: "/mem/creditcard",
-          name: "creditcard",
-          component: () => import("../views/member/CreditCard.vue"),
-        },
-        {
           path: "/mem/bankaccount",
           name: "bankaccount",
           component: () => import("../views/member/BankAccount.vue"),
         },
         {
-          path: "/mem/vompanyprofile",
-          name: "vompanyprofile",
-          component: () => import("../views/member/CompanyProfile.vue"),
+          path: "/mem/memberpic",
+          name: "memberpic",
+          component: () => import("../views/member/MemberPic.vue"),
         },
+
       ],
     },
 

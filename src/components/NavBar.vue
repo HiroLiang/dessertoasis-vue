@@ -151,10 +151,6 @@ onMounted(() => {
                     <img class="loginIcon" :src="`/images/navbar/${props.ProfilePicture}`" alt="ProfilePicture" />
                 </a>
                 <ul :class="`dropdown-menu ${listPosition}`" aria-labelledby="dropdownMenuLink">
-
-                    <li>
-                        <router-link to="/order" class="dropdown-item">我的訂單</router-link>
-                    </li>
                     <li>
                         <router-link to="/demo" class="dropdown-item">Demo</router-link>
                     </li>
@@ -164,6 +160,9 @@ onMounted(() => {
                     <li v-else>
                     <li>
                         <router-link to="/mem" class="dropdown-item">會員資料</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/order" class="dropdown-item">我的訂單</router-link>
                     </li>
                     <li>
                         <router-link to="/" class="dropdown-item">我的食譜</router-link>

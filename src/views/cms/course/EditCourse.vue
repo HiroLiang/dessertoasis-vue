@@ -1,9 +1,11 @@
 <script setup>
 import { ref, watch, onBeforeMount } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { reqGetCourseData, reqUpdateCourse } from '../../../api';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { NButton, NSwitch, NForm, NFormItem, NInput, NDynamicTags, NDatePicker, NSelect, NRadioGroup, NRadioButton, NInputNumber } from "naive-ui"
+
+const router = useRouter()
 
 //取得陳列課程Id
 const route = useRoute()
@@ -25,9 +27,8 @@ const showPicture = (index) => {
 const insertImg = (e) => {
     const newPic = e.target.files[0]
     const reader = new FileReader();
-    reader.onload = function (event) {
-        const base64String = event.target.result
-        console.log(base64String);
+    reader.onload = function (e) {
+        const base64String = e.target.result
         courseData.value.coursePictureList.push({
             courseImgURL: base64String
         })
@@ -52,20 +53,19 @@ const deletePic = (url) => {
 const dynamicTagsValue = ref([])
 
 watch(dynamicTagsValue, () => {
-    console.log(dynamicTagsValue.value.length);
-    console.log(courseData.value.courseList.length);
+    console.log(dynamicTagsValue.value);
     if (dynamicTagsValue.value.length > courseData.value.courseList.length) {
         courseData.value.courseList.push({
-            ctag: { courseTagName: dynamicTagsValue.value[2] }
+            ctag: { courseTagName: dynamicTagsValue.value[dynamicTagsValue.value.length - 1] }
         })
-        console.log(courseData.value.courseList);
+        console.log('add', courseData.value.courseList);
     } else if (dynamicTagsValue.value.length < courseData.value.courseList.length) {
         for (let i = 0; i < courseData.value.courseList.length; i++) {
             let tag = courseData.value.courseList[i]
             console.log(dynamicTagsValue.value.includes(tag.ctag.courseTagName));
             if (!dynamicTagsValue.value.includes(tag.ctag.courseTagName)) {
                 courseData.value.courseList.splice(i, 1)
-                console.log(courseData.value.courseList);
+                console.log('dele', courseData.value.courseList);
                 return
             }
         }
@@ -85,15 +85,15 @@ const stateOptions = [{ label: '停用', value: '停用' }, { label: '啟用', v
 //變更.刪除
 const submitChange = async () => {
     let conf = confirm('是否修改課程資料？')
-    console.log(conf);
     if (conf) {
         let result = await reqUpdateCourse(courseData.value)
         console.log(result.data);
+        router.replace({ path: '/cms/course' })
     }
 }
 
 const deleteCourse = () => {
-
+    let conf = confirm('是否真的要刪除資料？')
 }
 
 onBeforeMount(async () => {
@@ -108,7 +108,6 @@ onBeforeMount(async () => {
         courseData.value.updateDate = new Date().getTime()
         courseData.value.courseDate = new Date(courseData.value.courseDate).getTime()
         courseData.value.closeDate = new Date(courseData.value.closeDate).getTime()
-        console.log(courseData.value.closeDate);
     }
 })
 
@@ -117,7 +116,8 @@ onBeforeMount(async () => {
     <div v-if="courseData != null" class="justifyContainer">
         <div class="picDisplayContainer">
             <div class="picDisplay">
-                <img :src="courseData.coursePictureList[selectedImg].courseImgURL">
+                <img
+                    :src="courseData.coursePictureList[selectedImg] ? courseData.coursePictureList[selectedImg].courseImgURL : '/images/navbar/image-gallery.png'">
             </div>
             <div class="allPicContainer">
                 <div v-for="(img, index) in courseData.coursePictureList" :key="img.id"
@@ -228,13 +228,12 @@ onBeforeMount(async () => {
     height: 90%;
     flex-grow: 3;
     overflow: hidden;
-    background-color: aliceblue;
 }
 
 .picDisplay img {
     height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .allPicContainer {

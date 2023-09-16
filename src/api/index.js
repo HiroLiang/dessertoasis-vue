@@ -263,6 +263,9 @@ const reqGetCourseData = (id) => {
   return request.get(`course/course-desplay?id=${id}`)
 }
 
+//刪除一筆課程
+
+
 const getTeacher = (teacherId) => {
   return request.get(`/teacher/${teacherId}`, jsonHeader)
 }

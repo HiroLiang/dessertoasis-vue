@@ -4,7 +4,7 @@ import { reqSignOut, reqUserPermission } from "../api";
 import { useRouter } from 'vue-router';
 import { googleLogout } from 'vue3-google-login';
 import { useCartStore } from "../stores/cart";
-import { NBadge, NAvatar } from "naive-ui";
+import { NBadge } from "naive-ui";
 
 const storedData = localStorage.getItem('googleLoginData');
 const isGoogleLoggedIn = localStorage.getItem('googleLoggedIn');
@@ -139,9 +139,9 @@ onMounted(() => {
                 </ul>
             </div>
             <div class="mx-4">
-                <router-link to="/cart" class="dropdown-item">
+                <router-link to="/cart">
                     <n-badge :value="cart.count">
-                        <n-avatar src="/images/navbar/cart.png"/>
+                        <img style="width: 32px;" src="/images/navbar/cart.png" />
                     </n-badge>
                 </router-link>
             </div>

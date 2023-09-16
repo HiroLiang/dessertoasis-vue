@@ -53,6 +53,7 @@ watch(checked, emitCourses)
             <thead>
                 <tr>
                     <th>課程</th>
+                    <th>上課日期</th>
                     <th>上課地點</th>
                     <th>剩餘名額</th>
                     <th>報名截止日期</th>
@@ -66,6 +67,7 @@ watch(checked, emitCourses)
                         <img src='https://fakeimg.pl/100x100/?text=Image' :alt="cartItem.courseName">
                         {{ cartItem.courseName }}
                     </td>
+                    <td>{{ cartItem.courseDate }}</td>
                     <td>{{ cartItem.coursePlace }}</td>
                     <td>{{ cartItem.remainPlaces }}</td>
                     <td>{{ cartItem.closeDate }}</td>
@@ -76,7 +78,7 @@ watch(checked, emitCourses)
                 </tr>
             </tbody>
             <tfoot>
-                <td colspan='4'></td>
+                <td colspan='5'></td>
                 <td>總共: {{ total }}</td>
             </tfoot>
         </table>

@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <!-- <div class="container">
         <p>請選擇分類</p>
         <n-space>
             <n-cascader v-model:value="selectedValue" clearable placeholder="所有商品"
@@ -8,7 +8,7 @@
                 :filterable="settings.filterable" :clear-filter-after-select="settings.clearFilterAfterSelect"
                 size="large" />
         </n-space>
-    </div>
+    </div> -->
     <div class="container">
 
         <p>新增圖片和影片</p>

@@ -10,6 +10,9 @@ const store = useSortCondition()
 //使用 router
 const router = useRouter()
 
+
+
+
 /**定義變數 */
 //動態頁數
 const pages = ref(1)
@@ -19,7 +22,7 @@ const tableDatas = ref([])
 const hasTable = ref(true)
 //設定查詢表格標題
 const dataTitles = ref([
-    //{ label: "id", key: "id", type: "String" },
+    { label: "id", key: "id", type: "String" },
     // { label: "分類", key: "categoryName", type: "String" },
     { label: "名稱", key: "prodName", type: "String" },
     // { label: "描述", key: "prodDescription", type: "String" },
@@ -102,7 +105,8 @@ const onGetDateRules = async (rules) => {
 
 //取得修改的 id 並跳轉頁面 (路徑需自己指定)
 const onGetEditId = (id) => {
-    router.push({ path: '/', query: { id } })
+    //router.push({ path: '/', query: { id } })
+    router.push(`/cms/editproduct?id=${id}`);
 }
 
 /** 初始化資料 */

@@ -246,6 +246,7 @@ const getAllCourse = (page, pageSize, dataTitles) => {
 const searchCourse = (criteria, jsonHeader) =>
   request.post("/course/criteria", criteria, jsonHeader)
 
+//課程分頁
 const reqGetCoursePage = (condition) => {
   return request.post("/course/pagenation", condition, jsonHeader)
 }
@@ -255,6 +256,9 @@ const reqGetCmsCoursePages = (condition) => {
   return request.post("/course/pages", condition, jsonHeader)
 }
 
+const reqLoadPicture = (courseImgURL) => {
+  return request.get(`/course/base64/image?path=${courseImgURL}`)
+}
 
 //#region ----------------------------------- 課程後台請求  ---------------------------------------*/
 
@@ -264,7 +268,9 @@ const reqGetCourseData = (id) => {
 }
 
 //刪除一筆課程
-
+const reqDeleteCourse = (id) => {
+  return request.delete(`/course/${id}`)
+}
 
 const getTeacher = (teacherId) => {
   return request.get(`/teacher/${teacherId}`, jsonHeader)
@@ -426,10 +432,12 @@ export {
   getTeacher,
   reqGetTeacherPage,
   reqGetCmsTeacherPages,
+  reqLoadPicture,
 
   //#region 課程後台
   reqGetCourseData,
   reqUpdateCourse,
+  reqDeleteCourse,
 
   //#endregion 課程後台
 

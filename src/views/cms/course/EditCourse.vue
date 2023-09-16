@@ -1,9 +1,12 @@
 <script setup>
 import { ref, watch, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { reqGetCourseData, reqUpdateCourse } from '../../../api';
+import { reqGetCourseData, reqUpdateCourse, reqDeleteCourse } from '../../../api';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { NButton, NSwitch, NForm, NFormItem, NInput, NDynamicTags, NDatePicker, NSelect, NRadioGroup, NRadioButton, NInputNumber } from "naive-ui"
+import { NButton, NSwitch, NForm, NFormItem, NInput, NDynamicTags, NDatePicker, NSelect, NRadioGroup, NRadioButton, NInputNumber, useLoadingBar } from "naive-ui"
+
+const loadingBar = useLoadingBar()
+loadingBar.start()
 
 const router = useRouter()
 
@@ -86,14 +89,21 @@ const stateOptions = [{ label: '停用', value: '停用' }, { label: '啟用', v
 const submitChange = async () => {
     let conf = confirm('是否修改課程資料？')
     if (conf) {
+        loadingBar.start()
         let result = await reqUpdateCourse(courseData.value)
         console.log(result.data);
+        loadingBar.finish()
         router.replace({ path: '/cms/course' })
     }
 }
 
-const deleteCourse = () => {
+const deleteCourse = async () => {
     let conf = confirm('是否真的要刪除資料？')
+    if (conf) {
+        let result = await reqDeleteCourse(courseData.value.id)
+        alert(result.data)
+        router.replace({ path: '/cms/course' })
+    }
 }
 
 onBeforeMount(async () => {
@@ -108,12 +118,15 @@ onBeforeMount(async () => {
         courseData.value.updateDate = new Date().getTime()
         courseData.value.courseDate = new Date(courseData.value.courseDate).getTime()
         courseData.value.closeDate = new Date(courseData.value.closeDate).getTime()
+        loadingBar.finish()
+    } else {
+        loadingBar.error()
     }
 })
 
 </script>
 <template>
-    <div v-if="courseData != null" class="justifyContainer">
+    <div v-cloak v-if="courseData != null" class="justifyContainer">
         <div class="picDisplayContainer">
             <div class="picDisplay">
                 <img
@@ -191,7 +204,7 @@ onBeforeMount(async () => {
             </n-form>
         </div>
     </div>
-    <div style="display: flex;justify-content: center;align-items: center;">
+    <div v-cloak style="display: flex;justify-content: center;align-items: center;">
         <n-button round type="primary" @click="submitChange" :disabled="updateDisabled ? false : true">
             送出
         </n-button>
@@ -302,5 +315,9 @@ onBeforeMount(async () => {
 
 .courseDetailContainer {
     width: 40%;
+}
+
+[v-cloak] {
+    display: none;
 }
 </style>

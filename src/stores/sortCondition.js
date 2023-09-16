@@ -196,14 +196,12 @@ export const useSortCondition = defineStore("sortCondition", () => {
   //條件搜索
   const setCourseSearchRules = async (rules) => {
     condition.value.searchRules = rules
-    console.log(rules)
     return await getCoursePagenation()
   }
 
   //日期範圍
   const setCourseDateRules = async (rules) => {
     condition.value.dateRules = rules
-    console.log(rules)
     return await getCoursePagenation()
   }
 
@@ -216,7 +214,6 @@ export const useSortCondition = defineStore("sortCondition", () => {
       condition.value.numKey = range[0]
       condition.value.numStart = range[1]
       condition.value.numEnd = range[2]
-      console.log(range)
       return await getCoursePagenation()
     }
   }
@@ -225,7 +222,6 @@ export const useSortCondition = defineStore("sortCondition", () => {
   const setCourseSortBy = async (rule) => {
     condition.value.sortBy = rule[0]
     condition.value.sortWay = rule[1]
-    console.log(rule)
     return await getCoursePagenation()
   }
 
@@ -233,7 +229,6 @@ export const useSortCondition = defineStore("sortCondition", () => {
   const setCoursePageChange = async (newPage) => {
     condition.value.page = newPage[0]
     condition.value.pageSize = newPage[1]
-    console.log(newPage)
     return await getCoursePagenation()
   }
   //#endregion 
@@ -285,7 +280,6 @@ export const useSortCondition = defineStore("sortCondition", () => {
   //查詢訂單頁面
   const getOrderPagenation = async () => {
     let result = await reqGetOrderPage(condition.value)
-    console.log(result.data)
     return result
   }
   //查詢訂單頁數
@@ -314,7 +308,6 @@ export const useSortCondition = defineStore("sortCondition", () => {
   //查詢頁面
   const getProductPagenation = async () => {
     let result = await reqGetProductPage(condition.value)
-    console.log(result.data)
     return result
   }
   //查詢頁數
@@ -326,7 +319,6 @@ export const useSortCondition = defineStore("sortCondition", () => {
   //查詢課程頁面
   const getCoursePagenation = async () => {
     let result = await reqGetCoursePage(condition.value)
-    console.log(result.data)
     return result
   }
   //查詢頁數

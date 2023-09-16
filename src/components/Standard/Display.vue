@@ -172,7 +172,7 @@ onMounted(() => {
     <div class="searchbarContainer">
         <div>
             <!-- 搜索列 -->
-            <Search :numberRanges="numberRanges" :searchOptions="searchOptions" :searchSize="140"
+            <Search :numberRanges="props.numberRanges" :searchOptions="searchOptions" :searchSize="140"
                 @get-number-range="getRange" @get-search-rules="getRules" @get-selected-key="onGetSelectedKey" />
         </div>
         <!-- 轉換陳列方式 -->

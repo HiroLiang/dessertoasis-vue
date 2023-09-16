@@ -70,6 +70,10 @@ const searchRules = reactive([])
 //搜索數字範圍
 const numberRange = ref([0, 100])
 
+const rangePath = computed(() => {
+    return props.numberRanges
+})
+
 //數值範圍搜索
 const numberMax = ref(100)
 const numberMin = ref(0)
@@ -131,7 +135,7 @@ watch(searchRules, () => {
 })
 
 //設定數值範圍，非數值時清除搜索條件
-watch(searchType, () => {
+watch(rangePath, () => {
     if (searchType.value === 'Number') {
         props.numberRanges.forEach(range => {
             if (range.key === searchRange.value) {

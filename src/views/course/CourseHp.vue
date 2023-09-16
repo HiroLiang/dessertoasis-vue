@@ -63,8 +63,6 @@ const updateDatas = (datas) => {
     url: data.courseImgURL
   }))
 
-  console.log("datas")
-  console.log(datas)
   tableDatas.value = array
   //更新頁數
   updatePages()
@@ -84,20 +82,16 @@ const loadPicture = async (data) => {
 const updatePages = async () => {
   let num = await store.getCoursePages()
   pages.value = num.data
-  console.log(pages.value);
 }
 
 /**傳值送 Pinia 整合搜索條件 */
 //換頁
 const onGetPage = async (page) => {
-  console.log("page")
-  console.log(page)
-  // let result = await store.setCoursePageChange(page)
-  // if (result != null) {
-  //   let datas = result.data
-  //   updateDatas(datas)
-  //   console.log(result.data)
-  // }
+  let result = await store.setCoursePageChange(page)
+  if (result != null) {
+    let datas = result.data
+    updateDatas(datas)
+  }
 }
 
 const onGetSelectedKey = (key) => {
@@ -116,23 +110,18 @@ const onGetCategoryId = id => {
   } else {
     catSearch.value = [{ key: 'categoryId', type: 'Number', input: id }]
   }
-  console.log(searchRules.value);
 }
 
 //數值範圍(單筆)
 const onGetNumberRange = async (range) => {
-  console.log("range")
-  console.log(range)
   let result = await store.setCourseNumberRange(range)
   if (result != null) {
     let datas = result.data
     updateDatas(datas)
-    console.log(result.data)
   }
 }
 
 const onGetSelectedLabel = (label) => {
-  console.log(label);
   searchOptions.value.forEach(async option => {
     if (option.key === label && option.type === 'Number') {
       let result = await store.getCourseNumberRange(label)
@@ -147,11 +136,8 @@ watch(searchRules, async () => {
   if (result != null) {
     let datas = result.data
     updateDatas(datas)
-    console.log(result.data)
   }
 })
-
-
 
 /** 初始化資料 */
 onMounted(async () => {

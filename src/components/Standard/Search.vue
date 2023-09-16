@@ -38,7 +38,7 @@ const props = defineProps({
         type: String,
         default: '請輸入搜索'
     },
-    //型態為Number的options
+    //型態為Number的option
     numberRanges: {
         default: [{ key: "age", max: 100, min: 0 }]
     },
@@ -101,6 +101,7 @@ const searchType = computed(() => {
 //接收搜索範圍
 const getKey = (key) => {
     searchRange.value = key
+    emit('get-selected-key', key)
 }
 //接收搜索條 input
 const getValue = (value) => {
@@ -141,7 +142,7 @@ watch(searchType, () => {
             }
         })
     } else {
-        emit('get-number-range', null)
+        emit('get-number-range', [])
     }
 })
 

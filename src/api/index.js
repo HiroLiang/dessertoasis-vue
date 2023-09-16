@@ -255,9 +255,13 @@ const reqGetCoursePage = (condition) => {
 const reqGetCmsCoursePages = (condition) => {
   return request.post("/course/pages", condition, jsonHeader)
 }
-
+//取得圖片
 const reqLoadPicture = (courseImgURL) => {
   return request.get(`/course/base64/image?path=${courseImgURL}`)
+}
+//取得數值範圍
+const reqGetCourseNumberRange = (condition) => {
+  return request.post("/course/number-range", condition, jsonHeader)
 }
 
 //#region ----------------------------------- 課程後台請求  ---------------------------------------*/
@@ -433,6 +437,7 @@ export {
   reqGetTeacherPage,
   reqGetCmsTeacherPages,
   reqLoadPicture,
+  reqGetCourseNumberRange,
 
   //#region 課程後台
   reqGetCourseData,

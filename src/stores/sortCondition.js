@@ -12,6 +12,7 @@ import {
   reqGetCmsCoursePages,
   reqGetTeacherPage,
   reqGetCmsTeacherPages,
+  reqGetCourseNumberRange,
 } from "../api"
 
 export const useSortCondition = defineStore("sortCondition", () => {
@@ -26,6 +27,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
     numKey: null,
     numStart: 0,
     numEnd: 0,
+    numberLabel: null
   })
 
   //#region 填入資料方法
@@ -331,6 +333,11 @@ export const useSortCondition = defineStore("sortCondition", () => {
   const getCoursePages = async () => {
     return await reqGetCmsCoursePages(condition.value)
   }
+  //查詢數值範圍
+  const getCourseNumberRange = async (label) => {
+    condition.value.numberLabel = label
+    return await reqGetCourseNumberRange(condition.value)
+  }
   //#endregion 
   //#region -----------------------老師---------------------------------*/
   //查詢課程頁面
@@ -391,6 +398,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
     setCourseNumberRange,
     setCourseSortBy,
     setCoursePageChange,
+    getCourseNumberRange,
     // 教師條件設置
     setTeacherSearchRules,
     setTeacherDateRules,

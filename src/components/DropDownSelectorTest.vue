@@ -173,6 +173,7 @@ header {
     display: block;
     height: auto;
     padding: 20px;
+    width: 130px;
     color: #151212;
     text-decoration: none;
 }

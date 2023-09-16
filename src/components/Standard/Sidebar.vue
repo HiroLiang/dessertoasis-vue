@@ -70,6 +70,7 @@ onBeforeMount(async () => {
     let category = await reqGetCategory(props.categoryId)
     ajaxOptions.value = category.data
     options.value = ajaxOptions.value.children
+    console.log(ajaxOptions.value);
 })
 
 </script>

@@ -4,6 +4,7 @@ import { reqSignOut, reqUserPermission } from "../api";
 import { useRouter } from 'vue-router';
 import { googleLogout } from 'vue3-google-login';
 import { useCartStore } from "../stores/cart";
+import { NBadge } from "naive-ui";
 
 const storedData = localStorage.getItem('googleLoginData');
 const isGoogleLoggedIn = localStorage.getItem('googleLoggedIn');
@@ -138,7 +139,11 @@ onMounted(() => {
                 </ul>
             </div>
             <div class="mx-4">
-                <router-link to="/cart" class="dropdown-item">購物車({{ cart.count }})</router-link>
+                <router-link to="/cart">
+                    <n-badge :value="cart.count">
+                        <img style="width: 32px;" src="/images/navbar/cart.png" />
+                    </n-badge>
+                </router-link>
             </div>
             <div class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
@@ -146,10 +151,6 @@ onMounted(() => {
                     <img class="loginIcon" :src="`/images/navbar/${props.ProfilePicture}`" alt="ProfilePicture" />
                 </a>
                 <ul :class="`dropdown-menu ${listPosition}`" aria-labelledby="dropdownMenuLink">
-
-                    <li>
-                        <router-link to="/order" class="dropdown-item">我的訂單</router-link>
-                    </li>
                     <li>
                         <router-link to="/demo" class="dropdown-item">Demo</router-link>
                     </li>
@@ -161,6 +162,9 @@ onMounted(() => {
                         <router-link to="/mem" class="dropdown-item">會員資料</router-link>
                     </li>
                     <li>
+                        <router-link to="/order" class="dropdown-item">我的訂單</router-link>
+                    </li>
+                    <li>
                         <router-link to="/" class="dropdown-item">我的食譜</router-link>
                     </li>
                     </li>
@@ -170,7 +174,7 @@ onMounted(() => {
                     <li v-if="isTeacher">
                         <router-link to="/teacher" class="dropdown-item">我的課程</router-link>
                     </li>
-                    <li v-if="!isTeacher && !isAdmin">
+                    <li v-if="isLogin && !isTeacher && !isAdmin">
                         <router-link to="/becomeTeacher" class="dropdown-item">成為老師</router-link>
                     </li>
                     <li v-if="isLogin">

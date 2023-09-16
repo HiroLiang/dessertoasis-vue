@@ -6,6 +6,7 @@ import CourseCart from '@/views/cart/CourseCart.vue';
 import AddToCartButton from '@/components/AddToCartButton.vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart'
+import CartEmpty from './CartEmpty.vue';
 
 const productCart = ref(null)
 const courseCart = ref(null)
@@ -49,23 +50,23 @@ const gotoPay = () => {
 
 <template>
     <div class="container">
-        <div class="row mt-3">
+        <!-- 商品課程加入購物車測試 -->
+        <div>
+            <div>
+                商品1:
+                <AddToCartButton :data="{ categoryId: 1, interestedId: 1, prodQuantity: 3 }"></AddToCartButton>
+                商品2:
+                <AddToCartButton :data="{ categoryId: 1, interestedId: 2, prodQuantity: 2 }"></AddToCartButton>
+            </div>
+            <div>
+                課程1:
+                <AddToCartButton :data="{ categoryId: 2, interestedId: 1 }"></AddToCartButton>
+            </div>
+        </div>
+
+        <div class="row mt-3" v-if="cart.count || cart.count > 0">
             <h1>購物車</h1>
             <div class="col-8">
-                <!-- 商品課程加入購物車測試 -->
-                <div>
-                    <div>
-                        商品1:
-                        <AddToCartButton :data="{ categoryId: 1, interestedId: 1, prodQuantity: 3 }"></AddToCartButton>
-                        商品2:
-                        <AddToCartButton :data="{ categoryId: 1, interestedId: 2, prodQuantity: 2 }"></AddToCartButton>
-                    </div>
-                    <div>
-                        課程1:
-                        <AddToCartButton :data="{ categoryId: 2, interestedId: 1 }"></AddToCartButton>
-                    </div>
-                </div>
-
                 <ProductCart @getProducts="getProducts"></ProductCart>
                 <CourseCart @getCourses="getCourses"></CourseCart>
                 <ReservationCart @getReservations="getReservations"></ReservationCart>
@@ -85,6 +86,10 @@ const gotoPay = () => {
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- 若購物車為空 -->
+        <div v-else>
+            <CartEmpty></CartEmpty>
         </div>
     </div>
 </template>

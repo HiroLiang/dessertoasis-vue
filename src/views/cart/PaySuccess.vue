@@ -1,11 +1,15 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { NResult, NButton } from 'naive-ui';
 
-
+const router = useRouter()
 
 </script>
 
 <template>
-    <div>訂單已成立</div>
-    <RouterLink to="/order">前往我的訂單查看</RouterLink>
+    <n-result status="success" title="訂單已成立">
+        <template #footer>
+            <n-button @click="router.push('/order')">前往我的訂單</n-button>
+        </template>
+    </n-result>
 </template>

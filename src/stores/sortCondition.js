@@ -28,8 +28,8 @@ export const useSortCondition = defineStore("sortCondition", () => {
     numEnd: 0,
   })
 
-  //填入資料方法
-  /*------------------------訂單--------------------------------*/
+  //#region 填入資料方法
+  //#region ------------------------訂單--------------------------------*/
 
   const setSearchRules = async (rules) => {
     condition.value.searchRules = rules
@@ -71,7 +71,8 @@ export const useSortCondition = defineStore("sortCondition", () => {
     return await getOrderPagenation()
   }
 
-  /*------------------------食譜  後台--------------------------------*/
+  //#endregion 
+  //#region ------------------------食譜  後台--------------------------------*/
   const setRecipeSearchRules = async (rules) => {
     condition.value.searchRules = rules
     console.log(condition.value)
@@ -111,7 +112,8 @@ export const useSortCondition = defineStore("sortCondition", () => {
     console.log(condition.value)
     return await getRecipePagenation()
   }
-  /*------------------------食譜  前台--------------------------------*/
+  //#endregion 
+  //#region ------------------------食譜  前台--------------------------------*/
 
   const setFrontRecipeSearchRules = async (rules) => {
     condition.value.searchRules = rules
@@ -145,8 +147,8 @@ export const useSortCondition = defineStore("sortCondition", () => {
       return await getFrontRecipePagenation()
     }
   }
-
-  /*------------------------商品--------------------------------*/
+  //#endregion 
+  //#region ------------------------商品--------------------------------*/
 
   const setProductSearchRules = async (rules) => {
     condition.value.searchRules = rules
@@ -187,19 +189,23 @@ export const useSortCondition = defineStore("sortCondition", () => {
     console.log(newPage)
     return await getProductPagenation()
   }
-  /*------------------------課程--------------------------------*/
+  //#endregion 
+  //#region ------------------------課程--------------------------------*/
+  //條件搜索
   const setCourseSearchRules = async (rules) => {
     condition.value.searchRules = rules
     console.log(rules)
     return await getCoursePagenation()
   }
 
+  //日期範圍
   const setCourseDateRules = async (rules) => {
     condition.value.dateRules = rules
     console.log(rules)
     return await getCoursePagenation()
   }
 
+  //數字範圍
   const setCourseNumberRange = async (range) => {
     condition.value.numKey = null
     condition.value.numStart = 0
@@ -213,6 +219,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
     }
   }
 
+  //排序
   const setCourseSortBy = async (rule) => {
     condition.value.sortBy = rule[0]
     condition.value.sortWay = rule[1]
@@ -227,10 +234,11 @@ export const useSortCondition = defineStore("sortCondition", () => {
     console.log(newPage)
     return await getCoursePagenation()
   }
+  //#endregion 
+  //#endregion 
 
-  //分頁搜索
-
-  /*------------------------老師--------------------------------*/
+  //#region 分頁搜索
+  //#region ------------------------老師--------------------------------*/
   const setTeacherSearchRules = async (rules) => {
     condition.value.searchRules = rules
     console.log(rules)
@@ -270,7 +278,8 @@ export const useSortCondition = defineStore("sortCondition", () => {
     console.log(newPage)
     return await getTeacherPagenation()
   }
-  /*------------------------訂單--------------------------------*/
+  //#endregion 
+  //#region -----------------------訂單--------------------------------*/
   //查詢訂單頁面
   const getOrderPagenation = async () => {
     let result = await reqGetOrderPage(condition.value)
@@ -281,8 +290,8 @@ export const useSortCondition = defineStore("sortCondition", () => {
   const getOrderPages = async () => {
     return await reqGetCmsOrderPages(condition.value)
   }
-
-  /*------------------------食譜--------------------------------*/
+  //#endregion 
+  //#region ------------------------食譜--------------------------------*/
   const getRecipePagenation = async () => {
     let result = await reqGetRecipePage(condition.value)
     console.log(result.data)
@@ -298,7 +307,8 @@ export const useSortCondition = defineStore("sortCondition", () => {
     console.log(result.data)
     return result
   }
-  /*------------------------商品--------------------------------*/
+  //#endregion 
+  //#region ------------------------商品--------------------------------*/
   //查詢頁面
   const getProductPagenation = async () => {
     let result = await reqGetProductPage(condition.value)
@@ -309,8 +319,8 @@ export const useSortCondition = defineStore("sortCondition", () => {
   const getProductPages = async () => {
     return await reqGetCmsProductPages(condition.value)
   }
-
-  /*------------------------課程--------------------------------*/
+  //#endregion 
+  //#region ------------------------課程--------------------------------*/
   //查詢課程頁面
   const getCoursePagenation = async () => {
     let result = await reqGetCoursePage(condition.value)
@@ -321,7 +331,8 @@ export const useSortCondition = defineStore("sortCondition", () => {
   const getCoursePages = async () => {
     return await reqGetCmsCoursePages(condition.value)
   }
-  /*-----------------------老師---------------------------------*/
+  //#endregion 
+  //#region -----------------------老師---------------------------------*/
   //查詢課程頁面
   const getTeacherPagenation = async () => {
     let result = await reqGetTeacherPage(condition.value)
@@ -332,6 +343,10 @@ export const useSortCondition = defineStore("sortCondition", () => {
   const getTeacherPages = async () => {
     return await reqGetCmsTeacherPages(condition.value)
   }
+  //#endregion 
+  //#endregion 
+
+  //回傳
   return {
     //搜索條件
     condition,

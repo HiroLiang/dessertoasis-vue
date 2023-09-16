@@ -35,7 +35,7 @@ const reqMemberDetail = (id) => {
 const reqGetAllMembers = () => request.get("/member/all", {})
 
 //從session 拿出member資料
-const reqSession = () => request.get("/memberSession")
+const reqSession = () => request.post("/memberSession")
 
 const reqGetMemberId = () => request.get("/member/loggedInUserId")
 
@@ -53,9 +53,14 @@ const reqChangepassword = (requestData) => {
   }
   return request.post("/member/changepassword", requestBody, jsonHeader)
 }
-
+//更新會員資料
 const reqChangeMember = (detail) => {
   return request.put("/member/update", detail, jsonHeader)
+}
+//傳圖到特定路徑
+const memberImg = (file) => {
+  console.log(file)
+  return request.post("/member/uploadMemberImg", file)
 }
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
@@ -241,6 +246,7 @@ const getAllCourse = (page, pageSize, dataTitles) => {
 const searchCourse = (criteria, jsonHeader) =>
   request.post("/course/criteria", criteria, jsonHeader)
 
+//課程分頁
 const reqGetCoursePage = (condition) => {
   return request.post("/course/pagenation", condition, jsonHeader)
 }
@@ -257,10 +263,20 @@ const getTeacherImage = (id) => {
   return request.post("teacher/getImage", id, jsonHeader)
 }
 
+const reqLoadPicture = (courseImgURL) => {
+  return request.get(`/course/base64/image?path=${courseImgURL}`)
+}
+
 //#region ----------------------------------- 課程後台請求  ---------------------------------------*/
 
+//取得單一課程資料
 const reqGetCourseData = (id) => {
   return request.get(`course/course-desplay?id=${id}`)
+}
+
+//刪除一筆課程
+const reqDeleteCourse = (id) => {
+  return request.delete(`/course/${id}`)
 }
 
 const getTeacher = (teacherId) => {
@@ -274,6 +290,11 @@ const reqGetTeacherPage = (condition) => {
 //取得總頁數
 const reqGetCmsTeacherPages = (condition) => {
   return request.post("/teacher/pages", condition, jsonHeader)
+}
+
+//更新課程
+const reqUpdateCourse = (courseData) => {
+  return request.post("course/updateCourse", courseData, jsonHeader)
 }
 
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
@@ -320,6 +341,10 @@ const UploadProdImage = (
 }
 const getProductImage = (id) => {
   return request.post("product/getImage", id, jsonHeader)
+}
+
+const getAllProductImage = (id) => {
+  return request.post("product/getAllImage", id, jsonHeader)
 }
 
 //取得總頁數
@@ -370,6 +395,7 @@ export {
   reqUserPermission,
   reqGetMemberId,
   reqChangepassword,
+  memberImg,
   reqChangeMember,
 
   /*--------食譜用-------*/
@@ -427,7 +453,13 @@ export {
   getTeacherImage,
 
   //#region 課程後台
+  // reqGetCourseData,
+  reqLoadPicture,
+
+  //#region 課程後台
   reqGetCourseData,
+  reqUpdateCourse,
+  reqDeleteCourse,
 
   //#endregion 課程後台
 
@@ -441,6 +473,7 @@ export {
   AddProduct,
   UploadProdImage,
   getProductImage,
+  getAllProductImage,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

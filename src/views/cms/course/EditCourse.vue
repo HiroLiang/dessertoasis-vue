@@ -1,8 +1,14 @@
 <script setup>
 import { ref, watch, onBeforeMount } from 'vue'
-import { useRoute } from 'vue-router'
-import { reqGetCourseData } from '../../../api';
-import { NButton, NSwitch, NForm, NFormItem, NInput, NDynamicTags, NDatePicker, NSelect, NRadioGroup, NRadioButton, NInputNumber } from "naive-ui"
+import { useRoute, useRouter } from 'vue-router'
+import { reqGetCourseData, reqUpdateCourse, reqDeleteCourse } from '../../../api';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { NButton, NSwitch, NForm, NFormItem, NInput, NDynamicTags, NDatePicker, NSelect, NRadioGroup, NRadioButton, NInputNumber, useLoadingBar } from "naive-ui"
+
+const loadingBar = useLoadingBar()
+loadingBar.start()
+
+const router = useRouter()
 
 //取得陳列課程Id
 const route = useRoute()
@@ -21,19 +27,48 @@ const showPicture = (index) => {
     selectedImg.value = index
 }
 
+const insertImg = (e) => {
+    const newPic = e.target.files[0]
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const base64String = e.target.result
+        courseData.value.coursePictureList.push({
+            courseImgURL: base64String
+        })
+    }
+    reader.readAsDataURL(newPic)
+
+}
+
+const deletePic = (url) => {
+    if (courseData.value.coursePictureList.length > 1) {
+        for (let i = 0; i < courseData.value.coursePictureList.length; i++) {
+            let pic = courseData.value.coursePictureList[i]
+            if (pic.courseImgURL === url) {
+                courseData.value.coursePictureList.splice(i, 1)
+                return
+            }
+        }
+    }
+}
+
 //標籤
 const dynamicTagsValue = ref([])
 
-watch(dynamicTagsValue, (nValue, oValue) => {
-    if (nValue.length > oValue.length) {
+watch(dynamicTagsValue, () => {
+    console.log(dynamicTagsValue.value);
+    if (dynamicTagsValue.value.length > courseData.value.courseList.length) {
         courseData.value.courseList.push({
-            ctag: { courseTagName: nValue[nValue.length] }
+            ctag: { courseTagName: dynamicTagsValue.value[dynamicTagsValue.value.length - 1] }
         })
-    } else {
+        console.log('add', courseData.value.courseList);
+    } else if (dynamicTagsValue.value.length < courseData.value.courseList.length) {
         for (let i = 0; i < courseData.value.courseList.length; i++) {
             let tag = courseData.value.courseList[i]
-            if (!nValue.includes(tag.ctag.courseTagName)) {
+            console.log(dynamicTagsValue.value.includes(tag.ctag.courseTagName));
+            if (!dynamicTagsValue.value.includes(tag.ctag.courseTagName)) {
                 courseData.value.courseList.splice(i, 1)
+                console.log('dele', courseData.value.courseList);
                 return
             }
         }
@@ -51,12 +86,24 @@ const checkClassroom = () => {
 const stateOptions = [{ label: '停用', value: '停用' }, { label: '啟用', value: '啟用' }]
 
 //變更.刪除
-const submitChange = () => {
-
+const submitChange = async () => {
+    let conf = confirm('是否修改課程資料？')
+    if (conf) {
+        loadingBar.start()
+        let result = await reqUpdateCourse(courseData.value)
+        console.log(result.data);
+        loadingBar.finish()
+        router.replace({ path: '/cms/course' })
+    }
 }
 
-const deleteCourse = () => {
-
+const deleteCourse = async () => {
+    let conf = confirm('是否真的要刪除資料？')
+    if (conf) {
+        let result = await reqDeleteCourse(courseData.value.id)
+        alert(result.data)
+        router.replace({ path: '/cms/course' })
+    }
 }
 
 onBeforeMount(async () => {
@@ -71,28 +118,41 @@ onBeforeMount(async () => {
         courseData.value.updateDate = new Date().getTime()
         courseData.value.courseDate = new Date(courseData.value.courseDate).getTime()
         courseData.value.closeDate = new Date(courseData.value.closeDate).getTime()
-        console.log(courseData.value.closeDate);
+        loadingBar.finish()
+    } else {
+        loadingBar.error()
     }
 })
 
 </script>
 <template>
-    <div v-if="courseData != null" class="justifyContainer">
+    <div v-cloak v-if="courseData != null" class="justifyContainer">
         <div class="picDisplayContainer">
             <div class="picDisplay">
-                <img :src="courseData.coursePictureList[selectedImg].courseImgURL">
+                <img
+                    :src="courseData.coursePictureList[selectedImg] ? courseData.coursePictureList[selectedImg].courseImgURL : '/images/navbar/image-gallery.png'">
             </div>
             <div class="allPicContainer">
                 <div v-for="(img, index) in courseData.coursePictureList" :key="img.id"
                     :class="index == selectedImg ? `imgDisplay selectedPic` : `imgDisplay`" @click="showPicture(index)">
-                    <div>
+                    <div v-if="updateDisabled" class="deleteContain">
+                        <span class="dlelBtnContainer">
+                            <font-awesome-icon @click.stop="deletePic(img.courseImgURL)" :icon="['fas', 'trash']"
+                                style="color: #9a7373;" size="lg" />
+                        </span>
+                    </div>
+                    <div class="picContainer">
                         <img :src="img.courseImgURL" :alt="img.id">
                     </div>
                 </div>
-                <div>
-                    <div>
-                        <font-awesome-icon :icon="['far', 'image']" />
-                    </div>
+                <div class="imgDisplay ">
+                    <label for="imgList">
+                        <div class="inputLabel picContainer" name="imgList" style="cursor: pointer;">
+                            <img style="opacity: 0.4;" src="/images/navbar/add-image.png" alt="image-gallery.png">
+                        </div>
+                        <input :disabled="!updateDisabled" @change="insertImg" name="imgList"
+                            class="form-control visually-hidden pic" type="file" id="imgList">
+                    </label>
                 </div>
             </div>
         </div>
@@ -144,11 +204,11 @@ onBeforeMount(async () => {
             </n-form>
         </div>
     </div>
-    <div style="display: flex;justify-content: center;align-items: center;">
+    <div v-cloak style="display: flex;justify-content: center;align-items: center;">
         <n-button round type="primary" @click="submitChange" :disabled="updateDisabled ? false : true">
             送出
         </n-button>
-        <n-button round type="error" @click="submitChange" :disabled="updateDisabled ? false : true">
+        <n-button round type="error" @click="deleteCourse" :disabled="updateDisabled ? false : true">
             刪除
         </n-button>
     </div>
@@ -180,13 +240,13 @@ onBeforeMount(async () => {
     width: 90%;
     height: 90%;
     flex-grow: 3;
-    background-color: aliceblue;
+    overflow: hidden;
 }
 
 .picDisplay img {
     height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .allPicContainer {
@@ -205,6 +265,7 @@ onBeforeMount(async () => {
     width: auto;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
     margin-top: 5px;
     padding-top: 20px;
     padding-left: 20px;
@@ -221,7 +282,7 @@ onBeforeMount(async () => {
     background-color: rgb(222, 221, 221);
 }
 
-.allPicContainer>div>div {
+.picContainer {
     height: 120px;
     width: 120px;
 }
@@ -232,9 +293,31 @@ onBeforeMount(async () => {
     object-fit: cover;
 }
 
+.deleteContain {
+    position: relative;
+}
+
+.dlelBtnContainer {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0px;
+    right: 0px;
+    transform: translateX(22px) translateY(-100px);
+    transition: all 0.2s;
+}
+
+.imgDisplay:hover .dlelBtnContainer {
+    transform: translateX(22px) translateY(-52px);
+}
+
 /* 表單陳列 */
 
 .courseDetailContainer {
     width: 40%;
+}
+
+[v-cloak] {
+    display: none;
 }
 </style>

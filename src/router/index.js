@@ -68,11 +68,11 @@ const router = createRouter({
         },
       ],
     },
-    {
-      path: "/prod",
-      name: "prod",
-      component: () => import("../views/product/Product1.vue"),
-    },
+    // {
+    //   path: "/prod",
+    //   name: "prod",
+    //   component: () => import("../views/product/Product1.vue"),
+    // },
     //後台管理系統
     {
       path: "/cms",
@@ -116,7 +116,6 @@ const router = createRouter({
           component: () => import("../views/course/AddCourse.vue"),
         },
 
-
         //等待移動
         {
           path: "/cms/teacherCourseManager",
@@ -125,13 +124,11 @@ const router = createRouter({
         },
         //
 
-
         {
           path: "/cms/addTeacherProfile",
           name: "cmsaddTeacherProfile",
           component: () => import("../views/course/AddTeacherProfile.vue"),
         },
-
 
         //等待移動
         {
@@ -348,8 +345,8 @@ const router = createRouter({
     {
       path: "/test",
       name: "test",
-      component: () => import("../views/classroom/PersonalCalendar.vue")
-    }
+      component: () => import("../views/classroom/PersonalCalendar.vue"),
+    },
   ],
 })
 

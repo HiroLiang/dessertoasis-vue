@@ -40,6 +40,7 @@ const updateDatas = (datas) => {
     // name: data.courseName,
     // teacher: data.teacher.teacherName,
     teacher: data.teacherName,
+
     // price: data.coursePrice,
     // description: data.courseIntroduction,
   }))

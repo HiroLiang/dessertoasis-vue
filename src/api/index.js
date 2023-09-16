@@ -250,6 +250,12 @@ const reqGetCmsCoursePages = (condition) => {
   return request.post("/course/pages", condition, jsonHeader)
 }
 
+const UploadTeacherImage = (formData) => {
+  return request.post(`/teacher/uploadImage`, formData)
+}
+const getTeacherImage = (id) => {
+  return request.post("teacher/getImage", id, jsonHeader)
+}
 
 //#region ----------------------------------- 課程後台請求  ---------------------------------------*/
 
@@ -270,7 +276,6 @@ const reqGetCmsTeacherPages = (condition) => {
   return request.post("/teacher/pages", condition, jsonHeader)
 }
 
-
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
 const getAllProd = (page, pageSize, dataTitles) => {
@@ -287,9 +292,7 @@ const getProd = (page, pageSize, queryString) => {
   )
 }
 const getProd1 = (queryParams) => {
-  return request.get(
-    `/product/search?${queryParams}`
-  )
+  return request.get(`/product/search?${queryParams}`)
 }
 
 const reqGetProductPage = (condition) => {
@@ -300,11 +303,23 @@ const AddProduct = (productData) => {
   return request.post("/product/add", productData, jsonHeader)
 }
 
-const UploadProdImage = (productId, imageFormData, config, thumbnailFormData, thumbnailConfig) => {
-  return request.post(`/product/uploadImage?productId=${productId}`, imageFormData, config, thumbnailFormData, thumbnailConfig);
+const UploadProdImage = (
+  productId,
+  imageFormData,
+  config,
+  thumbnailFormData,
+  thumbnailConfig
+) => {
+  return request.post(
+    `/product/uploadImage?productId=${productId}`,
+    imageFormData,
+    config,
+    thumbnailFormData,
+    thumbnailConfig
+  )
 }
 const getProductImage = (id) => {
-  return request.post('product/getImage', id, jsonHeader)
+  return request.post("product/getImage", id, jsonHeader)
 }
 
 //取得總頁數
@@ -313,7 +328,6 @@ const reqGetCmsProductPages = (condition) => {
 }
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
 // request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
-
 
 /**----------------------------------------  搜索相關請求  -------------------------------------------*/
 
@@ -409,10 +423,11 @@ export {
   getTeacher,
   reqGetTeacherPage,
   reqGetCmsTeacherPages,
+  UploadTeacherImage,
+  getTeacherImage,
 
   //#region 課程後台
   reqGetCourseData,
-
 
   //#endregion 課程後台
 

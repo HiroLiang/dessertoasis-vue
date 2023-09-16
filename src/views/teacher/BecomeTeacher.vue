@@ -2,6 +2,7 @@
 import NavBar from "@/components/NavBar.vue"
 import { reactive, ref } from "vue"
 import SweetAlert from "SweetAlert2"
+import { getTeacherImage, UploadTeacherImage } from "@/api/index.js"
 const navBarList = reactive([
   { title: "食譜", toUrl: "/recipes" },
   { title: "課程", toUrl: "/courses" },
@@ -23,6 +24,70 @@ const showTeacherContract = () => {
     confirmButtonText: "确定",
   })
 }
+const id = ref(1)
+const img = ref(null)
+const getImg = async (id) => {
+  let res = await getTeacherImage(id)
+  const body = res.data
+  const header = res.headers["content-type"]
+
+  console.log("body", body)
+  console.log("header", header)
+
+  img.value = `data:${header};base64,${body}`
+}
+/*----------------------------------------------圖檔資料處理區塊-------------------------------------------------------*/
+//取得圖片資料
+const teacherJsonData = ref(null)
+//產生預覽圖
+const teacherPicPreviewImageUrl = ref(null)
+const teacherPic = ref(null)
+const getTeacherImg = (e) => {
+  //利用change事件取得圖檔
+  const teacherImgData = e.target.files[0]
+  teacherPic.value = e.target.files[0]
+
+  if (teacherImgData) {
+    //FileReader會自動讀取input中上傳的檔案
+    const reader = new FileReader()
+    //將圖檔轉成base64編碼
+    reader.readAsDataURL(teacherImgData)
+    //FileReader讀取完成時觸發onload事件
+    reader.onload = (e) => {
+      //讀取完成後利用e.target.result取得圖檔的base64編碼數據,
+      //並將其進行字串處理取得split後的的第二個元素(資料中base64編碼所在位置)
+      const base64Data = e.target.result.split(",")[1]
+      //將字串利用物件建立兩個屬性放入對應數據(屬性名稱一定要為fileName: 以及  base64Content:)
+      const jsonData = {
+        fileName: teacherImgData.name, //用以儲存圖檔檔名(const recipeImgData = e.target.files[0]中的name屬性值)
+        base64Content: base64Data, //用以儲存base64字串
+      }
+      //jsonData物件轉成JSON格式放入物件內,用以傳送給Server
+      teacherJsonData.value = JSON.stringify(jsonData)
+      //用以利用 onbind img標籤內的src產生預覽圖
+      teacherPicPreviewImageUrl.value = e.target.result
+      console.log("teacherJsonData")
+      console.log(teacherJsonData.value)
+      console.log("base64")
+      console.log(base64Data)
+    }
+  }
+}
+/*----------------------------------------------圖檔資料處理區塊-------------------------------------------------------*/
+//teacherBean物件
+const data = reactive({
+  teacher: {
+    teacherName: "",
+    teacherContract: "",
+    pictureURL: "",
+    teacherTel: 0,
+    teacherMail: "",
+    teacherProfile: "",
+    teacherAccountStatus: "",
+    pictures: [],
+  },
+})
+
 const contractContent = `甜点教师合同
 
 本協議（以下簡稱「協議」）由以下各方（以下簡稱「合同方」）共同訂立並同意遵守：
@@ -70,14 +135,36 @@ const contractContent = `甜点教师合同
 甲方（教師）簽名: ____________________________ 日期: ______________
 
 乙方（學校或課程平台）簽名: ______________________ 日期: ______________`
+const form = new FormData()
+
+const sendForm = async () => {
+  form.append("teacherName", data.teacher.teacherName)
+  // form.append("pictureURL", myForm.value)
+  form.append("pictureURL", teacherPic.value)
+  form.append("teacherTel", data.teacher.teacherTel)
+  form.append("email", data.teacher.teacherMail)
+  form.append("teacherProfile", data.teacher.teacherProfile)
+  form.forEach((e) => {
+    console.log(e)
+  })
+  await UploadTeacherImage(form)
+}
 </script>
 <template>
   <NavBar :NavBarList="navBarList" />
   <RouterView></RouterView>
   <h1>成為老師</h1>
+  <button @click="getTeacherImg(5)">測試</button>
+  <!-- <img :src="teacherPicPreviewImageUrl" alt="" /> -->
+  <!-- <h2>this is a teacher page{{ teacherId }}</h2> -->
+
   <div class="container">
-    <div class="row">
-      <div class="col-6 mb-3 mx-auto">
+    <form @submit.prevent="sendForm">
+      <div class="row">
+        <div class="col-6 mb-3 mx-auto">
+          <h1>上傳圖片</h1>
+        </div>
+
         <!-- <label for="exampleFormControlInput1" class="form-label">照片</label>
         <input
           type="email"
@@ -85,82 +172,111 @@ const contractContent = `甜点教师合同
           id="exampleFormControlInput1"
           placeholder="請輸入姓名"
         /> -->
-        <div class="imgContainer">
+      </div>
+      <div class="row">
+        <div class="col-6 mb-3 mx-auto">
           <img
-            src="https://fakeimg.pl/1180x550/?text=Image"
-            alt=""
-            class="img-fluid rounded"
+            :src="
+              teacherPicPreviewImageUrl ||
+              'https://fakeimg.pl/636x450/?text=Image'
+            "
+            alt="預覽圖片"
+            class="mb-3 previewImg"
+          />
+          <input
+            @change="getTeacherImg"
+            class="form-control pic"
+            type="file"
+            id="pictureURL"
+            name="pictureURL"
+            accept="image/*"
+          /><br />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 mb-3 mx-auto">
+          <label for="teacherName" class="form-label">姓名</label>
+          <input
+            type="text"
+            class="form-control"
+            id="teacherName"
+            placeholder="請輸入姓名"
+            name="teacherName"
+            v-model="data.teacher.teacherName"
+          />
+          <!-- <p>{{ teacherData.teacherName }}</p> -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 mb-3 mx-auto">
+          <label for="teacherTel" class="form-label">電話</label>
+          <input
+            type="text"
+            class="form-control"
+            id="teacherTel"
+            placeholder="請輸入電話"
+            name="teacherTel"
+            v-model="data.teacher.teacherTel"
           />
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-6 mb-3 mx-auto">
-        <label for="exampleFormControlInput1" class="form-label">姓名</label>
-        <input
-          type="email"
-          class="form-control"
-          id="exampleFormControlInput1"
-          placeholder="請輸入姓名"
-        />
-        <!-- <p>{{ teacherData.teacherName }}</p> -->
+      <div class="row">
+        <div class="col-6 mb-3 mx-auto">
+          <label for="email" class="form-label">e-mail</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            placeholder="name@example.com"
+            name="email"
+            v-model="data.teacher.teacherMail"
+          />
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-6 mb-3 mx-auto">
-        <label for="exampleFormControlInput1" class="form-label">電話</label>
-        <input
-          type="email"
-          class="form-control"
-          id="exampleFormControlInput1"
-          placeholder="請輸入電話"
-        />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6 mb-3 mx-auto">
-        <label for="exampleFormControlInput1" class="form-label">e-mail</label>
-        <input
-          type="email"
-          class="form-control"
-          id="exampleFormControlInput1"
-          placeholder="name@example.com"
-        />
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-6 mb-3 mx-auto">
-        <label for="exampleFormControlTextarea1" class="form-label">經歷</label>
-        <textarea
-          class="form-control"
-          id="exampleFormControlTextarea1"
-          rows="10"
-        ></textarea>
+      <div class="row">
+        <div class="col-6 mb-3 mx-auto">
+          <label for="teacherProfile" class="form-label">經歷</label>
+          <textarea
+            class="form-control"
+            id="teacherProfile"
+            rows="10"
+            name="teacherProfile"
+            v-model="data.teacher.teacherProfile"
+          ></textarea>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="form-check mx-auto col-6">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          value=""
-          id="flexCheckDefault"
-        />
-        <label class="form-check-label" for="flexCheckDefault">
-          我同意成為老師
+      <div class="row">
+        <div class="form-check mx-auto col-6">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            name="flexCheckDefault"
+            id="flexCheckDefault"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            我同意成為老師
 
-          <button class="btn btn-link" @click="showTeacherContract">
-            查看教師合約
-          </button>
-        </label>
+            <button class="btn btn-link" @click="showTeacherContract">
+              查看教師合約
+            </button>
+          </label>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-6 mx-auto justify-content-end">
-        <button class="btn btn-outline-primary">修改</button>
-        <button class="btn btn-outline-danger">取消</button>
+      <div class="row">
+        <div class="col-6 mx-auto justify-content-end">
+          <button class="btn btn-outline-primary">修改</button>
+          <button class="btn btn-outline-danger">取消</button>
+          <button type="submit">送出</button>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
+<style scoped>
+.previewImg {
+  max-width: 100%;
+  max-height: 100%;
+}
+</style>

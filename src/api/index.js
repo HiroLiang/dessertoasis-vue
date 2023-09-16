@@ -255,7 +255,15 @@ const reqGetCoursePage = (condition) => {
 const reqGetCmsCoursePages = (condition) => {
   return request.post("/course/pages", condition, jsonHeader)
 }
+
 //取得圖片
+const UploadTeacherImage = (formData) => {
+  return request.post(`/teacher/uploadImage`, formData)
+}
+const getTeacherImage = (id) => {
+  return request.post("teacher/getImage", id, jsonHeader)
+}
+
 const reqLoadPicture = (courseImgURL) => {
   return request.get(`/course/base64/image?path=${courseImgURL}`)
 }
@@ -291,7 +299,7 @@ const reqGetCmsTeacherPages = (condition) => {
 
 //更新課程
 const reqUpdateCourse = (courseData) => {
-  return request.post('course/updateCourse', courseData, jsonHeader)
+  return request.post("course/updateCourse", courseData, jsonHeader)
 }
 
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
@@ -310,9 +318,7 @@ const getProd = (page, pageSize, queryString) => {
   )
 }
 const getProd1 = (queryParams) => {
-  return request.get(
-    `/product/search?${queryParams}`
-  )
+  return request.get(`/product/search?${queryParams}`)
 }
 
 const reqGetProductPage = (condition) => {
@@ -323,15 +329,27 @@ const AddProduct = (productData) => {
   return request.post("/product/add", productData, jsonHeader)
 }
 
-const UploadProdImage = (productId, imageFormData, config, thumbnailFormData, thumbnailConfig) => {
-  return request.post(`/product/uploadImage?productId=${productId}`, imageFormData, config, thumbnailFormData, thumbnailConfig);
+const UploadProdImage = (
+  productId,
+  imageFormData,
+  config,
+  thumbnailFormData,
+  thumbnailConfig
+) => {
+  return request.post(
+    `/product/uploadImage?productId=${productId}`,
+    imageFormData,
+    config,
+    thumbnailFormData,
+    thumbnailConfig
+  )
 }
 const getProductImage = (id) => {
-  return request.post('product/getImage', id, jsonHeader)
+  return request.post("product/getImage", id, jsonHeader)
 }
 
 const getAllProductImage = (id) => {
-  return request.post('product/getAllImage', id, jsonHeader)
+  return request.post("product/getAllImage", id, jsonHeader)
 }
 
 //取得總頁數
@@ -436,6 +454,11 @@ export {
   getTeacher,
   reqGetTeacherPage,
   reqGetCmsTeacherPages,
+  UploadTeacherImage,
+  getTeacherImage,
+
+  //#region 課程後台
+  // reqGetCourseData,
   reqLoadPicture,
   reqGetCourseNumberRange,
 

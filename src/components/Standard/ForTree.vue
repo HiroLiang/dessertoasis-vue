@@ -59,15 +59,23 @@ const getCategoryId = (id) => {
     emit('get-category-id', id)
 }
 
+const onGetCategoryId = (id) => {
+    emit('get-category-id', id)
+}
+
 /**初始化數據 */
 const init = computed(() => {
-    let options = props.categoryOptions.map((option) => {
+    return initDatas(props.categoryOptions)
+})
+
+const initDatas = (datas) => {
+    let options = datas.map((option) => {
         try {
             if (option.show) {
                 return {
                     id: option.id,
                     categoryName: option.categoryName,
-                    children: option.children,
+                    children: initDatas(option.children),
                     show: true
                 }
             }
@@ -77,12 +85,12 @@ const init = computed(() => {
         return {
             id: option.id,
             categoryName: option.categoryName,
-            children: option.children,
+            children: initDatas(option.children),
             show: false
         }
     })
     return options
-})
+}
 
 watch(options, () => {
     datas.value = options.value
@@ -103,7 +111,8 @@ onMounted(() => {
             <span @click="getCategoryId(category.id)">
                 {{ category.categoryName }}
             </span>
-            <myForTree v-if="category.children && category.show" :categoryOptions="category.children" />
+            <myForTree v-if="category.children && category.show" @get-category-id="onGetCategoryId"
+                :categoryOptions="category.children" />
         </li>
     </ul>
 </template>

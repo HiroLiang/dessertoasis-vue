@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, onMounted } from "vue"
+import { reactive, ref, computed, onMounted } from "vue"
 import { useRouter } from "vue-router"
 import { useSortCondition } from "../../stores/sortCondition.js"
 import { reqLoadPicture } from "../../api"
@@ -19,15 +19,10 @@ const course = ref()
 const courses = reactive([])
 
 const searchOptions = ref([
-  { key: "coursePrice", label: "課程價格", type: "Number" },
   { key: "courseName", label: "課程名稱", type: "String" },
   { key: "teacherName", label: "老師姓名", type: "String" },
+  { key: "coursePrice", label: "課程價格", type: "Number" },
 ])
-const row = ref(true)
-const block = ref(true)
-const categoryId = ref(2)
-const pageSize = ref(10)
-const page = ref(1)
 
 /**定義變數 */
 //動態頁數
@@ -36,6 +31,16 @@ const pages = ref(1)
 const tableDatas = ref([])
 //是否有資料
 const hasTable = ref(true)
+
+const emitSearch = ref([])
+
+const catSearch = ref([])
+
+const searchRules = computed(() => {
+  return emitSearch.value + catSearch.value
+})
+
+
 
 /**更新資料方法 */
 //更新表格資料
@@ -62,8 +67,8 @@ const updateDatas = (datas) => {
   //更新頁數
   updatePages()
   //加載圖片
-  tableDatas.value.forEach(data => {
-    loadPicture(data)
+  tableDatas.value.forEach(async data => {
+    await loadPicture(data)
   })
 
 }
@@ -85,12 +90,12 @@ const updatePages = async () => {
 const onGetPage = async (page) => {
   console.log("page")
   console.log(page)
-  let result = await store.setCoursePageChange(page)
-  if (result != null) {
-    let datas = result.data
-    updateDatas(datas)
-    console.log(result.data)
-  }
+  // let result = await store.setCoursePageChange(page)
+  // if (result != null) {
+  //   let datas = result.data
+  //   updateDatas(datas)
+  //   console.log(result.data)
+  // }
 }
 
 const onGetSelectedKey = (key) => {
@@ -99,55 +104,46 @@ const onGetSelectedKey = (key) => {
 }
 
 //搜索條件(多筆)
-const onGetSearchRules = async (rule) => {
+const onGetSearchRules = async rule => {
   console.log("rule")
   console.log(rule)
-  let result = await store.setCourseSearchRules(rule)
-  if (result != null) {
-    let datas = result.data
-    updateDatas(datas)
-    console.log(result.data)
-  }
+  emitSearch.value = rule
+  // let result = await store.setCourseSearchRules(rule)
+  // if (result != null) {
+  //   let datas = result.data
+  //   updateDatas(datas)
+  //   console.log(result.data)
+  // }
 }
 
-//排序條件(單筆)
-const onGetSortRule = async (rule) => {
-  let result = await store.setCourseSortBy(rule)
-  if (result != null) {
-    let datas = result.data
-    updateDatas(datas)
-  }
+const onGetCategoryId = id => {
+  console.log('id');
+  console.log(id);
+
 }
 
 //數值範圍(單筆)
 const onGetNumberRange = async (range) => {
   console.log("range")
   console.log(range)
-  let result = await store.setCourseNumberRange(range)
-  if (result != null) {
-    let datas = result.data
-    updateDatas(datas)
-    console.log(result.data)
-  }
+  // let result = await store.setCourseNumberRange(range)
+  // if (result != null) {
+  //   let datas = result.data
+  //   updateDatas(datas)
+  //   console.log(result.data)
+  // }
 }
 
 //日期範圍(多筆)
 const onGetDateRules = async (rules) => {
-  let result = await store.setCourseDateRules(rules)
-  if (result != null) {
-    let datas = result.data
-    updateDatas(datas)
-  }
+  // let result = await store.setCourseDateRules(rules)
+  // if (result != null) {
+  //   let datas = result.data
+  //   updateDatas(datas)
+  // }
 }
 
-//取得修改的 id 並跳轉頁面 (路徑需自己指定)
-const onGetEditId = (id) => {
-  router.push({ path: "/", query: { id } })
-}
 
-const onGetCategoryId = (id => {
-
-})
 
 /** 初始化資料 */
 onMounted(async () => {
@@ -161,9 +157,9 @@ onMounted(async () => {
 </script>
 <template>
   <CourseDisplay :products="tableDatas" :searchOptions="searchOptions" :pages="pages" :row="true" :block="true"
-    :categoryId="categoryId" @get-selected-key="onGetSelectedKey" @get-search-rules="onGetSearchRules"
+    :categoryId="2" @get-selected-key="onGetSelectedKey" @get-search-rules="onGetSearchRules"
     @get-number-range="onGetNumberRange" @get-page="onGetPage"></CourseDisplay>
-  <StandardSidebar :categoryId="categoryId" @get-category-id="onGetCategoryId" />
+  <StandardSidebar :categoryId="2" @get-category-id="onGetCategoryId" />
   <StandardFooter />
 </template>
 <style scoped></style>

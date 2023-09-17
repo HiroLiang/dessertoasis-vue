@@ -2,13 +2,19 @@
 
 import { reactive, ref } from 'vue'
 
-const textContent = ref('')
+const textContent = ref(props.textContent || '')
 const textPic = ref(null)
-const previewImageUrl = ref(null)
+const previewImageUrl = ref(props.previewImageUrl || null)
 const props = defineProps({
     stepIndex: {
         type: Number
     },
+    textContent: {
+        type: String
+    },
+    previewImageUrl: {
+        type: String
+    }
 })
 //自定義事件
 let emit = defineEmits(['delete-step', 'get-step-data'])

@@ -66,7 +66,7 @@ const recipeData = ref({
     recipeTitle: "",
     recipeIntroduction: "",
     pictureUrl: "",
-    recipePersons: "",
+    ingredientPersons: Number,
     cookingTime: Number,
     recipeAthor: {},
     ingredients: [
@@ -112,7 +112,7 @@ onMounted(async () => {
     recipeData.value.recipeTitle = datas.recipeTitle
     recipeData.value.recipeIntroduction = datas.recipeIntroduction
     recipeData.value.cookingTime = datas.cookingTime
-    recipeData.value.recipePersons = datas.recipePersons
+    recipeData.value.ingredientPersons = datas.ingredientPersons
     recipeData.value.recipeAthor = datas.recipeAuthor.fullName
 
     //處理食譜步驟
@@ -193,7 +193,7 @@ onMounted(async () => {
                     <hr>
                     <n-grid :cols="2">
                         <n-gi>
-                            <n-statistic label="份量" :value="`${recipeData.recipePersons}人份`" />
+                            <n-statistic label="份量" :value="`${recipeData.ingredientPersons}人份`" />
                         </n-gi>
                         <n-gi>
                             <n-statistic label="時間" :value="`${recipeData.cookingTime} 分鐘`" />
@@ -237,14 +237,14 @@ onMounted(async () => {
                                         </n-icon>
                                     </a>
                                 </div>
-                                <div class="content-with-line-breaks fs-4">{{ recipeData.recipeAthor }}</div>
+                                <div class="content-with-line-breaks fs-6">{{ recipeData.recipeAthor }}</div>
                                 <n-button>查看作者食譜</n-button>
                             </n-list-item>
 
                         </n-col>
 
                         <n-col span="18" class="border-start mb-3 px-4 mt-1">
-                            <div class="content-with-line-breaks fs-4">作者簡介</div>
+                            <div class="content-with-line-breaks fs-6">作者簡介</div>
                             <p class="w-100 ">{{ author.context }}</p>
                         </n-col>
                     </n-row>
@@ -258,9 +258,9 @@ onMounted(async () => {
     </div>
 </template>
 <style scoped>
-.imgContainer {
-    /* width: 100vw; */
-}
+/* .imgContainer {
+     width: 100vw; 
+} */
 
 .imgContainer img {
     width: 100%;

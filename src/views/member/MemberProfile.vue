@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { reqMember, reqMemberDetail, reqSession, reqChangeMember, imgTest } from '@/api';
+import { reqMember, reqMemberDetail, reqSession, reqChangeMember } from '@/api';
 
 const memberId = ref("");
 
@@ -13,8 +13,7 @@ const memberIdNumber = ref("");
 const memberBirthday = ref("");
 const memberEmail = ref("");
 const memberAddress = ref("");
-const memberpic = ref();
-const memberfolderURL = ref("");
+
 onMounted(async () => {
     try {
         const sessionResponse = await reqSession();
@@ -34,8 +33,7 @@ onMounted(async () => {
         memberIdNumber.value = responseMd.data.idNumber
         memberBirthday.value = responseMd.data.birthday
         memberAddress.value = responseMd.data.deliveryAddress
-        memberpic.value = responseMd.data.pic
-        memberfolderURL.value = responseMd.data.folderURL
+
 
     } catch (error) {
         console.error('獲取會員失敗：', error);
@@ -55,8 +53,7 @@ const updatemember = async () => {
         idNumber: memberIdNumber.value,
         birthday: memberBirthday.value,
         deliveryAddress: memberAddress.value,
-        pic: memberpic.value,
-        folderURL: memberfolderURL.value
+
     };
     console.log(updatedMemberDetail.idNumber)
     // 執行更新 API 請求

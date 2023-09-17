@@ -1,16 +1,83 @@
 <script setup>
-import { useRouter } from "vue-router"
-import { computed } from "vue"
-const router = useRouter()
-// const teacherId = computed(() => {
-//   console.log(router.query)
-//   return router.query.id
-// })
+import { useRoute } from "vue-router"
+import { computed, onMounted, ref } from "vue"
+import { getTeacher, getTeacherImage } from "@/api"
+const route = useRoute()
+
+const teacherId = computed(() => {
+  console.log(route.query)
+  return route.query.id
+})
+
+const img = ref(null)
+const getImg = async (id) => {
+  let res = await getTeacherImage(id)
+  const body = res.data
+  const header = res.headers["content-type"]
+  console.log(body)
+  console.log(header)
+  img.value = `data:${header};base64,${body}`
+}
+
+const teacherData = ref({
+  teacherName: "",
+})
+onMounted(async () => {
+  console.log("teacherId")
+  console.log(teacherId.value)
+  //處理成品圖片
+  let teacherPic = await getTeacherImage(teacherId.value)
+  let mainPicBody = teacherPic.data
+  let mainPicHeader = teacherPic.headers[`content-type`]
+  teacherData.value.pictures = `data:${mainPicHeader};base64,${mainPicBody}`
+
+  let teacher = await getTeacher(teacherId.value)
+  let datas = teacher.data
+
+  teacherData.value.teacherName = datas.teacherName
+  teacherData.value.teacherProfile = datas.teacherProfile
+  teacherData.value.teacherTel = datas.teacherTel
+  teacherData.value.teacherMail = datas.teacherMail
+})
 </script>
 <template>
   <h1>老師個人頁面</h1>
-  <div>
-    <h1>目標頁面</h1>
-    <p>编辑的ID: {{ $route.query.id }}</p>
+  <div class="container">
+    <div class="row">
+      <button @click="getImg(1)">測試</button>
+      <img :src="img" alt="" />
+      <!-- <h1>目標頁面</h1> -->
+      <!-- <p>编辑的ID: {{ teacherId }}</p>
+      <p>教師名: {{ teacherData.teacherName }}</p> -->
+      <!-- <div class="col-6">111</div>
+      <div class="col-6">222</div> -->
+      <div class="card mb-3">
+        <div class="row g-0">
+          <div class="col-6">
+            <div class="imgContainer">
+              <img :src="teacherData.pictures" alt="..." />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card-body">
+              <h5 class="card-title">教師姓名:{{ teacherData.teacherName }}</h5>
+              <p class="card-title">
+                教師經歷:{{ teacherData.teacherProfile }}
+              </p>
+              <p class="card-title">教師電話:{{ teacherData.teacherTel }}</p>
+              <p class="card-title">e-mail:{{ teacherData.teacherMail }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+<style scoped>
+.imgContainer img {
+  width: 100%;
+  max-height: 80vh;
+  object-fit: cover;
+  object-position: center;
+}
+</style>

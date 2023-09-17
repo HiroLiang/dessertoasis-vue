@@ -107,14 +107,25 @@ const reqGetFrontRecipePages = (condition) => {
 const getRecipePicture = (recipeId) => {
   return request.post("recipe/getPic", recipeId, jsonHeader)
 }
-
+//取得步驟圖
 const getStepPictures = (recipeId) => {
   return request.post("recipe/getStepPics", recipeId, jsonHeader)
 }
-
+//取得食譜資料
 const getRecipe = (recipeId) => {
   return request.get(`recipe/getRecipe?recipeId=${recipeId}`, jsonHeader)
 }
+
+//更新食譜資料
+const updateRecipe = (recipeId) => {
+  return request.put(`recipe/updaterecipe?recipeId${recipeId}`, jsonHeader)
+}
+
+//刪除食譜資料
+const deleteRecipe = (recipeId) => {
+  return request.post(`recipe/deleterecipe?recipeId=${recipeId}`, jsonHeader)
+}
+
 /*----------------------------------------  食譜後台相關請求  -------------------------------------------*/
 //取得現在頁數內的資料
 const reqGetRecipePage = (condition) => {
@@ -224,8 +235,12 @@ const checkTeacherStatus = () => {
 }
 
 //列出該教師個人資料
-const editTeacherProfile = (teacherId) => {
-  return request.get(`/teacher/${teacherId}`)
+// const editTeacherProfile = (teacherId) => {
+//   return request.get(`/teacher/${teacherId}`)
+// }
+
+const editTeacherProfile = (teacher) => {
+  return request.put("/edit", teacher, jsonHeader)
 }
 
 //列出該教師所有課程
@@ -270,6 +285,7 @@ const reqGetCmsCoursePages = (condition) => {
 const UploadTeacherImage = (formData) => {
   return request.post(`/teacher/uploadImage`, formData)
 }
+
 const getTeacherImage = (id) => {
   return request.post("teacher/getImage", id, jsonHeader)
 }
@@ -280,6 +296,29 @@ const reqLoadPicture = (courseImgURL) => {
 //取得數值範圍
 const reqGetCourseNumberRange = (condition) => {
   return request.post("/course/number-range", condition, jsonHeader)
+}
+
+const reqGetFrontTeacherPages = (condition) => {
+  return request.post("/teacher/teacherFrontPagenation", condition, jsonHeader)
+}
+
+//刪除一筆老師
+const reqDeleteTeacher = (id) => {
+  return request.delete(`/teacher/delete/${id}`)
+}
+
+//取得單一課程資料
+const reqGetTeacherData = (id) => {
+  return request.get(`teacher/teacher-desplay?id=${id}`)
+}
+
+//更新課程
+const reqUpdateTeacher = (teacherData) => {
+  return request.post("teacher/updateTeacher", teacherData, jsonHeader)
+}
+
+const updateTeacher = (formData) => {
+  return request.post(`/teacher/editTeacher`, formData)
 }
 
 //#region ----------------------------------- 課程後台請求  ---------------------------------------*/
@@ -331,7 +370,9 @@ const getProd = (page, pageSize, queryString) => {
 const getProd1 = (queryParams) => {
   return request.get(`/product/search?${queryParams}`)
 }
-
+const getProdById = (productId) => {
+  return request.get(`/product/details/${productId}`)
+}
 const reqGetProductPage = (condition) => {
   return request.post("/product/pagenation", condition, jsonHeader)
 }
@@ -339,20 +380,18 @@ const reqGetProductPage = (condition) => {
 const AddProduct = (productData) => {
   return request.post("/product/add", productData, jsonHeader)
 }
-
+const EditProduct = (productId, productData) => {
+  return request.post(`/product/edit/${productId}`, productData, jsonHeader)
+}
 const UploadProdImage = (
   productId,
   imageFormData,
-  config,
-  thumbnailFormData,
-  thumbnailConfig
+  config
 ) => {
   return request.post(
     `/product/uploadImage?productId=${productId}`,
     imageFormData,
-    config,
-    thumbnailFormData,
-    thumbnailConfig
+    config
   )
 }
 const getProductImage = (id) => {
@@ -369,7 +408,6 @@ const reqGetCmsProductPages = (condition) => {
 }
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
 // request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
-
 /**----------------------------------------  搜索相關請求  -------------------------------------------*/
 
 /**取得搜索提示(暫無用)*/
@@ -440,6 +478,8 @@ export {
   getRecipePicture,
   getStepPictures,
   getRecipe,
+  updateRecipe,
+  deleteRecipe,
 
   // 教室用
   getReservations,
@@ -481,6 +521,11 @@ export {
   reqGetCmsTeacherPages,
   UploadTeacherImage,
   getTeacherImage,
+  reqGetFrontTeacherPages,
+  reqDeleteTeacher,
+  reqGetTeacherData,
+  reqUpdateTeacher,
+  updateTeacher,
 
   //#region 課程後台
   // reqGetCourseData,
@@ -499,12 +544,14 @@ export {
   SearchProd,
   getProd,
   getProd1,
+  getProdById,
   reqGetProductPage,
   reqGetCmsProductPages,
   AddProduct,
   UploadProdImage,
   getProductImage,
   getAllProductImage,
+  EditProduct,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

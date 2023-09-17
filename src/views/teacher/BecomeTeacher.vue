@@ -1,6 +1,7 @@
 <script setup>
 import NavBar from "@/components/NavBar.vue"
 import { reactive, ref } from "vue"
+import { useRoute, useRouter } from "vue-router"
 import SweetAlert from "SweetAlert2"
 import { getTeacherImage, UploadTeacherImage } from "@/api/index.js"
 const navBarList = reactive([
@@ -15,13 +16,15 @@ const navBarList = reactive([
 ])
 const showPopup = ref(false)
 
+const router = useRouter()
+
 const showTeacherContract = () => {
   // 使用 SweetAlert2 创建弹出式窗口
   SweetAlert.fire({
-    title: "教师合同",
+    title: "教師合約",
     html: contractContent,
     icon: "info",
-    confirmButtonText: "确定",
+    confirmButtonText: "確定",
   })
 }
 const id = ref(1)
@@ -80,42 +83,42 @@ const data = reactive({
     teacherName: "",
     teacherContract: "",
     pictureURL: "",
-    teacherTel: 0,
+    teacherTel: null,
     teacherMail: "",
     teacherProfile: "",
-    teacherAccountStatus: "",
+    teacherAccountStatus: "非教師",
     pictures: [],
   },
 })
 
-const contractContent = `甜点教师合同
+const contractContent = `甜點教師合約
 
-本協議（以下簡稱「協議」）由以下各方（以下簡稱「合同方」）共同訂立並同意遵守：
+本協議（以下簡稱「協議」）由以下各方（以下簡稱「合約方」）共同訂立並同意遵守：
 
 甲方（教師）:
-姓名: ________________________________________
-聯繫地址: ___________________________________
-電話號碼: ___________________________________
-電子郵件: ___________________________________
+姓名: _______________
+聯繫地址: ___________
+電話號碼: ___________
+電子郵件: ___________
 
 乙方（學校或課程平台）:
-名稱: ________________________________________
-地址: ________________________________________
-聯繫人: ______________________________________
-電話號碼: ____________________________________
-電子郵件: _____________________________________
+名稱: 甜點綠洲股份有限公司
+地址: ___________________
+聯繫人: _________________
+電話號碼: ________________
+電子郵件: ________________
 
-合同概要：
+合約概要：
 
 1. 甲方同意擔任乙方的甜點教師，為學生提供甜點製作課程。
 
 2. 教學內容和時間將在雙方協商一致後確定，並寫入附件A中。
 
-3. 甲方將按照教學計劃和要求提供高質量的甜點製作指導，並確保學生獲得充分的學習機會。
+3. 甲方將按照教學計劃和要求提供高品質的甜點製作指導，並確保學生獲得充分的學習機會。
 
-4. 甲方將按照合同規定的報酬標準收取酬金，具體標準和支付方式見附件B。
+4. 甲方將按照合約規定的報酬標準收取酬金，具體標準和支付方式見附件B。
 
-5. 本合同自簽署之日起生效，有效期為______個月，屆時可以根據需要進行續約。
+5. 本合約自簽署之日起生效，有效期為12個月，屆時可以根據需要進行續約。
 
 附件A：課程安排和內容
 
@@ -130,7 +133,7 @@ const contractContent = `甜点教师合同
 - 報酬金額: _________________________________
 - 支付方式: _________________________________
 
-本合同一式兩份，甲方和乙方各執一份，自簽署之日起生效。
+本合約一式兩份，甲方和乙方各執一份，自簽署之日起生效。
 
 甲方（教師）簽名: ____________________________ 日期: ______________
 
@@ -144,34 +147,42 @@ const sendForm = async () => {
   form.append("teacherTel", data.teacher.teacherTel)
   form.append("email", data.teacher.teacherMail)
   form.append("teacherProfile", data.teacher.teacherProfile)
+  form.append("teacherContract", data.teacher.teacherContract)
+  form.append("teacherAccountStatus", data.teacher.teacherAccountStatus)
   form.forEach((e) => {
     console.log(e)
   })
   await UploadTeacherImage(form)
+  // 成功上传后触发弹出窗口
+  alert("您已成功成为教师！")
+  // SweetAlert.fire({
+  //   title: "成功",
+  //   text: "您已成功成为教师！",
+  //   icon: "success",
+  //   confirmButtonText: "確定",
+  // })
+
+  // 清空表单数据或进行其他操作（根据需要）
+  data.teacher.teacherName = ""
+
+  // 重定向到老师首页
+  router.replace({ path: "/teacher" }) // 请根据您的路由配置修改路径
 }
 </script>
 <template>
   <NavBar :NavBarList="navBarList" />
   <RouterView></RouterView>
   <h1>成為老師</h1>
-  <button @click="getTeacherImg(5)">測試</button>
-  <!-- <img :src="teacherPicPreviewImageUrl" alt="" /> -->
+  <button @click="getImg(5)">測試</button>
+  <img :src="img" alt="" />
   <!-- <h2>this is a teacher page{{ teacherId }}</h2> -->
 
   <div class="container">
     <form @submit.prevent="sendForm">
       <div class="row">
         <div class="col-6 mb-3 mx-auto">
-          <h1>上傳圖片</h1>
+          <h3>上傳圖片</h3>
         </div>
-
-        <!-- <label for="exampleFormControlInput1" class="form-label">照片</label>
-        <input
-          type="email"
-          class="form-control"
-          id="exampleFormControlInput1"
-          placeholder="請輸入姓名"
-        /> -->
       </div>
       <div class="row">
         <div class="col-6 mb-3 mx-auto">
@@ -190,7 +201,7 @@ const sendForm = async () => {
             id="pictureURL"
             name="pictureURL"
             accept="image/*"
-          /><br />
+          />
         </div>
       </div>
       <div class="row">
@@ -251,9 +262,9 @@ const sendForm = async () => {
           <input
             class="form-check-input"
             type="checkbox"
-            value=""
-            name="flexCheckDefault"
-            id="flexCheckDefault"
+            name="teacherContract"
+            id="teacherContract"
+            v-model="data.teacher.teacherContract"
           />
           <label class="form-check-label" for="flexCheckDefault">
             我同意成為老師
@@ -263,12 +274,17 @@ const sendForm = async () => {
             </button>
           </label>
         </div>
+        <input
+          class="form-check-input"
+          type="hidden"
+          name="teacherAccountStatus"
+          id="teacherAccountStatus"
+        />
       </div>
       <div class="row">
         <div class="col-6 mx-auto justify-content-end">
-          <button class="btn btn-outline-primary">修改</button>
+          <button type="submit" class="btn btn-outline-primary">送出</button>
           <button class="btn btn-outline-danger">取消</button>
-          <button type="submit">送出</button>
         </div>
       </div>
     </form>

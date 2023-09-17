@@ -90,6 +90,11 @@ const router = createRouter({
           component: () => import("../views/cms/recipe/CmsRecipeTable.vue"),
         },
         {
+          path: "/cms/recipedetail",
+          name: "cmsrecipeDetail",
+          component: () => import("../views/cms/recipe/CmsRecipeDetail.vue"),
+        },
+        {
           path: "/cms/course",
           name: "cmscourse",
           component: () => import("../views/cms/course/CourseBackground.vue"),
@@ -131,17 +136,22 @@ const router = createRouter({
         },
 
         //等待移動
-        {
-          path: "/cms/editTeacherProfile",
-          name: "addteacherProfile",
-          component: () => import("../views/course/EditTeacherProfile.vue"),
-        },
+        // {
+        //   path: "/cms/editTeacherProfile",
+        //   name: "addteacherProfile",
+        //   component: () => import("../views/course/EditTeacherProfile.vue"),
+        // },
         //
 
         {
           path: "/cms/managerAllTeacher",
           name: "managerAllTeacher",
           component: () => import("../views/course/ManagerAllTeacher.vue"),
+        },
+        {
+          path: "/cms/editTeacher",
+          name: "cmsEditTeacher",
+          component: () => import("../views/cms/course/EditTeacher.vue"),
         },
         {
           path: "/cms/chat",
@@ -159,7 +169,7 @@ const router = createRouter({
           component: () => import("../views/product/Addproduct.vue"),
         },
         {
-          path: "/cms/editproduct",
+          path: '/cms/editproduct/:id',
           name: "Editproduct",
           component: () => import("../views/product/Editproduct.vue"),
         },
@@ -182,7 +192,7 @@ const router = createRouter({
           path: "/cms/orderdetail",
           name: "CmsOrderDetail",
           component: () => import("../views/cms/order/CmsOrderDetail.vue"),
-        }
+        },
       ],
     },
     {
@@ -264,6 +274,16 @@ const router = createRouter({
       component: () => import("../views/member/ForgetPassword.vue"),
     },
     {
+      path: "/verify-account",
+      name: "verify-account",
+      component: () => import("../views/member/MemberVerification.vue"),
+    },
+    {
+      path: "/sendverification/:email?",
+      name: "sendverification",
+      component: () => import("../views/member/Sendverification.vue"),
+    },
+    {
       path: "/sendEmail",
       name: "sendEmail",
       component: () => import("../views/member/SendEmail.vue"),
@@ -303,7 +323,6 @@ const router = createRouter({
           name: "memberpic",
           component: () => import("../views/member/MemberPic.vue"),
         },
-
       ],
     },
 

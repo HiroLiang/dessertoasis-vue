@@ -22,6 +22,9 @@ const login = async () => {
             localStorage.setItem('remberedAccount', account.value)
         alert("登入成功")
         router.push({ name: 'home' })
+    } else if (loginState.data === 'INACTIVE') {
+        alert('帳號未認證')
+        router.push({ name: 'sendverification' }) //跳轉重新發送驗證信頁面
     } else {
         alert('帳號密碼錯誤')
         account.value = ''

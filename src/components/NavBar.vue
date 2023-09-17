@@ -126,7 +126,9 @@ onMounted(() => {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
-                <router-link class="navbar-brand" to="/">Dessert Oasis</router-link>
+                <router-link class="navbar-brand" to="/"><img src="/images/navbar/logo.png" style="width: 50px;"
+                        alt="">Dessert
+                    Oasis</router-link>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <router-link class="nav-link active" aria-current="page" to="/">首頁</router-link>

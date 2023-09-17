@@ -95,7 +95,7 @@ const onGetDateRules = async (rules) => {
 
 //取得修改的 id 並跳轉頁面 (路徑需自己指定)
 const onGetEditId = (id) => {
-    // router.push({ path: '/', query: { id } })
+    router.push({ path: '/cms/recipedetail', query: { id } })
     console.log(id);
 }
 

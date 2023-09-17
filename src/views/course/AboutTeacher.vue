@@ -37,12 +37,10 @@ const updateDatas = (datas) => {
   let array = datas.map((data) => ({
     id: data.id,
     // picture: data.coursePictureList.courseImgURL,
-    // name: data.courseName,
-    // teacher: data.teacher.teacherName,
-    teacher: data.teacherName,
-
+    name: data.teacherName,
+    teacher: data.account,
     // price: data.coursePrice,
-    // description: data.courseIntroduction,
+    // description: data.teacherProfile,
   }))
 
   console.log("datas")
@@ -52,7 +50,7 @@ const updateDatas = (datas) => {
 }
 //更新總頁數
 const updatePages = async () => {
-  let num = await store.getTeacherPages()
+  let num = await store.getFrontTeacherPages()
   pages.value = num.data
 }
 
@@ -61,7 +59,7 @@ const updatePages = async () => {
 const onGetPage = async (page) => {
   console.log("page")
   console.log(page)
-  let result = await store.setTeacherPageChange(page)
+  let result = await store.setFrontTeacherPageChange(page)
   if (result != null) {
     let datas = result.data
     updateDatas(datas)
@@ -70,10 +68,10 @@ const onGetPage = async (page) => {
 }
 
 //取得修改的 id 並跳轉頁面 (路徑需自己指定)
-const onGetSelectedKey = (id) => {
-  console.log("id")
-  console.log(id)
-  router.push({ path: "/courses/oneTeacher", query: { id } })
+const onGetSelectedKey = (key) => {
+  console.log("key")
+  console.log(key)
+  router.push({ path: "/courses/oneTeacher", query: { id: key } })
 }
 
 //搜索條件(多筆)
@@ -117,17 +115,6 @@ const onGetDateRules = async (rules) => {
     updateDatas(datas)
   }
 }
-
-// const navBarList = reactive([
-//   { title: "食譜", toUrl: "/recipes" },
-//   { title: "課程", toUrl: "/courses" },
-//   { title: "商品", toUrl: "/product" },
-//   { title: "預約甜點教室", toUrl: "/reservation" },
-//   {
-//     title: "關於教師",
-//     toUrl: "/courses/aboutTeacher",
-//   },
-// ])
 
 /** 初始化資料 */
 onMounted(async () => {

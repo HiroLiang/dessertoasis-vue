@@ -39,6 +39,7 @@ onMounted(async () => {
     const sessionData = sessionResponse.data
 
     memberId.value = sessionData.id
+
     const response = await getTeacher(teacherId) // 请确保teacherId已定义
     teacherData.value = response.data
   } catch (error) {

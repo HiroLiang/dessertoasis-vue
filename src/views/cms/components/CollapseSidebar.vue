@@ -31,11 +31,19 @@ const sendTitle = (title) => {
   </div>
   <div class="usingAccount">
     <div style="display: flex; align-items: center">
-      <font-awesome-icon :icon="['fab', 'github']" size="xl" style="color: #adcbff" />
+      <font-awesome-icon
+        :icon="['fab', 'github']"
+        size="xl"
+        style="color: #adcbff"
+      />
       <h2>{{ userName }}</h2>
     </div>
     <div>
-      <font-awesome-icon :icon="['far', 'paper-plane']" size="xl" style="color: #adcbff" />
+      <font-awesome-icon
+        :icon="['far', 'paper-plane']"
+        size="xl"
+        style="color: #adcbff"
+      />
     </div>
   </div>
   <div class="options">
@@ -43,52 +51,76 @@ const sendTitle = (title) => {
       <n-collapse arrow-placement="right" :accordion="true">
         <n-collapse-item title="會員管理" name="1">
           <div>
-            <router-link @click="sendTitle(`會員管理`)" to="/cms/member">member</router-link>
+            <router-link @click="sendTitle(`會員管理`)" to="/cms/member"
+              >member</router-link
+            >
           </div>
           <div>
-            <router-link @click="sendTitle(`會員管理`)" to="/cms/chat">chat</router-link>
+            <router-link @click="sendTitle(`會員管理`)" to="/cms/chat"
+              >chat</router-link
+            >
           </div>
         </n-collapse-item>
 
         <n-collapse-item title="食譜管理" name="2">
           <div>
-            <router-link @click="sendTitle(`食譜管理`)" to="/cms/recipe">食譜管理</router-link>
+            <router-link @click="sendTitle(`食譜管理`)" to="/cms/recipe"
+              >食譜管理</router-link
+            >
           </div>
         </n-collapse-item>
 
         <n-collapse-item title="商品管理" name="3">
           <div>
-            <router-link @click="sendTitle(`商品管理`)" to="/cms/product">商品搜尋</router-link>
+            <router-link @click="sendTitle(`商品管理`)" to="/cms/product"
+              >商品搜尋</router-link
+            >
           </div>
           <div>
-            <router-link @click="sendTitle(`商品管理`)" to="/cms/addproduct">新增商品</router-link>
+            <router-link @click="sendTitle(`商品管理`)" to="/cms/addproduct"
+              >新增商品</router-link
+            >
           </div>
         </n-collapse-item>
 
         <n-collapse-item title="課程管理" name="4">
           <div>
-            <router-link @click="sendTitle(`課程管理`)" to="/cms/course">課程查詢</router-link>
+            <router-link @click="sendTitle(`課程管理`)" to="/cms/course"
+              >課程查詢</router-link
+            >
           </div>
           <div>
-            <router-link @click="sendTitle(`課程管理`)" to="/cms/addCourse">新增課程</router-link>
+            <!-- <router-link @click="sendTitle(`課程管理`)" to="/cms/addCourse"
+              >新增課程</router-link
+            > -->
           </div>
           <div>
-            <router-link @click="sendTitle(`課程管理`)" to="/cms/addTeacherProfile">新增教師個人介紹</router-link>
+            <!-- <router-link @click="sendTitle(`課程管理`)" to="/cms/addTeacherProfile">新增教師個人介紹</router-link> -->
           </div>
           <div>
-            <router-link @click="sendTitle(`課程管理`)" to="/cms/teacherCourseManager">教師個人課程管理</router-link>
+            <!-- <router-link
+              @click="sendTitle(`課程管理`)"
+              to="/cms/teacherCourseManager"
+              >教師個人課程管理</router-link
+            > -->
           </div>
           <div>
-            <router-link @click="sendTitle(`課程管理`)" to="/cms/editTeacherProfile">編輯教師個人介紹</router-link>
+            <!-- <router-link @click="sendTitle(`課程管理`)" to="/cms/editTeacherProfile">編輯教師個人介紹</router-link> -->
           </div>
           <div>
-            <router-link @click="sendTitle(`課程管理`)" to="/cms/managerAllTeacher">所有教師列表</router-link>
+            <router-link
+              @click="sendTitle(`課程管理`)"
+              to="/cms/managerAllTeacher"
+              >所有教師列表</router-link
+            >
           </div>
         </n-collapse-item>
 
         <n-collapse-item title="訂單管理" name="5">
           <div>
-            <router-link @click="sendTitle(`訂單管理`)" to="/cms/order">訂單查詢</router-link>
+            <router-link @click="sendTitle(`訂單管理`)" to="/cms/order"
+              >訂單查詢</router-link
+            >
           </div>
         </n-collapse-item>
       </n-collapse>

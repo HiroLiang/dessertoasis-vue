@@ -131,11 +131,11 @@ const router = createRouter({
         },
 
         //等待移動
-        {
-          path: "/cms/editTeacherProfile",
-          name: "addteacherProfile",
-          component: () => import("../views/course/EditTeacherProfile.vue"),
-        },
+        // {
+        //   path: "/cms/editTeacherProfile",
+        //   name: "addteacherProfile",
+        //   component: () => import("../views/course/EditTeacherProfile.vue"),
+        // },
         //
 
         {
@@ -187,7 +187,7 @@ const router = createRouter({
           path: "/cms/orderdetail",
           name: "CmsOrderDetail",
           component: () => import("../views/cms/order/CmsOrderDetail.vue"),
-        }
+        },
       ],
     },
     {

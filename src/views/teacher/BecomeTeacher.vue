@@ -1,6 +1,7 @@
 <script setup>
 import NavBar from "@/components/NavBar.vue"
 import { reactive, ref } from "vue"
+import { useRoute, useRouter } from "vue-router"
 import SweetAlert from "SweetAlert2"
 import { getTeacherImage, UploadTeacherImage } from "@/api/index.js"
 const navBarList = reactive([
@@ -14,6 +15,8 @@ const navBarList = reactive([
   },
 ])
 const showPopup = ref(false)
+
+const router = useRouter()
 
 const showTeacherContract = () => {
   // 使用 SweetAlert2 创建弹出式窗口
@@ -150,6 +153,20 @@ const sendForm = async () => {
     console.log(e)
   })
   await UploadTeacherImage(form)
+  // 成功上传后触发弹出窗口
+  alert("您已成功成为教师！")
+  // SweetAlert.fire({
+  //   title: "成功",
+  //   text: "您已成功成为教师！",
+  //   icon: "success",
+  //   confirmButtonText: "確定",
+  // })
+
+  // 清空表单数据或进行其他操作（根据需要）
+  data.teacher.teacherName = ""
+
+  // 重定向到老师首页
+  router.replace({ path: "/teacher" }) // 请根据您的路由配置修改路径
 }
 </script>
 <template>

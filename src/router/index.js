@@ -178,6 +178,11 @@ const router = createRouter({
           name: "CmsOrderTable",
           component: () => import("../views/cms/order/CmsOrderTable.vue"),
         },
+        {
+          path: "/cms/orderdetail",
+          name: "CmsOrderDetail",
+          component: () => import("../views/cms/order/CmsOrderDetail.vue"),
+        }
       ],
     },
     {

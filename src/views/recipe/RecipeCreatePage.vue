@@ -4,9 +4,10 @@ import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 import IngredientInput from '@/views/recipe/components/IngredientInput.vue'
 import StepInput from '@/views/recipe/components/StepInput.vue'
 import { addRecipe, imgTest, reqGetCategory } from '@/api'
-import { useMessage, NTreeSelect } from 'naive-ui'
+import { useMessage, useNotification, NTreeSelect } from 'naive-ui'
 import { useRouter } from 'vue-router'
 
+const notification = useNotification()
 const message = useMessage()
 const router = useRouter()
 
@@ -323,9 +324,14 @@ const submitForm = async () => {
             path: '/recipes/recipe',
             query: { id: recipeData.data }
         })
-        message.success("成功發佈食譜")
         console.log(recipeData);
     }
+    notification.success(
+        {
+            description: "建立狀態",
+            content: "成功發佈食譜",
+            // duration: 3000
+        })
 
 }
 

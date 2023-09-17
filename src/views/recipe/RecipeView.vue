@@ -1,5 +1,6 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
+import Footer from '@/components/Footer.vue'
 import { imgTest } from '@/api'
 import { reactive, ref } from 'vue'
 const navbarlist = reactive([
@@ -44,6 +45,7 @@ const send = async () => {
     </div>
     <hr>
     <RouterView></RouterView>
+    <Footer></Footer>
 </template>
 
 <style scoped>

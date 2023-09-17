@@ -178,8 +178,18 @@ const reqInsertOrder = (data) => {
 }
 
 // 取得單一訂單
-const getOrder = (ordId) => {
+const reqGetOrder = (ordId) => {
   return request.get(`/order/${ordId}`)
+}
+
+// 修改訂單狀態
+const reqUpdateOrdStatus = (ordId, ordStatus) => {
+  return request.patch(`/order/${ordId}?ordStatus=${ordStatus}`)
+}
+
+// 刪除訂單
+const reqDeleteOrder = (ordId) => {
+  return request.delete(`/order/${ordId}`)
 }
 
 // 取得會員的訂單
@@ -433,6 +443,9 @@ export {
   reqGetCartCount,
 
   // 訂單用
+  reqGetOrder,
+  reqUpdateOrdStatus,
+  reqDeleteOrder,
   reqInsertOrder,
   reqGetMemberOrders,
   reqGetMemberReservations,
@@ -441,7 +454,6 @@ export {
 
   //課程用
   getAllCourses,
-  getOrder,
   checkTeacherStatus,
   editTeacherProfile,
   deleteCourse,

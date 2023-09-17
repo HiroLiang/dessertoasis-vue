@@ -38,9 +38,9 @@ const updateDatas = (datas) => {
     // picture: data.coursePictureList.courseImgURL,
     name: data.courseName,
     // teacher: data.teacher.teacherName,
-    // teacher: data.teacherName,
-    price: data.coursePrice,
-    description: data.courseIntroduction,
+    teacher: data.teacherName,
+    // price: data.coursePrice,
+    // description: data.courseIntroduction,
   }))
 
   console.log("datas")
@@ -51,7 +51,7 @@ const updateDatas = (datas) => {
 
 //更新總頁數
 const updatePages = async () => {
-  let num = await store.getCoursePages()
+  let num = await store.getTeacherPages()
   pages.value = num.data
 }
 
@@ -60,7 +60,7 @@ const updatePages = async () => {
 const onGetPage = async (page) => {
   console.log("page")
   console.log(page)
-  let result = await store.setCoursePageChange(page)
+  let result = await store.setFrontTeacherPageChange(page)
   if (result != null) {
     let datas = result.data
     updateDatas(datas)
@@ -77,7 +77,7 @@ const onGetSelectedKey = (key) => {
 const onGetSearchRules = async (rule) => {
   console.log("rule")
   console.log(rule)
-  let result = await store.setCourseSearchRules(rule)
+  let result = await store.setFrontTeacherSearchRules(rule)
   if (result != null) {
     let datas = result.data
     updateDatas(datas)
@@ -87,7 +87,7 @@ const onGetSearchRules = async (rule) => {
 
 //排序條件(單筆)
 const onGetSortRule = async (rule) => {
-  let result = await store.setCourseSortBy(rule)
+  let result = await store.setFrontTeacherSortBy(rule)
   if (result != null) {
     let datas = result.data
     updateDatas(datas)
@@ -98,7 +98,7 @@ const onGetSortRule = async (rule) => {
 const onGetNumberRange = async (range) => {
   console.log("range")
   console.log(range)
-  let result = await store.setCourseNumberRange(range)
+  let result = await store.setFrontTeacherNumberRange(range)
   if (result != null) {
     let datas = result.data
     updateDatas(datas)
@@ -108,7 +108,7 @@ const onGetNumberRange = async (range) => {
 
 //日期範圍(多筆)
 const onGetDateRules = async (rules) => {
-  let result = await store.setCourseDateRules(rules)
+  let result = await store.setFrontTeacherDateRules(rules)
   if (result != null) {
     let datas = result.data
     updateDatas(datas)
@@ -122,7 +122,7 @@ const onGetEditId = (id) => {
 
 /** 初始化資料 */
 onMounted(async () => {
-  let result = await store.setCoursePageChange([1, 10])
+  let result = await store.setFrontTeacherPageChange([1, 10])
   if (result != null) {
     let datas = result.data
     updateDatas(datas)

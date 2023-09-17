@@ -199,7 +199,7 @@ onMounted(() => {
         </div>
         <!-- 頁碼區 -->
         <div style="display: flex; justify-content: center;align-items: center;">
-            <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[10, 20, 50]"
+            <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[5, 10, 20, 50]"
                 size="medium" show-size-picker :page-slot="5" />
         </div>
     </div>
@@ -219,7 +219,7 @@ onMounted(() => {
         </div>
         <!-- 頁碼區 -->
         <div style="display: flex; justify-content: center;align-items: center;">
-            <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[10, 20, 50]"
+            <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[5, 10, 20, 50]"
                 size="medium" show-size-picker :page-slot="5" />
         </div>
     </div>

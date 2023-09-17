@@ -65,8 +65,8 @@ const gotoPay = () => {
         </div>
 
         <div class="row mt-3" v-if="cart.count || cart.count > 0">
-            <h1>購物車</h1>
             <div class="col-8">
+                <h1>購物車</h1>
                 <ProductCart @getProducts="getProducts"></ProductCart>
                 <CourseCart @getCourses="getCourses"></CourseCart>
                 <ReservationCart @getReservations="getReservations"></ReservationCart>

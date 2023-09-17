@@ -107,14 +107,25 @@ const reqGetFrontRecipePages = (condition) => {
 const getRecipePicture = (recipeId) => {
   return request.post("recipe/getPic", recipeId, jsonHeader)
 }
-
+//取得步驟圖
 const getStepPictures = (recipeId) => {
   return request.post("recipe/getStepPics", recipeId, jsonHeader)
 }
-
+//取得食譜資料
 const getRecipe = (recipeId) => {
   return request.get(`recipe/getRecipe?recipeId=${recipeId}`, jsonHeader)
 }
+
+//更新食譜資料
+const updateRecipe = (recipeId) => {
+  return request.put(`recipe/updaterecipe?recipeId${recipeId}`, jsonHeader)
+}
+
+//刪除食譜資料
+const deleteRecipe = (recipeId) => {
+  return request.post(`recipe/deleterecipe?recipeId=${recipeId}`, jsonHeader)
+}
+
 /*----------------------------------------  食譜後台相關請求  -------------------------------------------*/
 //取得現在頁數內的資料
 const reqGetRecipePage = (condition) => {
@@ -456,6 +467,8 @@ export {
   getRecipePicture,
   getStepPictures,
   getRecipe,
+  updateRecipe,
+  deleteRecipe,
 
   // 教室用
   getReservations,

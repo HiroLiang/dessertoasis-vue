@@ -6,11 +6,20 @@ const props = defineProps({
     ingerdientIndex: {
         type: Number
     },
+    ingredientName: {
+        type: String
+    },
+    ingredientQty: {
+        type: Number
+    },
+    ingredientUnit: {
+        type: String
+    }
 })
 
-const ingredientName = ref('')
-const ingredientQty = ref('')
-const ingredientUnit = ref('毫升')
+const ingredientName = ref(props.ingredientName || '')
+const ingredientQty = ref(props.ingredientQty || '')
+const ingredientUnit = ref(props.ingredientUnit || '毫升')
 
 let emit = defineEmits(['delete-ingredient', 'get-ingredient-data'])
 const deleteIngredient = () => {

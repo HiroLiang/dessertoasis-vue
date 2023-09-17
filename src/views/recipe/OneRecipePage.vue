@@ -237,14 +237,14 @@ onMounted(async () => {
                                         </n-icon>
                                     </a>
                                 </div>
-                                <div class="content-with-line-breaks fs-4">{{ recipeData.recipeAthor }}</div>
+                                <div class="content-with-line-breaks fs-6">{{ recipeData.recipeAthor }}</div>
                                 <n-button>查看作者食譜</n-button>
                             </n-list-item>
 
                         </n-col>
 
                         <n-col span="18" class="border-start mb-3 px-4 mt-1">
-                            <div class="content-with-line-breaks fs-4">作者簡介</div>
+                            <div class="content-with-line-breaks fs-6">作者簡介</div>
                             <p class="w-100 ">{{ author.context }}</p>
                         </n-col>
                     </n-row>

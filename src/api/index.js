@@ -60,8 +60,11 @@ const reqChangeMember = (detail) => {
 //傳圖到特定路徑
 const memberImg = (file) => {
   console.log(file)
-  return request.post("/member/uploadMemberImg", file)
+  return request.post("/member/uploadMemberImg", file, jsonHeader)
 }
+
+//取得圖片URL
+const reqMemberpic = () => request.get("/member/getImageURL")
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
@@ -463,6 +466,7 @@ export {
   reqChangepassword,
   memberImg,
   reqChangeMember,
+  reqMemberpic,
 
   /*--------食譜用-------*/
   reqTop10HotRecipe,

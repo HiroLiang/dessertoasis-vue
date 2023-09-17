@@ -145,9 +145,12 @@ watch(rangePath, () => {
                 numberRange.value[1] = range.max
             }
         })
-    } else {
-        emit('get-number-range', [])
     }
+})
+
+watch(searchType, () => {
+    if (searchType.value !== 'Number')
+        emit('get-number-range', [])
 })
 
 /**定義初始化動作 */

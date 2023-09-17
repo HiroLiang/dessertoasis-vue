@@ -299,7 +299,8 @@ const reqGetCmsTeacherPages = (condition) => {
 
 //更新課程
 const reqUpdateCourse = (courseData) => {
-  return request.post("course/updateCourse", courseData, jsonHeader)
+  console.log(courseData);
+  return request.post("/course/updateCourse", courseData, jsonHeader)
 }
 
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/

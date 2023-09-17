@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, computed, onMounted, watch } from "vue"
+import { ref, computed, onMounted, watch, onBeforeUnmount } from "vue"
 import { useRouter } from "vue-router"
 import { useSortCondition } from "../../stores/sortCondition.js"
 import { reqLoadPicture } from "../../api"
@@ -31,18 +31,23 @@ const numberRanges = ref([])
 
 //表格陣列
 const tableDatas = ref([])
+
 //是否有資料
 const hasTable = ref(true)
 
+//傳值搜索條件
 const emitSearch = ref([])
 
+//分類搜索
 const catSearch = ref([])
 
+//只顯示已啟用的課程
+const activedCourse = [{ key: 'courseStatus', type: 'String', input: '啟用' }]
+
+//整合搜索條件
 const searchRules = computed(() => {
-  return emitSearch.value.concat(catSearch.value)
+  return emitSearch.value.concat(catSearch.value).concat(activedCourse)
 })
-
-
 
 /**更新資料方法 */
 //更新表格資料
@@ -70,8 +75,8 @@ const updateDatas = (datas) => {
   tableDatas.value.forEach(async data => {
     await loadPicture(data)
   })
-
 }
+
 //異步加載圖片
 const loadPicture = async (data) => {
   let result = await reqLoadPicture(data.url)
@@ -137,7 +142,7 @@ watch(searchRules, async () => {
     let datas = result.data
     updateDatas(datas)
   }
-})
+}, { immediate: true })
 
 /** 初始化資料 */
 onMounted(async () => {
@@ -147,6 +152,10 @@ onMounted(async () => {
     updateDatas(datas)
     loadingBar.finish()
   }
+})
+
+onBeforeUnmount(() => {
+  store.resetCondition()
 })
 </script>
 <template>

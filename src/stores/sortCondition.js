@@ -30,6 +30,21 @@ export const useSortCondition = defineStore("sortCondition", () => {
     numberLabel: null
   })
 
+  const resetCondition = () => {
+    condition.value = {
+      sortWay: null,
+      sortBy: null,
+      page: 1,
+      pageSize: 10,
+      dateRules: [],
+      searchRules: [],
+      numKey: null,
+      numStart: 0,
+      numEnd: 0,
+      numberLabel: null
+    }
+  }
+
   //#region 填入資料方法
   //#region ------------------------訂單--------------------------------*/
 
@@ -349,6 +364,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
   return {
     //搜索條件
     condition,
+    resetCondition,
     // 條件設置方法
     setPageChange,
     setSearchRules,

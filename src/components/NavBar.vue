@@ -114,10 +114,8 @@ onMounted(() => {
 
 
 </script>
-
-
 <template>
-    <div style="width: 100%; height: 56px"></div>
+    <div style="width: 100%; height: 76px"></div>
     <nav class="navbar navbar-expand-lg bg-light fixed-top">
         <div class="container-fluid">
             <button @click="removeListClass" class="navbar-toggler" type="button" data-bs-toggle="collapse"

@@ -19,7 +19,23 @@ const navBarList = reactive([
 </script>
 <template>
   <NavBar :NavBarList="navBarList" />
+  <div class="headerPic">
+    <img src="/images/headerShow/nick-karvounis-jN_M0McVNeI-unsplash.jpg" alt="">
+  </div>
   <RouterView></RouterView>
 </template>
 
-<style scoped></style>
+<style scoped>
+.headerPic {
+  height: 240px;
+  width: 100%;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+.headerPic>img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+</style>

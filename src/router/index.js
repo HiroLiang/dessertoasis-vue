@@ -90,6 +90,11 @@ const router = createRouter({
           component: () => import("../views/cms/recipe/CmsRecipeTable.vue"),
         },
         {
+          path: "/cms/recipedetail",
+          name: "cmsrecipeDetail",
+          component: () => import("../views/cms/recipe/CmsRecipeDetail.vue"),
+        },
+        {
           path: "/cms/course",
           name: "cmscourse",
           component: () => import("../views/cms/course/CourseBackground.vue"),

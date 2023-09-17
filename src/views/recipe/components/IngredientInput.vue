@@ -43,7 +43,7 @@ const getIngredientData = () => {
         <p class="form-label">單位</p>
         <select class="form-select" v-model="ingredientUnit" id="ingredientUnit">
             <option selected value="毫升">毫升</option>
-            <option value="毫克">毫克</option>
+            <option value="克">克</option>
             <option value="小匙">小匙</option>
             <option value="大匙">大匙</option>
             <option value="顆">顆</option>

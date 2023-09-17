@@ -22,7 +22,6 @@ export const useFavorList = defineStore('favorList', () => {
         list.data.forEach(favor => {
             favoriteList.value[favor.categoryId - 1].push(favor.itemId)
         })
-        console.log(favoriteList.value);
     }
 
     //更新清單 ( 新增與刪除 )

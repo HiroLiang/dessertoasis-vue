@@ -1,12 +1,13 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 
 import IngredientInput from '@/views/recipe/components/IngredientInput.vue'
 import StepInput from '@/views/recipe/components/StepInput.vue'
-import { addRecipe, imgTest } from '@/api'
-import { useMessage } from 'naive-ui'
+import { addRecipe, imgTest, reqGetCategory } from '@/api'
+import { useMessage, useNotification, NTreeSelect } from 'naive-ui'
 import { useRouter } from 'vue-router'
 
+const notification = useNotification()
 const message = useMessage()
 const router = useRouter()
 
@@ -15,7 +16,7 @@ const ingredients = reactive([])
 
 //於建立頁新增一筆食材
 const addNewIngredient = () => {
-    ingredients.push({ id: ingredientCounter.value, ingredientName: '', ingredientQty: '' })
+    ingredients.push({ id: ingredientCounter.value, ingredientName: '', ingredientQty: '', ingredientUnit: '' })
     ingredientCounter.value++
     // console.log(JSON.stringify(ingredients));
 }
@@ -93,9 +94,10 @@ const handleStepData = (textIndex, textContent, imgData) => {
 
 }
 
-const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty) => {
+const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty, ingerdientUnit) => {
     ingredients[ingerdientIndex - 1].ingredientName = ingerdientName
     ingredients[ingerdientIndex - 1].ingredientQty = ingerdientQty
+    ingredients[ingerdientIndex - 1].ingredientUnit = ingerdientUnit
     // console.log('ingerdientIndex:  ' + ingerdientIndex);
     // console.log('ingerdientName:  ' + ingerdientName);
     // console.log('ingerdientQty: ' + ingerdientQty);
@@ -144,6 +146,7 @@ const data = reactive({
     recipe: {
         recipeTitle: '',
         recipeIntroduction: '',
+        difficulty: '',
         pictureURL: '',
         ingredientPersons: 1,
         cookingTime: '',
@@ -172,11 +175,12 @@ const data = reactive({
         //     ingredientName: "test"
         // }
     ],
-    // categories: [
+    categories: [
 
-    // ]
+    ]
 })
 
+//判斷由無鍵入資料
 const isDataEmpty = () => {
     let errors = []
 
@@ -237,15 +241,15 @@ const submitForm = async () => {
     } else {
         ingredients.forEach(ingredient => {
             data.recipe.ingredientList.push({
-                ingredientQuantity: ingredient.ingerdientQty,
-                ingredientUnit: ''
+                ingredientQuantity: ingredient.ingredientQty,
+                ingredientUnit: ingredient.ingredientUnit
             })
         })
         ingredients.forEach(ingredient => {
             data.ingredients.push({
                 ingredientName: ingredient.ingredientName
             })
-            console.log('ingredientName' + ingredient.ingredientName);
+            // console.log('ingredientName' + ingredient.ingredientName);
         })
         steps.forEach(step => {
             data.recipe.recipeSteps.push({
@@ -253,25 +257,44 @@ const submitForm = async () => {
                 stepPicture: '',
                 stepContext: step.text
             })
-            console.log(step);
+            // console.log(step);
         })
 
+        selectedItems.value.forEach(cate => {
+            data.categories.push(
+                {
+                    id: cate
+                }
+            )
+        })
+
+        //判斷難易度字串
+        if (selecteddif.value == 87) {
+            data.recipe.difficulty = "簡單"
+        } else if (selecteddif.value == 88) {
+            data.recipe.difficulty = "中等"
+        } else if (selecteddif.value == 89) {
+            data.recipe.difficulty = "困難"
+        }
+
+        console.log('RecipeData');
+        console.log(data);
 
         // console.log(formData);
         // console.log(imgDatas);
 
         console.log("imgData:  ");
 
-        imgDatas.forEach(data => {
-            console.log(data);
-        })
+        // imgDatas.forEach(data => {
+        //     console.log(data);
+        // })
 
         //送出ajax請求給controller將圖檔於特定位置儲存
         let res = await imgTest(imgDatas)
         //接收controller回傳的儲存位置字串
         let imgPaths = res.data
-        console.log('imgPaths:  ');
-        console.log(imgPaths);
+        // console.log('imgPaths:  ');
+        // console.log(imgPaths);
 
         //將圖片push進recipeBean 物件中
         // 若[0]為"N"(資料有Exception) 或 "F"(沒找到圖片)則不執行
@@ -301,11 +324,128 @@ const submitForm = async () => {
             path: '/recipes/recipe',
             query: { id: recipeData.data }
         })
-        message.success("成功發佈食譜")
         console.log(recipeData);
     }
+    notification.success(
+        {
+            description: "建立狀態",
+            content: "成功發佈食譜",
+            // duration: 3000
+        })
 
 }
+
+
+
+const ajaxOptions = ref([
+    // categoryName: "食譜"
+    // children: 
+    // 0: {id: 15, categoryName: '麵包', parentId: 3, parent: {…}, children: Array(5), …}
+    // 1: {id: 16, categoryName: '甜點', parentId: 3, parent: {…}, children: Array(7), …}
+    // 2: {id: 17, categoryName: '食材', parentId: 3, parent: {…}, children: Array(10), …}
+    // 3:{id: 18, categoryName: '難易度', parentId: 3, parent: {…}, children: Array(3), …}
+])
+const options = reactive([
+    // {
+    //     label: "Rubber Soul",
+    //     key: "Rubber Soul",
+    //     children: [
+    //         {
+    //             label: "Everybody's Got Something to Hide Except Me and My Monkey",
+    //             key: "Everybody's Got Something to Hide Except Me and My Monkey"
+    //         },
+    //     ]
+    // },
+    // {
+    //     label: "Let It Be",
+    //     key: "Let It Be Album",
+    //     children: [
+    //         {
+    //             label: "Two Of Us",
+    //             key: "Two Of Us"
+    //         },
+
+    //     ]
+    // }
+])
+
+const difficultyOptions = reactive([])
+
+onBeforeMount(async () => {
+    let category = await reqGetCategory(3)
+    ajaxOptions.value = category.data
+
+    //處理食譜分類
+    ajaxOptions.value.children.forEach((item, index) => {
+        if (index < 3) {
+            options.push({
+                label: item.categoryName,
+                key: item.id,
+                children: item.children.map(child => ({
+                    label: child.categoryName,
+                    key: child.id
+                }))
+            })
+        }
+
+    })
+    //處理食譜難易度
+    ajaxOptions.value.children[3].children.forEach(dif => {
+        difficultyOptions.push({
+            label: dif.categoryName,
+            key: dif.id,
+
+        })
+    })
+
+
+    // console.log(ajaxOptions.value);
+
+    // console.log(ajaxOptions.value.children[3]);
+})
+
+const selectedItems = ref([]);
+const selecteddif = ref();
+
+const handleUpdateValue = (value) => {
+    // const specific15Childrens = [65, 66, 67, 68, 69];
+    // const specific16Childrens = [70, 71, 72, 73, 74, 75, 76]
+    // const specific18Childrens = [87, 88, 89]
+    // const difficultyIndex = specific18Childrens.indexOf(value);
+
+    // if (difficultyIndex !== -1) {
+    //     value.splice(difficultyIndex, 1)
+    // }
+
+    // const parent15IsSelected = specific15Childrens.some(childrenKey => value.includes(childrenKey));
+    // const parent16IsSelected = specific16Childrens.some(childrenKey => value.includes(childrenKey));
+
+
+
+    // if (value.length === 0) {
+    //     // 如果沒有選擇任何項目，取消禁用所有parent
+    //     selectedParent.value = null;
+    //     console.log('no limit');
+    //     return;
+    // }
+
+    selectedItems.value = value
+    // console.log('selectedItems------');
+    // console.log(selectedItems.value);
+
+    console.log(value);
+    console.log('selectedItems');
+    console.log(selectedItems.value);
+
+    // console.log(data.recipe.difficulty);
+}
+
+const handledifValue = (dif) => {
+    selecteddif.value = dif
+
+    // console.log(selecteddif.value);
+}
+
 /*----------------------------------------------圖檔傳送給controller區塊-------------------------------------------------------*/
 
 // const myForm = ref(null)
@@ -348,12 +488,22 @@ const submitForm = async () => {
                 <div class="picContainer container ">
                     <label for="pictureURL">
                         <div class="imageContainer container">
-                            <img class="recipePic inputLabel custom-cursor-pointer " id="previewPic0" alt="成品圖片"
+                            <img class="recipePic inputLabel custom-cursor-pointer " id="picture" alt="成品圖片"
                                 :src="recipePicPreviewImageUrl || 'https://fakeimg.pl/1180x310/?text=Image'">
+                            <input @change="getRecipeImg" class="form-control visually-hidden pic" type="file"
+                                id="pictureURL" name="pictureURL" accept="image/*"><br>
                         </div>
-                        <input @change="getRecipeImg" class="form-control visually-hidden pic" type="file" id="pictureURL"
-                            name="pictureURL" accept="image/*"><br>
                     </label><br><br>
+                </div>
+                <div class="categoryContainer container mb-2">
+                    <p class="form-label">食譜分類</p>
+                    <n-tree-select class="selectTree" :multiple="true" :cascade="true" checkable :options="options"
+                        @update:value="handleUpdateValue" placeholder="請選擇食譜分類" />
+                </div>
+                <div class="difContainer container mb-2">
+                    <p class="form-label">難易度</p>
+                    <n-tree-select class="selectTree" :multiple="false" :options="difficultyOptions"
+                        @update:value="handledifValue" default-value="87" placeholder="請選擇難易度" />
                 </div>
                 <div class="container ml-3">
                     <div class="ingredientContainer row justify-content-start">

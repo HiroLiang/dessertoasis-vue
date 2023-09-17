@@ -144,6 +144,7 @@ onBeforeMount(async () => {
       courseData.value.courseDate
     ).getTime()
     courseData.value.closeDate = new Date(courseData.value.closeDate).getTime()
+    console.log(result.data)
     loadingBar.finish()
   } else {
     loadingBar.error()

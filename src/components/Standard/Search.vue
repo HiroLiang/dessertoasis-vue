@@ -38,7 +38,7 @@ const props = defineProps({
         type: String,
         default: '請輸入搜索'
     },
-    //型態為Number的options
+    //型態為Number的option
     numberRanges: {
         default: [{ key: "age", max: 100, min: 0 }]
     },
@@ -69,6 +69,10 @@ const searchOptions = reactive([])
 const searchRules = reactive([])
 //搜索數字範圍
 const numberRange = ref([0, 100])
+
+const rangePath = computed(() => {
+    return props.numberRanges
+})
 
 //數值範圍搜索
 const numberMax = ref(100)
@@ -101,6 +105,7 @@ const searchType = computed(() => {
 //接收搜索範圍
 const getKey = (key) => {
     searchRange.value = key
+    emit('get-selected-key', key)
 }
 //接收搜索條 input
 const getValue = (value) => {
@@ -130,7 +135,7 @@ watch(searchRules, () => {
 })
 
 //設定數值範圍，非數值時清除搜索條件
-watch(searchType, () => {
+watch(rangePath, () => {
     if (searchType.value === 'Number') {
         props.numberRanges.forEach(range => {
             if (range.key === searchRange.value) {
@@ -140,9 +145,12 @@ watch(searchType, () => {
                 numberRange.value[1] = range.max
             }
         })
-    } else {
-        emit('get-number-range', null)
     }
+})
+
+watch(searchType, () => {
+    if (searchType.value !== 'Number')
+        emit('get-number-range', [])
 })
 
 /**定義初始化動作 */

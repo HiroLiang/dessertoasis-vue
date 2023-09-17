@@ -178,8 +178,18 @@ const reqInsertOrder = (data) => {
 }
 
 // 取得單一訂單
-const getOrder = (ordId) => {
+const reqGetOrder = (ordId) => {
   return request.get(`/order/${ordId}`)
+}
+
+// 修改訂單狀態
+const reqUpdateOrdStatus = (ordId, ordStatus) => {
+  return request.patch(`/order/${ordId}?ordStatus=${ordStatus}`)
+}
+
+// 刪除訂單
+const reqDeleteOrder = (ordId) => {
+  return request.delete(`/order/${ordId}`)
 }
 
 // 取得會員的訂單
@@ -260,6 +270,7 @@ const reqGetCmsCoursePages = (condition) => {
   return request.post("/course/pages", condition, jsonHeader)
 }
 
+//取得圖片
 const UploadTeacherImage = (formData) => {
   return request.post(`/teacher/uploadImage`, formData)
 }
@@ -270,6 +281,10 @@ const getTeacherImage = (id) => {
 
 const reqLoadPicture = (courseImgURL) => {
   return request.get(`/course/base64/image?path=${courseImgURL}`)
+}
+//取得數值範圍
+const reqGetCourseNumberRange = (condition) => {
+  return request.post("/course/number-range", condition, jsonHeader)
 }
 
 const reqGetFrontTeacherPages = (condition) => {
@@ -322,7 +337,8 @@ const reqGetCmsTeacherPages = (condition) => {
 
 //更新課程
 const reqUpdateCourse = (courseData) => {
-  return request.post("course/updateCourse", courseData, jsonHeader)
+  console.log(courseData);
+  return request.post("/course/updateCourse", courseData, jsonHeader)
 }
 
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
@@ -455,6 +471,9 @@ export {
   reqGetCartCount,
 
   // 訂單用
+  reqGetOrder,
+  reqUpdateOrdStatus,
+  reqDeleteOrder,
   reqInsertOrder,
   reqGetMemberOrders,
   reqGetMemberReservations,
@@ -463,7 +482,6 @@ export {
 
   //課程用
   getAllCourses,
-  getOrder,
   checkTeacherStatus,
   editTeacherProfile,
   deleteCourse,
@@ -488,6 +506,7 @@ export {
   //#region 課程後台
   // reqGetCourseData,
   reqLoadPicture,
+  reqGetCourseNumberRange,
 
   //#region 課程後台
   reqGetCourseData,

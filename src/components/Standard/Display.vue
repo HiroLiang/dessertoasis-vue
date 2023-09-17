@@ -24,7 +24,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const store = useFavorList()
 
-const emit = defineEmits(['get-selected-key', 'get-search-rules', 'get-page', 'get-number-range'])
+const emit = defineEmits(['get-selected-key', 'get-search-rules', 'get-page', 'get-number-range', 'get-selected-label'])
 
 const props = defineProps({
     products: {
@@ -101,6 +101,9 @@ const props = defineProps({
     categoryId: {
         type: Number,
         default: 1
+    },
+    numberRanges: {
+        default: [{ key: "age", max: 100, min: 0 }]
     }
 })
 
@@ -138,6 +141,10 @@ const getRange = (range) => {
     emit('get-number-range', range)
 }
 
+const onGetSelectedKey = (label) => {
+    emit('get-selected-label', label)
+}
+
 const updateList = (id) => {
     store.updateList(props.categoryId, id)
 }
@@ -165,8 +172,8 @@ onMounted(() => {
     <div class="searchbarContainer">
         <div>
             <!-- 搜索列 -->
-            <Search :searchOptions="searchOptions" :searchSize="140" @get-number-range="getRange"
-                @get-search-rules="getRules" />
+            <Search :numberRanges="props.numberRanges" :searchOptions="searchOptions" :searchSize="140"
+                @get-number-range="getRange" @get-search-rules="getRules" @get-selected-key="onGetSelectedKey" />
         </div>
         <!-- 轉換陳列方式 -->
         <div style="display: flex;">
@@ -192,7 +199,7 @@ onMounted(() => {
         </div>
         <!-- 頁碼區 -->
         <div style="display: flex; justify-content: center;align-items: center;">
-            <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[10, 20, 50]"
+            <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[5, 10, 20, 50]"
                 size="medium" show-size-picker :page-slot="5" />
         </div>
     </div>
@@ -212,7 +219,7 @@ onMounted(() => {
         </div>
         <!-- 頁碼區 -->
         <div style="display: flex; justify-content: center;align-items: center;">
-            <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[10, 20, 50]"
+            <n-pagination v-model:page="page" :page-count="pages" v-model:page-size="pageSize" :page-sizes="[5, 10, 20, 50]"
                 size="medium" show-size-picker :page-slot="5" />
         </div>
     </div>

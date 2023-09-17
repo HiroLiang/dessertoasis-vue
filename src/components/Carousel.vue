@@ -1,5 +1,5 @@
 <template>
-    <div class="carouselContainer container">
+    <div class="carouselContainer container mb-2">
         <div class="d-flex flex-column">
             <div class="txtwrap ">
                 <router-link :to="props.link" class="custom-router-link">

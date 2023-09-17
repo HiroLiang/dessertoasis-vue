@@ -54,6 +54,11 @@ const getCategoryId = (id) => {
     emit('get-category-id', id)
 }
 
+const resetCategory = () => {
+    searchValue.value = ''
+    emit('get-category-id', null)
+}
+
 const getValue = (value) => {
     searchValue.value = value
 }
@@ -70,7 +75,6 @@ onBeforeMount(async () => {
     let category = await reqGetCategory(props.categoryId)
     ajaxOptions.value = category.data
     options.value = ajaxOptions.value.children
-    console.log(ajaxOptions.value);
 })
 
 </script>
@@ -78,7 +82,7 @@ onBeforeMount(async () => {
     <div class="sidebarContainer">
         <div class="categoryContainer">
             <div class="inputContainer">
-                <font-awesome-icon @click="searchValue = ''" :icon="['fas', 'arrows-spin']"
+                <font-awesome-icon @click="resetCategory" :icon="['fas', 'arrows-spin']"
                     style="margin: 0;padding: 0 10px 8px 0;cursor: pointer;" />
                 <StandardInput :autoClear="false" @get-input-value="getValue" style="margin-bottom: 10px;"
                     :searchSize="160" />

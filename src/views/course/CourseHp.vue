@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, computed, onMounted } from "vue"
+import { ref, computed, onMounted, watch, onBeforeUnmount } from "vue"
 import { useRouter } from "vue-router"
 import { useSortCondition } from "../../stores/sortCondition.js"
 import { reqLoadPicture } from "../../api"
@@ -15,8 +15,6 @@ loadingBar.start()
 const store = useSortCondition()
 //使用 router
 const router = useRouter()
-const course = ref()
-const courses = reactive([])
 
 const searchOptions = ref([
   { key: "courseName", label: "課程名稱", type: "String" },
@@ -27,20 +25,29 @@ const searchOptions = ref([
 /**定義變數 */
 //動態頁數
 const pages = ref(1)
+
+//搜索數值範圍
+const numberRanges = ref([])
+
 //表格陣列
 const tableDatas = ref([])
+
 //是否有資料
 const hasTable = ref(true)
 
+//傳值搜索條件
 const emitSearch = ref([])
 
+//分類搜索
 const catSearch = ref([])
 
+//只顯示已啟用的課程
+const activedCourse = [{ key: 'courseStatus', type: 'String', input: '啟用' }]
+
+//整合搜索條件
 const searchRules = computed(() => {
-  return emitSearch.value + catSearch.value
+  return emitSearch.value.concat(catSearch.value).concat(activedCourse)
 })
-
-
 
 /**更新資料方法 */
 //更新表格資料
@@ -61,8 +68,6 @@ const updateDatas = (datas) => {
     url: data.courseImgURL
   }))
 
-  console.log("datas")
-  console.log(datas)
   tableDatas.value = array
   //更新頁數
   updatePages()
@@ -70,8 +75,8 @@ const updateDatas = (datas) => {
   tableDatas.value.forEach(async data => {
     await loadPicture(data)
   })
-
 }
+
 //異步加載圖片
 const loadPicture = async (data) => {
   let result = await reqLoadPicture(data.url)
@@ -82,20 +87,16 @@ const loadPicture = async (data) => {
 const updatePages = async () => {
   let num = await store.getCoursePages()
   pages.value = num.data
-  console.log(pages.value);
 }
 
 /**傳值送 Pinia 整合搜索條件 */
 //換頁
 const onGetPage = async (page) => {
-  console.log("page")
-  console.log(page)
-  // let result = await store.setCoursePageChange(page)
-  // if (result != null) {
-  //   let datas = result.data
-  //   updateDatas(datas)
-  //   console.log(result.data)
-  // }
+  let result = await store.setCoursePageChange(page)
+  if (result != null) {
+    let datas = result.data
+    updateDatas(datas)
+  }
 }
 
 const onGetSelectedKey = (key) => {
@@ -105,45 +106,43 @@ const onGetSelectedKey = (key) => {
 
 //搜索條件(多筆)
 const onGetSearchRules = async rule => {
-  console.log("rule")
-  console.log(rule)
   emitSearch.value = rule
-  // let result = await store.setCourseSearchRules(rule)
-  // if (result != null) {
-  //   let datas = result.data
-  //   updateDatas(datas)
-  //   console.log(result.data)
-  // }
 }
-
+//搜索分類
 const onGetCategoryId = id => {
-  console.log('id');
-  console.log(id);
-
+  if (id === null) {
+    catSearch.value = []
+  } else {
+    catSearch.value = [{ key: 'categoryId', type: 'Number', input: id }]
+  }
 }
 
 //數值範圍(單筆)
 const onGetNumberRange = async (range) => {
-  console.log("range")
-  console.log(range)
-  // let result = await store.setCourseNumberRange(range)
-  // if (result != null) {
-  //   let datas = result.data
-  //   updateDatas(datas)
-  //   console.log(result.data)
-  // }
+  let result = await store.setCourseNumberRange(range)
+  if (result != null) {
+    let datas = result.data
+    updateDatas(datas)
+  }
 }
 
-//日期範圍(多筆)
-const onGetDateRules = async (rules) => {
-  // let result = await store.setCourseDateRules(rules)
-  // if (result != null) {
-  //   let datas = result.data
-  //   updateDatas(datas)
-  // }
+const onGetSelectedLabel = (label) => {
+  searchOptions.value.forEach(async option => {
+    if (option.key === label && option.type === 'Number') {
+      let result = await store.getCourseNumberRange(label)
+      let range = result.data
+      numberRanges.value = [{ key: label, max: range[0], min: range[1] }]
+    }
+  })
 }
 
-
+watch(searchRules, async () => {
+  let result = await store.setCourseSearchRules(searchRules.value)
+  if (result != null) {
+    let datas = result.data
+    updateDatas(datas)
+  }
+}, { immediate: true })
 
 /** 初始化資料 */
 onMounted(async () => {
@@ -154,11 +153,15 @@ onMounted(async () => {
     loadingBar.finish()
   }
 })
+
+onBeforeUnmount(() => {
+  store.resetCondition()
+})
 </script>
 <template>
-  <CourseDisplay :products="tableDatas" :searchOptions="searchOptions" :pages="pages" :row="true" :block="true"
-    :categoryId="2" @get-selected-key="onGetSelectedKey" @get-search-rules="onGetSearchRules"
-    @get-number-range="onGetNumberRange" @get-page="onGetPage"></CourseDisplay>
+  <CourseDisplay :numberRanges="numberRanges" :products="tableDatas" :searchOptions="searchOptions" :pages="pages"
+    :row="true" :block="true" :categoryId="2" @get-selected-key="onGetSelectedKey" @get-search-rules="onGetSearchRules"
+    @get-number-range="onGetNumberRange" @get-page="onGetPage" @get-selected-label="onGetSelectedLabel"></CourseDisplay>
   <StandardSidebar :categoryId="2" @get-category-id="onGetCategoryId" />
   <StandardFooter />
 </template>

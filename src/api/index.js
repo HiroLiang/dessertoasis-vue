@@ -394,8 +394,20 @@ const reqUpdateList = (categoryId, itemId) =>
 
 /*----------------------------------------  聊天室相關請求  -------------------------------------------*/
 
-const reqGetChatDatas = (sender, catcher) => {
-  return request.get(`/message/history?sender=${sender}&catcher=${catcher}`)
+const reqGetChatDatas = (sender, catcher, page) => {
+  return request.get(`/message/history?sender=${sender}&catcher=${catcher}&page=${page}`)
+}
+
+const reqGetAdmins = (id) => {
+  return request.get(`/message/admins?id=${id}`)
+}
+
+const reqReadMessage = (chatMessage) => {
+  request.put('/message/setReaded', chatMessage, jsonHeader)
+}
+
+const reqGetUnreadSum = (catcher) => {
+  return request.get(`/message/unread?catcher=${catcher}`)
 }
 
 export {
@@ -501,4 +513,7 @@ export {
 
   /*----------------------------------------  聊天室相關請求  -------------------------------------------*/
   reqGetChatDatas,
+  reqGetAdmins,
+  reqReadMessage,
+  reqGetUnreadSum,
 }

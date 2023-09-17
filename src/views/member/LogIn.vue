@@ -24,7 +24,7 @@ const login = async () => {
         router.push({ name: 'home' })
     } else if (loginState.data === 'INACTIVE') {
         alert('帳號未認證')
-        router.push({ name: 'sendverification' })
+        router.push({ name: 'sendverification' }) //跳轉重新發送驗證信頁面
     } else {
         alert('帳號密碼錯誤')
         account.value = ''

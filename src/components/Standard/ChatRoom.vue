@@ -1,14 +1,18 @@
 <script setup>
 import { ref, onBeforeUnmount } from 'vue'
-import { reqGetMemberId } from '../../api'
+import { reqGetMemberId, reqGetAdmins, reqGetUnreadSum } from '../../api'
 import Stomp from 'stompjs'
 import SockJS from 'sockjs-client/dist/sockjs.min.js'
 import MemberList from './chatroom/MemberList.vue'
 import TextRoom from './chatroom/TextRoom.vue'
+import { useChatMessage } from '../../stores/chatMessage';
+
+const emit = defineEmits(['get-unread-number'])
+
+const store = useChatMessage()
 
 //初始化需求資料
 const chatMessage = ref({
-    id: 0,
     sender: 5,
     catcher: 4,
     chatMessage: '',
@@ -16,16 +20,29 @@ const chatMessage = ref({
     messageState: ''
 })
 
+const friends = ref([])
+
+const catcherName = ref('')
+
 const isMemberSelected = ref(false)
 
 const onGetInputMessage = (input) => {
-    console.log(input);
     chatMessage.value.chatMessage = input
+    console.log(chatMessage.value);
+    sendMessage()
 }
 
-const onGetSelectedCatcher = (catcher) => {
+const onGetSelectedCatcher = (catcher, name) => {
     chatMessage.value.catcher = catcher
     isMemberSelected.value = !isMemberSelected.value
+    catcherName.value = name
+}
+
+const initFriends = async () => {
+    const result = await reqGetAdmins(chatMessage.value.sender)
+    let admins = result.data
+    friends.value = admins
+    console.log(friends.value);
 }
 
 onBeforeUnmount(() => {
@@ -43,6 +60,7 @@ const getSenderId = async () => {
     const id = await reqGetMemberId()
     chatMessage.value.sender = id.data
     console.log(chatMessage.value);
+    await initFriends()
 }
 getSenderId()
 
@@ -51,17 +69,22 @@ const socket = new SockJS(url.value)
 const stompClient = Stomp.over(socket)
 stompClient.connect({}, (frame) => {
     console.log(frame);
-    stompClient.subscribe('/topic/getResponse/user-' + chatMessage.value.sender, (res) => {
-        let msg = JSON.parse(res.body)
-        console.log(msg);
+    stompClient.subscribe('/topic/getResponse/user-' + chatMessage.value.sender, async (res) => {
+        console.log(res.body);
+        store.messages.push(JSON.parse(res.body))
+        await initFriends()
     })
 })
 
+const countUnread = async () => {
+    const unreadSum = await reqGetUnreadSum(chatMessage.value.sender)
+    emit('get-unread-number', unreadSum.data)
+}
+countUnread()
 
 const sendMessage = () => {
-    if (stompClient && chatMessage.value.message) {
+    if (stompClient && chatMessage.value.chatMessage) {
         stompClient.send(`/app/send-private-message`, {}, JSON.stringify(chatMessage.value))
-
     }
 }
 
@@ -71,11 +94,11 @@ const sendMessage = () => {
 <template>
     <div class="message-container">
         <div class="member-container">
-            <MemberList @get-selected-catcher="onGetSelectedCatcher" />
+            <MemberList :friends="friends" @get-selected-catcher="onGetSelectedCatcher" />
         </div>
         <transition name="tRoom">
             <div v-if="isMemberSelected" class="chatroom-container">
-                <TextRoom :sender="chatMessage.sender" :catcher="chatMessage.catcher"
+                <TextRoom :catcherName="catcherName" :sender="chatMessage.sender" :catcher="chatMessage.catcher"
                     @get-input-message="onGetInputMessage" />
             </div>
         </transition>
@@ -99,7 +122,7 @@ const sendMessage = () => {
 
 .chatroom-container {
     width: 70%;
-    background-color: rgb(152, 245, 245);
+    background-color: rgb(250, 251, 251);
 }
 
 .tRoom-enter-active,

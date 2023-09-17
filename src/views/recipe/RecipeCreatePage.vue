@@ -4,11 +4,12 @@ import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 import IngredientInput from '@/views/recipe/components/IngredientInput.vue'
 import StepInput from '@/views/recipe/components/StepInput.vue'
 import { addRecipe, imgTest, reqGetCategory } from '@/api'
-import { useMessage, useNotification, NTreeSelect } from 'naive-ui'
+import { useMessage, useNotification, NTreeSelect, useDialog } from 'naive-ui'
 import { useRouter } from 'vue-router'
 
 const notification = useNotification()
 const message = useMessage()
+const dialog = useDialog()
 const router = useRouter()
 
 const ingredientCounter = ref(0)
@@ -344,6 +345,23 @@ const submitForm = async () => {
 
 }
 
+const cancelPost = () => {
+    router.replace({
+        path: '/recipes',
+    })
+}
+
+const handelDeleteClick = () => {
+    dialog.warning({
+        title: "警告",
+        content: "確定要刪除這筆資料?",
+        positiveText: "確定",
+        negativeText: "取消",
+        onPositiveClick: () => {
+            cancelPost()
+        },
+    })
+}
 
 
 const ajaxOptions = ref([
@@ -451,7 +469,6 @@ const handleUpdateValue = (value) => {
 
 const handledifValue = (dif) => {
     selecteddif.value = dif
-
     // console.log(selecteddif.value);
 }
 
@@ -567,8 +584,8 @@ const handledifValue = (dif) => {
 
                     <button type="submit" class=" btn btn-light mb-2 mt-2" @click="submitForm">發佈</button>
                     <button class="btn btn-light mb-2">儲存</button>
-                    <button type="reset" class="btn btn-light mb-2">取消</button>
-                    <button class="btn btn-light mb-2">刪除</button>
+                    <button type="reset" class="btn btn-light mb-2" @click="cancelPost">取消</button>
+                    <button class="btn btn-light mb-2" @click="handelDeleteClick">刪除</button>
 
                 </div>
             </div>

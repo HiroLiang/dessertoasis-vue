@@ -259,6 +259,16 @@ const router = createRouter({
       component: () => import("../views/member/ForgetPassword.vue"),
     },
     {
+      path: "/verify-account",
+      name: "verify-account",
+      component: () => import("../views/member/MemberVerification.vue"),
+    },
+    {
+      path: "/sendverification/:email?",
+      name: "sendverification",
+      component: () => import("../views/member/Sendverification.vue"),
+    },
+    {
       path: "/sendEmail",
       name: "sendEmail",
       component: () => import("../views/member/SendEmail.vue"),

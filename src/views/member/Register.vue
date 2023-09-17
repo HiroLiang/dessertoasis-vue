@@ -24,16 +24,15 @@ const register = async () => {
         account: account.value,
         email: email.value,
         passwords: passwords.value,
-        confirmPassword: confirmPasswords.value
     }
 
-    let result = await reqSignUp(JSON.stringify(userData))
-
+    let result = await reqSignUp(userData)
+    console.log(result)
     console.log('傳遞到後端的資料:', userData);
 
-    if (result.data == 'Y') {
+    if (result.data == "註冊成功") {
         router.push({ name: 'sendEmail' })
-    } else if (result.data == 'N') {
+    } else if (result.data == "帳號已存在") {
         alert('帳號已存在')
     }
 }

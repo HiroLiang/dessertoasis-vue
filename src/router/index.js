@@ -169,7 +169,7 @@ const router = createRouter({
           component: () => import("../views/product/Addproduct.vue"),
         },
         {
-          path: "/cms/editproduct",
+          path: '/cms/editproduct/:id',
           name: "Editproduct",
           component: () => import("../views/product/Editproduct.vue"),
         },

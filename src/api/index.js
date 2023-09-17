@@ -370,7 +370,9 @@ const getProd = (page, pageSize, queryString) => {
 const getProd1 = (queryParams) => {
   return request.get(`/product/search?${queryParams}`)
 }
-
+const getProdById = (productId) => {
+  return request.get(`/product/details/${productId}`)
+}
 const reqGetProductPage = (condition) => {
   return request.post("/product/pagenation", condition, jsonHeader)
 }
@@ -378,20 +380,18 @@ const reqGetProductPage = (condition) => {
 const AddProduct = (productData) => {
   return request.post("/product/add", productData, jsonHeader)
 }
-
+const EditProduct = (productId, productData) => {
+  return request.post(`/product/edit/${productId}`, productData, jsonHeader)
+}
 const UploadProdImage = (
   productId,
   imageFormData,
-  config,
-  thumbnailFormData,
-  thumbnailConfig
+  config
 ) => {
   return request.post(
     `/product/uploadImage?productId=${productId}`,
     imageFormData,
-    config,
-    thumbnailFormData,
-    thumbnailConfig
+    config
   )
 }
 const getProductImage = (id) => {
@@ -408,7 +408,6 @@ const reqGetCmsProductPages = (condition) => {
 }
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
 // request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
-
 /**----------------------------------------  搜索相關請求  -------------------------------------------*/
 
 /**取得搜索提示(暫無用)*/
@@ -533,12 +532,14 @@ export {
   SearchProd,
   getProd,
   getProd1,
+  getProdById,
   reqGetProductPage,
   reqGetCmsProductPages,
   AddProduct,
   UploadProdImage,
   getProductImage,
   getAllProductImage,
+  EditProduct,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

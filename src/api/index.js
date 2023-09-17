@@ -214,8 +214,12 @@ const checkTeacherStatus = () => {
 }
 
 //列出該教師個人資料
-const editTeacherProfile = (teacherId) => {
-  return request.get(`/teacher/${teacherId}`)
+// const editTeacherProfile = (teacherId) => {
+//   return request.get(`/teacher/${teacherId}`)
+// }
+
+const editTeacherProfile = (teacher) => {
+  return request.put("/edit", teacher, jsonHeader)
 }
 
 //列出該教師所有課程
@@ -259,12 +263,36 @@ const reqGetCmsCoursePages = (condition) => {
 const UploadTeacherImage = (formData) => {
   return request.post(`/teacher/uploadImage`, formData)
 }
+
 const getTeacherImage = (id) => {
   return request.post("teacher/getImage", id, jsonHeader)
 }
 
 const reqLoadPicture = (courseImgURL) => {
   return request.get(`/course/base64/image?path=${courseImgURL}`)
+}
+
+const reqGetFrontTeacherPages = (condition) => {
+  return request.post("/teacher/teacherFrontPagenation", condition, jsonHeader)
+}
+
+//刪除一筆老師
+const reqDeleteTeacher = (id) => {
+  return request.delete(`/teacher/delete/${id}`)
+}
+
+//取得單一課程資料
+const reqGetTeacherData = (id) => {
+  return request.get(`teacher/teacher-desplay?id=${id}`)
+}
+
+//更新課程
+const reqUpdateTeacher = (teacherData) => {
+  return request.post("teacher/updateTeacher", teacherData, jsonHeader)
+}
+
+const updateTeacher = (formData) => {
+  return request.post(`/teacher/editTeacher`, formData)
 }
 
 //#region ----------------------------------- 課程後台請求  ---------------------------------------*/
@@ -451,6 +479,11 @@ export {
   reqGetCmsTeacherPages,
   UploadTeacherImage,
   getTeacherImage,
+  reqGetFrontTeacherPages,
+  reqDeleteTeacher,
+  reqGetTeacherData,
+  reqUpdateTeacher,
+  updateTeacher,
 
   //#region 課程後台
   // reqGetCourseData,

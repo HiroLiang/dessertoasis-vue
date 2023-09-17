@@ -144,6 +144,11 @@ const router = createRouter({
           component: () => import("../views/course/ManagerAllTeacher.vue"),
         },
         {
+          path: "/cms/editTeacher",
+          name: "cmsEditTeacher",
+          component: () => import("../views/cms/course/EditTeacher.vue"),
+        },
+        {
           path: "/cms/chat",
           name: "chat",
           component: () => import("../components/Standard/ChatRoom.vue"),
@@ -298,7 +303,6 @@ const router = createRouter({
           name: "memberpic",
           component: () => import("../views/member/MemberPic.vue"),
         },
-
       ],
     },
 

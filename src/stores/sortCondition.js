@@ -12,6 +12,7 @@ import {
   reqGetCmsCoursePages,
   reqGetTeacherPage,
   reqGetCmsTeacherPages,
+  reqGetFrontTeacherPages,
 } from "../api"
 
 export const useSortCondition = defineStore("sortCondition", () => {
@@ -71,7 +72,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
     return await getOrderPagenation()
   }
 
-  //#endregion 
+  //#endregion
   //#region ------------------------食譜  後台--------------------------------*/
   const setRecipeSearchRules = async (rules) => {
     condition.value.searchRules = rules
@@ -112,7 +113,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
     console.log(condition.value)
     return await getRecipePagenation()
   }
-  //#endregion 
+  //#endregion
   //#region ------------------------食譜  前台--------------------------------*/
 
   const setFrontRecipeSearchRules = async (rules) => {
@@ -147,7 +148,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
       return await getFrontRecipePagenation()
     }
   }
-  //#endregion 
+  //#endregion
   //#region ------------------------商品--------------------------------*/
 
   const setProductSearchRules = async (rules) => {
@@ -189,7 +190,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
     console.log(newPage)
     return await getProductPagenation()
   }
-  //#endregion 
+  //#endregion
   //#region ------------------------課程--------------------------------*/
   //條件搜索
   const setCourseSearchRules = async (rules) => {
@@ -234,8 +235,8 @@ export const useSortCondition = defineStore("sortCondition", () => {
     console.log(newPage)
     return await getCoursePagenation()
   }
-  //#endregion 
-  //#endregion 
+  //#endregion
+  //#endregion
 
   //#region 分頁搜索
   //#region ------------------------老師--------------------------------*/
@@ -278,7 +279,40 @@ export const useSortCondition = defineStore("sortCondition", () => {
     console.log(newPage)
     return await getTeacherPagenation()
   }
-  //#endregion 
+
+  const setFrontTeacherSearchRules = async (rules) => {
+    condition.value.searchRules = rules
+    console.log(condition.value)
+    return await getFrontTeacherPagenation()
+  }
+
+  const setFrontTeacherPageChange = async (newPage) => {
+    condition.value.page = newPage[0]
+    condition.value.pageSize = newPage[1]
+    console.log(condition.value)
+    return await getFrontTeacherPagenation()
+  }
+
+  const setFrontTeacherSortBy = async (rule) => {
+    condition.value.sortBy = rule[0]
+    condition.value.sortWay = rule[1]
+    console.log(condition.value)
+    return await getFrontTeacherPagenation()
+  }
+
+  const setFrontTeacherNumberRange = async (range) => {
+    condition.value.numKey = null
+    condition.value.numStart = 0
+    condition.value.numEnd = 0
+    if (range !== null) {
+      condition.value.numKey = range[0]
+      condition.value.numStart = range[1]
+      condition.value.numEnd = range[2]
+      console.log(condition.value)
+      return await getFrontTeacherPagenation()
+    }
+  }
+  //#endregion
   //#region -----------------------訂單--------------------------------*/
   //查詢訂單頁面
   const getOrderPagenation = async () => {
@@ -290,7 +324,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
   const getOrderPages = async () => {
     return await reqGetCmsOrderPages(condition.value)
   }
-  //#endregion 
+  //#endregion
   //#region ------------------------食譜--------------------------------*/
   const getRecipePagenation = async () => {
     let result = await reqGetRecipePage(condition.value)
@@ -307,7 +341,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
     console.log(result.data)
     return result
   }
-  //#endregion 
+  //#endregion
   //#region ------------------------商品--------------------------------*/
   //查詢頁面
   const getProductPagenation = async () => {
@@ -319,7 +353,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
   const getProductPages = async () => {
     return await reqGetCmsProductPages(condition.value)
   }
-  //#endregion 
+  //#endregion
   //#region ------------------------課程--------------------------------*/
   //查詢課程頁面
   const getCoursePagenation = async () => {
@@ -331,7 +365,7 @@ export const useSortCondition = defineStore("sortCondition", () => {
   const getCoursePages = async () => {
     return await reqGetCmsCoursePages(condition.value)
   }
-  //#endregion 
+  //#endregion
   //#region -----------------------老師---------------------------------*/
   //查詢課程頁面
   const getTeacherPagenation = async () => {
@@ -343,8 +377,14 @@ export const useSortCondition = defineStore("sortCondition", () => {
   const getTeacherPages = async () => {
     return await reqGetCmsTeacherPages(condition.value)
   }
-  //#endregion 
-  //#endregion 
+
+  const getFrontTeacherPagenation = async () => {
+    let result = await reqGetFrontTeacherPages(condition.value)
+    console.log(result.data)
+    return result
+  }
+  //#endregion
+  //#endregion
 
   //回傳
   return {
@@ -397,6 +437,10 @@ export const useSortCondition = defineStore("sortCondition", () => {
     setTeacherNumberRange,
     setTeacherSortBy,
     setTeacherPageChange,
+    setFrontTeacherPageChange,
+    setFrontTeacherSortBy,
+    setFrontTeacherNumberRange,
+    setFrontTeacherSearchRules,
     //cms order 分頁方法
     getOrderPagenation,
     getOrderPages,

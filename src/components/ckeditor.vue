@@ -17,19 +17,16 @@ onMounted(() => {
         .then(editor => {
             editorInstance = editor;
             console.log('Editor was initialized', editor);
+
+            // 添加事件监听器以侦听编辑器内容更改
+            editorInstance.model.document.on('change:data', () => {
+                const content = editorInstance.getData();
+                const wrappedContent = `<div>${content}</div>`;
+                console.log('Editor content changed:', wrappedContent);
+            });
         })
         .catch(error => {
             console.error(error);
         });
 });
-
-const saveContent = () => {
-    if (editorInstance) {
-        const content = editorInstance.getData();
-        const wrappedContent = `<div>${content}</div>`;
-
-        console.log(wrappedContent);
-    }
-};
 </script>
-  

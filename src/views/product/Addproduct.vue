@@ -3,7 +3,7 @@
         <p>請選擇分類</p>
 
         <n-space>
-            <n-cascader v-model:value="selectedValue" @change="handleCascaderChange" clearable placeholder="所有商品"
+            <n-cascader v-model:value="selectedValue" @update:value="handleCascaderChange" clearable placeholder="所有商品"
                 :max-tag-count="settings.responsiveMaxTagCount ? 'responsive' : undefined"
                 :expand-trigger="settings.hoverTrigger ? 'hover' : 'click'" :options="customOption" :show-path="true"
                 :filterable="settings.filterable" :clear-filter-after-select="settings.clearFilterAfterSelect"
@@ -57,8 +57,7 @@
         </div>
 
         <div class="editor">
-            <p>商品描述</p>
-            <CKEditor v-model="formData.prodDescription" />
+            <CKEditor v-model="editorContent" @change="updateEditorContent" :config="editorConfig" />
         </div>
         <div class="dynamic">
             <p>備註</p>
@@ -92,11 +91,23 @@ const prodStock = ref(0);
 
 const prodRemark = ref("");
 const updateTime = ref(Date.now());
-const prodDescription = ref('<div>Initial content</div>');
+const prodDescription = ref("");
 const selectedValue = ref(null);
-const options = ref([])
+const editor = ref(null);
+const editorContent = ref('');
+const editorConfig = {
+    // 在这里配置 CKEditor 的选项，例如工具栏、插件等
+};
+watch(editorContent, (newContent) => {
+    formData.prodDescription = `<div>${newContent}</div>`;
+    console.log('editorContent:', newContent);
+});
+console.log(editorContent)
 
-const ajaxOptions = ref([])
+const updateEditorContent = (newContent) => {
+    console.log('updateEditorContent called with:', newContent);
+    editorContent.value = newContent;
+};
 
 const handleCascaderChange = (value) => {
     console.log(value);
@@ -145,16 +156,23 @@ function removeImage(index) {
 async function submitProduct() {
     try {
         const productData = {
-            prodName: formData.prodName,
-            categoryId: formData.categoryId,
-            prodPrice: formData.prodPrice,
-            prodStock: formData.prodStock,
-            prodRemark: formData.prodRemark,
-            updateTime: formData.updateTime,
-            prodDescription: formData.prodDescription,
-        };
+            product: {
+                prodName: formData.prodName,
+                prodDescription: editorContent.value,
+                prodStock: parseInt(formData.prodStock), // 将字符串转换为整数
+                prodPrice: parseInt(formData.prodPrice), // 将字符串转换为整数
+                prodPurchase: parseInt(formData.prodPurchase), // 将字符串转换为整数
+                updateTime: new Date(formData.updateTime).toISOString(), // 将日期时间转换为 ISO 格式字符串
+                prodRemark: formData.prodRemark,
+            },
+            category: {
+                id: formData.categoryId,
+            },
 
+        };
+        console.log("productData", productData);
         const productResponse = await AddProduct(productData);
+
         console.log("productResponse", productResponse);
         const productId = productResponse.data;
         console.log("productId", productId);

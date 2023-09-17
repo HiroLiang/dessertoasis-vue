@@ -11,10 +11,6 @@ const navBarList = reactive([
     title: "關於教師",
     toUrl: "/courses/aboutTeacher",
   },
-  {
-    title: "報名課程",
-    toUrl: "/courses/EnrollCourse",
-  },
 ])
 </script>
 <template>

@@ -12,7 +12,7 @@ const props = defineProps({
 
 /* 定義變數 */
 // Sidebar controller
-const ifSidbar = ref(false)
+const ifSidbar = ref(true)
 
 const showChatRoom = ref(false)
 

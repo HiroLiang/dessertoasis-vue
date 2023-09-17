@@ -90,6 +90,11 @@ const router = createRouter({
           component: () => import("../views/cms/recipe/CmsRecipeTable.vue"),
         },
         {
+          path: "/cms/recipedetail",
+          name: "cmsrecipeDetail",
+          component: () => import("../views/cms/recipe/CmsRecipeDetail.vue"),
+        },
+        {
           path: "/cms/course",
           name: "cmscourse",
           component: () => import("../views/cms/course/CourseBackground.vue"),
@@ -267,6 +272,16 @@ const router = createRouter({
       path: "/forgetPassword",
       name: "forgetPassword",
       component: () => import("../views/member/ForgetPassword.vue"),
+    },
+    {
+      path: "/verify-account",
+      name: "verify-account",
+      component: () => import("../views/member/MemberVerification.vue"),
+    },
+    {
+      path: "/sendverification/:email?",
+      name: "sendverification",
+      component: () => import("../views/member/Sendverification.vue"),
     },
     {
       path: "/sendEmail",

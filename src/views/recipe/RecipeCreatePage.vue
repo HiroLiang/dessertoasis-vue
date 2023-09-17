@@ -148,7 +148,7 @@ const data = reactive({
         recipeIntroduction: '',
         difficulty: '',
         pictureURL: '',
-        ingredientPersons: 1,
+        ingredientPersons: Number,
         cookingTime: '',
         ingredientList: [
             // {
@@ -179,6 +179,7 @@ const data = reactive({
 
     ]
 })
+const persons = ref(1)
 
 //判斷由無鍵入資料
 const isDataEmpty = () => {
@@ -216,13 +217,13 @@ const isDataEmpty = () => {
     })
     if (errors.length > 0) {
         errors.forEach(error => {
-            message.info(error); // 使用 message.error 显示错误消息
+            message.info(error); // 使用 message.error 顯示錯誤訊息
         });
-        return false; // 返回 false 表示有错误
+        return false; // 返回 false 表示有錯誤
 
     }
 
-    return true; // 没有错误则返回 true
+    return true; // 沒有錯誤則返回 true
 }
 
 
@@ -277,13 +278,21 @@ const submitForm = async () => {
             data.recipe.difficulty = "困難"
         }
 
+        data.recipe.ingredientPersons = persons.value
+
+        console.log('persons.value');
+        console.log(persons.value);
+
+        console.log('data.recipe.ingredientPersons');
+        console.log(data.recipe.ingredientPersons);
+
         console.log('RecipeData');
         console.log(data);
 
         // console.log(formData);
         // console.log(imgDatas);
 
-        console.log("imgData:  ");
+        // console.log("imgData:  ");
 
         // imgDatas.forEach(data => {
         //     console.log(data);
@@ -330,7 +339,7 @@ const submitForm = async () => {
         {
             description: "建立狀態",
             content: "成功發佈食譜",
-            // duration: 3000
+            duration: 3000
         })
 
 }
@@ -468,7 +477,7 @@ const handledifValue = (dif) => {
     <!-- <form @submit.prevent="submitForm"> -->
     <div class="container">
         <div class="row ">
-            <div class="recipeContainer container col-md-10 border border-dark rounded">
+            <div class="recipeContainer container col-md-10 border rounded">
                 <div class="recipeTitleContainer container mt-3">
                     <label for="recipeTitle" class="form-label">食譜名稱:</label><br>
                     <input class="form-control" v-model="data.recipe.recipeTitle" type="text" id="recipeTitle"
@@ -476,7 +485,7 @@ const handledifValue = (dif) => {
                 </div>
                 <div class="recipeIntroductionContainer container mt-3">
                     <label for="recipeIntroduction" class="form-label">食譜簡介:</label><br>
-                    <textarea class="recipeIntroduction form-control" style="resize: none;"
+                    <textarea class="recipeIntroduction form-control" style="resize: none; rows=5;"
                         v-model="data.recipe.recipeIntroduction" id="recipeIntroduction" name="recipeIntroduction"
                         required="required"></textarea>
                     <br>
@@ -497,7 +506,7 @@ const handledifValue = (dif) => {
                 </div>
                 <div class="categoryContainer container mb-2">
                     <p class="form-label">食譜分類</p>
-                    <n-tree-select class="selectTree" :multiple="true" :cascade="true" checkable :options="options"
+                    <n-tree-select class="selectTree" :multiple="true" checkable :options="options"
                         @update:value="handleUpdateValue" placeholder="請選擇食譜分類" />
                 </div>
                 <div class="difContainer container mb-2">
@@ -509,8 +518,8 @@ const handledifValue = (dif) => {
                     <div class="ingredientContainer row justify-content-start">
                         <div class="ingredientQtyContainer col-4">
                             <p class="form-label">食材份量(人份)</p>
-                            <select class="form-select" v-model="data.recipe.ingredientPersons" id="ingredientPersons">
-                                <option selected value="1">1</option>
+                            <select class="form-select" v-model="persons" id="ingredientPersons">
+                                <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
@@ -554,7 +563,7 @@ const handledifValue = (dif) => {
 
             </div>
             <div class=" crudbtn col-md-1 align-self-start position-sticky" style="top: 100px;">
-                <div class="btn row border border-dark rounded px-2 pb-2">
+                <div class="btn row border rounded px-2 pb-2">
 
                     <button type="submit" class=" btn btn-light mb-2 mt-2" @click="submitForm">發佈</button>
                     <button class="btn btn-light mb-2">儲存</button>
@@ -573,6 +582,10 @@ const handledifValue = (dif) => {
     max-width: 100%;
     max-height: 100%;
     /* object-fit: cover; */
+}
+
+.recipeContainer {
+    border-color: gray;
 }
 
 .custom-cursor-pointer {

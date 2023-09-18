@@ -9,10 +9,10 @@ const navBarList = reactive([
   { title: "課程", toUrl: "/courses" },
   { title: "商品", toUrl: "/product" },
   { title: "預約甜點教室", toUrl: "/reservation" },
-  {
-    title: "我的課程",
-    toUrl: "/teacher",
-  },
+  // {
+  //   title: "我的課程",
+  //   toUrl: "/teacher",
+  // },
 ])
 const showPopup = ref(false)
 

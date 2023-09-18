@@ -364,6 +364,10 @@ const reqUpdateCourse = (courseData) => {
   return request.post("/course/updateCourse", courseData, jsonHeader)
 }
 
+// const AddCourse = (courseData) => {
+//   return request.post("/course/add", courseData, jsonHeader)
+// }
+
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
 const getAllProd = (page, pageSize, dataTitles) => {
@@ -395,11 +399,7 @@ const AddProduct = (productData) => {
 const EditProduct = (productId, productData) => {
   return request.post(`/product/edit/${productId}`, productData, jsonHeader)
 }
-const UploadProdImage = (
-  productId,
-  imageFormData,
-  config
-) => {
+const UploadProdImage = (productId, imageFormData, config) => {
   return request.post(
     `/product/uploadImage?productId=${productId}`,
     imageFormData,
@@ -445,7 +445,9 @@ const reqUpdateList = (categoryId, itemId) =>
 /*----------------------------------------  聊天室相關請求  -------------------------------------------*/
 
 const reqGetChatDatas = (sender, catcher, page) => {
-  return request.get(`/message/history?sender=${sender}&catcher=${catcher}&page=${page}`)
+  return request.get(
+    `/message/history?sender=${sender}&catcher=${catcher}&page=${page}`
+  )
 }
 
 const reqGetAdmins = (id) => {
@@ -453,7 +455,7 @@ const reqGetAdmins = (id) => {
 }
 
 const reqReadMessage = (chatMessage) => {
-  request.put('/message/setReaded', chatMessage, jsonHeader)
+  request.put("/message/setReaded", chatMessage, jsonHeader)
 }
 
 const reqGetUnreadSum = (catcher) => {

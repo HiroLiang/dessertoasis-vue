@@ -16,7 +16,7 @@ const getImg = async (id) => {
   const header = res.headers["content-type"]
   console.log(body)
   console.log(header)
-  img.value = `data:${header};base64,${body}`
+  img.value = `data:${body[0]};base64,${body[1]}`
 }
 
 const teacherData = ref({
@@ -35,7 +35,7 @@ onMounted(async () => {
   let teacherPic = await getTeacherImage(teacherId.value)
   let mainPicBody = teacherPic.data
   let mainPicHeader = teacherPic.headers[`content-type`]
-  teacherData.value.pictures = `data:${mainPicHeader};base64,${mainPicBody}`
+  teacherData.value.pictures = `data:${mainPicBody[0]};base64,${mainPicBody[1]}`
 
   let teacher = await getTeacher(teacherId.value)
   let datas = teacher.data
@@ -50,7 +50,7 @@ onMounted(async () => {
   <div class="container">
     <h1 style="margin-top: 30px">老師個人頁面</h1>
     <div class="row">
-      <!-- <button @click="getImg(1)">測試</button>
+      <!-- <button @click="getImg(8)">測試</button>
       <img :src="img" alt="" /> -->
       <!-- <h1>目標頁面</h1> -->
       <!-- <p>编辑的ID: {{ teacherId }}</p>

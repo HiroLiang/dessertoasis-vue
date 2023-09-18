@@ -14,10 +14,10 @@ const navBarList = reactive([
     title: "我的課程管理",
     toUrl: "/teacher/myCourses",
   },
-  // {
-  //   title: "編輯課程",
-  //   toUrl: "/teacher/editCourse",
-  // },
+  {
+    title: "新增課程",
+    toUrl: "/courses/addCourse",
+  },
   {
     title: "編輯個人資訊",
     toUrl: "/teacher/editProfile",

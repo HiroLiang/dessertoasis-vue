@@ -10,14 +10,14 @@
       <h1>報名課程</h1>
       <div class="row">
         <div class="col-6">
-          <img src="../assets/images/course/cupcake.jpg" alt="" />
+          <img src="images/course/cupcake.jpg" alt="" />
         </div>
         <div class="col-6">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">杯子蛋糕</h5>
+              <h5 class="card-title">馬卡龍</h5>
               <p class="card-text">
-                小巧精緻，美味無比，每一口都是幸福的滋味！嚐一口我們的杯子蛋糕吧！
+                小巧精緻，美味無比，每一口都是幸福的滋味！嚐一口我們的馬卡龍吧！
               </p>
             </div>
             <ul class="list-group list-group-flush">
@@ -85,10 +85,11 @@
           <h2>瑪麗亞·史密斯（Maria Smith）</h2>
           <h4>專業背景：</h4>
       <p>瑪麗亞·史密斯是一位充滿激情且經驗豐富的甜點大師。她擁有烹飪藝術學士學位和糕點藝術碩士學位，並且在烹飪和糕點領域擁有超過15年的教學和實踐經驗。</p></div>
-        <div class="col-6"><img src="../assets/images/course/teacher/teacher.jpg" alt=""></div>
+        <div class="col-6"><img src="images/course/teacher.jpg" alt=""></div>
         <div class="row page-section justify-content-center align-items-center">
           <h2>聯絡地址</h2>
-          <img class="col-8" src="../assets/images/course/map.jpg" alt="" style="width: 75%; height: 400px; object-fit: cover;">
+          <h3> 801高雄市前金區中正四路211號8號樓之1</h3>
+          <!-- <img class="col-8" src="../assets/images/course/map.jpg" alt="" style="width: 75%; height: 400px; object-fit: cover;"> -->
         </div>
       </div>
     </div>

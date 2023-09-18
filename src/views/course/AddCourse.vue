@@ -1,12 +1,10 @@
 <script setup>
 import { ref, onMounted, computed } from "vue"
-import { checkTeacherStatus } from "@/api"
+// import { checkTeacherStatus, AddCourse } from "@/api"
 
 /* ---------------------------------error--------------------------------  */
 // import { AddCourse, UploadCourseImage } from "@/api/index.js"
 /* ---------------------------------error--------------------------------  */
-
-const isTeacher = ref(false) // 預設用戶不是老師
 
 // const today = new Date().toISOString().split("T")[0] // 獲取當前日期
 // const courseDate = ref(today) //儲存課程日期
@@ -91,16 +89,6 @@ const deleteImage = (index) => {
 //   // selectedFile.value = e.target.files[0]
 //   const url = URL.createObjectURL(file)
 //   images.value.push({ url })
-// }
-
-// function addVideo(e) {
-//   const file = e.target.files[0]
-//   const url = URL.createObjectURL(file)
-//   videos.value.push({ url })
-// }
-
-// const deleteVideo = (index) => {
-//   videos.value.splice(index, 1)
 // }
 
 // 計算屬性，用于檢查日期是否有效
@@ -201,21 +189,11 @@ async function submitCourse() {
 }
 </script>
 <template>
-  <div>
-    <!-- 根據用戶身份顯示不同内容 -->
-    <!-- <div v-if="isTeacher" class="container"> -->
+  <div class="container">
     <h1>新增課程</h1>
-    <!-- 這裡放置新增課程的表單或其他内容 -->
 
     <form class="row">
-      <div class="col-6">
-        <input type="hidden" v-model="teacherId" />
-
-        <!-- <div class="mb-2"> -->
-        <!-- 帶入教師編號 -->
-        <!-- <label for="teacherName">教師姓名:</label>
-          <input id="teacherName" v-model="teacherName" />
-        </div> -->
+      <div>
         <div class="mb-2">
           <label for="courseName">課程名稱:</label>
           <input id="courseName" v-model="formData.courseName" />
@@ -326,25 +304,18 @@ async function submitCourse() {
             <option value="">2</option>
           </select> -->
         </div>
-        <div class="mb-2">
-          <!-- <label for="courseLength">課程長度:</label>
-          <select v-model="courseLength" id="courseLength">
-            <option value="">一天</option>
-          </select> -->
-          <!-- <input type="text" v-model="courseLength" id="courseLength" /> -->
-        </div>
 
-        <div class="mb-2">
+        <!-- <div class="mb-2">
           <label for="recipes">課程食譜:</label>
           <input type="text" v-model="courseLength" id="courseLength" />
-        </div>
+        </div> -->
         <!-- <div class="mb-2">
           <label>開課狀態:</label>
           <input type="text" v-model="formData.courseStatus" />
         </div> -->
       </div>
       <!-- 課程圖片路徑 -->
-      <div class="col-6 row">
+      <div class="col-12 row">
         <div class="image-upload">
           <p>新增縮圖</p>
           <input type="file" @change="addThumbnail" accept="image/*" />
@@ -360,17 +331,6 @@ async function submitCourse() {
           <img :src="image.url" alt="上傳課程圖片" class="upload-image" />
           <button @click="deleteImage(index)">刪除</button>
         </div>
-        <!-- 
-        <label>上傳課程影片:</label>
-        <input type="file" @change="addVideo" accept="video/*" />
-        <div v-for="(video, index) in videos" :key="index">
-          <h4>課程影片預覽</h4>
-          <video controls class="upload-video">
-            <source :src="video.url" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <button @click="deleteVideo(index)">刪除</button>
-        </div> -->
       </div>
       <!-- 課程影片id,食譜id,標籤id -->
       <button
@@ -380,11 +340,6 @@ async function submitCourse() {
         提交
       </button>
     </form>
-    <!-- </div> -->
-
-    <!-- <div v-else>
-      <p>您不是教師，無法前往此頁。</p>
-    </div> -->
   </div>
 </template>
 <style>

@@ -8,7 +8,7 @@ const router = useRouter()
 // })
 </script>
 <template>
-  <h1 style="margin-top: 30px">老師首頁</h1>
+  <h1 style="margin-top: 30px" class="container">老師首頁</h1>
   <!-- <div>
     <h1>目标页面</h1>
     <p>编辑的ID: {{ $route.query.id }}</p>

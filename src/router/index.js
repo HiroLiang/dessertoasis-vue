@@ -250,11 +250,16 @@ const router = createRouter({
           name: "editProfile",
           component: () => import("../views/teacher/EditProfile.vue"),
         },
-        // {
-        //   path: "/courses/aboutTeacher",
-        //   name: "aboutTeacher",
-        //   component: () => import("../views/course/AboutTeacher.vue"),
-        // },
+        {
+          path: "/courses/oneCourse",
+          name: "oneCourse",
+          component: () => import("../views/course/OneCourse.vue"),
+        },
+        {
+          path: "/courses/addCourse",
+          name: "addCourse",
+          component: () => import("../views/course/AddCourse.vue"),
+        },
       ],
       // children:[{}],//{}放要變化的東西
     },

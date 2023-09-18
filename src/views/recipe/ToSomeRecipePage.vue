@@ -1,7 +1,7 @@
 <script setup>
 import display from '../../components/Standard/Display.vue'
-import { ref, reactive, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, reactive, onMounted, watch, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useSortCondition } from '../../stores/sortCondition.js'
 import { getRecipePicture } from '@/api'
 
@@ -9,6 +9,8 @@ import { getRecipePicture } from '@/api'
 const store = useSortCondition()
 //使用 router
 const router = useRouter()
+const route = useRoute()
+
 
 const products = reactive([
     {
@@ -135,15 +137,8 @@ const onGetSelectedKey = async (key) => {
     console.log(key);
 }
 
-const onGetSearchRules = async (rule) => {
-    console.log('rule');
-    console.log(rule);
-    let result = await store.setFrontRecipeSearchRules(rule)
-    if (result != null) {
-        let datas = result.data
-        updateDatas(datas)
-        console.log(result.data);
-    }
+const onGetSearchRules = rule => {
+    emitSearch.value = rule
 }
 
 
@@ -157,6 +152,34 @@ const onGetNumberRange = async (range) => {
         console.log(result.data);
     }
 }
+
+//傳值搜索條件
+const emitSearch = ref([])
+
+//整合搜索條件
+const searchRules = computed(() => {
+    return emitSearch.value.concat(catSearch.value)
+})
+const categoryId = ref(1)
+
+//搜索分類
+const catSearch = ref([])
+categoryId.value = route.query.categoryid
+if (categoryId.value)
+    catSearch.value = [{ key: 'categoryId', type: 'Number', input: categoryId.value }]
+console.log('categoryId.value');
+console.log(catSearch.value);
+
+watch(searchRules, async () => {
+    let result = await store.setFrontRecipeSearchRules(searchRules.value)
+    if (result != null) {
+        let datas = result.data
+        updateDatas(datas)
+        console.log(result.data);
+    }
+}, { immediate: true })
+
+
 
 /** 初始化資料 */
 onMounted(async () => {
@@ -174,7 +197,7 @@ onMounted(async () => {
 
 <template>
     <div>
-        <display :searchOptions="searchOptions" :products="tableDatas" :row="true" :block="true" :categoryId="categoryId"
+        <display :searchOptions="searchOptions" :products="tableDatas" :row="true" :block="true" :categoryId="3"
             :pages="pages" @get-selected-key="onGetSelectedKey" @get-search-rules="onGetSearchRules" @get-page="onGetPage"
             @get-number-range="onGetNumberRange"></display>
     </div>

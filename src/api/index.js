@@ -66,6 +66,15 @@ const memberImg = (file) => {
 //取得圖片URL
 const reqMemberpic = () => request.get("/member/getImageURL")
 
+//取得總頁數
+const reqGetCmsMemberPages = (condition) => {
+  return request.post("/member/pages", condition, jsonHeader)
+}
+//取得現在頁數內的資料
+const reqGetMemberPage = (condition) => {
+  return request.post("/member/pagenation", condition, jsonHeader)
+}
+
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -467,6 +476,8 @@ export {
   memberImg,
   reqChangeMember,
   reqMemberpic,
+  reqGetCmsMemberPages,
+  reqGetMemberPage,
 
   /*--------食譜用-------*/
   reqTop10HotRecipe,

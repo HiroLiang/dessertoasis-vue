@@ -3,7 +3,8 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import ProdTable from '@/components/Standard/Table.vue';
-import { useSortCondition } from '../../stores/sortCondition.js'
+import { useSortCondition } from '../../stores/sortCondition.js';
+
 
 //使用 pinia 整合搜索條件
 const store = useSortCondition()
@@ -22,8 +23,8 @@ const tableDatas = ref([])
 const hasTable = ref(true)
 //設定查詢表格標題
 const dataTitles = ref([
-    { label: "id", key: "id", type: "String" },
-    // { label: "分類", key: "categoryName", type: "String" },
+    //{ label: "id", key: "id", type: "String" },
+    { label: "分類", key: "categoryName", type: "String" },
     { label: "名稱", key: "prodName", type: "String" },
     // { label: "描述", key: "prodDescription", type: "String" },
     { label: "價錢", key: "prodPrice", type: "Number" },
@@ -108,6 +109,28 @@ const onGetEditId = (id) => {
     //router.push({ path: '/', query: { id } })
     router.push(`/cms/editproduct/${id}`);
 
+}
+
+const showSuccessAlert = ref(false)
+const deleteSingleProduct = async (id) => {
+    try {
+        const response = await deleteProduct(id)
+        console.log(response)
+        if (response.status === 200) {
+
+            SweetAlert.fire({
+                icon: "success",
+                title: "删除成功",
+            })
+
+            datas()
+        } else {
+            console.log("刪除課程失敗")
+        }
+    } catch (error) {
+        console.log(response)
+        console.error(error)
+    }
 }
 
 /** 初始化資料 */

@@ -56,8 +56,12 @@
             <input v-model.number="formData.prodStock" type="number" />
         </div>
 
-        <div class="editor">
+        <!-- <div class="editor">
             <CKEditor v-model="editorContent" @change="updateEditorContent" :config="editorConfig" />
+        </div> -->
+        <div class="editor">
+            <p>商品描述</p>
+            <textarea v-model="formData.prodDescription" rows="6"></textarea>
         </div>
         <div class="dynamic">
             <p>備註</p>
@@ -68,10 +72,13 @@
 </template>
   
 <script setup>
-import { ref, computed, onBeforeMount, watch } from "vue";
+import { ref, computed, onBeforeMount, watch, reactive } from "vue";
 import { NSpace, NCascader } from 'naive-ui';
 import CKEditor from '@/components/CKEditor.vue';
 import { AddProduct, UploadProdImage, reqGetCategory } from '@/api/index.js';
+import sweetalert from "SweetAlert2";
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 const settings = {
     hoverTrigger: ref(true),
@@ -93,16 +100,16 @@ const prodRemark = ref("");
 const updateTime = ref(Date.now());
 const prodDescription = ref("");
 const selectedValue = ref(null);
-const editor = ref(null);
-const editorContent = ref('');
-const editorConfig = {
-    // 在这里配置 CKEditor 的选项，例如工具栏、插件等
-};
-watch(editorContent, (newContent) => {
-    formData.prodDescription = `<div>${newContent}</div>`;
-    console.log('editorContent:', newContent);
-});
-console.log(editorContent)
+// const editor = ref(null);
+// const editorContent = ref('');
+// const editorConfig = {
+//     // 在这里配置 CKEditor 的选项，例如工具栏、插件等
+// };
+// watch(editorContent, (newContent) => {
+//     formData.prodDescription = `<div>${newContent}</div>`;
+//     console.log('editorContent:', newContent);
+// });
+// console.log(editorContent)
 
 const updateEditorContent = (newContent) => {
     console.log('updateEditorContent called with:', newContent);
@@ -114,15 +121,15 @@ const handleCascaderChange = (value) => {
     formData.categoryId = value;
     console.log(formData.categoryId);
 }
-const formData = {
+const formData = reactive({
     prodName: "",
     categoryId: 1,
     prodPrice: 0,
     prodStock: 0,
     prodRemark: "",
     updateTime: Date.now(),
-    prodDescription: '<div></div>',
-};
+    prodDescription: '',
+});
 
 const imagesData = ref({
     images: []
@@ -140,7 +147,9 @@ function addImage(event) {
 }
 
 function removeImage(index) {
-    imagesData.images.splice(index, 1);
+    console.log('Removing image at index:', index);
+    imagesData.value.images.splice(index, 1);
+    console.log('Images after removal:', imagesData.value.images);
 }
 
 
@@ -158,7 +167,8 @@ async function submitProduct() {
         const productData = {
             product: {
                 prodName: formData.prodName,
-                prodDescription: editorContent.value,
+                //prodDescription: editorContent.value,
+                prodDescription: formData.prodDescription,
                 prodStock: parseInt(formData.prodStock), // 将字符串转换为整数
                 prodPrice: parseInt(formData.prodPrice), // 将字符串转换为整数
                 prodPurchase: parseInt(formData.prodPurchase), // 将字符串转换为整数
@@ -177,7 +187,32 @@ async function submitProduct() {
         const productId = productResponse.data;
         console.log("productId", productId);
         console.log("商品已成功上傳", productId);
+        if (productResponse.status === 200) {
+            // 商品成功添加，弹出成功消息框
+            await sweetalert.fire({
+                icon: 'success',
+                title: '成功',
+                text: '商品已成功新增！',
+                confirmButtonText: '確定',
+            });
+            //router.push('/cms/addproduct');
+            formData.prodName = "";
+            formData.categoryId = 1;
+            formData.prodPrice = 0;
+            formData.prodStock = 0;
+            formData.prodRemark = "";
+            formData.updateTime = Date.now();
+            formData.prodDescription = "";
 
+        } else {
+
+            await sweetalert.fire({
+                icon: 'error',
+                title: '失敗',
+                text: '商品新增失敗，請重試或聯絡管理員。',
+                confirmButtonText: '確定',
+            });
+        }
 
         const imageUploadPromises = imagesData.value.images.map(async (image, index) => {
             const imageFormData = new FormData();
@@ -195,11 +230,18 @@ async function submitProduct() {
         });
 
         await Promise.all(imageUploadPromises);
-
+        imagesData.value.images = [];
     } catch (error) {
         console.error("上傳圖片時有誤", error);
+        await sweetalert.fire({
+            icon: 'error',
+            title: '失敗',
+            text: '商品新增失败，請重試或聯絡管理員。',
+            confirmButtonText: '確定',
+        });
     }
 }
+
 const props = defineProps({
     categoryId: {
         type: Number,
@@ -290,8 +332,18 @@ const handleSelect = (value) => {
 }
 
 .editor {
-    max-width: 90%;
-    padding-left: 50px;
+    padding-left: 100px;
+
+}
+
+.editor textarea {
+    width: 90%;
+    /* 设置宽度为100%（适应父元素宽度） */
+    height: 200px;
+    /* 设置高度，可以根据需要调整 */
+    resize: vertical;
+    /* 允许垂直调整大小，可选的值还有'horizontal'或'both' */
+
 }
 
 .image-preview img {

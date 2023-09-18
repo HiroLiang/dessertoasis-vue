@@ -55,7 +55,7 @@ const sendTitle = (title) => {
 
         <n-collapse-item title="商品管理" name="3">
           <div>
-            <router-link @click="sendTitle(`商品管理`)" to="/cms/product">商品搜尋</router-link>
+            <router-link @click="sendTitle(`商品管理`)" to="/cms/product">商品搜尋/修改</router-link>
           </div>
           <div>
             <router-link @click="sendTitle(`商品管理`)" to="/cms/addproduct">新增商品</router-link>

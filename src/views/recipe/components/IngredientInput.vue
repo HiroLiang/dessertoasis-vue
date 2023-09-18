@@ -24,7 +24,7 @@ const ingredientUnit = ref(props.ingredientUnit || '毫升')
 let emit = defineEmits(['delete-ingredient', 'get-ingredient-data'])
 const deleteIngredient = () => {
     emit('delete-ingredient', props.ingerdientIndex)
-    console.log(emit);
+    // console.log(emit);
 }
 const getIngredientData = () => {
     const ingredientIndex = props.ingerdientIndex
@@ -50,7 +50,7 @@ const getIngredientData = () => {
     </div>
     <div class="ingredientUnit col-lg-2 col-md-3 mt-2">
         <p class="form-label">單位</p>
-        <select class="form-select" v-model="ingredientUnit" id="ingredientUnit">
+        <select class="form-select" v-model="ingredientUnit" :id="'ingredientUnit' + ingerdientIndex">
             <option selected value="毫升">毫升</option>
             <option value="克">克</option>
             <option value="小匙">小匙</option>

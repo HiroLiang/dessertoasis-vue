@@ -312,14 +312,14 @@ const reqDeleteTeacher = (id) => {
 
 //取得單一課程資料
 const reqGetTeacherData = (id) => {
-  return request.get(`teacher/teacher-desplay?id=${id}`)
+  return request.get(`teacher/teacher-display?id=${id}`)
 }
 
-//更新課程
-const reqUpdateTeacher = (teacherData) => {
-  return request.post("teacher/updateTeacher", teacherData, jsonHeader)
-}
-
+//更新老師
+// const reqUpdateTeacher = (teacherData) => {
+//   return request.post("teacher/updateTeacher", teacherData, jsonHeader)
+// }
+//更新老師
 const updateTeacher = (formData) => {
   return request.post(`/teacher/editTeacher`, formData)
 }
@@ -351,7 +351,7 @@ const reqGetCmsTeacherPages = (condition) => {
 
 //更新課程
 const reqUpdateCourse = (courseData) => {
-  console.log(courseData);
+  console.log(courseData)
   return request.post("/course/updateCourse", courseData, jsonHeader)
 }
 
@@ -528,7 +528,6 @@ export {
   reqGetFrontTeacherPages,
   reqDeleteTeacher,
   reqGetTeacherData,
-  reqUpdateTeacher,
   updateTeacher,
 
   //#region 課程後台

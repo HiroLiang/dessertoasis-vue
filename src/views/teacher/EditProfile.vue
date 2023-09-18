@@ -94,11 +94,11 @@ const editTeacherData = async () => {}
 // }
 </script>
 <template>
-  <h1>編輯老師個人資訊</h1>
   <!-- <button @click="getTeacherData(teacherId)">測試取得食譜資料</button>
 
   <h2>this is a teacher page{{ teacherId }}</h2> -->
   <div class="container">
+    <h1 style="margin-top: 30px">編輯老師個人資訊</h1>
     <form class="file-upload" @submit.prevent="updateTeacher" ref="myForm">
       <div class="row">
         <div class="col-6 mb-3 mx-auto">

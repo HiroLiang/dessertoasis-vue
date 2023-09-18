@@ -164,7 +164,7 @@ const router = createRouter({
           component: () => import("../views/product/Addproduct.vue"),
         },
         {
-          path: '/cms/editproduct/:id',
+          path: "/cms/editproduct/:id",
           name: "Editproduct",
           component: () => import("../views/product/Editproduct.vue"),
         },
@@ -250,6 +250,11 @@ const router = createRouter({
           name: "editProfile",
           component: () => import("../views/teacher/EditProfile.vue"),
         },
+        // {
+        //   path: "/courses/aboutTeacher",
+        //   name: "aboutTeacher",
+        //   component: () => import("../views/course/AboutTeacher.vue"),
+        // },
       ],
       // children:[{}],//{}放要變化的東西
     },

@@ -36,7 +36,7 @@ const updateDatas = (datas) => {
   }
   let array = datas.map((data) => ({
     id: data.id,
-    // picture: data.coursePictureList.courseImgURL,
+    picture: data.pictureURL,
     name: data.teacherName,
     // teacher: data.account,
     // price: data.coursePrice,
@@ -78,7 +78,7 @@ const onGetSelectedKey = (key) => {
 const onGetSearchRules = async (rule) => {
   console.log("rule")
   console.log(rule)
-  let result = await store.setTeacherSearchRules(rule)
+  let result = await store.setFrontTeacherSearchRules(rule)
   if (result != null) {
     let datas = result.data
     updateDatas(datas)
@@ -88,7 +88,7 @@ const onGetSearchRules = async (rule) => {
 
 //排序條件(單筆)
 const onGetSortRule = async (rule) => {
-  let result = await store.setTeacherSortBy(rule)
+  let result = await store.setFrontTeacherSortBy(rule)
   if (result != null) {
     let datas = result.data
     updateDatas(datas)
@@ -99,7 +99,7 @@ const onGetSortRule = async (rule) => {
 const onGetNumberRange = async (range) => {
   console.log("range")
   console.log(range)
-  let result = await store.setTeacherNumberRange(range)
+  let result = await store.setFrontTeacherNumberRange(range)
   if (result != null) {
     let datas = result.data
     updateDatas(datas)
@@ -109,7 +109,7 @@ const onGetNumberRange = async (range) => {
 
 //日期範圍(多筆)
 const onGetDateRules = async (rules) => {
-  let result = await store.setTeacherDateRules(rules)
+  let result = await store.setFrontTeacherDateRules(rules)
   if (result != null) {
     let datas = result.data
     updateDatas(datas)
@@ -118,7 +118,7 @@ const onGetDateRules = async (rules) => {
 
 /** 初始化資料 */
 onMounted(async () => {
-  let result = await store.setTeacherPageChange([1, 10])
+  let result = await store.setFrontTeacherPageChange([1, 10])
   if (result != null) {
     let datas = result.data
     updateDatas(datas)

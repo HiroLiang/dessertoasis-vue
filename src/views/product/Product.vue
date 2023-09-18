@@ -13,9 +13,9 @@ import ProductMenu from '@/components/ProductMenu.vue';
     <div class="content-container">
         <NavBar></NavBar>
     </div>
-    <div class="ProductMenu">
+    <!-- <div class="ProductMenu">
         <ProductMenu></ProductMenu>
-    </div>
+    </div> -->
     <router-view></router-view>
 </template>
 

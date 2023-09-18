@@ -14,6 +14,8 @@ import {
   reqGetCmsTeacherPages,
   reqGetFrontTeacherPages,
   reqGetCourseNumberRange,
+  reqGetCmsMemberPages,
+  reqGetMemberPage,
 } from "../api"
 
 export const useSortCondition = defineStore("sortCondition", () => {
@@ -325,6 +327,50 @@ export const useSortCondition = defineStore("sortCondition", () => {
     }
   }
   //#endregion
+  //#region -----------------------會員--------------------------------*/
+
+
+  const setMemberSearchRules = async (rules) => {
+    condition.value.searchRules = rules
+    console.log(rules)
+    return await getMemberPagenation()
+  }
+
+  const setMemberDateRules = async (rules) => {
+    condition.value.dateRules = rules
+    console.log(rules)
+    return await getMemberPagenation()
+  }
+
+  const setMemberNumberRange = async (range) => {
+    condition.value.numKey = null
+    condition.value.numStart = 0
+    condition.value.numEnd = 0
+    if (range !== null) {
+      condition.value.numKey = range[0]
+      condition.value.numStart = range[1]
+      condition.value.numEnd = range[2]
+      console.log(range)
+      return await getMemberPagenation()
+    }
+  }
+
+  const setMemberSortBy = async (rule) => {
+    condition.value.sortBy = rule[0]
+    condition.value.sortWay = rule[1]
+    console.log(rule)
+    return await getMemberPagenation()
+  }
+
+  //更新商品頁碼
+  const setMemberPageChange = async (newPage) => {
+    condition.value.page = newPage[0]
+    condition.value.pageSize = newPage[1]
+    console.log(newPage)
+    return await getMemberPagenation()
+  }
+
+  //#endregion
   //#region -----------------------訂單--------------------------------*/
   //查詢訂單頁面
   const getOrderPagenation = async () => {
@@ -398,6 +444,16 @@ export const useSortCondition = defineStore("sortCondition", () => {
     return result
   }
   //#endregion
+  //#region -----------------------會員---------------------------------*/
+  //查詢課程頁面
+  const getMemberPagenation = async () => {
+    let result = await reqGetMemberPage(condition.value)
+    return result
+  }
+  //查詢頁數
+  const getMemberPages = async () => {
+    return await reqGetCmsMemberPages(condition.value)
+  }
   //#endregion
 
   //回傳
@@ -457,6 +513,12 @@ export const useSortCondition = defineStore("sortCondition", () => {
     setFrontTeacherSortBy,
     setFrontTeacherNumberRange,
     setFrontTeacherSearchRules,
+    //  會員條件設置
+    setMemberSearchRules,
+    setMemberDateRules,
+    setMemberNumberRange,
+    setMemberSortBy,
+    setMemberPageChange,
     //cms order 分頁方法
     getOrderPagenation,
     getOrderPages,

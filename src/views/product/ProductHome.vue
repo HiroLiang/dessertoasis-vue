@@ -32,7 +32,7 @@
     </div>
 
     <div class="text">
-        <h2>熱門商品</h2>
+        <!-- <h2>熱門商品</h2> -->
     </div>
     <div class="ProdDisplay">
         <div>
@@ -42,15 +42,19 @@
             </ProdDisplay>
         </div>
     </div>
+    <StandardSidebar :categoryId="1" @get-category-id="onGetCategoryId" />
+    <StandardFooter />
     <!-- <button @click="getImg(1)">測試</button> <img :src="img" alt=""> -->
 </template>
 <script setup>
 import ProdDisplay from '@/components/Standard/Display.vue';
-import { ref, reactive, onMounted, computed } from 'vue';
+import { ref, reactive, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
 import { getAllProd, getProd, getProd1, getProductImage } from '@/api/index.js';
 import { useRouter } from 'vue-router'
 import { useSortCondition } from '../../stores/sortCondition.js'
+import StandardSidebar from '../../components/Standard/Sidebar.vue';
+import StandardFooter from '../../components/Footer.vue';
 //使用 pinia 整合搜索條件
 const store = useSortCondition()
 //使用 router
@@ -74,6 +78,16 @@ const tableDatas = ref([])
 //是否有資料
 const hasTable = ref(true)
 
+//傳值搜索條件
+const emitSearch = ref([])
+
+//分類搜索
+const catSearch = ref([])
+
+//整合搜索條件
+const searchRules = computed(() => {
+    return emitSearch.value.concat(catSearch.value)
+})
 /**更新資料方法 */
 //更新表格資料
 // const updateDatas = (datas) => {
@@ -178,14 +192,27 @@ const onGetSelectedKey = (key) => {
     console.log(key);
 }
 //搜索條件(多筆)
-const onGetSearchRules = async (rule) => {
-    console.log('rule');
-    console.log(rule);
-    let result = await store.setProductSearchRules(rule)
-    if (result != null) {
-        let datas = result.data
-        updateDatas(datas)
-        console.log(result.data);
+// const onGetSearchRules = async (rule) => {
+//     console.log('rule');
+//     console.log(rule);
+//     let result = await store.setProductSearchRules(rule)
+//     if (result != null) {
+//         let datas = result.data
+//         updateDatas(datas)
+//         console.log(result.data);
+//     }
+// }
+
+const onGetSearchRules = async rule => {
+    emitSearch.value = rule
+}
+
+//搜索分類
+const onGetCategoryId = id => {
+    if (id === null) {
+        catSearch.value = []
+    } else {
+        catSearch.value = [{ key: 'categoryId', type: 'Number', input: id }]
     }
 }
 
@@ -222,6 +249,13 @@ const onGetDateRules = async (rules) => {
 const onGetEditId = (id) => {
     router.push({ path: '/', query: { id } })
 }
+watch(searchRules, async () => {
+    let result = await store.setProductSearchRules(searchRules.value)
+    if (result != null) {
+        let datas = result.data
+        updateDatas(datas)
+    }
+}, { immediate: true })
 
 /** 初始化資料 */
 // onMounted(async () => {

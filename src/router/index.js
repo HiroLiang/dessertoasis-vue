@@ -164,7 +164,7 @@ const router = createRouter({
           component: () => import("../views/product/Addproduct.vue"),
         },
         {
-          path: '/cms/editproduct/:id',
+          path: "/cms/editproduct/:id",
           name: "Editproduct",
           component: () => import("../views/product/Editproduct.vue"),
         },
@@ -249,6 +249,16 @@ const router = createRouter({
           path: "/teacher/editProfile",
           name: "editProfile",
           component: () => import("../views/teacher/EditProfile.vue"),
+        },
+        {
+          path: "/courses/oneCourse",
+          name: "oneCourse",
+          component: () => import("../views/course/OneCourse.vue"),
+        },
+        {
+          path: "/courses/addCourse",
+          name: "addCourse",
+          component: () => import("../views/course/AddCourse.vue"),
         },
       ],
       // children:[{}],//{}放要變化的東西

@@ -9,10 +9,10 @@ const navBarList = reactive([
   { title: "課程", toUrl: "/courses" },
   { title: "商品", toUrl: "/product" },
   { title: "預約甜點教室", toUrl: "/reservation" },
-  {
-    title: "我的課程",
-    toUrl: "/teacher",
-  },
+  // {
+  //   title: "我的課程",
+  //   toUrl: "/teacher",
+  // },
 ])
 const showPopup = ref(false)
 
@@ -81,7 +81,7 @@ const getTeacherImg = (e) => {
 const data = reactive({
   teacher: {
     teacherName: "",
-    teacherContract: "",
+    teacherContract: "同意，待審核",
     pictureURL: "",
     teacherTel: null,
     teacherMail: "",
@@ -154,10 +154,10 @@ const sendForm = async () => {
   })
   await UploadTeacherImage(form)
   // 成功上传后触发弹出窗口
-  alert("您已成功成为教师！")
+  alert("您已成功成為教師！")
   // SweetAlert.fire({
   //   title: "成功",
-  //   text: "您已成功成为教师！",
+  //   text: "您已成功成為教師！",
   //   icon: "success",
   //   confirmButtonText: "確定",
   // })
@@ -172,12 +172,13 @@ const sendForm = async () => {
 <template>
   <NavBar :NavBarList="navBarList" />
   <RouterView></RouterView>
-  <h1>成為老師</h1>
-  <button @click="getImg(5)">測試</button>
-  <img :src="img" alt="" />
+
+  <!-- <button @click="getImg(5)">測試</button>
+  <img :src="img" alt="" /> -->
   <!-- <h2>this is a teacher page{{ teacherId }}</h2> -->
 
   <div class="container">
+    <h1 style="margin-top: 30px">成為老師</h1>
     <form @submit.prevent="sendForm">
       <div class="row">
         <div class="col-6 mb-3 mx-auto">

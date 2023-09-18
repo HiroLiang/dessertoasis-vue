@@ -66,6 +66,15 @@ const memberImg = (file) => {
 //取得圖片URL
 const reqMemberpic = () => request.get("/member/getImageURL")
 
+//取得總頁數
+const reqGetCmsMemberPages = (condition) => {
+  return request.post("/member/pages", condition, jsonHeader)
+}
+//取得現在頁數內的資料
+const reqGetMemberPage = (condition) => {
+  return request.post("/member/pagenation", condition, jsonHeader)
+}
+
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
 const reqDatas = () => {
@@ -232,11 +241,6 @@ const getAllCourses = () => {
   return request.get(`/course/all`)
 }
 
-//檢查教師身分
-const checkTeacherStatus = () => {
-  return request.get(`/set-teacher-cookie`)
-}
-
 //列出該教師個人資料
 // const editTeacherProfile = (teacherId) => {
 //   return request.get(`/teacher/${teacherId}`)
@@ -301,6 +305,8 @@ const reqGetCourseNumberRange = (condition) => {
   return request.post("/course/number-range", condition, jsonHeader)
 }
 
+// const uploadCourseImage = ()
+
 const reqGetFrontTeacherPages = (condition) => {
   return request.post("/teacher/teacherFrontPagenation", condition, jsonHeader)
 }
@@ -310,16 +316,16 @@ const reqDeleteTeacher = (id) => {
   return request.delete(`/teacher/delete/${id}`)
 }
 
-//取得單一課程資料
+//取得單一老師資料
 const reqGetTeacherData = (id) => {
-  return request.get(`teacher/teacher-desplay?id=${id}`)
+  return request.get(`teacher/teacher-display?id=${id}`)
 }
 
-//更新課程
-const reqUpdateTeacher = (teacherData) => {
-  return request.post("teacher/updateTeacher", teacherData, jsonHeader)
-}
-
+//更新老師
+// const reqUpdateTeacher = (teacherData) => {
+//   return request.post("teacher/updateTeacher", teacherData, jsonHeader)
+// }
+//更新老師
 const updateTeacher = (formData) => {
   return request.post(`/teacher/editTeacher`, formData)
 }
@@ -351,8 +357,12 @@ const reqGetCmsTeacherPages = (condition) => {
 
 //更新課程
 const reqUpdateCourse = (courseData) => {
-  console.log(courseData);
+  console.log(courseData)
   return request.post("/course/updateCourse", courseData, jsonHeader)
+}
+
+const addCourse = (courseData) => {
+  return request.post("/course/add", courseData, jsonHeader)
 }
 
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
@@ -386,11 +396,7 @@ const AddProduct = (productData) => {
 const EditProduct = (productId, productData) => {
   return request.post(`/product/edit/${productId}`, productData, jsonHeader)
 }
-const UploadProdImage = (
-  productId,
-  imageFormData,
-  config
-) => {
+const UploadProdImage = (productId, imageFormData, config) => {
   return request.post(
     `/product/uploadImage?productId=${productId}`,
     imageFormData,
@@ -436,7 +442,9 @@ const reqUpdateList = (categoryId, itemId) =>
 /*----------------------------------------  聊天室相關請求  -------------------------------------------*/
 
 const reqGetChatDatas = (sender, catcher, page) => {
-  return request.get(`/message/history?sender=${sender}&catcher=${catcher}&page=${page}`)
+  return request.get(
+    `/message/history?sender=${sender}&catcher=${catcher}&page=${page}`
+  )
 }
 
 const reqGetAdmins = (id) => {
@@ -444,7 +452,7 @@ const reqGetAdmins = (id) => {
 }
 
 const reqReadMessage = (chatMessage) => {
-  request.put('/message/setReaded', chatMessage, jsonHeader)
+  request.put("/message/setReaded", chatMessage, jsonHeader)
 }
 
 const reqGetUnreadSum = (catcher) => {
@@ -467,6 +475,8 @@ export {
   memberImg,
   reqChangeMember,
   reqMemberpic,
+  reqGetCmsMemberPages,
+  reqGetMemberPage,
 
   /*--------食譜用-------*/
   reqTop10HotRecipe,
@@ -510,7 +520,6 @@ export {
 
   //課程用
   getAllCourses,
-  checkTeacherStatus,
   editTeacherProfile,
   deleteCourse,
   getCoursesByTeacherId,
@@ -528,8 +537,8 @@ export {
   reqGetFrontTeacherPages,
   reqDeleteTeacher,
   reqGetTeacherData,
-  reqUpdateTeacher,
   updateTeacher,
+  addCourse,
 
   //#region 課程後台
   // reqGetCourseData,

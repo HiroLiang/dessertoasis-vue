@@ -35,7 +35,7 @@ const updateDatas = (datas) => {
   }
   let array = datas.map((data) => ({
     id: data.id,
-    // picture: data.coursePictureList.courseImgURL,
+    picture: data.pictureURL,
     name: data.courseName,
     // teacher: data.teacher.teacherName,
     teacher: data.teacherName,
@@ -51,7 +51,7 @@ const updateDatas = (datas) => {
 
 //更新總頁數
 const updatePages = async () => {
-  let num = await store.getTeacherPages()
+  let num = await store.getFrontTeacherPagenation()
   pages.value = num.data
 }
 
@@ -68,10 +68,10 @@ const onGetPage = async (page) => {
   }
 }
 
-const onGetSelectedKey = (key) => {
-  console.log("key")
-  console.log(key)
-}
+// const onGetSelectedKey = (key) => {
+//   console.log("key")
+//   console.log(key)
+// }
 
 //搜索條件(多筆)
 const onGetSearchRules = async (rule) => {
@@ -116,9 +116,15 @@ const onGetDateRules = async (rules) => {
 }
 
 //取得修改的 id 並跳轉頁面 (路徑需自己指定)
-const onGetEditId = (id) => {
-  router.push({ path: "/", query: { id } })
+const onGetSelectedKey = (key) => {
+  router.push({ path: "/courses/oneCourse", query: { id: key } })
 }
+// //取得修改的 id 並跳轉頁面 (路徑需自己指定)
+// const onGetSelectedKey = (key) => {
+//   console.log("key")
+//   console.log(key)
+//   router.push({ path: "/courses/oneTeacher", query: { id: key } })
+// }
 
 /** 初始化資料 */
 onMounted(async () => {
@@ -130,15 +136,17 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div style="position: relative" class="mb-5">
-    <button
-      class="btn btn-outline-primary btn-lg"
-      style="position: absolute; right: 100px; top: 20px"
-    >
-      新增課程
-    </button>
-    <h1>我的課程</h1>
+  <div class="container">
+    <div style="position: relative" class="mb-5">
+      <h1 style="margin-top: 30px">我的課程</h1>
+    </div>
   </div>
+  <button
+    class="btn btn-outline-primary btn-lg"
+    style="position: absolute; right: 250px; top: 90px"
+  >
+    新增課程
+  </button>
   <CourseDisplay
     :products="tableDatas"
     :searchOptions="searchOptions"

@@ -4,7 +4,6 @@ import { useRoute, useRouter } from "vue-router"
 import {
   reqGetTeacherData,
   reqDeleteTeacher,
-  reqUpdateTeacher,
   updateTeacher,
 } from "../../../api"
 import {

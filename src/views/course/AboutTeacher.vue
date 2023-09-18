@@ -9,8 +9,8 @@ const store = useSortCondition()
 //使用 router
 const router = useRouter()
 const searchOptions = ref([
-  { key: "coursePrice", label: "課程價格", type: "Number" },
-  { key: "courseName", label: "課程名稱", type: "String" },
+  // { key: "coursePrice", label: "課程價格", type: "Number" },
+  // { key: "courseName", label: "課程名稱", type: "String" },
   { key: "teacherName", label: "老師姓名", type: "String" },
 ])
 const row = ref(true)
@@ -38,7 +38,7 @@ const updateDatas = (datas) => {
     id: data.id,
     // picture: data.coursePictureList.courseImgURL,
     name: data.teacherName,
-    teacher: data.account,
+    // teacher: data.account,
     // price: data.coursePrice,
     // description: data.teacherProfile,
   }))
@@ -127,8 +127,9 @@ onMounted(async () => {
 </script>
 <template>
   <!-- <NavBar :NavBarList="navBarList" /> -->
-
-  <h1>關於教師</h1>
+  <div class="container">
+    <h1 style="margin-top: 30px">關於教師</h1>
+  </div>
   <!-- <button @click="onGetEditId(1)">跳轉到單一教師頁面測試</button> -->
   <TeacherDisplay
     :products="tableDatas"

@@ -22,6 +22,12 @@ const getImg = async (id) => {
 const teacherData = ref({
   teacherName: "",
 })
+
+// const goBack = () => {
+//   // 導航回上一頁
+//   router.go(-1)
+//   // route.push({ path: "/courses/allTeacher" })
+// }
 onMounted(async () => {
   console.log("teacherId")
   console.log(teacherId.value)
@@ -41,11 +47,11 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <h1>老師個人頁面</h1>
   <div class="container">
+    <h1 style="margin-top: 30px">老師個人頁面</h1>
     <div class="row">
-      <button @click="getImg(1)">測試</button>
-      <img :src="img" alt="" />
+      <!-- <button @click="getImg(1)">測試</button>
+      <img :src="img" alt="" /> -->
       <!-- <h1>目標頁面</h1> -->
       <!-- <p>编辑的ID: {{ teacherId }}</p>
       <p>教師名: {{ teacherData.teacherName }}</p> -->
@@ -71,6 +77,9 @@ onMounted(async () => {
         </div>
       </div>
     </div>
+    <!-- <div class="container">
+      <button @click="goBack">返回上一頁</button>
+    </div> -->
   </div>
 </template>
 <style scoped>

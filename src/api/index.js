@@ -53,9 +53,13 @@ const reqChangepassword = (requestData) => {
   }
   return request.post("/member/changepassword", requestBody, jsonHeader)
 }
-//更新會員資料
+//更新會員詳細資料
 const reqChangeMember = (detail) => {
-  return request.put("/member/update", detail, jsonHeader)
+  return request.put("/member/update/detail", detail, jsonHeader)
+}
+//更新會員帳號資料
+const requpdateMember = (data) => {
+  return request.put("/member/update", data, jsonHeader)
 }
 //傳圖到特定路徑
 const memberImg = (file) => {
@@ -477,6 +481,7 @@ export {
   reqMemberpic,
   reqGetCmsMemberPages,
   reqGetMemberPage,
+  requpdateMember,
 
   /*--------食譜用-------*/
   reqTop10HotRecipe,

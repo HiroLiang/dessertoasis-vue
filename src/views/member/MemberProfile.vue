@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { reqMember, reqMemberDetail, reqSession, reqChangeMember } from '@/api';
+import { reqMember, reqMemberDetail, reqSession, reqChangeMember, requpdateMember } from '@/api';
 
 const memberId = ref("");
 
@@ -45,27 +45,28 @@ const myForm = ref(null)
 const updatemember = async () => {
     // try {
 
-    console.log(FormData);
-    console.log(myForm);
+    let updatedMember = {
+        email: memberEmail.value,
+        fullName: memberName.value,
+        memberName: memberUserName.value
+    }
 
     let updatedMemberDetail = {
         id: memberId.value,
         idNumber: memberIdNumber.value,
         birthday: memberBirthday.value,
         deliveryAddress: memberAddress.value,
-
     };
-    console.log(updatedMemberDetail.idNumber)
+
     // 執行更新 API 請求
+    const res1 = await requpdateMember(updatedMember)
     const res = await reqChangeMember(updatedMemberDetail)
     console.log(res.data);
+    console.log(res1.data);
     alert("更新成功")
     location.reload();
 
 };
-
-
-
 
 
 
@@ -106,7 +107,7 @@ const updatemember = async () => {
                         <div class="col-md-6">
                             <label class="form-label" for="memberBirthday">生日
                             </label>
-                            <input type="text" class="form-control" id="memberBirthday" name="memberBirthday"
+                            <input type="date" class="form-control" id="memberBirthday" name="memberBirthday"
                                 v-model="memberBirthday">
                         </div>
 
@@ -151,7 +152,7 @@ const updatemember = async () => {
 
 
         <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-lg mt-5">Update profile</button>
+            <button type="submit" class="btn btn-primary btn-lg mt-5" @click="confirmUpdate">更新</button>
         </div>
     </form>
 </template>

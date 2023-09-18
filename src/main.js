@@ -47,6 +47,7 @@ router.beforeEach(async (to, from, next) => {
     if (!isLogin.value && to.path === '/cms') {//沒登入無法進入/cms頁面，會導向login頁面。除了cms都可以進入。
         next({ name: 'logIn' })
     } else if (!isLogin.value && to.path === '/recipes/createrecipe') {//登入且是管理員可以進入/cms頁面
+        alert("請先登入會員")
         next({ name: 'logIn' })
     } else if (isLogin.value && isAdmin.value && to.path === '/cms') {//登入且是管理員可以進入/cms頁面
         next()

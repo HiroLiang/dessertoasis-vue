@@ -104,7 +104,7 @@ const onGetSelectedKey = (key) => {
 }
 
 //搜索條件(多筆)
-const onGetSearchRules = async rule => {
+const onGetSearchRules = rule => {
   emitSearch.value = rule
 }
 //搜索分類

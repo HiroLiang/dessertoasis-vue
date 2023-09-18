@@ -100,8 +100,7 @@ const onGetPage = async (page) => {
 }
 
 const onGetSelectedKey = (key) => {
-  console.log("key")
-  console.log(key)
+  router.push({ path: '/courses/EnrollCourse', query: { key } })
 }
 
 //搜索條件(多筆)

@@ -100,7 +100,7 @@ onBeforeMount(async () => {
     display: flex;
     position: fixed;
     left: 0;
-    padding-top: 56px;
+    padding-top: 76px;
     top: 0;
     height: 100%;
     width: 280px;

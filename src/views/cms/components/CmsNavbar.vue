@@ -12,9 +12,15 @@ const props = defineProps({
 
 /* 定義變數 */
 // Sidebar controller
-const ifSidbar = ref(false)
+const ifSidbar = ref(true)
 
 const showChatRoom = ref(false)
+
+const unreadSum = ref(0)
+
+const onGetUnreadNumber = (num) => {
+    unreadSum.value = num
+}
 
 /* 定義傳出值方法 */
 // Sidebar control btn event
@@ -39,7 +45,7 @@ const showSide = () => {
                     <div @click="showChatRoom = true" class="message-icon-container">
                         <font-awesome-icon :icon="['fas', 'comment-dots']" size="xl" />
                         <i class="message-icon fas fa-envelope"></i>
-                        <span class="message-count">3</span>
+                        <span v-if="unreadSum" class="message-count">{{ unreadSum }}</span>
                     </div>
                 </div>
                 <div>
@@ -52,7 +58,7 @@ const showSide = () => {
     <transition name="chat">
         <div v-show="showChatRoom" @click="showChatRoom = false" class="chatRoomJustPosition">
             <div class="chatRoomContainer" @click.stop>
-                <chatroom />
+                <chatroom @get-unread-number="onGetUnreadNumber" />
             </div>
         </div>
     </transition>

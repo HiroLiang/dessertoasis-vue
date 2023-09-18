@@ -3,69 +3,106 @@ import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import IngredientInput from '@/views/recipe/components/IngredientInput.vue'
 import StepInput from '@/views/recipe/components/StepInput.vue'
+import { getRecipe, deleteRecipe } from '@/api'
+import { useDialog } from 'naive-ui';
 
+
+const dialog = useDialog()
 const route = useRoute()
 const router = useRouter()
 const recipeId = route.query.id
 
 //recipeBean物件
-const data = reactive({
-    recipe: {
-        recipeTitle: '',
-        recipeIntroduction: '',
-        difficulty: '',
-        pictureURL: '',
-        ingredientPersons: 1,
-        cookingTime: '',
-        ingredientList: [
-            // {
-            //     ingredientQuantity: 0,
-            //     ingredientUnit: ''
-            // }
-        ],
-        recipeSteps: [
-            // {
-            //     stepNumber: 1,
-            //     stepPicture: '',
-            //     stepContext: ''
-            // }
-        ],
-    },
-    ingredients: [
-        // {
-        //     ingredientName: "test"
-        // },
-        // {
-        //     ingredientName: "test2"
-        // },
-        // {
-        //     ingredientName: "test"
-        // }
-    ],
-    categories: [
+const recipe = ref([null])
 
-    ]
+const backToCms = () => {
+    router.push("/cms/recipe")
+}
+
+const handleDeleteRecipe = async () => {
+    await deleteRecipe(recipeId)
+    router.push("/cms/recipe")
+}
+
+const handleClickDeleteButton = () => {
+    dialog.warning({
+        title: "警告",
+        content: "確定要刪除這筆資料?",
+        positiveText: "確定",
+        negativeText: "取消",
+        onPositiveClick: () => {
+            handleDeleteRecipe()
+        },
+    })
+}
+
+const handleClickUpdateButton = () => {
+    console.log(recipe);
+}
+
+onBeforeMount(async () => {
+    const res = await getRecipe(recipeId)
+    recipe.value = res.data
+
+    console.log('response');
+    console.log(res.data);
 })
 
-onBeforeMount(() => {
+//刪除對應步驟
+// const handleDeleteStep = (deleteIndex) => {
+//     console.log(deleteIndex);
+//     steps.splice(deleteIndex - 1, 1)
+//     stepImgs.splice(deleteIndex - 1, 1)
+// }
+// //刪除對應食材
+// const handleDeleteIngredient = (deleteIngredient) => {
+//     // console.log(deleteIngredient);
+//     ingredients.splice(deleteIngredient - 1, 1)
+// }
 
-})
+const handleStepData = (textIndex, textContent, imgData) => {
+    steps[textIndex - 1].text = textContent;
+    steps[textIndex - 1].imgUrl = imgData;
+    stepImgs[textIndex - 1] = steps[textIndex - 1].imgUrl//處理步驟圖片
+
+    console.log(stepImgs.value);
+    stepImgs.forEach(stepImg => {
+        console.log(stepImg);
+    })
+    console.log('textIndex:  ' + textIndex);
+    console.log('textContent:  ' + textContent);
+    console.log('imgData:  ' + imgData);
+    console.log('steps:  ');
+    console.log(steps);
+
+}
+
+const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty, ingerdientUnit) => {
+    ingredients[ingerdientIndex - 1].ingredientName = ingerdientName
+    ingredients[ingerdientIndex - 1].ingredientQty = ingerdientQty
+    ingredients[ingerdientIndex - 1].ingredientUnit = ingerdientUnit
+    // console.log('ingerdientIndex:  ' + ingerdientIndex);
+    // console.log('ingerdientName:  ' + ingerdientName);
+    // console.log('ingerdientQty: ' + ingerdientQty);
+    // console.log('ingredients:  ');
+    // console.log(ingredients);
+}
 
 </script>
 
 <template>
     <div class="container mt-3">
-        <div class="row ">
+        <div class="row mx-2">
             <div class="recipeContainer container col-md-10 border border-second rounded">
                 <div class="recipeTitleContainer container mt-3">
                     <label for="recipeTitle" class="form-label">食譜名稱:</label><br>
-                    <input class="form-control" v-model="data.recipe.recipeTitle" type="text" id="recipeTitle"
-                        name="recipeTitle" required="required">
+                    <input class="form-control" v-model="recipe.recipeTitle" type="text" id="recipeTitle" name="recipeTitle"
+                        required="required">
                 </div>
                 <div class="recipeIntroductionContainer container mt-3">
                     <label for="recipeIntroduction" class="form-label">食譜簡介:</label><br>
                     <textarea class="recipeIntroduction form-control" style="resize: none;"
-                        v-model="data.recipe.recipeIntroduction" id="recipeIntroduction" name="recipeIntroduction"
+                        v-model="recipe.recipeIntroduction" id="recipeIntroduction" name="recipeIntroduction"
                         required="required"></textarea>
                     <br>
 
@@ -77,27 +114,27 @@ onBeforeMount(() => {
                     <label for="pictureURL">
                         <div class="imageContainer container">
                             <img class="recipePic inputLabel custom-cursor-pointer " id="picture" alt="成品圖片"
-                                :src="recipePicPreviewImageUrl || 'https://fakeimg.pl/1180x310/?text=Image'">
+                                :src="recipe.pictureURL || 'https://fakeimg.pl/1180x310/?text=Image'">
                             <input @change="getRecipeImg" class="form-control visually-hidden pic" type="file"
                                 id="pictureURL" name="pictureURL" accept="image/*"><br>
                         </div>
                     </label><br><br>
                 </div>
-                <div class="categoryContainer container mb-2">
+                <!-- <div class="categoryContainer container mb-2">
                     <p class="form-label">食譜分類</p>
-                    <n-tree-select class="selectTree" :multiple="true" :cascade="true" checkable :options="options"
+                    <n-tree-select class="selectTree" :multiple="true" checkable :options="options"
                         @update:value="handleUpdateValue" placeholder="請選擇食譜分類" />
                 </div>
                 <div class="difContainer container mb-2">
                     <p class="form-label">難易度</p>
                     <n-tree-select class="selectTree" :multiple="false" :options="difficultyOptions"
                         @update:value="handledifValue" default-value="87" placeholder="請選擇難易度" />
-                </div>
+                </div> -->
                 <div class="container ml-3">
                     <div class="ingredientContainer row justify-content-start">
                         <div class="ingredientQtyContainer col-4">
                             <p class="form-label">食材份量(人份)</p>
-                            <select class="form-select" v-model="data.recipe.ingredientPersons" id="ingredientPersons">
+                            <select class="form-select" v-model="recipe.ingredientPersons" id="ingredientPersons">
                                 <option selected value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -112,41 +149,42 @@ onBeforeMount(() => {
                         </div>
                         <div class="cookingTimeContainer col-4">
                             <label for="cookingTime" class="form-label">烹調時間(分鐘)</label><br>
-                            <input class="form-control" v-model="data.recipe.cookingTime" type="text" id="cookingTime"
+                            <input class="form-control" v-model="recipe.cookingTime" type="text" id="cookingTime"
                                 name="cookingTime" required="required">
                         </div>
                     </div>
                 </div>
                 <div class="container ml-3">
                     <div class="ingredientContainer row justify-content-start  ">
-                        <IngredientInput v-for="(ingredient, index) in ingredients" :key="ingredient.id"
-                            :ingerdientIndex="index + 1" @delete-ingredient="handleDeleteIngredient"
-                            @get-ingredient-data="handleIngredientData">
+                        <IngredientInput v-for="(ingredient, index) in recipe.ingredientList" :key="ingredient.id"
+                            :ingerdientIndex="index + 1" :ingredientName="ingredient.ingredient.ingredientName"
+                            :ingredientQty="ingredient.ingredientQuantity" :ingredientUnit="ingredient.ingredientUnit"
+                            @delete-ingredient="handleDeleteIngredient" @get-ingredient-data="handleIngredientData">
                         </IngredientInput>
                     </div>
 
-
-                    <div class="newRecipeStepContainer d-grid mt-3">
-                        <button class="btn btn-light" @click="addNewIngredient">+ 增加食材</button>
-                    </div>
+                    <!-- <div class="newRecipeStepContainer d-grid mt-3"> -->
+                    <hr>
+                    <!-- <button class="btn btn-light" @click="addNewIngredient">+ 增加食材</button> -->
+                    <!-- </div> -->
                 </div>
                 <div class="recipeStepsContainer container mt-3">
-                    <StepInput v-for="(step, index) in steps" :key="step.id" :stepIndex="index + 1"
-                        @delete-step="handleDeleteStep" draggable="true" @dragstart="dragStart($event, index)"
-                        @drop="onDrop($event, index)" @dragenter.prevent @dragover.prevent @get-step-data="handleStepData">
+                    <StepInput v-for="(step, index) in recipe.recipeSteps" :key="step.id" :stepIndex="index + 1"
+                        :textContent="step.stepContext" :previewImageUrl="step.stepPicture" @delete-step="handleDeleteStep"
+                        draggable="false" @dragstart="dragStart($event, index)" @drop="onDrop($event, index)"
+                        @dragenter.prevent @dragover.prevent @get-step-data="handleStepData">
                     </StepInput>
                 </div>
                 <div class="newRecipeStepContainer d-grid mb-3 mt-2">
-                    <button class="btn btn-light" @click="addNewStep">+ 增加步驟</button>
+                    <!-- <button class="btn btn-light" @click="addNewStep">+ 增加步驟</button> -->
                 </div>
 
             </div>
             <div class=" crudbtn col-md-1 align-self-start position-sticky" style="top: 100px;">
                 <div class="btn row border border-second rounded px-2 pb-2">
-
-                    <button class="btn btn-light mb-2" @click="submitForm">儲存</button>
-                    <button type="reset" class="btn btn-light mb-2">取消</button>
-                    <button class="btn btn-light mb-2">刪除</button>
+                    <button class="btn btn-light mb-2" @click="handleClickUpdateButton">更新</button>
+                    <button type="reset" class="btn btn-light mb-2" @click="backToCms">取消</button>
+                    <button class="btn btn-light mb-2" @click="handleClickDeleteButton">刪除</button>
 
                 </div>
             </div>

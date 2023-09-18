@@ -5,12 +5,16 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const emit = defineEmits(['get-selected-catcher'])
 
+const props = defineProps({
+    friends: {}
+})
+
 const memberNameInput = ref('')
 
 const memberSearchLoading = ref(false)
 
-const getSelectedCatcher = () => {
-    emit('get-selected-catcher', 4)
+const getSelectedCatcher = (id, name) => {
+    emit('get-selected-catcher', id, name)
 }
 
 
@@ -23,17 +27,30 @@ const getSelectedCatcher = () => {
                 <font-awesome-icon :icon="['far', 'paper-plane']" />
             </div>
         </div>
-        <div class="member" @click="getSelectedCatcher">
+        <div v-for="friend in friends" :key="friend.member.id" class="member"
+            @click="getSelectedCatcher(friend.member.id, friend.member.fullName)">
             <div class="profilePicCOntainer">
                 <img src="/images/navbar/user-interface.png" alt="">
             </div>
             <div>
-                <h2></h2>
+                <h2>{{ friend.member.fullName }}</h2>
+                <p>{{ friend.lastMessage.chatMessage }}</p>
             </div>
         </div>
     </div>
 </template>
 <style scoped>
+h2 {
+    font-size: 18px;
+}
+
+p {
+    padding-left: 20px;
+    opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .memberListContainer {
     width: 100%;
     height: 100%;
@@ -47,6 +64,8 @@ const getSelectedCatcher = () => {
     height: 70px;
     display: flex;
     cursor: pointer;
+    overflow: hidden;
+    flex-wrap: nowrap;
 }
 
 .member:hover {

@@ -3,7 +3,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import CmsNavbar from './components/CmsNavbar.vue'
 import CollapseSidebar from './components/CollapseSidebar.vue'
 
-const ifSidebar = ref(false)
+const ifSidebar = ref(true)
 
 const navTitle = ref('管理系統')
 

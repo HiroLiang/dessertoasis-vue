@@ -60,8 +60,11 @@ const reqChangeMember = (detail) => {
 //傳圖到特定路徑
 const memberImg = (file) => {
   console.log(file)
-  return request.post("/member/uploadMemberImg", file)
+  return request.post("/member/uploadMemberImg", file, jsonHeader)
 }
+
+//取得圖片URL
+const reqMemberpic = () => request.get("/member/getImageURL")
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
@@ -107,14 +110,25 @@ const reqGetFrontRecipePages = (condition) => {
 const getRecipePicture = (recipeId) => {
   return request.post("recipe/getPic", recipeId, jsonHeader)
 }
-
+//取得步驟圖
 const getStepPictures = (recipeId) => {
   return request.post("recipe/getStepPics", recipeId, jsonHeader)
 }
-
+//取得食譜資料
 const getRecipe = (recipeId) => {
   return request.get(`recipe/getRecipe?recipeId=${recipeId}`, jsonHeader)
 }
+
+//更新食譜資料
+const updateRecipe = (recipeId) => {
+  return request.put(`recipe/updaterecipe?recipeId${recipeId}`, jsonHeader)
+}
+
+//刪除食譜資料
+const deleteRecipe = (recipeId) => {
+  return request.post(`recipe/deleterecipe?recipeId=${recipeId}`, jsonHeader)
+}
+
 /*----------------------------------------  食譜後台相關請求  -------------------------------------------*/
 //取得現在頁數內的資料
 const reqGetRecipePage = (condition) => {
@@ -359,7 +373,9 @@ const getProd = (page, pageSize, queryString) => {
 const getProd1 = (queryParams) => {
   return request.get(`/product/search?${queryParams}`)
 }
-
+const getProdById = (productId) => {
+  return request.get(`/product/details/${productId}`)
+}
 const reqGetProductPage = (condition) => {
   return request.post("/product/pagenation", condition, jsonHeader)
 }
@@ -367,20 +383,18 @@ const reqGetProductPage = (condition) => {
 const AddProduct = (productData) => {
   return request.post("/product/add", productData, jsonHeader)
 }
-
+const EditProduct = (productId, productData) => {
+  return request.post(`/product/edit/${productId}`, productData, jsonHeader)
+}
 const UploadProdImage = (
   productId,
   imageFormData,
-  config,
-  thumbnailFormData,
-  thumbnailConfig
+  config
 ) => {
   return request.post(
     `/product/uploadImage?productId=${productId}`,
     imageFormData,
-    config,
-    thumbnailFormData,
-    thumbnailConfig
+    config
   )
 }
 const getProductImage = (id) => {
@@ -397,7 +411,6 @@ const reqGetCmsProductPages = (condition) => {
 }
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
 // request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
-
 /**----------------------------------------  搜索相關請求  -------------------------------------------*/
 
 /**取得搜索提示(暫無用)*/
@@ -422,8 +435,20 @@ const reqUpdateList = (categoryId, itemId) =>
 
 /*----------------------------------------  聊天室相關請求  -------------------------------------------*/
 
-const reqGetChatDatas = (sender, catcher) => {
-  return request.get(`/message/history?sender=${sender}&catcher=${catcher}`)
+const reqGetChatDatas = (sender, catcher, page) => {
+  return request.get(`/message/history?sender=${sender}&catcher=${catcher}&page=${page}`)
+}
+
+const reqGetAdmins = (id) => {
+  return request.get(`/message/admins?id=${id}`)
+}
+
+const reqReadMessage = (chatMessage) => {
+  request.put('/message/setReaded', chatMessage, jsonHeader)
+}
+
+const reqGetUnreadSum = (catcher) => {
+  return request.get(`/message/unread?catcher=${catcher}`)
 }
 
 export {
@@ -441,6 +466,7 @@ export {
   reqChangepassword,
   memberImg,
   reqChangeMember,
+  reqMemberpic,
 
   /*--------食譜用-------*/
   reqTop10HotRecipe,
@@ -456,6 +482,8 @@ export {
   getRecipePicture,
   getStepPictures,
   getRecipe,
+  updateRecipe,
+  deleteRecipe,
 
   // 教室用
   getReservations,
@@ -519,12 +547,14 @@ export {
   SearchProd,
   getProd,
   getProd1,
+  getProdById,
   reqGetProductPage,
   reqGetCmsProductPages,
   AddProduct,
   UploadProdImage,
   getProductImage,
   getAllProductImage,
+  EditProduct,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,
@@ -533,4 +563,7 @@ export {
 
   /*----------------------------------------  聊天室相關請求  -------------------------------------------*/
   reqGetChatDatas,
+  reqGetAdmins,
+  reqReadMessage,
+  reqGetUnreadSum,
 }

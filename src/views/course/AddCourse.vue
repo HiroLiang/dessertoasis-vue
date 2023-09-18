@@ -1,44 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from "vue"
-// import { checkTeacherStatus, AddCourse } from "@/api"
+import { addCourse } from "@/api"
 
-/* ---------------------------------error--------------------------------  */
-// import { AddCourse, UploadCourseImage } from "@/api/index.js"
-/* ---------------------------------error--------------------------------  */
-
-// const today = new Date().toISOString().split("T")[0] // 獲取當前日期
-// const courseDate = ref(today) //儲存課程日期
-// const courseLocation = ref("") //儲存上課地點
-// const regDeadline = ref("") // 報名截止日期
-// const errorMessage = ref("") // 錯誤消息
-
-// const images = ref([])
-// const videos = ref([])
-
-// const locationChoice = ref("applyClassroom") // 預設選擇"申請教室"
-// const selectedClassroom = ref("classroom1") // 預設選中的教室
-// const customLocation = ref("") // 自己填寫的地點
-
-// const addCourse = () => {
-//   // console.log(courseDate, courseLocation)
-//   FormData.forEach((element) => {
-//     console.log(element)
-//   })
-//   //沒有上課日期和地點，暫停送資料
-//   if (!courseDate.value || !courseLocation.value) {
-//     alert("請填寫完整課程資料")
-//     return
-//   }
-//   // 建立包含課程訊息的對象
-//   const courseData = {
-//     courseName: courseName.value,
-//     courseDate: courseDate.value,
-//     courseLocation: courseLocation.value,
-//   }
-//   // 向後端發送課程數據
-//   console.log("课程信息：", courseData)
-//   // 發送數據到後端並進行處理
-// }
 const formData = {
   courseName: "",
   courseIntroduction: "",
@@ -83,14 +46,6 @@ const deleteImage = (index) => {
   images.value.splice(index, 1)
 }
 
-// function addImage(e) {
-//   // 處理文件選擇事件，獲得上傳的圖片文件
-//   const file = e.target.files[0]
-//   // selectedFile.value = e.target.files[0]
-//   const url = URL.createObjectURL(file)
-//   images.value.push({ url })
-// }
-
 // 計算屬性，用于檢查日期是否有效
 // const isDateValid = computed(() => {
 //   if (!courseDate.value || !regDeadline.value) {
@@ -113,19 +68,6 @@ const deleteImage = (index) => {
 //   }
 // }
 
-// onMounted(async () => {
-//   // 向後端發送請求以驗證用戶是否為教師
-//   try {
-//     const response = await checkTeacherStatus()
-//     if (response.data === "Teacher cookie set successfully.") {
-//       // 用戶是老師，顯示新增課程内容
-//       console.log(response)
-//       isTeacher.value = true
-//     }
-//   } catch (error) {
-//     console.error(error)
-//   }
-// })
 async function submitCourse() {
   try {
     const courseData = {
@@ -143,28 +85,6 @@ async function submitCourse() {
       courseStatus: formData.courseStatus,
     }
 
-    /* ---------------------------------error--------------------------------  */
-    // const courseResponse = await AddCourse(courseData)
-    // console.log("courseResponse", courseResponse)
-    // const courseId = courseResponse.data
-    // console.log("couresId", courseId)
-    // console.log("課程已成功上傳", courseId)
-    // if (thumbnailData.file) {
-    //   const thumbnailFormData = new FormData()
-    //   thumbnailFormData.append("image", thumbnailData.file)
-    //   const thumbnailConfig = {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   }
-    //   const thumbnailResponse = await UploadCourseImage(
-    //     courseId,
-    //     thumbnailFormData,
-    //     thumbnailConfig
-    //   )
-    //   console.log("縮圖已成功上傳", thumbnailResponse.data)
-    // }
-    /* ---------------------------------error--------------------------------  */
     const imageUploadPromises = imagesData.images.map(async (image, index) => {
       const imageFormData = new FormData()
       imageFormData.append("image", image.file)
@@ -193,146 +113,142 @@ async function submitCourse() {
     <h1>新增課程</h1>
 
     <form class="row">
+      <!-- <input id="courseId" name="courseId" v-model="formData.courseId" /> -->
+      <div class="mb-2">
+        <label for="courseName">課程名稱:</label>
+        <input id="courseName" v-model="formData.courseName" />
+      </div>
+
+      <div class="mb-2">
+        <label>開課日期：</label>
+        <input
+          type="date"
+          id="courseDate"
+          v-model="formData.courseDate"
+          @input="checkDate"
+        />
+        <!-- <span v-if="!courseDate" class="error-message">請選擇課程日期</span> -->
+      </div>
+
       <div>
-        <div class="mb-2">
-          <label for="courseName">課程名稱:</label>
-          <input id="courseName" v-model="formData.courseName" />
-        </div>
-
-        <div class="mb-2">
-          <label>開課日期：</label>
-          <input
-            type="date"
-            id="courseDate"
-            v-model="formData.courseDate"
-            @input="checkDate"
-          />
-          <span v-if="!courseDate" class="error-message">請選擇課程日期</span>
-        </div>
-
-        <div>
-          <label>報名截止日期：</label>
-          <input
-            type="date"
-            v-model="formData.closeDate"
-            class="mb-2"
-            @input="checkDate"
-          />
-        </div>
-        <p v-if="error" style="color: red">{{ error }}</p>
-        <!-- <div v-if="error" class="error-message">
+        <label>報名截止日期：</label>
+        <input
+          type="date"
+          v-model="formData.closeDate"
+          class="mb-2"
+          @input="checkDate"
+        />
+      </div>
+      <p v-if="error" style="color: red">{{ error }}</p>
+      <!-- <div v-if="error" class="error-message">
             报名截止日期不能大于开课日期
           </div> -->
 
-        <div class="mb-2">
-          <label>課程介紹:</label>
-          <textarea
-            type="text"
-            v-model="formData.courseIntroduction"
-          ></textarea>
-        </div>
-        <div class="mb-2">
-          <label>課程特色:</label>
-          <input v-model="formData.courseFeature" />
-        </div>
-        <div class="mb-2">
-          <label>課程目標:</label>
-          <input v-model="formData.courseDestination" />
-        </div>
-        <div class="mb-2">
-          <label>課程對象:</label>
-          <input v-model="formData.serviceTarget" />
-        </div>
-        <!-- 沒寫上課地點，顯示錯誤訊息 -->
-        <div class="mb-2">
-          <label>上課地點:</label>
-          <input
-            type="radio"
-            v-model="locationChoice"
-            value="applyClassroom"
-          />申請教室
-          <input
-            type="radio"
-            v-model="locationChoice"
-            value="writeLocation"
-          />自己填寫
-          <!-- <input type="text" v-model="courseLocation" id="courseLocation" /> -->
-          <!-- <span v-if="!courseLocation" class="error-message"
+      <div class="mb-2">
+        <label>課程介紹:</label>
+        <textarea type="text" v-model="formData.courseIntroduction"></textarea>
+      </div>
+      <div class="mb-2">
+        <label>課程特色:</label>
+        <input v-model="formData.courseFeature" />
+      </div>
+      <div class="mb-2">
+        <label>課程目標:</label>
+        <input v-model="formData.courseDestination" />
+      </div>
+      <div class="mb-2">
+        <label>課程對象:</label>
+        <input v-model="formData.serviceTarget" />
+      </div>
+      <!-- 沒寫上課地點，顯示錯誤訊息 -->
+      <div class="mb-2">
+        <label>上課地點:</label>
+        <input
+          type="radio"
+          v-model="locationChoice"
+          value="applyClassroom"
+        />申請教室
+        <input
+          type="radio"
+          v-model="locationChoice"
+          value="writeLocation"
+        />自己填寫
+        <!-- <input type="text" v-model="courseLocation" id="courseLocation" /> -->
+        <!-- <span v-if="!courseLocation" class="error-message"
               >請填入上課地點</span
             > -->
-          <!-- 選擇"申請教室"时顯示可選教室的<div> -->
-          <div v-if="locationChoice === 'applyClassroom'">
-            <label>選擇教室：</label>
-            <select v-model="selectedClassroom">
-              <option value="classroom1">教室1</option>
-              <option value="classroom2">教室2</option>
-            </select>
-          </div>
-          <!-- 選擇"自己填寫"时顯示自己填寫地點的<input> -->
-          <div v-if="locationChoice === 'writeLocation'">
-            <label>自己填寫地點：</label>
-            <input type="text" v-model="customLocation" />
-          </div>
+        <!-- 選擇"申請教室"时顯示可選教室的<div> -->
+        <div v-if="locationChoice === 'applyClassroom'">
+          <label>選擇教室：</label>
+          <select v-model="selectedClassroom">
+            <option value="classroom1">教室1</option>
+            <option value="classroom2">教室2</option>
+          </select>
         </div>
-        <div class="mb-2">
+        <!-- 選擇"自己填寫"时顯示自己填寫地點的<input> -->
+        <div v-if="locationChoice === 'writeLocation'">
           <label>自己填寫地點：</label>
-          <input type="text" v-model="formData.coursePlace" />
+          <input type="text" v-model="customLocation" />
         </div>
-        <!-- 課程分類id -->
-        <div class="mb-2">
-          <label for="remainingPlaces">可報名人數:</label>
-          <input
-            type="number"
-            v-model="remainingPlaces"
-            min="0"
-            id="remainingPlaces"
-          />
-        </div>
-        <div class="mb-2">
-          <label for="coursePrice">報名價格:</label>
-          <input
-            type="number"
-            min="0"
-            v-model="formData.coursePrice"
-            id="coursePrice"
-          />
-        </div>
-        <div class="mb-2">
-          <!-- <label>課程分類:</label> -->
-          <!-- <select v-model="" id="">
+      </div>
+      <div class="mb-2">
+        <label>自己填寫地點：</label>
+        <input type="text" v-model="formData.coursePlace" />
+      </div>
+      <!-- 課程分類id -->
+      <div class="mb-2">
+        <label for="remainingPlaces">可報名人數:</label>
+        <input
+          type="number"
+          v-model="remainingPlaces"
+          min="0"
+          id="remainingPlaces"
+        />
+      </div>
+      <div class="mb-2">
+        <label for="coursePrice">報名價格:</label>
+        <input
+          type="number"
+          min="0"
+          v-model="formData.coursePrice"
+          id="coursePrice"
+        />
+      </div>
+      <div class="mb-2">
+        <!-- <label>課程分類:</label> -->
+        <!-- <select v-model="" id="">
             <option value="">1</option>
             <option value="">2</option>
           </select> -->
-        </div>
+      </div>
 
-        <!-- <div class="mb-2">
+      <!-- <div class="mb-2">
           <label for="recipes">課程食譜:</label>
           <input type="text" v-model="courseLength" id="courseLength" />
         </div> -->
-        <!-- <div class="mb-2">
+      <!-- <div class="mb-2">
           <label>開課狀態:</label>
           <input type="text" v-model="formData.courseStatus" />
         </div> -->
-      </div>
+
       <!-- 課程圖片路徑 -->
-      <div class="col-12 row">
-        <div class="image-upload">
-          <p>新增縮圖</p>
-          <input type="file" @change="addThumbnail" accept="image/*" />
-          <div v-if="thumbnailData.url" class="uploaded-item">
-            <img :src="thumbnailData.url" alt="Uploaded Thumbnail" />
-            <button @click="removeThumbnail">刪除</button>
-          </div>
-        </div>
-        <label>上傳課程圖片:</label>
-        <input type="file" @change="addImage" accept="image/*" />
-        <div v-for="(image, index) in imagesData.images" :key="index">
-          <h4>課程圖片預覽：</h4>
-          <img :src="image.url" alt="上傳課程圖片" class="upload-image" />
-          <button @click="deleteImage(index)">刪除</button>
+
+      <div class="image-upload">
+        <p>新增縮圖</p>
+        <input type="file" @change="addThumbnail" accept="image/*" />
+        <div v-if="thumbnailData.url" class="uploaded-item">
+          <img :src="thumbnailData.url" alt="Uploaded Thumbnail" />
+          <button @click="removeThumbnail">刪除</button>
         </div>
       </div>
-      <!-- 課程影片id,食譜id,標籤id -->
+      <label>上傳課程圖片:</label>
+      <input type="file" @change="addImage" accept="image/*" />
+      <div v-for="(image, index) in imagesData.images" :key="index">
+        <h4>課程圖片預覽：</h4>
+        <img :src="image.url" alt="上傳課程圖片" class="upload-image" />
+        <button @click="deleteImage(index)">刪除</button>
+      </div>
+
       <button
         @click.prevent="submitCourse"
         class="btn btn-primary col-6 justify-content-center align-items-center"

@@ -241,11 +241,6 @@ const getAllCourses = () => {
   return request.get(`/course/all`)
 }
 
-//檢查教師身分
-const checkTeacherStatus = () => {
-  return request.get(`/set-teacher-cookie`)
-}
-
 //列出該教師個人資料
 // const editTeacherProfile = (teacherId) => {
 //   return request.get(`/teacher/${teacherId}`)
@@ -310,6 +305,8 @@ const reqGetCourseNumberRange = (condition) => {
   return request.post("/course/number-range", condition, jsonHeader)
 }
 
+// const uploadCourseImage = ()
+
 const reqGetFrontTeacherPages = (condition) => {
   return request.post("/teacher/teacherFrontPagenation", condition, jsonHeader)
 }
@@ -319,7 +316,7 @@ const reqDeleteTeacher = (id) => {
   return request.delete(`/teacher/delete/${id}`)
 }
 
-//取得單一課程資料
+//取得單一老師資料
 const reqGetTeacherData = (id) => {
   return request.get(`teacher/teacher-display?id=${id}`)
 }
@@ -364,9 +361,9 @@ const reqUpdateCourse = (courseData) => {
   return request.post("/course/updateCourse", courseData, jsonHeader)
 }
 
-// const AddCourse = (courseData) => {
-//   return request.post("/course/add", courseData, jsonHeader)
-// }
+const addCourse = (courseData) => {
+  return request.post("/course/add", courseData, jsonHeader)
+}
 
 /*---------------------------------------- 商品相關請求  -------------------------------------------*/
 //取得所有商品(分頁、一頁顯示幾個、排序)
@@ -523,7 +520,6 @@ export {
 
   //課程用
   getAllCourses,
-  checkTeacherStatus,
   editTeacherProfile,
   deleteCourse,
   getCoursesByTeacherId,
@@ -542,6 +538,7 @@ export {
   reqDeleteTeacher,
   reqGetTeacherData,
   updateTeacher,
+  addCourse,
 
   //#region 課程後台
   // reqGetCourseData,

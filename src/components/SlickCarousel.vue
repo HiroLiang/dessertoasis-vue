@@ -74,6 +74,11 @@ const props = defineProps({
 
 }
 
+/* .carousel__item.slideImgs {
+    max-width: 600px;
+    max-height: 600px;
+} */
+
 .slideImgs {
     max-width: 600px;
     max-height: 600px;

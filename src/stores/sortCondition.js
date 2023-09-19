@@ -534,5 +534,8 @@ export const useSortCondition = defineStore("sortCondition", () => {
     //teacher 分頁方法
     getTeacherPagenation,
     getTeacherPages,
+    //member 分頁方法
+    getMemberPages,
+    getMemberPagenation
   }
 })

@@ -55,7 +55,7 @@ const router = createRouter({
           meta: { title: "商品首頁" },
         },
         {
-          path: "/productdetail",
+          path: "/productdetail/:id",
           name: "productDetail",
           component: () => import("../views/product/ProductDetail.vue"),
           meta: { title: "商品詳情" },
@@ -177,6 +177,11 @@ const router = createRouter({
           path: "/cms/member",
           name: "member",
           component: () => import("../views/member/MemberBackground.vue"),
+        },
+        {
+          path: "/cms/memberdetail",
+          name: "cmsmemberDetail",
+          component: () => import("../views/member/CmsMemberDetail.vue"),
         },
         {
           path: "/cms/order",

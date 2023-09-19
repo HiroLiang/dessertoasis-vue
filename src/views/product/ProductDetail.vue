@@ -8,13 +8,14 @@
                 </div>
                 <div class="col-md-6">
                     <p></p>
-                    <h3>Darbo 德寶70%果肉草莓果醬 200g</h3>
+                    <h3>莓果奶酪</h3>
                     <p></p>
-                    <h5>NT$ {{ price }}</h5>
-                    <p>請選擇規格</p>
+                    <!-- <h5>NT$ {{ price }}</h5> -->
+                    <h4>NT$ 50</h4>
+                    <!-- <p>請選擇規格</p>
                     <Speccard :specs="specs" :selectedSpec="selectedSpec" :priceMapping="priceMapping"
                         @update:selectedSpec="updateSelectedSpec" />
-                    <p>價格: NT$ {{ priceMapping[selectedSpec] }}</p>
+                    <p>價格: NT$ {{ priceMapping[selectedSpec] }}</p> -->
                     <p></p>
                     請選擇數量
                     <n-input-number v-model:value="value" clearable />
@@ -41,10 +42,12 @@ import Bread from '@/assets/images/product/202211021609190aknhb_small.jpg';
 import Cake from '@/assets/images/product/foodiesfeed.com_blackberry-cream-dessert.jpg';
 
 const item = [
-    { imageUrl: Bread },
-    { imageUrl: Cake },
-    { imageUrl: "https://picsum.photos//500/400?random=3" },
-    { imageUrl: "https://picsum.photos//500/400?random=4" },
+    { imageUrl: "/images/product/1/foodiesfeed.com_raspberry-cheesecake-desserts.jpg" },
+    { imageUrl: "/images/product/新增資料夾/jp-valery-g-ubP7FnoQM-unsplash.jpg" },
+    // { imageUrl: Bread },
+    // { imageUrl: Cake },
+    //{ imageUrl: "https://picsum.photos//500/400?random=3" },
+    // { imageUrl: "https://picsum.photos//500/400?random=4" },
 ];
 
 const specs = ["大", "中", "小"];
@@ -77,10 +80,11 @@ const tabsConfig = {
     '2': '購物須知及運送方式',
 
 };
+
 </script>
 
 <style scoped>
 .Cartandlike {
-    padding-top: 100px;
+    padding-top: 70px;
 }
 </style>

@@ -187,9 +187,10 @@ const onGetPage = async (page) => {
     }
 }
 
-const onGetSelectedKey = (key) => {
-    console.log('key');
-    console.log(key);
+const onGetSelectedKey = (id) => {
+    console.log('id:', id);
+
+    router.push(`/productdetail/${id}`);
 }
 //搜索條件(多筆)
 // const onGetSearchRules = async (rule) => {

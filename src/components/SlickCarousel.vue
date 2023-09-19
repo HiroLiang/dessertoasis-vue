@@ -60,7 +60,7 @@ const props = defineProps({
 </script>
 
 <style>
-.carousel__next {
+/* .carousel__next {
     right: -50px;
 }
 
@@ -72,9 +72,14 @@ const props = defineProps({
     max-width: 600px;
     max-height: 600px;
 
-}
+} */
 
-.slideImgs {
+/* .carousel__item.slideImgs {
+    max-width: 600px;
+    max-height: 600px;
+} */
+
+/* .slideImgs {
     max-width: 600px;
     max-height: 600px;
     padding: 10px;
@@ -88,6 +93,33 @@ const props = defineProps({
 .thumbnails {
     max-width: 600px;
     max-height: 600px;
+    padding: 10px;
+} */
+
+/* 調整輪播圖片的最大寬度和最大高度 */
+.carousel__item.slideImgs img {
+    max-width: 100%;
+    /* 設置最大寬度為容器的百分之百 */
+    max-height: 100%;
+    /* 設置最大高度為容器的百分之百 */
+    width: auto;
+    /* 確保圖片寬度自適應 */
+    height: auto;
+    /* 確保圖片高度自適應 */
+}
+
+/* 可以選擇修改容器的最大寬度和最大高度 */
+.galleryImgs {
+    max-width: 600px;
+    /* 設置最大寬度為600px */
+    max-height: 600px;
+    /* 設置最大高度為600px */
+}
+
+/* 調整縮略圖容器的最大寬度 */
+.thumbnails {
+    max-width: 600px;
+    /* 設置最大寬度為600px */
     padding: 10px;
 }
 </style>

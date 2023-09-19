@@ -25,6 +25,11 @@ const login = async () => {
     } else if (loginState.data === 'INACTIVE') {
         alert('帳號未認證')
         router.push({ name: 'sendverification' }) //跳轉重新發送驗證信頁面
+    } else if (loginState.data === 'BANNED') {
+        alert('帳號已被註銷，請聯絡工作人員')
+        account.value = ''
+        passwords.value = ''
+        router.push({ name: 'login' })
     } else {
         alert('帳號密碼錯誤')
         account.value = ''

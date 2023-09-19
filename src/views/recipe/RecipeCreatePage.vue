@@ -57,7 +57,7 @@ let draggingIndex = null
 const dragStart = (e, index) => {
     console.log('index ' + index)
     draggingIndex = index
-    e.dataTransfer.effectAllowed = 'move'
+    // e.dataTransfer.effectAllowed = 'move'
 }
 //拖曳結束位置
 const onDrop = (e, dropIndex) => {

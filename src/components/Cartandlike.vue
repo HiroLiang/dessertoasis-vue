@@ -2,10 +2,10 @@
     <div class="Cartandlike">
 
 
-        <button class="btn btn-primary" @click="addToCart">加入購物車</button>
+        <!-- <button class="btn btn-primary" @click="addToCart">加入購物車</button>
 
 
-        <button class="btn btn-success" @click="buyNow">直接購買</button>
+        <button class="btn btn-success" @click="buyNow">直接購買</button> -->
 
 
         <button class="btn btn-outline-secondary" @click="addToFavorites">

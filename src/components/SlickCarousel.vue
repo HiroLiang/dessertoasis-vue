@@ -8,7 +8,7 @@
             </Carousel>
         </div>
         <div class="thumbnails">
-            <Carousel id="thumbnails" :items-to-show="6" :wrap-around="true" v-model="currentSlide" :slide-width="1000"
+            <Carousel id="thumbnails" :items-to-show="3" :wrap-around="true" v-model="currentSlide" :slide-width="1000"
                 ref="carousel">
                 <Slide v-for="(item, index) in props.itemsList" :key="index">
                     <img class="carousel__item slideImgs card-img" :src="item.imageUrl" @click="goToSlide(index)">
@@ -108,19 +108,42 @@ const props = defineProps({
     /* 確保圖片高度自適應 */
 }
 
-/* 可以選擇修改容器的最大寬度和最大高度 */
-.galleryImgs {
-    max-width: 600px;
-    /* 設置最大寬度為600px */
-    max-height: 600px;
-    /* 設置最大高度為600px */
+/* 調整輪播圖片容器的最大寬度和最大高度 */
+.gallery .carousel__item.slideImgs {
+    max-width: 1700px;
+    /* 設置最大寬度為600px，您可以根據需要進行調整 */
+    max-height: 1700px;
+    /* 設置最大高度為600px，您可以根據需要進行調整 */
 }
+
+.gallery {
+    max-width: 1700px;
+    /* 設置最大寬度為600px，您可以根據需要進行調整 */
+    max-height: 1700px;
+    /* 設置最大高度為600px，您可以根據需要進行調整 */
+}
+
+/* 可以選擇修改容器的最大寬度和最大高度 */
+/* .galleryImgs {
+    max-width: 1500px;
+
+    max-height: 1500px;
+
+} */
 
 /* 調整縮略圖容器的最大寬度 */
 .thumbnails {
     max-width: 600px;
     /* 設置最大寬度為600px */
+    max-height: 300px;
     padding: 10px;
 }
+
+
+
+/* .gallery {
+    max-width: 1500px;
+    max-height: 1500px;
+} */
 </style>
   

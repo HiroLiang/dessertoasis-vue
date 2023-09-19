@@ -68,11 +68,11 @@ const router = createRouter({
         },
       ],
     },
-    // {
-    //   path: "/prod",
-    //   name: "prod",
-    //   component: () => import("../views/product/Product1.vue"),
-    // },
+    {
+      path: "/prod",
+      name: "prod",
+      component: () => import("../views/product/Product1.vue"),
+    },
     //後台管理系統
     {
       path: "/cms",

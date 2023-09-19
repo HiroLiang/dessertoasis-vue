@@ -14,6 +14,8 @@ const recipeId = route.query.id
 const steps = reactive([])
 const stepImgs = reactive([])
 const ingredients = reactive([])
+const ingredientCounter = ref(0)
+
 
 //recipeBean物件
 const recipe = ref([null])
@@ -46,19 +48,23 @@ const handleClickUpdateButton = () => {
 onBeforeMount(async () => {
     const res = await getRecipe(recipeId)
     recipe.value = res.data
+    console.log('json parse');
+    console.log(JSON.stringify(res.data));
 
     // recipe.value.recipeSteps.forEach(step => {
     //     steps.push({
     //         id: step.stepNumber, text: step.stepContext, imgUrl: step.stepPicture
     //     })
     // })
-    // recipe.value.ingredientList.forEach(ingredient => {
-    //     ingredients.push({
-    //         ingredient: { id: ingredient.ingredient.id, ingredientName: ingredient.ingredient.ingredientName },
-    //         ingredientQuantity: ingredient.ingredientQuantity,
-    //         ingredientUnit: ingredient.ingredientUnit
-    //     })
-    // })
+    recipe.value.ingredientList.forEach(ingredient => {
+        ingredients.push({
+            id: ingredient.id,
+            ikey: ingredientCounter.value++,
+            ingredient: { id: ingredient.ingredient.id, ingredientName: ingredient.ingredient.ingredientName },
+            ingredientQuantity: ingredient.ingredientQuantity,
+            ingredientUnit: ingredient.ingredientUnit
+        })
+    })
 
     console.log('response');
     console.log(res.data);
@@ -73,6 +79,7 @@ const handleDeleteStep = (deleteIndex) => {
 //刪除對應食材
 const handleDeleteIngredient = (deleteIngredient) => {
     console.log(deleteIngredient);
+    ingredients.splice(deleteIngredient - 1, 1)
     recipe.value.ingredientList.splice(deleteIngredient - 1, 1)
 }
 
@@ -176,7 +183,7 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty, in
                 </div>
                 <div class="container ml-3">
                     <div class="ingredientContainer row justify-content-start  ">
-                        <IngredientInput v-for="(ingredient, index) in recipe.ingredientList" :key="index"
+                        <IngredientInput v-for="(ingredient, index) in ingredients" :key="ingredient.ikey"
                             :ingerdientIndex="index + 1" :ingredientName="ingredient.ingredient.ingredientName"
                             :ingredientQty="ingredient.ingredientQuantity" :ingredientUnit="ingredient.ingredientUnit"
                             @delete-ingredient="handleDeleteIngredient" @get-ingredient-data="handleIngredientData">
@@ -189,7 +196,7 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty, in
                     <!-- </div> -->
                 </div>
                 <div class="recipeStepsContainer container mt-3">
-                    <StepInput v-for="(step, index) in recipe.recipeSteps" :key="index" :stepIndex="index + 1"
+                    <StepInput v-for="(step, index) in recipe.recipeSteps" :key="step.stepNumber" :stepIndex="index + 1"
                         :textContent="step.stepContext" :previewImageUrl="step.stepPicture" @delete-step="handleDeleteStep"
                         draggable="false" @dragstart="dragStart($event, index)" @drop="onDrop($event, index)"
                         @dragenter.prevent @dragover.prevent @get-step-data="handleStepData">

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from "vue"
-import { addCourse } from "@/api"
+import { addCourse, UploadCourseImage } from "@/api"
 
 const formData = {
   courseName: "",
@@ -24,11 +24,13 @@ const thumbnailData = ref({
   url: "",
 })
 function addImage(event) {
+  console.log("addImage function called")
   const files = event.target.files
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
     const url = URL.createObjectURL(file)
     imagesData.images.push({ url, file })
+    console.log("imagesData.images", imagesData.value.images)
   }
 }
 function addThumbnail(event) {
@@ -84,7 +86,13 @@ async function submitCourse() {
       coursePrice: formData.coursePrice,
       courseStatus: formData.courseStatus,
     }
-
+    console.log("courseData", courseData)
+    const courseResponse = await addCourse(courseData)
+    console.log("courseResponse", courseResponse)
+    const courseId = courseResponse.data
+    console.log("courseId", courseId)
+    console.log("課程已成功上傳", courseId)
+    alert("課程已成功上傳")
     const imageUploadPromises = imagesData.images.map(async (image, index) => {
       const imageFormData = new FormData()
       imageFormData.append("image", image.file)
@@ -165,12 +173,12 @@ async function submitCourse() {
         <label>上課地點:</label>
         <input
           type="radio"
-          v-model="locationChoice"
+          v-model="formData.coursePlace"
           value="applyClassroom"
         />申請教室
         <input
           type="radio"
-          v-model="locationChoice"
+          v-model="formData.coursePlace"
           value="writeLocation"
         />自己填寫
         <!-- <input type="text" v-model="courseLocation" id="courseLocation" /> -->
@@ -200,7 +208,7 @@ async function submitCourse() {
         <label for="remainingPlaces">可報名人數:</label>
         <input
           type="number"
-          v-model="remainingPlaces"
+          v-model="formData.remainPlaces"
           min="0"
           id="remainingPlaces"
         />

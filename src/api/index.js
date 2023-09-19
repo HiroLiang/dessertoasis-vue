@@ -305,7 +305,9 @@ const reqGetCourseNumberRange = (condition) => {
   return request.post("/course/number-range", condition, jsonHeader)
 }
 
-// const uploadCourseImage = ()
+const UploadCourseImage = (courseId, imageFormData, config) => {
+  return request.post(`/course/uploadImage`, imageFormData, config)
+}
 
 const reqGetFrontTeacherPages = (condition) => {
   return request.post("/teacher/teacherFrontPagenation", condition, jsonHeader)
@@ -539,6 +541,7 @@ export {
   reqGetTeacherData,
   updateTeacher,
   addCourse,
+  UploadCourseImage,
 
   //#region 課程後台
   // reqGetCourseData,

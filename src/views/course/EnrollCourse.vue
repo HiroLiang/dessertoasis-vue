@@ -30,12 +30,12 @@ onMounted(async () => {
   console.log("courseId")
   console.log(courseId.value)
   //處理成品圖片
-  let coursePic = await getTeacherImage(1)
-  let mainPicBody = coursePic.data
-  let mainPicHeader = coursePic.headers[`content-type`]
-  courseData.value.pictures = `data:${mainPicBody[0]};base64,${mainPicBody[1]}`
+  // let coursePic = await getTeacherImage(1)
+  // let mainPicBody = coursePic.data
+  // let mainPicHeader = coursePic.headers[`content-type`]
+  // courseData.value.pictures = `data:${mainPicBody[0]};base64,${mainPicBody[1]}`
 
-  let course = await reqGetCourseData(1)
+  let course = await reqGetCourseData(2)
   let datas = course.data
 
   courseData.value.courseName = datas.courseName
@@ -82,7 +82,7 @@ onMounted(async () => {
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">{{courseData.courseName}}</h5>
-              <p class="card-text">
+              <p class="card-body">
                 課程簡介:{{ courseData.courseIntroduction }}
                 
                 <!-- 小巧精緻，美味無比，每一口都是幸福的滋味！嚐一口我們的馬卡龍吧！ -->

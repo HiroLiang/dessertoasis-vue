@@ -30,9 +30,9 @@ onMounted(async () => {
   console.log("courseId")
   console.log(courseId.value)
   //處理成品圖片
-  let coursePic = await getTeacherImage(1)
-  let mainPicBody = coursePic.data
-  let mainPicHeader = coursePic.headers[`content-type`]
+  // let coursePic = await getTeacherImage(1)
+  // let mainPicBody = coursePic.data
+  // let mainPicHeader = coursePic.headers[`content-type`]
   // courseData.value.coursePictureList[0].pictureURL = `data:${mainPicBody[0]};base64,${mainPicBody[1]}`
 
   let course = await reqGetCourseData(1)

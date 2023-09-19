@@ -80,10 +80,11 @@ const tabsConfig = {
     '2': '購物須知及運送方式',
 
 };
+
 </script>
 
 <style scoped>
 .Cartandlike {
-    padding-top: 100px;
+    padding-top: 70px;
 }
 </style>

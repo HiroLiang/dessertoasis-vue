@@ -1,22 +1,15 @@
 <template>
     <div>
-
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-
                     <SlickCarousel :itemsList="item"></SlickCarousel>
                 </div>
                 <div class="col-md-6">
                     <p></p>
                     <h3>{{ formData.prodName }}</h3>
                     <p></p>
-                    <!-- <h5>NT$ {{ price }}</h5> -->
                     <h4>NT${{ formData.prodPrice }}</h4>
-                    <!-- <p>請選擇規格</p>
-                    <Speccard :specs="specs" :selectedSpec="selectedSpec" :priceMapping="priceMapping"
-                        @update:selectedSpec="updateSelectedSpec" />
-                    <p>價格: NT$ {{ priceMapping[selectedSpec] }}</p> -->
                     <p></p>
                     請選擇數量
                     <n-input-number v-model:value="value" clearable />
@@ -30,6 +23,11 @@
                 </div>
             </div>
             <Tabs :tabsContent="tabsContent" :tabsConfig="tabsConfig" />
+            <div v-if="tabsContent['1']">
+                <!-- 只有在商品描述数据加载完成后才显示 -->
+
+                <div v-html="tabsContent['1']"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -43,7 +41,7 @@ import Tabs from '@/components/Tabs.vue';
 import { useRoute } from 'vue-router';
 import { EditProduct, UploadProdImage, reqGetCategory, getProdById, getAllProductImage } from '@/api/index.js';
 import AddToCartButton from '@/components/AddToCartButton.vue';
-
+import StandardFooter from '../../components/Footer.vue';
 import Bread from '@/assets/images/product/202211021609190aknhb_small.jpg';
 import Cake from '@/assets/images/product/foodiesfeed.com_blackberry-cream-dessert.jpg';
 const route = useRoute();
@@ -179,14 +177,19 @@ onMounted(() => {
 
 onMounted(async () => {
     const response = await getAllProductImage(productId.value);
-    const imagePaths = response.data[1];
+    const imagePaths = response.data; // 获取所有图像路径数组
 
-    item.value = imagePaths.map(path => ({
-        imageUrl: path,
-
+    const totalImages = imagePaths.length - 1;
+    const imagePath = response.data[totalImages];
+    item.value = imagePath.map((path, index) => ({
+        imageUrl: path, // 将路径字符串转换为对象
+        imageIndex: index, // 添加图像索引以供参考
     }));
+
     console.log("item", item);
+    console.log("Total Images:", totalImages);
 });
+
 
 
 </script>

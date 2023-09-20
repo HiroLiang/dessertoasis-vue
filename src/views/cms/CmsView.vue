@@ -45,7 +45,6 @@ onBeforeUnmount(() => {
 .pageContain {
     width: 100vw;
     display: flex;
-    background-color: rgb(224, 223, 223);
 }
 
 .sideBarContain {

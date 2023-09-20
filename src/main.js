@@ -59,6 +59,10 @@ router.beforeEach(async (to, from, next) => {
 
 });
 
+router.afterEach((to, from) => {
+    window.document.title = to.meta.title || '甜點綠洲 Dessert Oasis'
+});
+
 const app = createApp(App)
 
 app.use(createPinia())

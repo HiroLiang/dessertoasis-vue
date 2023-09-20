@@ -1,21 +1,24 @@
 <template>
-    <div class="container">
-        <p>請選擇分類</p>
+    <div class="contain">
+        <form>
+            <div class="cascader">
+                <h5><strong>請選擇分類</strong></h5>
 
-        <n-space>
-            <n-cascader v-model:value="selectedValue" @update:value="handleCascaderChange" clearable placeholder="所有商品"
-                :max-tag-count="settings.responsiveMaxTagCount ? 'responsive' : undefined"
-                :expand-trigger="settings.hoverTrigger ? 'hover' : 'click'" :options="customOption" :show-path="true"
-                :filterable="settings.filterable" :clear-filter-after-select="settings.clearFilterAfterSelect"
-                size="large" />
-        </n-space>
-    </div>
-    <form>
-        <div class="container">
+                <n-space>
+                    <n-cascader v-model:value="selectedValue" @update:value="handleCascaderChange" clearable
+                        placeholder="所有商品" :max-tag-count="settings.responsiveMaxTagCount ? 'responsive' : undefined"
+                        :expand-trigger="settings.hoverTrigger ? 'hover' : 'click'" :options="customOption"
+                        :show-path="true" :filterable="settings.filterable"
+                        :clear-filter-after-select="settings.clearFilterAfterSelect" size="large" />
+                </n-space>
+            </div>
+
+
+
 
             <p></p>
             <div class="image-upload">
-                <p>新增圖片</p>
+                <h5><strong>新增圖片</strong></h5>
                 <input type="file" @change="addImage" accept="image/*" multiple />
                 <div v-for="(image, index) in imagesData.images" :key="index" class="uploaded-item">
                     <div class="image-preview">
@@ -36,39 +39,63 @@
                 <button @click="removeVideo(index)">刪除</button>
             </div>
         </div> -->
-        </div>
-        <div class="dynamic">
-            <p>商品名稱</p>
-            <input v-model="formData.prodName" />
-        </div>
 
-        <div class="time">
-            <p>上架時間</p>
-            <n-date-picker v-model="formData.updateTime" type="datetime" clearable />
-            <!--<pre>{{ JSON.stringify(startTimestamp) }}</pre>-->
-        </div>
-        <div class="dynamic">
-            <p>價錢</p>
-            <input v-model.number="formData.prodPrice" type="number" />
-        </div>
-        <div class="dynamic">
-            <p>庫存</p>
-            <input v-model.number="formData.prodStock" type="number" />
-        </div>
+            <div class="dynamic">
+                <h5><strong>商品名稱</strong></h5>
+                <input v-model="formData.prodName" required />
+                <div class="error-message" v-if="showErrors && !formData.prodName">
+                    *商品名稱是必填項目
+                </div>
+            </div>
 
-        <!-- <div class="editor">
+
+            <div class="time">
+                <h5><strong>上架時間</strong></h5>
+                <h6>未填寫則預設為當前時間</h6>
+
+                <n-date-picker v-model="formData.updateTime" type="datetime" clearable />
+
+                <!--<pre>{{ JSON.stringify(startTimestamp) }}</pre>-->
+            </div>
+            <div class="dynamic">
+                <h5><strong>價錢</strong></h5>
+                <input v-model.number="formData.prodPrice" type="number" required />
+                <div class="error-message" v-if="showErrors && !formData.prodPrice">
+                    *價錢是必填項目
+                </div>
+            </div>
+
+            <div class="dynamic">
+                <h5><strong>庫存</strong></h5>
+                <input v-model.number="formData.prodStock" type="number" />
+                <!-- <div class="error-message" v-if="showErrors && !formData.prodStock">
+                庫存是必填項目。
+            </div> -->
+            </div>
+
+            <!-- <div class="editor">
             <CKEditor v-model="editorContent" @change="updateEditorContent" :config="editorConfig" />
         </div> -->
-        <div class="editor">
-            <p>商品描述</p>
-            <textarea v-model="formData.prodDescription" rows="6"></textarea>
+            <div class="editor">
+                <h5><strong>商品描述</strong></h5>
+                <textarea v-model="formData.prodDescription" rows="6"></textarea>
+            </div>
+            <div class="dynamic">
+                <h5><strong>備註</strong></h5>
+                <input v-model="formData.prodRemark" />
+            </div>
+            <div class="button">
+                <button type="button" class="btn btn-success" @click.prevent="submitProduct">確認送出</button>
+            </div>
+            <!-- <button @click.prevent="submitProduct" :disabled="!isFormValid">確認送出</button> -->
+            <!-- <div v-if="!formData.prodName" class="error-message">
+            價錢是必填項目。
         </div>
-        <div class="dynamic">
-            <p>備註</p>
-            <input v-model="formData.prodRemark" />
-        </div>
-        <button @click.prevent="submitProduct">確認送出</button>
-    </form>
+        <div v-if="!formData.prodName" class="error-message">
+            庫存是必填項目。
+        </div> -->
+        </form>
+    </div>
 </template>
   
 <script setup>
@@ -78,6 +105,7 @@ import CKEditor from '@/components/CKEditor.vue';
 import { AddProduct, UploadProdImage, reqGetCategory } from '@/api/index.js';
 import sweetalert from "SweetAlert2";
 import { useRouter } from 'vue-router';
+
 const router = useRouter();
 
 const settings = {
@@ -88,7 +116,7 @@ const settings = {
     clearFilterAfterSelect: ref(true),
 
 };
-
+const showErrors = ref(false);
 const images = ref([]);
 const videos = ref([]);
 const prodName = ref("");
@@ -110,6 +138,11 @@ const selectedValue = ref(null);
 //     console.log('editorContent:', newContent);
 // });
 // console.log(editorContent)
+
+// const isFormValid = computed(() => {
+//     return !!formData.prodName && !!formData.prodPrice; // 如果商品名稱存在，則表單有效
+// });
+
 
 const updateEditorContent = (newContent) => {
     console.log('updateEditorContent called with:', newContent);
@@ -164,6 +197,11 @@ function removeImage(index) {
 // }
 async function submitProduct() {
     try {
+        if (!formData.prodName || !formData.prodPrice) {
+            // 如果有錯誤，顯示錯誤消息
+            showErrors.value = true;
+            return; // 不繼續提交表單
+        }
         const productData = {
             product: {
                 prodName: formData.prodName,
@@ -320,20 +358,34 @@ const handleSelect = (value) => {
 </script>
 
 <style scoped>
+.contain {
+    padding-left: 50px;
+}
+
+.image-upload {
+    padding-left: 50px;
+}
+
+.cascade {
+    padding-left: 100px;
+}
+
 .dynamic {
     max-width: 70%;
-    padding-left: 100px;
+    padding-left: 50px;
+    padding-top: 30px;
 
 }
 
 .time {
     max-width: 50%;
-    padding-left: 100px;
+    padding-left: 50px;
+    padding-top: 30px;
 }
 
 .editor {
-    padding-left: 100px;
-
+    padding-left: 50px;
+    padding-top: 30px;
 }
 
 .editor textarea {
@@ -351,5 +403,14 @@ const handleSelect = (value) => {
     /* 设置最大宽度 */
     max-height: 200px;
     /* 设置最大高度 */
+}
+
+.button {
+    padding-top: 30px;
+    padding-left: 50px;
+}
+
+.error-message {
+    color: red;
 }
 </style>

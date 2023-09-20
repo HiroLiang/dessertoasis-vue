@@ -142,6 +142,11 @@ const deleteRecipe = (recipeId) => {
   return request.post(`recipe/deleterecipe?recipeId=${recipeId}`, jsonHeader)
 }
 
+//重新啟用食譜資料
+const republishRecipe = (recipeId) => {
+  return request.post(`recipe/republishrecipe?recipeId=${recipeId}`, jsonHeader)
+}
+
 /*----------------------------------------  食譜後台相關請求  -------------------------------------------*/
 //取得現在頁數內的資料
 const reqGetRecipePage = (condition) => {
@@ -309,9 +314,7 @@ const reqGetCourseNumberRange = (condition) => {
   return request.post("/course/number-range", condition, jsonHeader)
 }
 
-const UploadCourseImage = (courseId, imageFormData, config) => {
-  return request.post(`/course/uploadImage`, imageFormData, config)
-}
+// const uploadCourseImage = ()
 
 const reqGetFrontTeacherPages = (condition) => {
   return request.post("/teacher/teacherFrontPagenation", condition, jsonHeader)
@@ -469,6 +472,8 @@ const reqGetUnreadSum = (catcher) => {
   return request.get(`/message/unread?catcher=${catcher}`)
 }
 
+/*---------------------------------------- 後台統計相關請求  -------------------------------------------*/
+
 export {
   //會員用
   reqSignIn,
@@ -505,6 +510,7 @@ export {
   getRecipe,
   updateRecipe,
   deleteRecipe,
+  republishRecipe,
 
   // 教室用
   getReservations,

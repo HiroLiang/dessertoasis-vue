@@ -40,6 +40,13 @@ const updateDatas = (datas) => {
                 data[title.key] = new Date(data[title.key])
             }
         })
+        if (data.recipeStatus === 1) {
+            data.recipeStatus = "已發布"
+        } else if (data.recipeStatus === 0) {
+            data.recipeStatus = "未發布"
+        } else {
+            data.recipeStatus = "已註銷"
+        }
     })
     tableDatas.value = datas
     updatePages()
@@ -106,6 +113,8 @@ onMounted(async () => {
         let datas = result.data
         updateDatas(datas)
     }
+    console.log('tableDatas');
+    console.log(tableDatas.value);
 })
 
 </script>

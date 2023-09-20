@@ -27,7 +27,7 @@
         </div>
         <div class="time">
             <p>上架時間</p>
-            <n-date-picker v-model="formData.updateTime" @change="Changedate" type="datetime" clearable />
+            <n-date-picker v-model="formData.updateTime" @update:value="Changedate" type="datetime" clearable />
         </div>
         <div class="dynamic">
             <p>價錢</p>
@@ -48,7 +48,9 @@
             <p>備註</p>
             <input v-model="formData.prodRemark" />
         </div>
-        <button @click.prevent="editProd">確認修改</button>
+        <button type="button" class="btn btn-success" @click.prevent="editProd">確認修改</button>
+        <button type="button" class="btn btn-danger" @click.prevent="deleteProd">刪除</button>
+        <!-- <button @click.prevent="editProd">確認修改</button> -->
     </form>
 </template>
   
@@ -56,11 +58,11 @@
   
 <script setup>
 import { ref, onMounted, onBeforeMount, watchEffect } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { NSpace, NCascader } from 'naive-ui';
 import CKEditor from '@/components/CKEditor.vue';
 import axios from 'axios';
-import { EditProduct, UploadProdImage, reqGetCategory, getProdById } from '@/api/index.js';
+import { EditProduct, UploadProdImage, reqGetCategory, getProdById, deleteProdById } from '@/api/index.js';
 import sweetalert from "SweetAlert2";
 const selectedDateTime = ref(null);
 const settings = {
@@ -84,6 +86,7 @@ const productId = ref(null); // 用于存储产品ID
 const productData = ref(null);
 const updateTime = ref(Date.now());
 const route = useRoute();
+const router = useRouter();
 // const editorContent = ref('');
 // const editorConfig = {
 //     // 在这里配置 CKEditor 的选项，例如工具栏、插件等
@@ -150,7 +153,7 @@ const editProd = async () => {
         console.log("productId", newProductId);
         console.log("商品已成功上傳", newProductId);
         if (response.status === 200) {
-            // 商品成功添加，弹出成功消息框
+
             await sweetalert.fire({
                 icon: 'success',
                 title: '成功',
@@ -188,7 +191,7 @@ const editProd = async () => {
         await sweetalert.fire({
             icon: 'error',
             title: '失敗',
-            text: '商品修改失败，請重試或聯絡管理員。',
+            text: '商品修改失敗，請重試或聯絡管理員。',
             confirmButtonText: '確定',
         });
     }
@@ -199,7 +202,66 @@ const editProd = async () => {
 //         selectedDateTime.value = formData.updateTime;
 //     }
 // });
+const deleteProd = () => {
+    // 弹出确认删除的对话框，要求输入商品名称
+    sweetalert.fire({
+        title: '確認删除',
+        text: '請輸入商品名稱以確認删除:',
+        input: 'text',
+        inputPlaceholder: '商品名稱',
+        showCancelButton: true,
+        confirmButtonText: '確認删除',
+        cancelButtonText: '取消',
+        inputValidator: (value) => {
+            // 验证输入的商品名称是否匹配
+            if (value.toLowerCase() === formData.value.prodName.toLowerCase()) {
+                // 调用实际删除函数
+                performDelete();
+            } else {
+                return '商品名稱錯誤，請重新輸入。';
+            }
+        },
+    });
+};
 
+const performDelete = async () => {
+    // try {
+    // 在函数内部初始化 productId
+    const productId = route.params.id;
+
+    // 调用删除函数
+    const response = await deleteProdById(productId);
+
+    if (response.status === 204) {
+        // 商品删除成功，弹出成功消息框
+        await sweetalert.fire({
+            icon: 'success',
+            title: '成功',
+            text: '商品已成功删除！',
+            confirmButtonText: '確定',
+        });
+
+        router.push(`/cms/product`);
+
+    } else {
+        // 商品删除失败，弹出失败消息框
+        await sweetalert.fire({
+            icon: 'error',
+            title: '失敗',
+            text: '商品删除失敗，請重試或聯絡管理員。',
+            confirmButtonText: '確定',
+        });
+    }
+    // } catch (error) {
+    //     console.error('删除時出錯', error);
+    //     await sweetalert.fire({
+    //         icon: 'error',
+    //         title: '失敗',
+    //         text: '商品删除失敗，請重試或聯絡管理員。',
+    //         confirmButtonText: '確定',
+    //     });
+    // }
+};
 
 onMounted(() => {
     productId.value = route.params.id;

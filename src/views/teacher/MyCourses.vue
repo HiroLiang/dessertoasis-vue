@@ -13,7 +13,7 @@ const searchOptions = ref([
 ])
 const row = ref(true)
 const block = ref(true)
-const categoryId = ref(1)
+const categoryId = ref(2)
 const pageSize = ref([])
 const page = ref(1)
 

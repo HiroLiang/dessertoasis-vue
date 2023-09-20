@@ -320,7 +320,14 @@ const closeModal = () => {
 </script>
 <template>
   <div class="container">
-    <div style="display: flex;justify-content: center; align-items: center;">
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+      "
+    >
       <h1>所有課程列表</h1>
     </div>
     <!-- <StandardSearch
@@ -330,9 +337,19 @@ const closeModal = () => {
       @get-number-range="getNumberRange"
     /> -->
     <p v-if="!hasTable">*無權限或查詢失敗</p>
-    <StandardTable :page="1" :pageSize="10" :pages="pages" :tableDatas="tableDatas" :dataTitles="dataTitles"
-      @get-edit-id="onGetEditId" @get-number-range="onGetNumberRange" @get-sort-rule="onGetSortRule"
-      @get-search-rules="onGetSearchRules" @change-page="onGetPage" @get-date-rules="onGetDateRules" />
+    <StandardTable
+      :page="1"
+      :pageSize="10"
+      :pages="pages"
+      :tableDatas="tableDatas"
+      :dataTitles="dataTitles"
+      @get-edit-id="onGetEditId"
+      @get-number-range="onGetNumberRange"
+      @get-sort-rule="onGetSortRule"
+      @get-search-rules="onGetSearchRules"
+      @change-page="onGetPage"
+      @get-date-rules="onGetDateRules"
+    />
   </div>
 </template>
 <style scoped>

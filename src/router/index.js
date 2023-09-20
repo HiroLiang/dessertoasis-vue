@@ -70,11 +70,7 @@ const router = createRouter({
         },
       ],
     },
-    {
-      path: "/prod",
-      name: "prod",
-      component: () => import("../views/product/Product.vue"),
-    },
+
     //後台管理系統
     {
       path: "/cms",

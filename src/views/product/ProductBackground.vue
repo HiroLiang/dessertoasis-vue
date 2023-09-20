@@ -26,11 +26,11 @@ const dataTitles = ref([
     //{ label: "id", key: "id", type: "String" },
     { label: "分類", key: "categoryName", type: "String" },
     { label: "名稱", key: "prodName", type: "String" },
-    // { label: "描述", key: "prodDescription", type: "String" },
+    //{ label: "描述", key: "prodDescription", type: "String" },
     { label: "價錢", key: "prodPrice", type: "Number" },
     { label: "總銷量", key: "prodPurchase", type: "Number" },
     { label: "庫存", key: "prodStock", type: "Number" },
-    { label: "狀態", key: "productStatus", type: "String" },
+    //{ label: "狀態", key: "productStatus", type: "String" },
     { label: "最後更新日期", key: "updateTime", type: "Date" },
     { label: "更新後銷量", key: "saleAfterUpdate", type: "Number" },
     { label: "備註", key: "prodRemark", type: "String" },
@@ -111,27 +111,8 @@ const onGetEditId = (id) => {
 
 }
 
-const showSuccessAlert = ref(false)
-const deleteSingleProduct = async (id) => {
-    try {
-        const response = await deleteProduct(id)
-        console.log(response)
-        if (response.status === 200) {
 
-            SweetAlert.fire({
-                icon: "success",
-                title: "删除成功",
-            })
 
-            datas()
-        } else {
-            console.log("刪除課程失敗")
-        }
-    } catch (error) {
-        console.log(response)
-        console.error(error)
-    }
-}
 
 /** 初始化資料 */
 onMounted(async () => {

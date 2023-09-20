@@ -1,7 +1,7 @@
 <template>
     <n-tabs :bar-width="28" type="line" class="custom-tabs">
         <n-tab-pane name="1" :tab="tabsConfig['1']">
-            {{ tabsContent['1'] }}
+            <div v-html="tabsContent['1']"></div>
         </n-tab-pane>
         <n-tab-pane name="2" :tab="tabsConfig['2']">
             <div v-html="tabsContent['2']"></div>

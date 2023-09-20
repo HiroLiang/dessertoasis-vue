@@ -25,7 +25,7 @@
             <Tabs :tabsContent="tabsContent" :tabsConfig="tabsConfig" />
             <div v-if="tabsContent['1']">
                 <!-- 只有在商品描述数据加载完成后才显示 -->
-                <h2><strong>商品描述</strong></h2>
+
                 <div v-html="tabsContent['1']"></div>
             </div>
         </div>

@@ -29,9 +29,6 @@ onMounted(() => {
                 <n-tab-pane name="項目" tab="項目">
                     <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
                 </n-tab-pane>
-                <n-tab-pane name="月份" tab="月份">
-                    <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
-                </n-tab-pane>
             </n-tabs>
         </n-card>
     </div>

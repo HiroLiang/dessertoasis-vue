@@ -482,6 +482,10 @@ const reqGetVisitRecords = () => {
   return request.get('/record/visitRecord')
 }
 
+const reqGetTargetCount = () => {
+  return request.get('/record/targetSum')
+}
+
 
 export {
   //會員用
@@ -565,7 +569,7 @@ export {
   reqGetTeacherData,
   updateTeacher,
   addCourse,
-  UploadCourseImage,
+  // UploadCourseImage,
   getTeacherDetail,
 
   //#region 課程後台
@@ -606,4 +610,5 @@ export {
   reqGetUnreadSum,
   reqSetRecord,
   reqGetVisitRecords,
+  reqGetTargetCount,
 }

@@ -26,11 +26,14 @@ const router = createRouter({
           path: "/recipes/ToSomerecipe",
           name: "tosomerecipe",
           component: () => import("../views/recipe/ToSomeRecipePage.vue"),
+          meta: { title: '所有食譜' },
         },
         {
           path: "/recipes/createrecipe",
           name: "createrecipe",
           component: () => import("../views/recipe/RecipeCreatePage.vue"),
+          meta: { title: '建立食譜' },
+
         },
         {
           path: "/recipes/recipe",

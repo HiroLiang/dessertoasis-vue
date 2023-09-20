@@ -90,6 +90,7 @@ const hotProdsMove = () => {
   prodDisplayList.value.push(hotProds.value.shift(0))
   prodDisplayList.value.push(hotProds.value.shift(0))
   prodDisplayList.value.push(hotProds.value.shift(0))
+  prodDisplayList.value.push(hotProds.value.shift(0))
   setInterval(() => {
     fillhotProds()
   }, 3000);

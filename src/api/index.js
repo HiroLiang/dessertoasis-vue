@@ -470,6 +470,13 @@ const reqGetUnreadSum = (catcher) => {
 
 /*---------------------------------------- 後台統計相關請求  -------------------------------------------*/
 
+const reqSetRecord = (record) => {
+  request.put('/record/set', record, jsonHeader)
+}
+
+const reqGetVisitRecords = () => {
+  return request.get('/record/visitRecord')
+}
 
 
 export {
@@ -591,4 +598,6 @@ export {
   reqGetAdmins,
   reqReadMessage,
   reqGetUnreadSum,
+  reqSetRecord,
+  reqGetVisitRecords,
 }

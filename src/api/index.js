@@ -31,6 +31,10 @@ const reqMemberDetail = (id) => {
   return request.get(`/member/${id}/details`)
 }
 
+const reqMemberBank = (id) => {
+  return request.get(`/member/${id}/bank`)
+}
+
 //查詢全部會員
 const reqGetAllMembers = () => request.get("/member/all", {})
 
@@ -484,6 +488,7 @@ export {
   reqGetCmsMemberPages,
   reqGetMemberPage,
   requpdateMember,
+  reqMemberBank,
 
   /*--------食譜用-------*/
   reqTop10HotRecipe,

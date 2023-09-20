@@ -20,6 +20,7 @@ const router = createRouter({
           path: "",
           name: "recipeHp",
           component: () => import("../views/recipe/RecipeHp.vue"),
+          meta: { title: '食譜' },
         },
         {
           path: "/recipes/ToSomerecipe",
@@ -42,6 +43,7 @@ const router = createRouter({
       path: "/logIn",
       name: "logIn",
       component: () => import("../views/member/LogIn.vue"),
+      meta: { title: '登入' },
     },
     {
       path: "/product",
@@ -68,11 +70,7 @@ const router = createRouter({
         },
       ],
     },
-    {
-      path: "/prod",
-      name: "prod",
-      component: () => import("../views/product/Product.vue"),
-    },
+
     //後台管理系統
     {
       path: "/cms",
@@ -83,26 +81,47 @@ const router = createRouter({
           path: "",
           name: "cmsHome",
           component: () => import("../views/cms/CmsHome.vue"),
+          meta: { title: '管理系統' },
+          children: [
+            {
+              path: "",
+              name: "cmsChart",
+              component: () => import("../views/cms/components/CmsChart.vue"),
+              meta: { title: '管理系統' },
+              children: [
+                {
+                  path: "",
+                  name: "cmsChartVisit",
+                  component: () => import("../views/cms/components/VisitChart.vue"),
+                  meta: { title: '管理系統' },
+                },
+              ]
+            },
+          ]
         },
         {
           path: "/cms/recipe",
           name: "cmsrecipe",
           component: () => import("../views/cms/recipe/CmsRecipeTable.vue"),
+          meta: { title: '食譜管理' },
         },
         {
           path: "/cms/recipedetail",
           name: "cmsrecipeDetail",
           component: () => import("../views/cms/recipe/CmsRecipeDetail.vue"),
+          meta: { title: '後台管理' },
         },
         {
           path: "/cms/course",
           name: "cmscourse",
           component: () => import("../views/cms/course/CourseBackground.vue"),
+          meta: { title: '課程管理' },
         },
         {
           path: "/cms/editCourse",
           name: "cmsEditCourse",
           component: () => import("../views/cms/course/EditCourse.vue"),
+          meta: { title: '課程管理' },
         },
         // {
         //   path: "/courses/:id",
@@ -119,6 +138,7 @@ const router = createRouter({
           path: "/cms/addCourse",
           name: "cmsaddCourse",
           component: () => import("../views/course/AddCourse.vue"),
+          meta: { title: '課程管理' },
         },
 
         //等待移動
@@ -147,51 +167,61 @@ const router = createRouter({
           path: "/cms/managerAllTeacher",
           name: "managerAllTeacher",
           component: () => import("../views/course/ManagerAllTeacher.vue"),
+          meta: { title: '教師管理' },
         },
         {
           path: "/cms/editTeacher",
           name: "cmsEditTeacher",
           component: () => import("../views/cms/course/EditTeacher.vue"),
+          meta: { title: '教師管理' },
         },
         {
           path: "/cms/product",
           name: "productBG",
           component: () => import("../views/product/ProductBackground.vue"),
+          meta: { title: '產品管理' },
         },
         {
           path: "/cms/addproduct",
           name: "Addproduct",
           component: () => import("../views/product/Addproduct.vue"),
+          meta: { title: '產品管理' },
         },
         {
           path: "/cms/editproduct/:id",
           name: "Editproduct",
           component: () => import("../views/product/Editproduct.vue"),
+          meta: { title: '產品管理' },
         },
         {
           path: "/cms/prevproduct",
           name: "Prevproduct",
           component: () => import("../views/product/Prevproduct.vue"),
+          meta: { title: '產品管理' },
         },
         {
           path: "/cms/member",
           name: "member",
           component: () => import("../views/member/MemberBackground.vue"),
+          meta: { title: '會員管理' },
         },
         {
           path: "/cms/memberdetail",
           name: "cmsmemberDetail",
           component: () => import("../views/member/CmsMemberDetail.vue"),
+          meta: { title: '會員管理' },
         },
         {
           path: "/cms/order",
           name: "CmsOrderTable",
           component: () => import("../views/cms/order/CmsOrderTable.vue"),
+          meta: { title: '訂單管理' },
         },
         {
           path: "/cms/orderdetail",
           name: "CmsOrderDetail",
           component: () => import("../views/cms/order/CmsOrderDetail.vue"),
+          meta: { title: '訂單管理' },
         },
       ],
     },

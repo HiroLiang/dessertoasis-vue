@@ -124,7 +124,7 @@ const fillhotProds = () => {
     <div class="hot-product">
       <h2>熱門集錦</h2>
       <div style="display: flex;justify-content: space-evenly;align-items: center;">
-        <transition-group name="hotProd" mode="out-in">
+        <transition-group name="hotProd">
           <div v-for="prod in prodDisplayList" :key="prod.id">
             <StandardBlockType :product="prod" />
           </div>

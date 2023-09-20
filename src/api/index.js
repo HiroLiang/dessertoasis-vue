@@ -133,8 +133,8 @@ const getRecipe = (recipeId) => {
 }
 
 //更新食譜資料
-const updateRecipe = (recipeId) => {
-  return request.put(`recipe/updaterecipe?recipeId${recipeId}`, jsonHeader)
+const updateRecipe = (recipe) => {
+  return request.put("recipe/updaterecipe", recipe, jsonHeader)
 }
 
 //刪除食譜資料

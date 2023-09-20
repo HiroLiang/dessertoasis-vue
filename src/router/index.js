@@ -55,7 +55,7 @@ const router = createRouter({
           meta: { title: "商品首頁" },
         },
         {
-          path: "/productdetail",
+          path: "/productdetail/:id",
           name: "productDetail",
           component: () => import("../views/product/ProductDetail.vue"),
           meta: { title: "商品詳情" },
@@ -68,11 +68,11 @@ const router = createRouter({
         },
       ],
     },
-    // {
-    //   path: "/prod",
-    //   name: "prod",
-    //   component: () => import("../views/product/Product1.vue"),
-    // },
+    {
+      path: "/prod",
+      name: "prod",
+      component: () => import("../views/product/Product.vue"),
+    },
     //後台管理系統
     {
       path: "/cms",

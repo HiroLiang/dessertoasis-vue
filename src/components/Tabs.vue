@@ -4,7 +4,7 @@
             {{ tabsContent['1'] }}
         </n-tab-pane>
         <n-tab-pane name="2" :tab="tabsConfig['2']">
-            {{ tabsContent['2'] }}
+            <div v-html="tabsContent['2']"></div>
         </n-tab-pane>
 
     </n-tabs>

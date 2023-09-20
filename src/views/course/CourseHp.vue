@@ -99,8 +99,8 @@ const onGetPage = async (page) => {
   }
 }
 
-const onGetSelectedKey = (key) => {
-  router.push({ path: '/courses/EnrollCourse', query: { key } })
+const onGetSelectedKey = (id) => {
+  router.push({ path: '/courses/EnrollCourse', query: { id } })
 }
 
 //搜索條件(多筆)

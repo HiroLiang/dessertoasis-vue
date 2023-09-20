@@ -158,7 +158,7 @@ const emitSearch = ref([])
 
 //整合搜索條件
 const searchRules = computed(() => {
-    return emitSearch.value.concat(catSearch.value)
+    return emitSearch.value.concat(catSearch.value).concat([{ key: 'recipeStatus', input: '2' }])
 })
 const categoryId = ref(1)
 

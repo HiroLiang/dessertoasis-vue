@@ -355,6 +355,10 @@ const getTeacher = (teacherId) => {
   return request.get(`/teacher/${teacherId}`, jsonHeader)
 }
 
+const getTeacherDetail = () => {
+  return request.get(`/teacher/detail`, jsonHeader)
+}
+
 const reqGetTeacherPage = (condition) => {
   return request.post("/teacher/pagenation", condition, jsonHeader)
 }
@@ -470,8 +474,6 @@ const reqGetUnreadSum = (catcher) => {
 
 /*---------------------------------------- 後台統計相關請求  -------------------------------------------*/
 
-
-
 export {
   //會員用
   reqSignIn,
@@ -554,6 +556,8 @@ export {
   reqGetTeacherData,
   updateTeacher,
   addCourse,
+  UploadCourseImage,
+  getTeacherDetail,
 
   //#region 課程後台
   // reqGetCourseData,

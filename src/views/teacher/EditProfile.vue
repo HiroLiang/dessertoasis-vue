@@ -1,7 +1,12 @@
 <script setup>
-import { reactive, computed, ref, onMounted } from "vue"
+import { reactive, computed, ref, onMounted, onBeforeUnmount } from "vue"
 import { useRouter } from "vue-router"
-import { getTeacher, editTeacherProfile, reqSession } from "@/api"
+import {
+  getTeacher,
+  editTeacherProfile,
+  reqSession,
+  getTeacherDetail,
+} from "@/api"
 const router = useRouter()
 // const teacherId = computed(() => {
 //   console.log(router.query)
@@ -16,32 +21,35 @@ const teacherData = ref({
   // 其他属性
 })
 
-const getTeacherData = async () => {
-  //   console.log(teacherId.value)
+// const getTeacherData = async () => {
+//   //   console.log(teacherId.value)
 
-  // const sessionResponse = await reqSession()
-  // const sessionData = sessionResponse.data
+//   // const sessionResponse = await reqSession()
+//   // const sessionData = sessionResponse.data
 
-  // memberId.value = sessionData.id
-  // console.log(memberId)
-  // teacherId.value = sessionData.id
-  let response = await getTeacher(teacherId)
-  console.log("teacherId")
-  //   console.log("response")
-  //   console.log(response.data)
-  const teacherData = response.data
-  console.log(teacherData)
-}
+//   // memberId.value = sessionData.id
+//   // console.log(memberId)
+//   // teacherId.value = sessionData.id
+//   let response = await getTeacher(teacherId)
+//   console.log("teacherId")
+//   //   console.log("response")
+//   //   console.log(response.data)
+//   const teacherData = response.data
+//   console.log(teacherData)
+// }
 // 在mounted钩子中获取数据
 onMounted(async () => {
   try {
-    const sessionResponse = await reqSession()
-    const sessionData = sessionResponse.data
+    // const sessionResponse = await reqSession()
+    // const sessionData = sessionResponse.data
 
-    memberId.value = sessionData.id
+    // console.log("sessionData", sessionData)
+    // memberId.value = sessionData.id
+    // console.log("memberId", memberId.value)
 
-    const response = await getTeacher(teacherId) // 请确保teacherId已定义
+    const response = await getTeacher(1) // 请确保teacherId已定义
     teacherData.value = response.data
+    console.log("teacherData", teacherData)
   } catch (error) {
     console.error("API请求失败：", error)
   }
@@ -98,7 +106,7 @@ const editTeacherData = async () => {}
 
   <h2>this is a teacher page{{ teacherId }}</h2> -->
   <div class="container">
-    <h1 style="margin-top: 30px">編輯老師個人資訊</h1>
+    <h1 style="margin-top: 30px">顯示老師個人資訊</h1>
     <form class="file-upload" @submit.prevent="updateTeacher" ref="myForm">
       <div class="row">
         <div class="col-6 mb-3 mx-auto">

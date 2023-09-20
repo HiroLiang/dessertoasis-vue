@@ -352,6 +352,10 @@ const getTeacher = (teacherId) => {
   return request.get(`/teacher/${teacherId}`, jsonHeader)
 }
 
+const getTeacherDetail = () => {
+  return request.get(`/teacher/detail`, jsonHeader)
+}
+
 const reqGetTeacherPage = (condition) => {
   return request.post("/teacher/pagenation", condition, jsonHeader)
 }
@@ -547,6 +551,7 @@ export {
   updateTeacher,
   addCourse,
   UploadCourseImage,
+  getTeacherDetail,
 
   //#region 課程後台
   // reqGetCourseData,

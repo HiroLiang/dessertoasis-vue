@@ -17,7 +17,7 @@ const props = defineProps({
     }
 })
 //自定義事件
-let emit = defineEmits(['delete-step', 'get-step-data'])
+let emit = defineEmits(['delete-step', 'get-step-data', 'get-img-data'])
 
 //子傳父取得刪除案件觸發的index值
 const deleteStep = () => {
@@ -29,9 +29,13 @@ const deleteStep = () => {
 const getStepDatas = () => {
     const stepIndex = props.stepIndex
     const textData = textContent.value
-    const picData = null
+    emit('get-step-data', stepIndex, textData)
+}
+
+const getStepPic = () => {
+    const stepIndex = props.stepIndex
+
     const stepPic = textPic.value.files[0]
-    emit('get-step-data', stepIndex, textData, stepPic)
     if (stepPic) {
         const reader = new FileReader();
 
@@ -42,13 +46,11 @@ const getStepDatas = () => {
                 base64Content: base64Data
             }
             const jsonString = JSON.stringify(jsonData);
-            emit('get-step-data', stepIndex, textData, jsonString)
+            emit('get-img-data', stepIndex, jsonString)
             previewImageUrl.value = e.target.result
         }
         reader.readAsDataURL(stepPic);
     }
-
-    // console.log(stepPic);
 
 }
 
@@ -63,7 +65,7 @@ const getStepDatas = () => {
                     <img :class="'recipeStep' + stepIndex + 'Pic'" :id="'previewPic' + stepIndex"
                         :alt="'步驟' + stepIndex + '圖片'" :src="previewImageUrl || 'https://fakeimg.pl/250x200/?text=Image'">
                 </label>
-                <input @change="getStepDatas" class="form-control visually-hidden " ref="textPic" type="file"
+                <input @change="getStepPic" class="form-control visually-hidden " ref="textPic" type="file"
                     :id="'recipeStepInput' + stepIndex" :name="'recipeStep' + stepIndex" accept="image/*"><br>
             </div>
             <div class="introText col-6 align-self-center mb-2 ">

@@ -254,7 +254,7 @@ onMounted(async () => {
 
         <hr>
 
-        <!-- <Bulletinboard></Bulletinboard> -->
+        <Bulletinboard></Bulletinboard>
     </div>
 </template>
 <style scoped>

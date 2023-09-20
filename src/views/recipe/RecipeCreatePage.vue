@@ -78,10 +78,9 @@ const onDrop = (e, dropIndex) => {
 
 
 
-const handleStepData = (textIndex, textContent, imgData) => {
+const handleStepData = (textIndex, textContent) => {
     steps[textIndex - 1].text = textContent;
-    steps[textIndex - 1].imgUrl = imgData;
-    stepImgs[textIndex - 1] = steps[textIndex - 1].imgUrl//處理步驟圖片
+
 
     // console.log(stepImgs.value);
     // stepImgs.forEach(stepImg => {
@@ -93,6 +92,11 @@ const handleStepData = (textIndex, textContent, imgData) => {
     // console.log('steps:  ');
     // console.log(steps);
 
+}
+
+const handleStepPic = (textIndex, imgData) => {
+    steps[textIndex - 1].imgUrl = imgData;
+    stepImgs[textIndex - 1] = steps[textIndex - 1].imgUrl//處理步驟圖片
 }
 
 const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty, ingerdientUnit) => {
@@ -182,7 +186,7 @@ const data = reactive({
 })
 const persons = ref(1)
 
-//判斷由無鍵入資料
+//判斷有無鍵入資料
 const isDataEmpty = () => {
     let errors = []
 
@@ -571,7 +575,8 @@ const handledifValue = (dif) => {
                 <div class="recipeStepsContainer container mt-3">
                     <StepInput v-for="(step, index) in steps" :key="step.id" :stepIndex="index + 1"
                         @delete-step="handleDeleteStep" draggable="true" @dragstart="dragStart($event, index)"
-                        @drop="onDrop($event, index)" @dragenter.prevent @dragover.prevent @get-step-data="handleStepData">
+                        @drop="onDrop($event, index)" @dragenter.prevent @dragover.prevent @get-step-data="handleStepData"
+                        @get-img-data="handleStepPic">
                     </StepInput>
                 </div>
                 <div class="newRecipeStepContainer d-grid mb-3 mt-2">

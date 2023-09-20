@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, onMounted } from "vue"
+import { reactive, ref, onMounted, computed, watch } from "vue"
 import TeacherDisplay from "@/components/Standard/Display.vue"
 import { useRouter } from "vue-router"
 import { useSortCondition } from "../../stores/sortCondition.js"
@@ -10,10 +10,22 @@ const store = useSortCondition()
 //使用 router
 const router = useRouter()
 
+//傳值搜索條件
+const emitSearch = ref([])
+
 const searchOptions = ref([
   // { key: "coursePrice", label: "課程價格", type: "Number" },
   { key: "teacherName", label: "老師姓名", type: "String" },
 ])
+
+//只顯示老師id
+const trId = [{ key: "id", type: "Number", input: "id" }]
+
+//整合搜索條件
+const searchRules = computed(() => {
+  return emitSearch.value.concat(trId)
+})
+console.log("searchRules", searchRules.value)
 const row = ref(true)
 const block = ref(true)
 const categoryId = ref(2)
@@ -76,9 +88,14 @@ const onGetSelectedKey = (key) => {
 }
 
 //搜索條件(多筆)
+// const onGetSearchRules = (rule) => {
+//   emitSearch.value = rule
+// }
 const onGetSearchRules = async (rule) => {
   console.log("rule")
   console.log(rule)
+  emitSearch.value = rule
+  console.log("rule", rule)
   let result = await store.setFrontTeacherSearchRules(rule)
   if (result != null) {
     let datas = result.data
@@ -116,6 +133,18 @@ const onGetDateRules = async (rules) => {
     updateDatas(datas)
   }
 }
+
+// watch(
+//   searchRules,
+//   async () => {
+//     let result = await store.setTeacherSearchRules(searchRules.value)
+//     if (result != null) {
+//       let datas = result.data
+//       updateDatas(datas)
+//     }
+//   },
+//   { immediate: true }
+// )
 
 /** 初始化資料 */
 onMounted(async () => {

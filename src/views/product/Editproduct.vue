@@ -1,18 +1,20 @@
 <template>
-    <div class="container">
-        <p>修改分類</p>
-        <n-space>
-            <n-cascader v-model:value="selectedValue" @update:value="handleCascaderChange" clearable placeholder="所有商品"
-                :max-tag-count="settings.responsiveMaxTagCount ? 'responsive' : undefined"
-                :expand-trigger="settings.hoverTrigger ? 'hover' : 'click'" :options="customOption" :show-path="true"
-                :filterable="settings.filterable" :clear-filter-after-select="settings.clearFilterAfterSelect"
-                size="large" />
-        </n-space>
-    </div>
-    <form>
-        <div class="container">
-            <p></p>
-            <!-- <div class="image-upload">
+    <div class="contain">
+        <form>
+            <div class="cascader">
+                <p>修改分類</p>
+                <n-space>
+                    <n-cascader v-model:value="selectedValue" @update:value="handleCascaderChange" clearable
+                        placeholder="所有商品" :max-tag-count="settings.responsiveMaxTagCount ? 'responsive' : undefined"
+                        :expand-trigger="settings.hoverTrigger ? 'hover' : 'click'" :options="customOption"
+                        :show-path="true" :filterable="settings.filterable"
+                        :clear-filter-after-select="settings.clearFilterAfterSelect" size="large" />
+                </n-space>
+            </div>
+
+            <div class="container">
+                <p></p>
+                <!-- <div class="image-upload">
                 <p>圖片</p>
                 <input type="file" @change="addImage" accept="image/*" multiple />
                 <div v-for="(image, index) in imagesData.images" :key="index" class="image-preview">
@@ -20,38 +22,41 @@
                     <button @click="removeExistingImage(index)">刪除</button>
                 </div>
             </div> -->
-        </div>
-        <div class="dynamic">
-            <p>商品名稱</p>
-            <input v-model="formData.prodName" />
-        </div>
-        <div class="time">
-            <p>上架時間</p>
-            <n-date-picker v-model="formData.updateTime" @update:value="Changedate" type="datetime" clearable />
-        </div>
-        <div class="dynamic">
-            <p>價錢</p>
-            <input v-model.number="formData.prodPrice" type="number" />
-        </div>
-        <div class="dynamic">
-            <p>庫存</p>
-            <input v-model.number="formData.prodStock" type="number" />
-        </div>
-        <div class="editor">
-            <p>商品描述</p>
-            <textarea v-model="formData.prodDescription" rows="6"></textarea>
-        </div>
-        <!-- <div class="editor">
+            </div>
+            <div class="dynamic">
+                <p>商品名稱</p>
+                <input v-model="formData.prodName" />
+            </div>
+            <div class="time">
+                <p>上架時間</p>
+                <n-date-picker v-model="formData.updateTime" @update:value="Changedate" type="datetime" clearable />
+            </div>
+            <div class="dynamic">
+                <p>價錢</p>
+                <input v-model.number="formData.prodPrice" type="number" />
+            </div>
+            <div class="dynamic">
+                <p>庫存</p>
+                <input v-model.number="formData.prodStock" type="number" />
+            </div>
+            <div class="editor">
+                <p>商品描述</p>
+                <textarea v-model="formData.prodDescription" rows="6"></textarea>
+            </div>
+            <!-- <div class="editor">
             <CKEditor v-model="editorContent" :config="editorConfig" />
         </div> -->
-        <div class="dynamic">
-            <p>備註</p>
-            <input v-model="formData.prodRemark" />
-        </div>
-        <button type="button" class="btn btn-success" @click.prevent="editProd">確認修改</button>
-        <button type="button" class="btn btn-danger" @click.prevent="deleteProd">刪除</button>
-        <!-- <button @click.prevent="editProd">確認修改</button> -->
-    </form>
+            <div class="dynamic">
+                <p>備註</p>
+                <input v-model="formData.prodRemark" />
+            </div>
+            <div class="button">
+                <button type="button" class="btn btn-success" @click.prevent="editProd">確認修改</button>
+                <button type="button" class="btn btn-danger" @click.prevent="deleteProd">刪除</button>
+                <!-- <button @click.prevent="editProd">確認修改</button> -->
+            </div>
+        </form>
+    </div>
 </template>
   
 
@@ -62,7 +67,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { NSpace, NCascader } from 'naive-ui';
 import CKEditor from '@/components/CKEditor.vue';
 import axios from 'axios';
-import { EditProduct, UploadProdImage, reqGetCategory, getProdById, deleteProdById } from '@/api/index.js';
+import { EditProduct, UploadProdImage, reqGetCategory, getProdById } from '@/api/index.js';
 import sweetalert from "SweetAlert2";
 const selectedDateTime = ref(null);
 const settings = {
@@ -340,19 +345,34 @@ const mapArr = (arr) => {
   
   
 <style scoped>
+.contain {
+    padding-left: 50px;
+}
+
+.image-upload {
+    padding-left: 50px;
+}
+
+.cascade {
+    padding-left: 100px;
+}
+
 .dynamic {
     max-width: 70%;
-    padding-left: 100px;
+    padding-left: 50px;
+    padding-top: 30px;
+
 }
 
 .time {
     max-width: 50%;
-    padding-left: 100px;
+    padding-left: 50px;
+    padding-top: 30px;
 }
 
 .editor {
-    padding-left: 100px;
-
+    padding-left: 50px;
+    padding-top: 30px;
 }
 
 .editor textarea {
@@ -367,7 +387,18 @@ const mapArr = (arr) => {
 
 .image-preview img {
     max-width: 200px;
+    /* 设置最大宽度 */
     max-height: 200px;
+    /* 设置最大高度 */
+}
+
+.button {
+    padding-top: 30px;
+    padding-left: 50px;
+}
+
+.error-message {
+    color: red;
 }
 </style>
   

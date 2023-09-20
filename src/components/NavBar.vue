@@ -124,7 +124,7 @@ onMounted(() => {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
-                <router-link class="navbar-brand" to="/"><img src="/images/navbar/logo.png" style="width: 50px;"
+                <router-link class="navbar-brand" to="/"><img src="/images/navbar/logo.png" style="width: 95px;"
                         alt="">Dessert
                     Oasis</router-link>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -197,6 +197,10 @@ onMounted(() => {
     width: 32px;
     height: 32px;
     border-radius: 16px;
+}
+
+.navbar {
+    height: 80px;
 }
 
 .profile-list {

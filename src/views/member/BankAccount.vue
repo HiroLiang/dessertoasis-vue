@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { reqMemberBank, reqSession } from '@/api';
+import { reqSession } from '@/api';
 
 const memberId = ref("");
 

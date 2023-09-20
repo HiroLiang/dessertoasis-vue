@@ -84,6 +84,9 @@ onMounted(async () => {
   </div>
 </template>
 <style scoped>
+img {
+  display: block;
+}
 .imgContainer img {
   width: 100%;
   max-height: 80vh;

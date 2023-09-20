@@ -1,21 +1,22 @@
 <script setup>
-// import NavBar from "@/components/NavBar.vue"
 import { reactive, ref, onMounted } from "vue"
 import TeacherDisplay from "@/components/Standard/Display.vue"
 import { useRouter } from "vue-router"
 import { useSortCondition } from "../../stores/sortCondition.js"
+
 //使用 pinia 整合搜索條件
 const store = useSortCondition()
+
 //使用 router
 const router = useRouter()
+
 const searchOptions = ref([
   // { key: "coursePrice", label: "課程價格", type: "Number" },
-  // { key: "courseName", label: "課程名稱", type: "String" },
   { key: "teacherName", label: "老師姓名", type: "String" },
 ])
 const row = ref(true)
 const block = ref(true)
-const categoryId = ref(1)
+const categoryId = ref(2)
 const pageSize = ref([])
 const page = ref(1)
 /**定義變數 */
@@ -126,7 +127,6 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <!-- <NavBar :NavBarList="navBarList" /> -->
   <div class="container">
     <h1 style="margin-top: 30px">關於教師</h1>
   </div>
@@ -143,6 +143,5 @@ onMounted(async () => {
     @get-number-range="onGetNumberRange"
     @get-page="onGetPage"
   ></TeacherDisplay>
-  <!-- <RouterView></RouterView> -->
 </template>
 <style scoped></style>

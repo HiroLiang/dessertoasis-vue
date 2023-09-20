@@ -26,6 +26,8 @@ const showTeacherContract = () => {
     icon: "info",
     confirmButtonText: "確定",
   })
+  // 阻止表單的默認提交行为
+  e.preventDefault()
 }
 const id = ref(1)
 const img = ref(null)
@@ -137,7 +139,7 @@ const contractContent = `甜點教師合約
 
 甲方（教師）簽名: ____________________________ 日期: ______________
 
-乙方（學校或課程平台）簽名: ______________________ 日期: ______________`
+乙方（學校或課程平台）簽名:甜點綠洲股份有限公司 日期: ______________`
 const form = new FormData()
 
 const sendForm = async () => {
@@ -154,13 +156,13 @@ const sendForm = async () => {
   })
   await UploadTeacherImage(form)
   // 成功上传后触发弹出窗口
-  alert("您已成功成為教師！")
-  // SweetAlert.fire({
-  //   title: "成功",
-  //   text: "您已成功成為教師！",
-  //   icon: "success",
-  //   confirmButtonText: "確定",
-  // })
+  // alert("您已成功成為教師！")
+  SweetAlert.fire({
+    title: "成功",
+    text: "您已成功成為教師！",
+    icon: "success",
+    confirmButtonText: "確定",
+  })
 
   // 清空表单数据或进行其他操作（根据需要）
   data.teacher.teacherName = ""
@@ -258,30 +260,22 @@ const sendForm = async () => {
           ></textarea>
         </div>
       </div>
-      <div class="row">
-        <div class="form-check mx-auto col-6">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            name="teacherContract"
-            id="teacherContract"
-            v-model="data.teacher.teacherContract"
-          />
-          <label class="form-check-label" for="flexCheckDefault">
-            我同意成為老師
 
-            <button class="btn btn-link" @click="showTeacherContract">
-              查看教師合約
-            </button>
-          </label>
-        </div>
-        <input
-          class="form-check-input"
-          type="hidden"
-          name="teacherAccountStatus"
-          id="teacherAccountStatus"
-        />
-      </div>
+      <input
+        class="form-check-input"
+        type="hidden"
+        name="teacherContract"
+        id="teacherContract"
+        v-model="data.teacher.teacherContract"
+      />
+
+      <input
+        class="form-check-input"
+        type="hidden"
+        name="teacherAccountStatus"
+        id="teacherAccountStatus"
+      />
+
       <div class="row">
         <div class="col-6 mx-auto justify-content-end">
           <button type="submit" class="btn btn-outline-primary">送出</button>
@@ -289,6 +283,20 @@ const sendForm = async () => {
         </div>
       </div>
     </form>
+    <div class="row">
+      <input
+        class="col-6 form-check-input"
+        type="checkbox"
+        name="teacherContract"
+        id="teacherContract"
+      />
+      <label class="col-6 form-check-label" for="flexCheckDefault">
+        我同意成為老師
+        <button class="btn btn-link" @click="showTeacherContract">
+          查看教師合約
+        </button>
+      </label>
+    </div>
   </div>
 </template>
 <style scoped>

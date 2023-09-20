@@ -142,6 +142,11 @@ const deleteRecipe = (recipeId) => {
   return request.post(`recipe/deleterecipe?recipeId=${recipeId}`, jsonHeader)
 }
 
+//重新啟用食譜資料
+const republishRecipe = (recipeId) => {
+  return request.post(`recipe/republishrecipe?recipeId=${recipeId}`, jsonHeader)
+}
+
 /*----------------------------------------  食譜後台相關請求  -------------------------------------------*/
 //取得現在頁數內的資料
 const reqGetRecipePage = (condition) => {
@@ -507,6 +512,7 @@ export {
   getRecipe,
   updateRecipe,
   deleteRecipe,
+  republishRecipe,
 
   // 教室用
   getReservations,

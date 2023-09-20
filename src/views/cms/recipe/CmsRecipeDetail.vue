@@ -3,7 +3,7 @@ import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import IngredientInput from '@/views/recipe/components/IngredientInput.vue'
 import StepInput from '@/views/recipe/components/StepInput.vue'
-import { getRecipe, deleteRecipe, updateRecipe, imgTest } from '@/api'
+import { getRecipe, deleteRecipe, updateRecipe, imgTest, republishRecipe } from '@/api'
 import { useDialog, useNotification } from 'naive-ui';
 
 const notification = useNotification()
@@ -252,6 +252,11 @@ const handleClickUpdateButton = async () => {
 
 }
 
+const handleClickRepublish = async () => {
+    await republishRecipe(recipeId)
+    router.push("/cms/recipe")
+}
+
 const handleUpdate = () => {
     dialog.warning({
         title: "警告",
@@ -260,6 +265,17 @@ const handleUpdate = () => {
         negativeText: "取消",
         onPositiveClick: () => {
             handleClickUpdateButton()
+        },
+    })
+}
+const handleClickRepublishButton = () => {
+    dialog.warning({
+        title: "警告",
+        content: "確定要重新啟用這筆資料?",
+        positiveText: "確定",
+        negativeText: "取消",
+        onPositiveClick: () => {
+            handleClickRepublish()
         },
     })
 }
@@ -360,10 +376,10 @@ const handleUpdate = () => {
                 <div class="btn row border border-second rounded px-2 pb-2">
                     <button class="btn btn-light mb-2" @click="handleUpdate">更新</button>
                     <button type="reset" class="btn btn-light mb-2" @click="backToCms">取消</button>
-                    <button v-if="recipe.recipeStatus !== -1" class="btn btn-light mb-2"
+                    <button v-if="recipe.recipeStatus !== 2" class="btn btn-light mb-2"
                         @click="handleClickDeleteButton">刪除</button>
-                    <button v-else class="btn btn-light mb-2" @click="handleClickDeleteButton">啟用</button>
-                    {{ recipe.recipeStatus }}
+                    <button v-else class="btn btn-light mb-2" @click="handleClickRepublishButton">啟用</button>
+                    <!-- {{ recipe.recipeStatus }} -->
                 </div>
             </div>
         </div>

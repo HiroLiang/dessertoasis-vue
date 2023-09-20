@@ -392,6 +392,11 @@ const getProd1 = (queryParams) => {
 const getProdById = (productId) => {
   return request.get(`/product/details/${productId}`)
 }
+
+const deleteProdById = (productId) => {
+  return request.delete(`/product/delete/${productId}`)
+}
+
 const reqGetProductPage = (condition) => {
   return request.post("/product/pagenation", condition, jsonHeader)
 }
@@ -423,6 +428,7 @@ const reqGetCmsProductPages = (condition) => {
 }
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
 // request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
+
 /**----------------------------------------  搜索相關請求  -------------------------------------------*/
 
 /**取得搜索提示(暫無用)*/
@@ -573,6 +579,7 @@ export {
   getProductImage,
   getAllProductImage,
   EditProduct,
+  deleteProdById,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

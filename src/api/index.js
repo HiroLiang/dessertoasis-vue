@@ -31,10 +31,6 @@ const reqMemberDetail = (id) => {
   return request.get(`/member/${id}/details`)
 }
 
-const reqMemberBank = (id) => {
-  return request.get(`/member/${id}/bank`)
-}
-
 //查詢全部會員
 const reqGetAllMembers = () => request.get("/member/all", {})
 
@@ -313,9 +309,7 @@ const reqGetCourseNumberRange = (condition) => {
   return request.post("/course/number-range", condition, jsonHeader)
 }
 
-const UploadCourseImage = (courseId, imageFormData, config) => {
-  return request.post(`/course/uploadImage`, imageFormData, config)
-}
+// const uploadCourseImage = ()
 
 const reqGetFrontTeacherPages = (condition) => {
   return request.post("/teacher/teacherFrontPagenation", condition, jsonHeader)
@@ -396,11 +390,6 @@ const getProd1 = (queryParams) => {
 const getProdById = (productId) => {
   return request.get(`/product/details/${productId}`)
 }
-
-const deleteProdById = (productId) => {
-  return request.delete(`/product/delete/${productId}`)
-}
-
 const reqGetProductPage = (condition) => {
   return request.post("/product/pagenation", condition, jsonHeader)
 }
@@ -432,7 +421,6 @@ const reqGetCmsProductPages = (condition) => {
 }
 // const SearchProd = (page, pageSize, dataTitles, criteria, jsonHeader) =>
 // request.post(`/product/criter?page=${page}&pageSize=${pageSize}&sortBy=${dataTitles}`, criteria, jsonHeader);
-
 /**----------------------------------------  搜索相關請求  -------------------------------------------*/
 
 /**取得搜索提示(暫無用)*/
@@ -475,6 +463,10 @@ const reqGetUnreadSum = (catcher) => {
   return request.get(`/message/unread?catcher=${catcher}`)
 }
 
+/*---------------------------------------- 後台統計相關請求  -------------------------------------------*/
+
+
+
 export {
   //會員用
   reqSignIn,
@@ -494,7 +486,6 @@ export {
   reqGetCmsMemberPages,
   reqGetMemberPage,
   requpdateMember,
-  reqMemberBank,
 
   /*--------食譜用-------*/
   reqTop10HotRecipe,
@@ -557,7 +548,6 @@ export {
   reqGetTeacherData,
   updateTeacher,
   addCourse,
-  UploadCourseImage,
 
   //#region 課程後台
   // reqGetCourseData,
@@ -584,7 +574,6 @@ export {
   getProductImage,
   getAllProductImage,
   EditProduct,
-  deleteProdById,
   /*----------------------------------------  搜索相關請求  -------------------------------------------*/
   reqGetHint,
   reqGetCategory,

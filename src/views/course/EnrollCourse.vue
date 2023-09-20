@@ -30,10 +30,10 @@ onMounted(async () => {
   console.log("courseId")
   console.log(courseId.value)
   //處理成品圖片
-  let coursePic = await getTeacherImage(1)
-  let mainPicBody = coursePic.data
-  let mainPicHeader = coursePic.headers[`content-type`]
-  courseData.value.pictures = `data:${mainPicBody[0]};base64,${mainPicBody[1]}`
+  // let coursePic = await getTeacherImage(1)
+  // let mainPicBody = coursePic.data
+  // let mainPicHeader = coursePic.headers[`content-type`]
+  // courseData.value.pictures = `data:${mainPicBody[0]};base64,${mainPicBody[1]}`
 
   let course = await reqGetCourseData(1)
   let datas = course.data
@@ -77,12 +77,13 @@ onMounted(async () => {
       <div class="row">
         <div class="col-6">
           <img src="images/course/cupcake.jpg" alt="" />
+          <!-- <img src="images/course/cupcake.jpg" alt="" /> -->
         </div>
         <div class="col-6">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">{{courseData.courseName}}</h5>
-              <p class="card-text">
+              <p class="card-body">
                 課程簡介:{{ courseData.courseIntroduction }}
                 
                 <!-- 小巧精緻，美味無比，每一口都是幸福的滋味！嚐一口我們的馬卡龍吧！ -->
@@ -163,7 +164,7 @@ onMounted(async () => {
       <!-- <p>瑪麗亞·史密斯是一位充滿激情且經驗豐富的甜點大師。她擁有烹飪藝術學士學位和糕點藝術碩士學位，並且在烹飪和糕點領域擁有超過15年的教學和實踐經驗。</p>--></div> 
         <div class="col-6">
           <!-- <img :src="courseData.pictureURL"> -->
-          <img src="images/course/teacher.jpg" alt="">
+          <img src="images/teacher/teacher.jpg" alt="">
         </div>
         <div class="row page-section justify-content-center align-items-center">
           <h3>聯絡地址</h3>

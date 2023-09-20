@@ -32,10 +32,10 @@ onMounted(async () => {
   console.log("teacherId")
   console.log(teacherId.value)
   //處理成品圖片
-  let teacherPic = await getTeacherImage(teacherId.value)
-  let mainPicBody = teacherPic.data
-  let mainPicHeader = teacherPic.headers[`content-type`]
-  teacherData.value.pictures = `data:${mainPicBody[0]};base64,${mainPicBody[1]}`
+  // let teacherPic = await getTeacherImage(teacherId.value)
+  // let mainPicBody = teacherPic.data
+  // let mainPicHeader = teacherPic.headers[`content-type`]
+  // teacherData.value.pictures = `data:${mainPicBody[0]};base64,${mainPicBody[1]}`
 
   let teacher = await getTeacher(teacherId.value)
   let datas = teacher.data
@@ -61,7 +61,8 @@ onMounted(async () => {
         <div class="row g-0">
           <div class="col-6">
             <div class="imgContainer">
-              <img :src="teacherData.pictures" alt="..." />
+              <img src="images/teacher/teacher.jpg" />
+              <!-- <img :src="teacherData.pictures" alt="..." /> -->
             </div>
           </div>
           <div class="col-6">
@@ -83,6 +84,9 @@ onMounted(async () => {
   </div>
 </template>
 <style scoped>
+img {
+  display: block;
+}
 .imgContainer img {
   width: 100%;
   max-height: 80vh;

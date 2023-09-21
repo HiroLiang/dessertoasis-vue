@@ -18,7 +18,8 @@
                         <Cartandlike></Cartandlike>
                     </div>
                     <div class="Cart">
-                        <AddToCartButton></AddToCartButton>
+                        <AddToCartButton :data="{ categoryId: 1, interestedId: productId, prodQuantity: value }">
+                        </AddToCartButton>
                     </div>
                 </div>
             </div>

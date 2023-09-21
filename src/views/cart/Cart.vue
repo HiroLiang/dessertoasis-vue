@@ -51,7 +51,7 @@ const gotoPay = () => {
 <template>
     <div class="container">
         <!-- 商品課程加入購物車測試 -->
-        <div>
+        <!-- <div>
             <div>
                 商品1:
                 <AddToCartButton :data="{ categoryId: 1, interestedId: 1, prodQuantity: 3 }"></AddToCartButton>
@@ -62,7 +62,7 @@ const gotoPay = () => {
                 課程1:
                 <AddToCartButton :data="{ categoryId: 2, interestedId: 1 }"></AddToCartButton>
             </div>
-        </div>
+        </div> -->
 
         <div class="row mt-3" v-if="cart.count || cart.count > 0">
             <div class="col-8">

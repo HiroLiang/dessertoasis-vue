@@ -8,13 +8,21 @@ const todo = ref('');
 const todoList = ref([]);
 
 const addTodo = () => {
-    todoList.value.push({
-        title: todo.value,
-        complete: false,
-    });
-    todo.value = '';
-    console.log(todoList.value.length);
-    emit('get-count', todoList.value.length)
+    if (todo.value != '') {
+        todoList.value.push({
+            title: todo.value,
+            complete: false,
+        });
+        todo.value = '';
+        let count = 0
+        for (let i = 0; i < todoList.value.length; i++) {
+            if (todoList.value[i].complete == false) {
+                count++
+            }
+        }
+        console.log(count);
+        emit('get-count', count)
+    }
 }
 
 const completeTodo = (index) => {
@@ -24,7 +32,14 @@ const completeTodo = (index) => {
 function restart() {
     todo.value = '';
     todoList.value = [];
-    emit('get-count', todoList.value.length)
+    let count = 0
+    for (let i = 0; i < todoList.value.length; i++) {
+        if (todoList.value[i].complete == false) {
+            count++
+        }
+    }
+    console.log(count);
+    emit('get-count', count)
 }
 </script>
 <template>

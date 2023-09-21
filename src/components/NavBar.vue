@@ -151,9 +151,6 @@ onMounted(() => {
                     <img class="loginIcon" :src="`/images/navbar/${props.ProfilePicture}`" alt="ProfilePicture" />
                 </a>
                 <ul :class="`dropdown-menu ${listPosition}`" aria-labelledby="dropdownMenuLink">
-                    <li>
-                        <router-link to="/demo" class="dropdown-item">Demo</router-link>
-                    </li>
                     <li v-if="!isLogin && !isGoogleLoggedIn">
                         <router-link to="/logIn" class="dropdown-item">會員登入</router-link>
                     </li>

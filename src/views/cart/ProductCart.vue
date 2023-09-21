@@ -87,11 +87,12 @@ window.addEventListener('beforeunload', async () => {
             <tbody v-for="cartItem in cart">
                 <tr>
                     <td>
-                        <img src='https://fakeimg.pl/100x100/?text=Image' :alt="cartItem.prodName">
+                        <img :src="cartItem.pictures[0].pictureURL" :alt="cartItem.prodName" style="height: 100px">
                         {{ cartItem.prodName }}
                     </td>
                     <td>
-                        <n-button circle @click="updateProdQuantity(-1, cartItem)" :disabled="cartItem.prodQuantity <= 1">-</n-button>
+                        <n-button circle @click="updateProdQuantity(-1, cartItem)"
+                            :disabled="cartItem.prodQuantity <= 1">-</n-button>
                         {{ cartItem.prodQuantity }}
                         <n-button circle @click="updateProdQuantity(+1, cartItem)">+</n-button>
                     </td>

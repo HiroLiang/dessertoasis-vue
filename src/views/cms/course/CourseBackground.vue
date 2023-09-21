@@ -31,11 +31,11 @@ const dataTitles = ref([
   { label: "教師姓名", key: "teacherName", type: "String" },
   { label: "課程名稱", key: "courseName", type: "String" },
 
-  { label: "開課日期", key: "courseDate", type: "date" },
-  { label: "報名截止", key: "closeDate", type: "date" },
+  { label: "開課日期", key: "courseDate", type: "Date" },
+  { label: "報名截止", key: "closeDate", type: "Date" },
   { label: "上課地點", key: "coursePlace", type: "String" },
   { label: "剩餘名額", key: "remainPlaces", type: "String" },
-  { label: "報名價格", key: "coursePrice", type: "String" },
+  { label: "報名價格", key: "coursePrice", type: "Number" },
   // { label: "課程分類", key: "categoryName", type: "String" },
   { label: "開課狀態", key: "courseStatus", type: "String" },
 ])

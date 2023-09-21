@@ -319,38 +319,24 @@ const closeModal = () => {
 // })
 </script>
 <template>
-  <div class="container">
-    <div
-      style="
+  <!-- <div style="
         display: flex;
         justify-content: center;
         align-items: center;
         margin-top: 30px;
-      "
-    >
-      <h1>所有課程列表</h1>
-    </div>
-    <!-- <StandardSearch
+      ">
+    <h1>所有課程列表</h1>
+  </div> -->
+  <!-- <StandardSearch
       :searchOptions="props.dataTitles"
       @get-selected-key="getKey"
       @get-search-rules="getRules"
       @get-number-range="getNumberRange"
     /> -->
-    <p v-if="!hasTable">*無權限或查詢失敗</p>
-    <StandardTable
-      :page="1"
-      :pageSize="10"
-      :pages="pages"
-      :tableDatas="tableDatas"
-      :dataTitles="dataTitles"
-      @get-edit-id="onGetEditId"
-      @get-number-range="onGetNumberRange"
-      @get-sort-rule="onGetSortRule"
-      @get-search-rules="onGetSearchRules"
-      @change-page="onGetPage"
-      @get-date-rules="onGetDateRules"
-    />
-  </div>
+  <p v-if="!hasTable">*無權限或查詢失敗</p>
+  <StandardTable :page="1" :pageSize="10" :pages="pages" :tableDatas="tableDatas" :dataTitles="dataTitles"
+    @get-edit-id="onGetEditId" @get-number-range="onGetNumberRange" @get-sort-rule="onGetSortRule"
+    @get-search-rules="onGetSearchRules" @change-page="onGetPage" @get-date-rules="onGetDateRules" />
 </template>
 <style scoped>
 h1 {

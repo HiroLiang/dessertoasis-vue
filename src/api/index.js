@@ -243,6 +243,11 @@ const reqGetCmsOrderPages = (condition) => {
   return request.post("/order/pages", condition, jsonHeader)
 }
 
+//綠界金流
+const ecpayCheck = (data) => {
+  return request.post("/ecpayCheckout", data, jsonHeader)
+}
+
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
 
 //從controller拿到所有課程，export出Promise物件給vue?
@@ -550,6 +555,7 @@ export {
   reqGetMemberReservations,
   reqGetOrderPage,
   reqGetCmsOrderPages,
+  ecpayCheck,
 
   //課程用
   getAllCourses,

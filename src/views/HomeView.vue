@@ -90,6 +90,7 @@ const hotProdsMove = () => {
   prodDisplayList.value.push(hotProds.value.shift(0))
   prodDisplayList.value.push(hotProds.value.shift(0))
   prodDisplayList.value.push(hotProds.value.shift(0))
+  prodDisplayList.value.push(hotProds.value.shift(0))
   setInterval(() => {
     fillhotProds()
   }, 3000);
@@ -110,37 +111,141 @@ const fillhotProds = () => {
 
     </div>
   </section>
-  <section>
-    <div class="about-us">
-      <h2>About Us</h2>
-      <p>歡迎來到 Dessert Oasis，
-        在這裡，我熱愛用廚房的每一天，將新的食譜創意轉化為美味的珍品。
-        我們的使命是為您提供精緻、美味的甜點，無論您是甜品愛好者還是糕點收藏家，我們都將滿足您的味蕾渴望。
-        無論您是來品味甜點的美味，還是想與我們一同分享食譜的創作，Dessert Oasis 都歡迎您的到來。
-        讓我們一起在這個甜蜜的網站上，探索美食的世界，享受甜蜜的時光！</p>
-      <p>加入Dessert Oasis會員
-        從入門到進階的私房烘焙課
-        最有系統、效率的線上烘焙學習方案
-        無限觀看所有課程、文章</p>
+  <hr>
+  <section class="section my-md-9">
+    <div class="bg-light">
+      <div class="container mt-3">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-md-8 col-xl-6">
+            <img src="../../public/images/display/homeview/maranda-vandergriff-fZBwUGlKbO8-unsplash.jpg
+" alt="" style="width: 486px;height: 300px;">
+          </div>
+          <div class="col-md-8  col-xl-6">
+            <h5>美味的糕點，食材到食譜一應俱全</h5>
+            <br>
+            <p>歡迎來到 Dessert Oasis，我們將引領您進入烘焙的奇妙世界 <br>
+              無論您在尋找專業的課程、熱愛烘焙的廚藝愛好者，或者只是享受美食<br>
+              我們都為您提供一應俱全的選項。</p>
+          </div>
+        </div>
+      </div>
     </div>
+    <hr>
+    <section>
+      <div class="hot-product container-fluid py-3 px-4">
+        <h4>熱門集錦</h4>
+        <div style="display: flex;justify-content: space-evenly;align-items: center;">
+          <transition-group name="hotProd">
+            <div v-for="prod in prodDisplayList" :key="prod.id">
+              <StandardBlockType :product="prod" />
+            </div>
+          </transition-group>
+        </div>
+      </div>
+    </section>
+    <hr>
+    <div class="bg-light">
+      <div class="container mt-3">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-md-8  col-xl-6">
+            <h5>不需動手做，精心挑選、宅配到家</h5>
+            <br>
+            <p>不管您是甜點愛好者還是烘焙熱愛者<br>
+              我們提供高品質的食材和美味的甜點<br>
+              一起探索美味的世界，讓烘焙變得更加便利！</p>
+          </div>
+          <div class="col-md-8  col-xl-6">
+            <img src="../../public/images/display/homeview/kira-auf-der-heide-IPx7J1n_xUc-unsplash.jpg" alt=""
+              style="width: 486px;height: 300px;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <section>
+      <div class="hot-product container-fluid py-3 px-4">
+        <h4>精選商品</h4>
+        <div style="display: flex;justify-content: space-evenly;align-items: center;">
+          <transition-group name="hotProd">
+            <div v-for="prod in prodDisplayList" :key="prod.id">
+              <StandardBlockType :product="prod" />
+            </div>
+          </transition-group>
+        </div>
+      </div>
+    </section>
+    <hr>
+    <div class="bg-light">
+      <div class="container mt-3">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-md-8  col-xl-6">
+            <img src="../../public/images/display/homeview/jamie-_olWQEwP-2w-unsplash.jpg" alt=""
+              style="width: 486px;height: 300px;">
+          </div>
+          <div class="col-md-8  col-xl-6">
+            <h5>從入門到進階的私房烘焙課</h5>
+            <br>
+            <p>加入我們的甜點課程！我們提供了多樣化的甜點課程<br>
+              學習從基礎到高級的烘焙技巧，掌握製作美味點心的秘訣。<br>
+              我們的經驗豐富的烘焙師傅將親自指導您。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <section>
+      <div class="hot-product container-fluid py-3 px-4">
+        <h4>精選課程</h4>
+        <div style="display: flex;justify-content: space-evenly;align-items: center;">
+          <transition-group name="hotProd">
+            <div v-for="prod in prodDisplayList" :key="prod.id">
+              <StandardBlockType :product="prod" />
+            </div>
+          </transition-group>
+        </div>
+      </div>
+    </section>
   </section>
   <section>
+    <hr>
+    <div class="bg-light">
+      <div class="container mt-3">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-md-8  col-xl-6">
+            <h5>分享無數美味的甜點食譜</h5>
+            <br>
+            <p>我們歡迎各種美食愛好者<br>
+              無論您是新手還是希望與我們一同分享烘焙秘訣的廚藝大師。<br>
+              這裡都會是您發揮創造力的好地方。</p>
+          </div>
+          <div class="col-md-8  col-xl-6">
+            <img src="../../public/images/display/homeview/nordwood-themes-yngPm-Jwc4I-unsplash.jpg" alt=""
+              style="width: 486px;height: 300px;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <section>
+      <div class="hot-product container-fluid py-3 px-4">
+        <h4>精選食譜</h4>
+        <div style="display: flex;justify-content: space-evenly;align-items: center;">
+          <transition-group name="hotProd">
+            <div v-for="prod in prodDisplayList" :key="prod.id">
+              <StandardBlockType :product="prod" />
+            </div>
+          </transition-group>
+        </div>
+      </div>
+    </section>
+
     <div class="carousel-container">
       <SatandardCarousel :link="prodCarousel.link" :title="prodCarousel.title" :items-list="prodCarousel.itemsList" />
     </div>
   </section>
-  <section>
-    <div class="hot-product">
-      <h2>熱門集錦</h2>
-      <div style="display: flex;justify-content: space-evenly;align-items: center;">
-        <transition-group name="hotProd">
-          <div v-for="prod in prodDisplayList" :key="prod.id">
-            <StandardBlockType :product="prod" />
-          </div>
-        </transition-group>
-      </div>
-    </div>
-  </section>
+
+
   <FooterVue />
 </template>
 <style scoped>
@@ -148,6 +253,10 @@ const fillhotProds = () => {
 .hotProd-leave-active,
 .hotProd-enter-active {
   transition: all 0.5s ease-in-out;
+}
+
+.picContainer {
+  width: 30px;
 }
 
 .hotProd-enter-from {
@@ -169,13 +278,13 @@ const fillhotProds = () => {
   left: 0;
 }
 
-.about-us {
+/* .about-us {
   margin: 20px auto;
   background-color: rgb(250, 247, 243);
   border-radius: 20px;
   width: 85%;
   height: 420px;
-}
+} */
 
 .carousel-container {
   margin: 20px auto;

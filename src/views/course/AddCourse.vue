@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from "vue"
-import { addCourse, UploadCourseImage } from "@/api"
+import { addCourse } from "@/api"
 
 const formData = {
   courseName: "",
@@ -132,6 +132,44 @@ async function submitCourse() {
           />
         </div>
 
+<<<<<<< HEAD
+      <div class="mb-2">
+        <label>開課日期：</label>
+        <input type="date" id="courseDate" v-model="formData.courseDate" @input="checkDate" />
+        <!-- <span v-if="!courseDate" class="error-message">請選擇課程日期</span> -->
+      </div>
+
+      <div>
+        <label>報名截止日期：</label>
+        <input type="date" v-model="formData.closeDate" class="mb-2" @input="checkDate" />
+      </div>
+      <p v-if="error" style="color: red">{{ error }}</p>
+      <!-- <div v-if="error" class="error-message">
+            报名截止日期不能大于开课日期
+          </div> -->
+
+      <div class="mb-2">
+        <label>課程介紹:</label>
+        <textarea type="text" v-model="formData.courseIntroduction"></textarea>
+      </div>
+      <div class="mb-2">
+        <label>課程特色:</label>
+        <input v-model="formData.courseFeature" />
+      </div>
+      <div class="mb-2">
+        <label>課程目標:</label>
+        <input v-model="formData.courseDestination" />
+      </div>
+      <div class="mb-2">
+        <label>課程對象:</label>
+        <input v-model="formData.serviceTarget" />
+      </div>
+      <!-- 沒寫上課地點，顯示錯誤訊息 -->
+      <div class="mb-2">
+        <label>上課地點:</label>
+        <input type="radio" v-model="formData.coursePlace" value="applyClassroom" />申請教室
+        <input type="radio" v-model="formData.coursePlace" value="writeLocation" />自己填寫
+=======
         <div class="mb-2 container">
           <label class="col-md-10">開課日期：</label>
           <input
@@ -191,6 +229,7 @@ async function submitCourse() {
             v-model="formData.coursePlace"
             value="writeLocation"
           />自己填寫 -->
+>>>>>>> origin/test
         <!-- <input type="text" v-model="courseLocation" id="courseLocation" /> -->
         <!-- <span v-if="!courseLocation" class="error-message"
               >請填入上課地點</span
@@ -213,6 +252,23 @@ async function submitCourse() {
           <label class="col-md-10">上課地點:</label>
           <input class="col-md-10" type="text" v-model="formData.coursePlace" />
         </div>
+<<<<<<< HEAD
+      </div>
+      <div class="mb-2">
+        <label>自己填寫地點：</label>
+        <input type="text" v-model="formData.coursePlace" />
+      </div>
+      <!-- 課程分類id -->
+      <div class="mb-2">
+        <label for="remainingPlaces">可報名人數:</label>
+        <input type="number" v-model="formData.remainPlaces" min="0" id="remainingPlaces" />
+      </div>
+      <div class="mb-2">
+        <label for="coursePrice">報名價格:</label>
+        <input type="number" min="0" v-model="formData.coursePrice" id="coursePrice" />
+      </div>
+      <div class="mb-2">
+=======
         <!-- 課程分類id -->
         <div class="mb-2 container">
           <label class="col-md-10" for="remainingPlaces">可報名人數:</label>
@@ -235,6 +291,7 @@ async function submitCourse() {
           />
         </div>
         <!-- <div class="mb-2"> -->
+>>>>>>> origin/test
         <!-- <label>課程分類:</label> -->
         <!-- <select v-model="" id="">
             <option value="">1</option>
@@ -289,6 +346,20 @@ async function submitCourse() {
           </button>
         </div>
       </div>
+<<<<<<< HEAD
+      <label>上傳課程圖片:</label>
+      <input type="file" @change="addImage" accept="image/*" />
+      <div v-for="(image, index) in imagesData.images" :key="index">
+        <h4>課程圖片預覽：</h4>
+        <img :src="image.url" alt="上傳課程圖片" class="upload-image" />
+        <button @click="deleteImage(index)">刪除</button>
+      </div>
+
+      <button @click.prevent="submitCourse" class="btn btn-primary col-6 justify-content-center align-items-center">
+        提交
+      </button>
+=======
+>>>>>>> origin/test
     </form>
   </div>
 </template>

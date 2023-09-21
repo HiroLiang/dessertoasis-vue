@@ -474,6 +474,19 @@ const reqGetUnreadSum = (catcher) => {
 
 /*---------------------------------------- 後台統計相關請求  -------------------------------------------*/
 
+const reqSetRecord = (record) => {
+  request.put('/record/set', record, jsonHeader)
+}
+
+const reqGetVisitRecords = () => {
+  return request.get('/record/visitRecord')
+}
+
+const reqGetTargetCount = () => {
+  return request.get('/record/targetSum')
+}
+
+
 export {
   //會員用
   reqSignIn,
@@ -595,4 +608,7 @@ export {
   reqGetAdmins,
   reqReadMessage,
   reqGetUnreadSum,
+  reqSetRecord,
+  reqGetVisitRecords,
+  reqGetTargetCount,
 }

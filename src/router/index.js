@@ -93,9 +93,15 @@ const router = createRouter({
               meta: { title: '管理系統' },
               children: [
                 {
-                  path: "",
+                  path: "cmsChartVisit",
                   name: "cmsChartVisit",
                   component: () => import("../views/cms/components/VisitChart.vue"),
+                  meta: { title: '管理系統' },
+                },
+                {
+                  path: "",
+                  name: "cmsChartCount",
+                  component: () => import("../views/cms/components/CountChart.vue"),
                   meta: { title: '管理系統' },
                 },
               ]

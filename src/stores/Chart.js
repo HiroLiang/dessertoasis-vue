@@ -1,17 +1,23 @@
 import { defineStore } from "pinia";
+import { reqGetVisitRecords, reqGetTargetCount } from '../api'
 import { ref } from "vue";
 
 export const useChart = defineStore('chart', () => {
-    const chart = ref({
-        websiteVisit: 0, // 網站訪問次數
-        categorySum: [], // [id,sum] , 食譜分類計數
-        turnover: [],
 
-    })
+    const visitRecord = ref({})
 
-    const condition = ref({
+    const targetCount = ref({})
 
-    })
+    const initChart = async () => {
+        let result = await reqGetVisitRecords()
+        visitRecord.value = result.data
 
-    return { chart }
+        let count = await reqGetTargetCount()
+        targetCount.value = count.data
+        console.log(targetCount.value);
+    }
+
+
+
+    return { visitRecord, targetCount, initChart }
 })

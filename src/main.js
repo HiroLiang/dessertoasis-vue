@@ -14,12 +14,13 @@ import { ref, createApp } from 'vue'
 import { createPinia } from 'pinia'
 import naive from 'naive-ui'
 
+
 import vue3GoogleLogin from 'vue3-google-login'
 const CLIENT_ID = "159356890132-eqq8r76bgodqlmq0oajjgibkva6rjfn7.apps.googleusercontent.com"
 
 import App from './App.vue'
 import router from './router'
-import { reqUserPermission } from "./api";
+import { reqUserPermission, reqSetRecord } from "./api";
 
 const isLogin = ref(false)
 const isAdmin = ref(false)
@@ -61,6 +62,25 @@ router.beforeEach(async (to, from, next) => {
 
 router.afterEach((to, from) => {
     window.document.title = to.meta.title || '甜點綠洲 Dessert Oasis'
+    const record = {
+        categoryId: 0,
+        targetId: 0,
+        recordDate: new Date()
+    }
+
+    if (to.name == 'enrollCourse') {
+        record.categoryId = 2;
+        record.targetId = to.query.id
+        reqSetRecord(record)
+    } else if (to.name == 'onerecipe') {
+        record.categoryId = 3;
+        record.targetId = to.query.id
+        reqSetRecord(record)
+    } else if (to.name == 'productDetail') {
+        record.categoryId = 1;
+        record.targetId = to.params.id
+        reqSetRecord(record)
+    }
 });
 
 const app = createApp(App)

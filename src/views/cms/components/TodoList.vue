@@ -26,7 +26,15 @@ const addTodo = () => {
 }
 
 const completeTodo = (index) => {
-    todoList.value[index].complete = true;;
+    todoList.value[index].complete = true;
+    let count = 0
+    for (let i = 0; i < todoList.value.length; i++) {
+        if (todoList.value[i].complete == false) {
+            count++
+        }
+    }
+    console.log(count);
+    emit('get-count', count)
 }
 
 function restart() {
@@ -45,6 +53,9 @@ function restart() {
 <template>
     <div class="todoListContainer">
         <div class="listShowContainer">
+            <div style="width: 100%;border-bottom:1px solid rgb(130, 117, 117)  ;">
+                <h2 style="font-size: 22px;color: rgb(110, 124, 135);">待辦事項</h2>
+            </div>
             <div style="width: 100%;display: flex;justify-content: left;">
                 <ul style="width: 100%;">
                     <li v-for="(todo, index) in todoList" :key="index"

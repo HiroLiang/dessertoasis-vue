@@ -416,6 +416,9 @@ const UploadProdImage = (productId, imageFormData, config) => {
     config
   )
 }
+const deleteProdById = (productId) => {
+  return request.delete(`/product/delete/${productId}`)
+}
 const getProductImage = (id) => {
   return request.post("product/getImage", id, jsonHeader)
 }
@@ -593,6 +596,7 @@ export {
   reqGetProductPage,
   reqGetCmsProductPages,
   AddProduct,
+  deleteProdById,
   UploadProdImage,
   getProductImage,
   getAllProductImage,

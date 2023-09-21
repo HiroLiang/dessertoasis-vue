@@ -284,18 +284,20 @@ const sendForm = async () => {
       </div>
     </form>
     <div class="row">
-      <input
-        class="col-6 form-check-input"
-        type="checkbox"
-        name="teacherContract"
-        id="teacherContract"
-      />
-      <label class="col-6 form-check-label" for="flexCheckDefault">
-        我同意成為老師
-        <button class="btn btn-link" @click="showTeacherContract">
-          查看教師合約
-        </button>
-      </label>
+      <div class="col-6 mx-auto">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          name="teacherContract"
+          id="teacherContract"
+        />
+        <label class="form-check-label" for="flexCheckDefault">
+          我同意成為老師
+          <button class="btn btn-link" @click="showTeacherContract">
+            查看教師合約
+          </button>
+        </label>
+      </div>
     </div>
   </div>
 </template>

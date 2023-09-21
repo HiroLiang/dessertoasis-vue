@@ -556,7 +556,7 @@ export {
   reqGetTeacherData,
   updateTeacher,
   addCourse,
-  UploadCourseImage,
+  // UploadCourseImage,
   getTeacherDetail,
 
   //#region 課程後台

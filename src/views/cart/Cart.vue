@@ -62,7 +62,7 @@ console.log(rsvCart.value);
 <template>
     <div class="container mt-3">
         <!-- 商品課程加入購物車測試 -->
-        <div>
+        <!-- <div>
             <div>
                 商品1:
                 <AddToCartButton :data="{ categoryId: 1, interestedId: 1, prodQuantity: 3 }"></AddToCartButton>
@@ -73,6 +73,12 @@ console.log(rsvCart.value);
                 課程1:
                 <AddToCartButton :data="{ categoryId: 2, interestedId: 1 }"></AddToCartButton>
             </div>
+<<<<<<< HEAD
+=======
+        </div> -->
+        <div>
+            <button @click="ecpay">測試綠界金流</button>
+>>>>>>> origin/test
         </div>
 
         <div class="row mt-3" v-if="cart.count || cart.count > 0">

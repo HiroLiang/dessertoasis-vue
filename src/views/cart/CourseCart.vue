@@ -64,7 +64,7 @@ watch(checked, emitCourses)
             <tbody v-for="cartItem in cart">
                 <tr>
                     <td>
-                        <img src='https://fakeimg.pl/100x100/?text=Image' :alt="cartItem.courseName">
+                        <!-- <img src='https://fakeimg.pl/100x100/?text=Image' :alt="cartItem.courseName"> -->
                         {{ cartItem.courseName }}
                     </td>
                     <td>{{ cartItem.courseDate }}</td>

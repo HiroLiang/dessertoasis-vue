@@ -28,7 +28,7 @@ const getTotal = () => {
         <tbody v-for="order in orders">
             <tr>
                 <td>
-                    <img src='https://fakeimg.pl/100x100/?text=Image' :alt="order.prodName">
+                    <img :src="order.pictures[0].pictureURL" :alt="order.prodName" style="height: 100px">
                     {{ order.prodName }}
                 </td>
                 <td>{{ order.prodQuantity }}</td>

@@ -48,11 +48,26 @@ const getTotal = () => {
 
 const router = useRouter()
 const placeOrder = async () => {
+    let cartIds = []
+    if (cart.productCart) {
+        cart.productCart.forEach(cartItem => {
+            cartIds.push(cartItem.cartId)
+        })
+    }
+    if (cart.courseCart) {
+        cart.courseCart.forEach(cartItem => {
+            cartIds.push(cartItem.cartId)
+        })
+    }
+    if (cart.rsvCart) {
+        cart.rsvCart.forEach(cartItem => {
+            cartIds.push(cartItem.cartId)
+        })
+    }
+
     const data = {
         prodOrderAddress: (address.value == '') ? 'N' : address.value,
-        productCartDTOs: cart.productCart,
-        courseCartDTOs: cart.courseCart,
-        reservationCartDTOs: cart.rsvCart
+        cartIds
     }
 
     const res = await reqInsertOrder(data)

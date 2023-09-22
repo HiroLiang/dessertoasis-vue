@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from "vue"
-import { addCourse } from "@/api"
+import { addCourse, uploadCourseImage } from "@/api"
 
 const formData = {
   courseName: "",
@@ -29,8 +29,9 @@ function addImage(event) {
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
     const url = URL.createObjectURL(file)
+    console.log("url", url);
     imagesData.images.push({ url, file })
-    console.log("imagesData.images", imagesData.value.images)
+    console.log("imagesData.images", imagesData.images)
   }
 }
 function addThumbnail(event) {
@@ -97,13 +98,14 @@ async function submitCourse() {
       const imageFormData = new FormData()
       imageFormData.append("image", image.file)
       console.log("imagrFormData", imageFormData)
+      imageFormData.forEach((data) => { console.log(data) })
       console.log("courseId", courseId)
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       }
-      const imageResponse = await UploadCourseImage(
+      const imageResponse = await uploadCourseImage(
         courseId,
         imageFormData,
         config

@@ -61,7 +61,7 @@ onMounted(async () => {
         <div class="row g-0">
           <div class="col-6">
             <div class="imgContainer">
-              <img src="images/teacher/teacher.jpg" />
+              <img src="images/teacher/1/teacher1.jpg" />
               <!-- <img :src="teacherData.pictures" alt="..." /> -->
             </div>
           </div>

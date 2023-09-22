@@ -334,9 +334,19 @@ const closeModal = () => {
       @get-number-range="getNumberRange"
     /> -->
   <p v-if="!hasTable">*無權限或查詢失敗</p>
-  <StandardTable :page="1" :pageSize="10" :pages="pages" :tableDatas="tableDatas" :dataTitles="dataTitles"
-    @get-edit-id="onGetEditId" @get-number-range="onGetNumberRange" @get-sort-rule="onGetSortRule"
-    @get-search-rules="onGetSearchRules" @change-page="onGetPage" @get-date-rules="onGetDateRules" />
+  <StandardTable
+    :page="1"
+    :pageSize="10"
+    :pages="pages"
+    :tableDatas="tableDatas"
+    :dataTitles="dataTitles"
+    @get-edit-id="onGetEditId"
+    @get-number-range="onGetNumberRange"
+    @get-sort-rule="onGetSortRule"
+    @get-search-rules="onGetSearchRules"
+    @change-page="onGetPage"
+    @get-date-rules="onGetDateRules"
+  />
 </template>
 <style scoped>
 h1 {

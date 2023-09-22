@@ -70,7 +70,7 @@ const formattedDate = (dateString) => {
                         <th>
                             商品運送地址
                         </th>
-                        <td v-if="order.prodOrderItems && order.prodOrderAddress.length > 0">
+                        <td v-if="order.prodOrderItems">
                             {{ order.prodOrderAddress }}
                         </td>
                         <td v-else>

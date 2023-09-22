@@ -55,17 +55,21 @@ const updateProdQuantity = (qty, updatedItem) => {
     }
 }
 
-onBeforeUnmount(async () => {
-    if (updatedProducts.length != 0) {
-        await reqUpdateProdQuantities(updatedProducts)
-    }
-})
+const actionReqUpdateProdQuantities = async () => {
+    let dataList = []
+    updatedProducts.forEach(item => {
+        let data = {
+            cartId: item.cartId,
+            prodQuantity: item.prodQuantity
+        }
+        dataList.push(data)
+    })
+    await reqUpdateProdQuantities(dataList)
+}
 
-window.addEventListener('beforeunload', async () => {
-    if (updatedProducts.length != 0) {
-        await reqUpdateProdQuantities(updatedProducts)
-    }
-})
+onBeforeUnmount(actionReqUpdateProdQuantities)
+
+window.addEventListener('beforeunload', actionReqUpdateProdQuantities)
 
 </script>
 

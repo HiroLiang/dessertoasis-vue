@@ -7,6 +7,7 @@ import AddToCartButton from '@/components/AddToCartButton.vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart'
 import CartEmpty from './CartEmpty.vue';
+import { ecpayCheck } from '@/api'
 
 const productCart = ref(null)
 const courseCart = ref(null)
@@ -46,6 +47,11 @@ const gotoPay = () => {
     router.push("/cart/pay")
 }
 
+const ecpay = async () => {
+    let res = await ecpayCheck()
+    console.log(res);
+}
+
 </script>
 
 <template>
@@ -63,6 +69,9 @@ const gotoPay = () => {
                 <AddToCartButton :data="{ categoryId: 2, interestedId: 1 }"></AddToCartButton>
             </div>
         </div> -->
+        <div>
+            <button @click="ecpay">測試綠界金流</button>
+        </div>
 
         <div class="row mt-3" v-if="cart.count || cart.count > 0">
             <div class="col-8">

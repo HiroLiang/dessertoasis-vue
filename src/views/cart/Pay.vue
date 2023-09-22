@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { reqInsertOrder } from '@/api/index'
+import { reqInsertOrder, ecpayCheck } from '@/api/index'
 import { useCartStore } from '@/stores/cart'
 import { useRouter } from 'vue-router'
 import ProductOrderTable from '@/views/order/ProductOrderTable.vue'
@@ -69,6 +69,7 @@ const placeOrder = async () => {
         prodOrderAddress: (address.value == '') ? 'N' : address.value,
         cartIds
     }
+
     const res = await reqInsertOrder(data)
     if (res.data == 1) {
         cart.getCartCount()
@@ -78,10 +79,23 @@ const placeOrder = async () => {
     }
 }
 
+const payByEcpay = async () => {
+    const data = {
+        prodOrderAddress: (address.value == '') ? 'N' : address.value,
+        productCartDTOs: cart.productCart,
+        courseCartDTOs: cart.courseCart,
+        reservationCartDTOs: cart.rsvCart
+    }
+    console.log(data);
+
+    const res = await ecpayCheck(data)
+    console.log(res.data);
+}
+
 </script>
 
 <template>
-    <div class="container">
+    <div class="container mt-3">
         <div class="row">
             <div class="col-8">
                 <h2>訂單</h2>
@@ -125,6 +139,7 @@ const placeOrder = async () => {
                 </div>
                 <div class="d-grid gap-2">
                     <button class="btn btn-primary" type="button" @click="placeOrder">結帳</button>
+                    <button class="btn btn-secondary" type="button" @click="payByEcpay">綠界</button>
                 </div>
             </div>
         </div>

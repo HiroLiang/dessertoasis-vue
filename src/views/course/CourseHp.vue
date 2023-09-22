@@ -57,6 +57,7 @@ const updateDatas = (datas) => {
     hasTable.value = false
     return null
   }
+
   let array = datas.map((data) => ({
     id: data.id,
     picture: 'https://media.istockphoto.com/id/932644828/vector/folder-icon.jpg?s=1024x1024&w=is&k=20&c=DlYT14mZlAGKNCYNoQSxTt4TASUW4zoeZbqdZ10rYb8=',
@@ -73,12 +74,14 @@ const updateDatas = (datas) => {
   updatePages()
   //加載圖片
   tableDatas.value.forEach(async data => {
+    console.log(data);
     await loadPicture(data)
   })
 }
 
 //異步加載圖片
 const loadPicture = async (data) => {
+  console.log(data.url);
   let result = await reqLoadPicture(data.url)
   data.picture = result.data
 }
@@ -158,6 +161,7 @@ onBeforeUnmount(() => {
 })
 </script>
 <template>
+  <div class="mt-2"></div>
   <CourseDisplay :numberRanges="numberRanges" :products="tableDatas" :searchOptions="searchOptions" :pages="pages"
     :row="true" :block="true" :categoryId="2" @get-selected-key="onGetSelectedKey" @get-search-rules="onGetSearchRules"
     @get-number-range="onGetNumberRange" @get-page="onGetPage" @get-selected-label="onGetSelectedLabel"></CourseDisplay>

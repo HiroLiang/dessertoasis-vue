@@ -3,6 +3,8 @@ import NavBar from '@/components/NavBar.vue'
 import Footer from '@/components/Footer.vue'
 import { imgTest } from '@/api'
 import { reactive, ref } from 'vue'
+import HeaderShow from '@/components/HeaderShow.vue';
+
 const navbarlist = reactive([
     { title: '食譜', toUrl: '/recipes' },
     { title: '課程', toUrl: '/courses' },
@@ -39,10 +41,7 @@ const send = async () => {
 
 <template>
     <NavBar :NavBarList="navbarlist" />
-    <div class="searchBarBackground">
-        <img src="../../assets/images/recipeHP/tabitha-turner-Ns2aJ5OXKds-unsplash.jpg" alt="">
-        <hr>
-    </div>
+    <HeaderShow />
     <hr>
     <RouterView></RouterView>
     <Footer></Footer>

@@ -67,7 +67,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { NSpace, NCascader } from 'naive-ui';
 import CKEditor from '@/components/CKEditor.vue';
 import axios from 'axios';
-import { EditProduct, UploadProdImage, reqGetCategory, getProdById } from '@/api/index.js';
+import { EditProduct, UploadProdImage, reqGetCategory, getProdById, deleteProdById } from '@/api/index.js';
 import sweetalert from "SweetAlert2";
 const selectedDateTime = ref(null);
 const settings = {

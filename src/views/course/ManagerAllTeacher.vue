@@ -31,7 +31,7 @@ const dataTitles = ref([
   // { label: "剩餘名額", key: "remainPlaces", type: "String" },
   // { label: "報名價格", key: "coursePrice", type: "String" },
   // { label: "課程分類", key: "categoryName", type: "String" },
-  { label: "會員名稱", key: "account", type: "String" },
+  // { label: "會員名稱", key: "account", type: "String" },
 ])
 
 /**更新資料方法 */

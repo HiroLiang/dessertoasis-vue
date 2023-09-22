@@ -4,6 +4,8 @@ import NavBar from '@/components/NavBar.vue';
 import ProductMenu from '@/components/ProductMenu.vue';
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import StandardFooter from '../../components/Footer.vue';
+import HeaderShow from '@/components/HeaderShow.vue';
+
 
 </script>
 
@@ -14,6 +16,7 @@ import StandardFooter from '../../components/Footer.vue';
 <template>
     <div class="content-container">
         <NavBar></NavBar>
+        <HeaderShow />
     </div>
     <div class="Breadcrumb">
         <Breadcrumb></Breadcrumb>
@@ -32,9 +35,9 @@ import StandardFooter from '../../components/Footer.vue';
 
 
 <style scoped>
-.StandardFooter {
+/* .StandardFooter {
     padding-top: 400px;
 
-}
+} */
 </style>
 

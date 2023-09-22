@@ -248,8 +248,8 @@ const ecpayCheck = (data) => {
   return request.post("/ecpayCheckout", data, jsonHeader)
 }
 
-const ecpaySend = (data)=>{
-  return request.post("https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5",data,{ headers: { "Content-Type": "multipart/form-data" } })
+const ecpaySend = (data) => {
+  return request.post("https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5", data, { headers: { "Content-Type": "multipart/form-data" } })
 }
 
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
@@ -421,6 +421,14 @@ const EditProduct = (productId, productData) => {
 const UploadProdImage = (productId, imageFormData, config) => {
   return request.post(
     `/product/uploadImage?productId=${productId}`,
+    imageFormData,
+    config
+  )
+}
+
+const UpdateProdImg = (newProductId, imageFormData, config) => {
+  return request.post(
+    `/product/updateImg/${newProductId}`,
     imageFormData,
     config
   )
@@ -609,6 +617,7 @@ export {
   AddProduct,
   deleteProdById,
   UploadProdImage,
+  UpdateProdImg,
   getProductImage,
   getAllProductImage,
   EditProduct,

@@ -248,6 +248,10 @@ const ecpayCheck = (data) => {
   return request.post("/ecpayCheckout", data, jsonHeader)
 }
 
+const ecpaySend = (data)=>{
+  return request.post("https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5",data,{ headers: { "Content-Type": "multipart/form-data" } })
+}
+
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
 
 //從controller拿到所有課程，export出Promise物件給vue?
@@ -556,6 +560,7 @@ export {
   reqGetOrderPage,
   reqGetCmsOrderPages,
   ecpayCheck,
+  ecpaySend,
 
   //課程用
   getAllCourses,

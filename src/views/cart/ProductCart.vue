@@ -91,7 +91,8 @@ window.addEventListener('beforeunload', actionReqUpdateProdQuantities)
             <tbody v-for="cartItem in cart">
                 <tr>
                     <td>
-                        <img :src="cartItem.pictures[0].pictureURL" :alt="cartItem.prodName" style="height: 100px">
+                        <img :src="cartItem.pictures && cartItem.pictures[0]?.pictureURL || 'https://fakeimg.pl/100x100/?text=Image'"
+                            :alt="cartItem.prodName" style="height: 100px">
                         {{ cartItem.prodName }}
                     </td>
                     <td>

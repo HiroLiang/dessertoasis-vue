@@ -9,6 +9,7 @@ const cart = ref([])
 const loadProductCart = async () => {
     const res = await getProductCart()
     cart.value = res.data
+    console.log(res.data);
     emitProduct()
 }
 

@@ -73,13 +73,10 @@ console.log(rsvCart.value);
                 課程1:
                 <AddToCartButton :data="{ categoryId: 2, interestedId: 1 }"></AddToCartButton>
             </div>
-<<<<<<< HEAD
-=======
         </div> -->
-        <div>
+        <!-- <div>
             <button @click="ecpay">測試綠界金流</button>
->>>>>>> origin/test
-        </div>
+        </div> -->
 
         <div class="row mt-3" v-if="cart.count || cart.count > 0">
             <div class="col-8">

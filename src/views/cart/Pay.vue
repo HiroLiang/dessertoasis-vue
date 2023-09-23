@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { reqInsertOrder, ecpayCheck,ecpaySend } from '@/api/index'
+import { reqInsertOrder, ecpayCheck, ecpaySend } from '@/api/index'
 import { useCartStore } from '@/stores/cart'
 import { useRouter } from 'vue-router'
 import ProductOrderTable from '@/views/order/ProductOrderTable.vue'
@@ -83,18 +83,42 @@ const ecPay = ref(null)
 const payByEcpay = async () => {
     const ecpayData = {
         itemNumber: cart.productCart.length,
-        toTalPrice:getTotal(),
-        itemName:cart.productCart[0].prodName
+        toTalPrice: getTotal(),
+        itemName: cart.productCart[0].prodName
     }
     console.log(ecpayData);
 
     const ecpayRes = await ecpayCheck(ecpayData)
     console.log(ecpayRes.data);
 
-    const newPage = window.open('','_parent')
+    const newPage = window.open('', '_parent')
     newPage.document.open();
     newPage.document.write(ecpayRes.data)
     newPage.document.close()
+
+    let cartIds = []
+    if (cart.productCart) {
+        cart.productCart.forEach(cartItem => {
+            cartIds.push(cartItem.cartId)
+        })
+    }
+    if (cart.courseCart) {
+        cart.courseCart.forEach(cartItem => {
+            cartIds.push(cartItem.cartId)
+        })
+    }
+    if (cart.rsvCart) {
+        cart.rsvCart.forEach(cartItem => {
+            cartIds.push(cartItem.cartId)
+        })
+    }
+
+    const data = {
+        prodOrderAddress: (address.value == '') ? 'N' : address.value,
+        cartIds
+    }
+
+    await reqInsertOrder(data)
 }
 
 </script>
@@ -147,9 +171,9 @@ const payByEcpay = async () => {
                     <button class="btn btn-secondary" type="button" @click="payByEcpay">綠界</button>
                 </div>
 
-        <div>
-{{ ecPay }}
-        </div>
+                <div>
+                    {{ ecPay }}
+                </div>
             </div>
         </div>
     </div>

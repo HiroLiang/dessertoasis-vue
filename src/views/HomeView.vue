@@ -134,6 +134,7 @@ const fillhotProds = () => {
     <section>
       <div class="hot-product container-fluid py-3 px-4">
         <h4>熱門集錦</h4>
+        <hr class="mt-1">
         <div style="display: flex;justify-content: space-evenly;align-items: center;">
           <transition-group name="hotProd">
             <div v-for="prod in prodDisplayList" :key="prod.id">
@@ -165,6 +166,7 @@ const fillhotProds = () => {
     <section>
       <div class="hot-product container-fluid py-3 px-4">
         <h4>精選商品</h4>
+        <hr class="mt-1">
         <div style="display: flex;justify-content: space-evenly;align-items: center;">
           <transition-group name="hotProd">
             <div v-for="prod in prodDisplayList" :key="prod.id">
@@ -187,7 +189,7 @@ const fillhotProds = () => {
             <br>
             <p>加入我們的甜點課程！我們提供了多樣化的甜點課程<br>
               學習從基礎到高級的烘焙技巧，掌握製作美味點心的秘訣。<br>
-              我們的經驗豐富的烘焙師傅將親自指導您。
+              我們經驗豐富的烘焙師傅將親自指導您。
             </p>
           </div>
         </div>
@@ -197,6 +199,7 @@ const fillhotProds = () => {
     <section>
       <div class="hot-product container-fluid py-3 px-4">
         <h4>精選課程</h4>
+        <hr class="mt-1">
         <div style="display: flex;justify-content: space-evenly;align-items: center;">
           <transition-group name="hotProd">
             <div v-for="prod in prodDisplayList" :key="prod.id">
@@ -230,6 +233,7 @@ const fillhotProds = () => {
     <section>
       <div class="hot-product container-fluid py-3 px-4">
         <h4>精選食譜</h4>
+        <hr class="mt-1">
         <div style="display: flex;justify-content: space-evenly;align-items: center;">
           <transition-group name="hotProd">
             <div v-for="prod in prodDisplayList" :key="prod.id">
@@ -240,9 +244,9 @@ const fillhotProds = () => {
       </div>
     </section>
 
-    <div class="carousel-container">
+    <!-- <div class="carousel-container">
       <SatandardCarousel :link="prodCarousel.link" :title="prodCarousel.title" :items-list="prodCarousel.itemsList" />
-    </div>
+    </div> -->
   </section>
 
 

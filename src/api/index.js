@@ -204,6 +204,13 @@ const reqGetCartCount = () => {
 
 /*----------------------------------------  訂單相關請求  -------------------------------------------*/
 
+//line pay
+
+const reqSendLinepay = (payBody) =>{
+  console.log(payBody)
+  return request.post('/pay/linepay',payBody,jsonHeader)
+}
+
 // 新增訂單
 const reqInsertOrder = (data) => {
   return request.post(`/order`, data)
@@ -561,6 +568,7 @@ export {
   reqGetCartCount,
 
   // 訂單用
+  reqSendLinepay,
   reqGetOrder,
   reqUpdateOrdStatus,
   reqDeleteOrder,

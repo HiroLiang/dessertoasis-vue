@@ -6,6 +6,7 @@ import { useRouter } from 'vue-router'
 import ProductOrderTable from '@/views/order/ProductOrderTable.vue'
 import CourseOrderTable from '@/views/order/CourseOrderTable.vue'
 import ReservationTable from '@/views/order/ReservationTable.vue'
+import { useOrder } from '@/stores/order';
 
 const cart = useCartStore()
 
@@ -71,11 +72,12 @@ const placeOrder = async () => {
     }
 
     const res = await reqInsertOrder(data)
-    if (res.data == 1) {
+    if (res.data != null) {
         cart.getCartCount()
-        router.push("/cart/pay_success")
+        // router.push("/cart/pay_success")
+        return res.data
     } else {
-        console.log(res.data)
+        alert("訂單成立失敗")
     }
 }
 
@@ -84,10 +86,13 @@ const payByEcpay = async () => {
     let itemNumber = (cart.productCart)? cart.productCart.length : 0 +
                      (cart.courseCart)? cart.courseCart.length : 0 +
                      (cart.rsvCart)? cart.rsvCart.length : 0
+    let itemName = (cart.productCart)? cart.productCart[0].prodName : "" +
+                   (cart.courseCart)? cart.courseCart[0].courseName : "" +
+                   (cart.rsvCart)? cart.reservationCart[0].classroom.roomName : ""
     const ecpayData = {
         itemNumber,
         toTalPrice: getTotal(),
-        itemName: cart.productCart[0].prodName+','+cart.courseCart[0].courseName+','+cart.rsvCart[0].classroom.roomName
+        itemName,
     }
     console.log(ecpayData);
 
@@ -122,6 +127,16 @@ const payByEcpay = async () => {
     }
 
     await reqInsertOrder(data)
+}
+
+const orderStore = useOrder()
+
+const linePay = async () => {
+    const ordId = await placeOrder()
+    await orderStore.initOrder(ordId)
+    const webUrl = await orderStore.sendLinePay()
+    window.open(webUrl)
+    router.push("/cart/pay_success")
 }
 
 </script>
@@ -171,6 +186,7 @@ const payByEcpay = async () => {
                 </div>
                 <div class="d-grid gap-2">
                     <button class="btn btn-primary" type="button" @click="placeOrder">結帳</button>
+                    <button class="btn btn-primary" type="button" @click="linePay">LinePay</button>
                     <button class="btn btn-secondary" type="button" @click="payByEcpay">綠界</button>
                 </div>
             </div>

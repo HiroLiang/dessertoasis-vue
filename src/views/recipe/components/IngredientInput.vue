@@ -50,8 +50,9 @@ const getIngredientData = () => {
     </div>
     <div class="ingredientUnit col-lg-2 col-md-3 mt-2">
         <p class="form-label">單位</p>
-        <select class="form-select" v-model="ingredientUnit" :id="'ingredientUnit' + ingerdientIndex">
-            <option selected value="毫升">毫升</option>
+        <select class="form-select" v-model="ingredientUnit" @change="getIngredientData"
+            :id="'ingredientUnit' + ingerdientIndex">
+            <option value="毫升">毫升</option>
             <option value="克">克</option>
             <option value="小匙">小匙</option>
             <option value="大匙">大匙</option>

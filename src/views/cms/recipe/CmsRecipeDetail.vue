@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, onBeforeMount } from 'vue'
+import { ref, reactive, onMounted, onBeforeMount, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import IngredientInput from '@/views/recipe/components/IngredientInput.vue'
 import StepInput from '@/views/recipe/components/StepInput.vue'
@@ -31,7 +31,7 @@ const addNewIngredient = () => {
     ingredients.push({
         id: Number, ikey: ingredientCounter.value,
         ingredient: { id: Number, ingredientName: null },
-        ingredientQuantity: null, ingredientUnit: "毫升"
+        ingredientQuantity: null, ingredientUnit: String
     })
     ingredientCounter.value++
     // console.log(JSON.stringify(ingredients));
@@ -175,6 +175,11 @@ const handleIngredientData = (ingerdientIndex, ingerdientName, ingerdientQty, in
     console.log(ingredients);
 }
 
+watch(ingredients, (from, to) => {
+    console.log(from);
+    console.log(to);
+})
+
 /*----------------------------------------------圖檔傳送給controller區塊-------------------------------------------------------*/
 const imgDatas = reactive([])
 
@@ -223,7 +228,6 @@ const handleClickUpdateButton = async () => {
         imgDatas.splice(0, imgDatas.length)  // }
     }
 
-    console.log(recipe.value);
     recipe.value.ingredientList = ingredients.map(ingredient => ({
         id: ingredient.id,
         ingredient: { id: ingredient.ingredient.id, ingredientName: ingredient.ingredient.ingredientName },
@@ -237,15 +241,16 @@ const handleClickUpdateButton = async () => {
         stepPicture: step.stepPicture
     })
     )
-
+    console.log('recipe value');
+    console.log(recipe.value);
     await updateRecipe(recipe.value)
-    notification.success(
-        {
-            description: "建立狀態",
-            content: "成功更新食譜",
-            duration: 3000
-        }
-    )
+    // notification.success(
+    //     {
+    //         description: "建立狀態",
+    //         content: "成功更新食譜",
+    //         duration: 3000
+    //     }
+    // )
     router.replace({
         path: '/cms/recipe',
     })

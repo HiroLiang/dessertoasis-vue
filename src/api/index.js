@@ -78,6 +78,16 @@ const reqGetCmsMemberPages = (condition) => {
 const reqGetMemberPage = (condition) => {
   return request.post("/member/pagenation", condition, jsonHeader)
 }
+//取的銀行帳戶
+const reqMemberBank = (id) => {
+  return request.get(`/member/${id}/bank`)
+}
+//後臺修改
+const reqUpdateCmsMember = (id, updatedMember) => {
+  return request.put(`/member/update/${id}`, updatedMember, jsonHeader);
+}
+
+
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
@@ -535,6 +545,8 @@ export {
   reqGetCmsMemberPages,
   reqGetMemberPage,
   requpdateMember,
+  reqMemberBank,
+  reqUpdateCmsMember,
 
   /*--------食譜用-------*/
   reqTop10HotRecipe,

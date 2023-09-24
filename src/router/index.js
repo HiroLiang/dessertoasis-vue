@@ -396,6 +396,11 @@ const router = createRouter({
           name: "paySuccess",
           component: () => import("../views/cart/PaySuccess.vue"),
         },
+        {
+          path: "/cart/payByLinePay",
+          name: "linePay",
+          component: () => import("../components/Standard/Payment.vue"),
+        },
       ],
     },
 

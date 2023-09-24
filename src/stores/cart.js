@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { reqGetCartCount } from "../api";
+import { reqGetCartCount, getProductCart, getCourseCart, getReservationCart } from "../api";
 
 export const useCartStore = defineStore("cart", () => {
 
@@ -21,5 +21,15 @@ export const useCartStore = defineStore("cart", () => {
         }
     }
 
-    return { productCart, courseCart, rsvCart, count, getCartCount }
+    const initCart = async () => {
+        const prod = await getProductCart()
+        productCart.value = prod.data
+        const cour = await getCourseCart()
+        courseCart.value = cour.data
+        console.log(courseCart.value)
+        const rese = await getReservationCart()
+        rsvCart.value = rese.data
+    }
+
+    return { productCart, courseCart, rsvCart, count, getCartCount, initCart }
 })

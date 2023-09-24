@@ -3,7 +3,6 @@ import { ref, computed } from 'vue';
 import ProductCart from '@/views/cart/ProductCart.vue';
 import ReservationCart from '@/views/cart/ReservationCart.vue';
 import CourseCart from '@/views/cart/CourseCart.vue';
-import AddToCartButton from '@/components/AddToCartButton.vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart'
 import CartEmpty from './CartEmpty.vue';
@@ -45,14 +44,14 @@ const gotoPay = () => {
     cart.courseCart = courseCart.value
     cart.rsvCart = rsvCart.value
 
-console.log('productCart');
-console.log(productCart.value);
+    console.log('productCart');
+    console.log(productCart.value);
 
-console.log('courseCart');
-console.log(courseCart.value);
+    console.log('courseCart');
+    console.log(courseCart.value);
 
-console.log('rsvCart');
-console.log(rsvCart.value);
+    console.log('rsvCart');
+    console.log(rsvCart.value);
 
     router.push("/cart/pay")
 }

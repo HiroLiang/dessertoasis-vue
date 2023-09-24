@@ -270,7 +270,7 @@ onMounted(async () => {
 }
 
 .n-descriptions {
-    font-size: 26px;
+    font-size: 24px;
 }
 
 .n-page-header .n-page-header__title {

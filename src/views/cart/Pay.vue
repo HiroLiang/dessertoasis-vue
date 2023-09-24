@@ -81,10 +81,13 @@ const placeOrder = async () => {
 
 const ecPay = ref(null)
 const payByEcpay = async () => {
+    let itemNumber = (cart.productCart)? cart.productCart.length : 0 +
+                     (cart.courseCart)? cart.courseCart.length : 0 +
+                     (cart.rsvCart)? cart.rsvCart.length : 0
     const ecpayData = {
-        itemNumber: cart.productCart.length,
+        itemNumber,
         toTalPrice: getTotal(),
-        itemName: cart.productCart[0].prodName
+        itemName: cart.productCart[0].prodName+','+cart.courseCart[0].courseName+','+cart.rsvCart[0].classroom.roomName
     }
     console.log(ecpayData);
 
@@ -169,10 +172,6 @@ const payByEcpay = async () => {
                 <div class="d-grid gap-2">
                     <button class="btn btn-primary" type="button" @click="placeOrder">結帳</button>
                     <button class="btn btn-secondary" type="button" @click="payByEcpay">綠界</button>
-                </div>
-
-                <div>
-                    {{ ecPay }}
                 </div>
             </div>
         </div>

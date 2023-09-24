@@ -12,7 +12,7 @@
                     <h4>NT${{ formData.prodPrice }}</h4>
                     <p></p>
                     請選擇數量
-                    <n-input-number v-model:value="value" clearable />
+                    <n-input-number :min="1" v-model:value="value" clearable />
                     <p></p>
                     <div class="like">
                         <Cartandlike></Cartandlike>
@@ -66,7 +66,7 @@ const formData = ref({
 const item = ref([]);
 const specs = ["大", "中", "小"];
 const selectedSpec = ref("大");
-const value = ref(0);
+const value = ref(1);
 
 
 // const priceMapping = {

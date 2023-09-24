@@ -6,7 +6,7 @@
     <div class="ProductMenu">
         <ProductMenu></ProductMenu>
     </div>
-    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+    <!-- <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active headerpic" data-bs-interval="10000">
                 <img src="../../assets/images/headerShow/toa-heftiba-1o_FCxY-VH8-unsplash.jpg" class="d-block w-100"
@@ -29,7 +29,7 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
-    </div>
+    </div> -->
 
     <div class="text">
         <!-- <h2>熱門商品</h2> -->
@@ -43,7 +43,7 @@
         </div>
     </div>
     <StandardSidebar :categoryId="1" @get-category-id="onGetCategoryId" />
-    <StandardFooter />
+    <!-- <StandardFooter /> -->
     <!-- <button @click="getImg(1)">測試</button> <img :src="img" alt=""> -->
 </template>
 <script setup>
@@ -55,6 +55,7 @@ import { useRouter } from 'vue-router'
 import { useSortCondition } from '../../stores/sortCondition.js'
 import StandardSidebar from '../../components/Standard/Sidebar.vue';
 import StandardFooter from '../../components/Footer.vue';
+import HeaderShow from '@/components/HeaderShow.vue';
 //使用 pinia 整合搜索條件
 const store = useSortCondition()
 //使用 router
@@ -210,10 +211,12 @@ const onGetSearchRules = async rule => {
 
 //搜索分類
 const onGetCategoryId = id => {
+    console.log('id:', id);
     if (id === null) {
         catSearch.value = []
     } else {
         catSearch.value = [{ key: 'categoryId', type: 'Number', input: id }]
+
     }
 }
 

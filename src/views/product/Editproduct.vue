@@ -22,6 +22,14 @@
                     <button @click="removeExistingImage(index)">刪除</button>
                 </div>
             </div> -->
+                <div class="image-upload">
+                    <p>圖片</p>
+                    <input type="file" @change="addImage" accept="image/*" multiple />
+                    <div v-for="(image, index) in imagesData.images" :key="index" class="image-preview">
+                        <img :src="image.imageUrl" alt="Uploaded Image" />
+                        <button @click="removeExistingImage(index)">刪除</button>
+                    </div>
+                </div>
             </div>
             <div class="dynamic">
                 <p>商品名稱</p>
@@ -67,7 +75,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { NSpace, NCascader } from 'naive-ui';
 import CKEditor from '@/components/CKEditor.vue';
 import axios from 'axios';
-import { EditProduct, UploadProdImage, reqGetCategory, getProdById } from '@/api/index.js';
+import { EditProduct, UploadProdImage, reqGetCategory, getProdById, getAllProductImage, deleteProdById, UpdateProdImg } from '@/api/index.js';
 import sweetalert from "SweetAlert2";
 const selectedDateTime = ref(null);
 const settings = {
@@ -100,7 +108,23 @@ const selectedValue = ref(null);
 const imagesData = ref({
     images: []
 });
-
+const addImage = (event) => {
+    console.log('addImage function called');
+    const files = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const url = URL.createObjectURL(file);
+        // 将文件对象存储在 image 变量中
+        imagesData.value.images.push({ url, file });
+        console.log("imagesData.images", imagesData.value.images);
+    }
+};
+const removeImage = (index) => {
+    imagesData.value.images.splice(index, 1);
+};
+const removeExistingImage = (index) => {
+    imagesData.value.images.splice(index, 1);
+};
 const fetchProductData = async () => {
     try {
         if (productId.value !== null) {
@@ -124,6 +148,8 @@ const fetchProductData = async () => {
             console.log("productData", productData.value);
             formData.value.categoryId = productData.value.category.id;
             console.log("productData.value.category.id", productData.value.category.id);
+
+            await loadProductImages(productId.value);
         }
     } catch (error) {
         // 處理錯誤
@@ -174,23 +200,22 @@ const editProd = async () => {
                 confirmButtonText: '確定',
             });
         }
-        // const imageUploadPromises = imagesData.value.images.map(async (image, index) => {
-        //     const imageFormData = new FormData();
-        //     imageFormData.append("image", image.file);
-        //     console.log("imageFormData", imageFormData);
-        //     console.log("productId", newProductId);
-        //     const config = {
-        //         headers: {
-        //             "Content-Type": "multipart/form-data" // 设置请求头
-        //         }
-        //     };
+        const imageUploadPromises = imagesData.value.images.map(async (image, index) => {
+            const imageFormData = new FormData();
+            imageFormData.append("image", image.file); // 使用 image.file 存储的文件对象
+            console.log("imageFormData", imageFormData);
+            console.log("newProductId", newProductId);
+            const config = {
+                headers: {
+                    "Content-Type": "multipart/form-data" // 设置请求头
+                }
+            };
 
-        //     const imageResponse = await UploadProdImage(newProductId, imageFormData, config);
-        //     console.log(`圖片 ${index + 1} 已成功上傳`, imageResponse.data);
-        // });
-
-        // await Promise.all(imageUploadPromises);
-
+            const imageResponse = await UpdateProdImg(newProductId, imageFormData, config);
+            console.log(`圖片 ${index + 1} 已成功上傳`, imageResponse.data);
+        });
+        await Promise.all(imageUploadPromises);
+        imagesData.value.images = [];
     } catch (error) {
         console.error("上傳時有誤", error);
         await sweetalert.fire({
@@ -267,28 +292,45 @@ const performDelete = async () => {
     //     });
     // }
 };
+const loadProductImages = async (productId) => {
+    try {
+        //productId = route.params.id;
+        // 使用 getAllProductImage 函數獲取商品的所有圖片
+        const response = await getAllProductImage(productId);
+        // 更新 imagesData 的 images 數組，以顯示圖片
+        //imagesData.value.images = response.data;
+        const imagePaths = response.data;
+        const totalImages = imagePaths.length - 1;
+        const imagePath = response.data[totalImages];
+        imagesData.value.images = imagePath.map((path, index) => ({
+            imageUrl: path, // 将路径字符串转换为对象
+            imageIndex: index, // 添加图像索引以供参考
+        }));
+        console.log("  imagesData.value.images ", imagesData.value.images);
+    } catch (error) {
+        // 處理錯誤
+        console.error('Error fetching product images:', error);
+    }
+};
+
 
 onMounted(() => {
     productId.value = route.params.id;
     fetchProductData();
 });
 
-const removeExistingImage = (index) => {
-    imagesData.value.images.splice(index, 1);
-};
+// const removeExistingImage = (index) => {
+//     imagesData.value.images.splice(index, 1);
+// };
 
-const addImage = (event) => {
-    const files = event.target.files;
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const url = URL.createObjectURL(file);
-        imagesData.value.images.push({ url, file });
-    }
-};
-
-const removeImage = (index) => {
-    imagesData.value.images.splice(index, 1);
-};
+// const addImage = (event) => {
+//     const files = event.target.files;
+//     for (let i = 0; i < files.length; i++) {
+//         const file = files[i];
+//         const url = URL.createObjectURL(file);
+//         imagesData.value.images.push({ url, file });
+//     }
+// };
 
 const handleCascaderChange = (value) => {
     console.log(value);

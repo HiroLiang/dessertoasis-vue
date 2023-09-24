@@ -2,6 +2,8 @@
 import NavBar from "@/components/NavBar.vue"
 import { imgTest } from "@/api"
 import { reactive, ref } from "vue"
+import HeaderShow from '@/components/HeaderShow.vue';
+
 const navBarList = reactive([
   { title: "食譜", toUrl: "/recipes" },
   { title: "課程", toUrl: "/courses" },
@@ -15,9 +17,8 @@ const navBarList = reactive([
 </script>
 <template>
   <NavBar :NavBarList="navBarList" />
-  <div class="headerPic">
-    <img src="/images/headerShow/nick-karvounis-jN_M0McVNeI-unsplash.jpg" alt="">
-  </div>
+  <HeaderShow />
+
   <RouterView></RouterView>
 </template>
 

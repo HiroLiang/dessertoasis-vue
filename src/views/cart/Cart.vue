@@ -7,6 +7,7 @@ import AddToCartButton from '@/components/AddToCartButton.vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart'
 import CartEmpty from './CartEmpty.vue';
+import { ecpayCheck } from '@/api'
 
 const productCart = ref(null)
 const courseCart = ref(null)
@@ -43,15 +44,25 @@ const gotoPay = () => {
     cart.productCart = productCart.value
     cart.courseCart = courseCart.value
     cart.rsvCart = rsvCart.value
+
+console.log('productCart');
+console.log(productCart.value);
+
+console.log('courseCart');
+console.log(courseCart.value);
+
+console.log('rsvCart');
+console.log(rsvCart.value);
+
     router.push("/cart/pay")
 }
 
 </script>
 
 <template>
-    <div class="container">
+    <div class="container mt-3">
         <!-- 商品課程加入購物車測試 -->
-        <div>
+        <!-- <div>
             <div>
                 <button @click="router.push({ path: '/cart/payByLinePay' })">click</button>
                 商品1:
@@ -63,7 +74,10 @@ const gotoPay = () => {
                 課程1:
                 <AddToCartButton :data="{ categoryId: 2, interestedId: 1 }"></AddToCartButton>
             </div>
-        </div>
+        </div> -->
+        <!-- <div>
+            <button @click="ecpay">測試綠界金流</button>
+        </div> -->
 
         <div class="row mt-3" v-if="cart.count || cart.count > 0">
             <div class="col-8">

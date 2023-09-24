@@ -31,11 +31,11 @@ const dataTitles = ref([
   { label: "教師姓名", key: "teacherName", type: "String" },
   { label: "課程名稱", key: "courseName", type: "String" },
 
-  { label: "開課日期", key: "courseDate", type: "date" },
-  { label: "報名截止", key: "closeDate", type: "date" },
+  { label: "開課日期", key: "courseDate", type: "Date" },
+  { label: "報名截止", key: "closeDate", type: "Date" },
   { label: "上課地點", key: "coursePlace", type: "String" },
-  { label: "剩餘名額", key: "remainPlaces", type: "String" },
-  { label: "報名價格", key: "coursePrice", type: "String" },
+  { label: "剩餘名額", key: "remainPlaces", type: "Number" },
+  { label: "報名價格", key: "coursePrice", type: "Number" },
   // { label: "課程分類", key: "categoryName", type: "String" },
   { label: "開課狀態", key: "courseStatus", type: "String" },
 ])
@@ -319,38 +319,34 @@ const closeModal = () => {
 // })
 </script>
 <template>
-  <div class="container">
-    <div
-      style="
+  <!-- <div style="
         display: flex;
         justify-content: center;
         align-items: center;
         margin-top: 30px;
-      "
-    >
-      <h1>所有課程列表</h1>
-    </div>
-    <!-- <StandardSearch
+      ">
+    <h1>所有課程列表</h1>
+  </div> -->
+  <!-- <StandardSearch
       :searchOptions="props.dataTitles"
       @get-selected-key="getKey"
       @get-search-rules="getRules"
       @get-number-range="getNumberRange"
     /> -->
-    <p v-if="!hasTable">*無權限或查詢失敗</p>
-    <StandardTable
-      :page="1"
-      :pageSize="10"
-      :pages="pages"
-      :tableDatas="tableDatas"
-      :dataTitles="dataTitles"
-      @get-edit-id="onGetEditId"
-      @get-number-range="onGetNumberRange"
-      @get-sort-rule="onGetSortRule"
-      @get-search-rules="onGetSearchRules"
-      @change-page="onGetPage"
-      @get-date-rules="onGetDateRules"
-    />
-  </div>
+  <p v-if="!hasTable">*無權限或查詢失敗</p>
+  <StandardTable
+    :page="1"
+    :pageSize="10"
+    :pages="pages"
+    :tableDatas="tableDatas"
+    :dataTitles="dataTitles"
+    @get-edit-id="onGetEditId"
+    @get-number-range="onGetNumberRange"
+    @get-sort-rule="onGetSortRule"
+    @get-search-rules="onGetSearchRules"
+    @change-page="onGetPage"
+    @get-date-rules="onGetDateRules"
+  />
 </template>
 <style scoped>
 h1 {

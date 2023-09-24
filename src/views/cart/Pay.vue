@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { reqInsertOrder } from '@/api/index'
+import { reqInsertOrder, ecpayCheck, ecpaySend } from '@/api/index'
 import { useCartStore } from '@/stores/cart'
 import { useRouter } from 'vue-router'
 import ProductOrderTable from '@/views/order/ProductOrderTable.vue'
@@ -48,12 +48,28 @@ const getTotal = () => {
 
 const router = useRouter()
 const placeOrder = async () => {
+    let cartIds = []
+    if (cart.productCart) {
+        cart.productCart.forEach(cartItem => {
+            cartIds.push(cartItem.cartId)
+        })
+    }
+    if (cart.courseCart) {
+        cart.courseCart.forEach(cartItem => {
+            cartIds.push(cartItem.cartId)
+        })
+    }
+    if (cart.rsvCart) {
+        cart.rsvCart.forEach(cartItem => {
+            cartIds.push(cartItem.cartId)
+        })
+    }
+
     const data = {
         prodOrderAddress: (address.value == '') ? 'N' : address.value,
-        productCartDTOs: cart.productCart,
-        courseCartDTOs: cart.courseCart,
-        reservationCartDTOs: cart.rsvCart
+        cartIds
     }
+
     const res = await reqInsertOrder(data)
     if (res.data == 1) {
         cart.getCartCount()
@@ -63,10 +79,52 @@ const placeOrder = async () => {
     }
 }
 
+const ecPay = ref(null)
+const payByEcpay = async () => {
+    const ecpayData = {
+        itemNumber: cart.productCart.length,
+        toTalPrice: getTotal(),
+        itemName: cart.productCart[0].prodName
+    }
+    console.log(ecpayData);
+
+    const ecpayRes = await ecpayCheck(ecpayData)
+    console.log(ecpayRes.data);
+
+    const newPage = window.open('', '_parent')
+    newPage.document.open();
+    newPage.document.write(ecpayRes.data)
+    newPage.document.close()
+
+    let cartIds = []
+    if (cart.productCart) {
+        cart.productCart.forEach(cartItem => {
+            cartIds.push(cartItem.cartId)
+        })
+    }
+    if (cart.courseCart) {
+        cart.courseCart.forEach(cartItem => {
+            cartIds.push(cartItem.cartId)
+        })
+    }
+    if (cart.rsvCart) {
+        cart.rsvCart.forEach(cartItem => {
+            cartIds.push(cartItem.cartId)
+        })
+    }
+
+    const data = {
+        prodOrderAddress: (address.value == '') ? 'N' : address.value,
+        cartIds
+    }
+
+    await reqInsertOrder(data)
+}
+
 </script>
 
 <template>
-    <div class="container">
+    <div class="container mt-3">
         <div class="row">
             <div class="col-8">
                 <h2>訂單</h2>
@@ -110,6 +168,11 @@ const placeOrder = async () => {
                 </div>
                 <div class="d-grid gap-2">
                     <button class="btn btn-primary" type="button" @click="placeOrder">結帳</button>
+                    <button class="btn btn-secondary" type="button" @click="payByEcpay">綠界</button>
+                </div>
+
+                <div>
+                    {{ ecPay }}
                 </div>
             </div>
         </div>

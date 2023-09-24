@@ -8,56 +8,57 @@ const reply = (index) => {
 const items = ref([
     {
         icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-        title: '相见恨晚',
-        content: `奋勇呀然后休息呀!\n完成你伟大的人生`,
+        title: 'Benjamin Davis	',
+        content: '真是美味！',
         children: [
             {
                 icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-                title: '相见恨晚1',
-                content: `奋勇呀然后休息呀!\n完成你伟大的人生`
+                title: 'Olivia Mitchell	',
+                content: '是的，我也覺得很好吃！',
             },
             {
                 icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-                title: '相见恨晚2',
-                content: `奋勇呀然后休息呀!\n完成你伟大的人生`
+                title: 'Benjamin Davis	',
+                content: '你試過了今天的特色嗎？',
             }
         ]
     },
     {
         icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-        title: '他在时间门外',
-        content: '最新的打印机\n复制着彩色傀儡\n早上好我的罐头先生\n让他带你去被工厂敲击',
+        title: 'Alexander Walker',
+        content: '我剛剛嘗試了新的食譜，味道棒極了！',
         children: [
             {
                 icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-                title: '相见恨晚1',
-                content: `奋勇呀然后休息呀!\n完成你伟大的人生`
+                title: 'Sophia Carter',
+                content: '哇，真的嗎？我也要試一下！',
             },
             {
                 icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-                title: '相见恨晚2',
-                content: `奋勇呀然后休息呀!\n完成你伟大的人生`
+                title: 'Alexander Walker',
+                content: '是的，你會喜歡的。',
             }
         ]
     },
     {
         icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-        title: '他在时间门外',
-        content: '最新的打印机\n复制着彩色傀儡\n早上好我的罐头先生\n让他带你去被工厂敲击',
+        title: 'Sophia Carter',
+        content: '有沒有人有好的甜點建議？',
         children: [
             {
                 icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-                title: '相见恨晚1',
-                content: `奋勇呀然后休息呀!\n完成你伟大的人生`
+                title: 'William Roberts	',
+                content: '你可以嘗試製作巧克力蛋糕，非常美味！',
             },
             {
                 icon: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-                title: '相见恨晚2',
-                content: `奋勇呀然后休息呀!\n完成你伟大的人生`
+                title: 'Sophia Carter',
+                content: '聽起來不錯，謝謝你的建議！',
             }
         ]
     }
-]);
+]
+);
 
 let newIcon = ref('https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg')
 let newTitle = ref('相见恨晚33')

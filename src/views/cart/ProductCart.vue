@@ -9,6 +9,7 @@ const cart = ref([])
 const loadProductCart = async () => {
     const res = await getProductCart()
     cart.value = res.data
+    console.log(res.data);
     emitProduct()
 }
 
@@ -55,17 +56,21 @@ const updateProdQuantity = (qty, updatedItem) => {
     }
 }
 
-onBeforeUnmount(async () => {
-    if (updatedProducts.length != 0) {
-        await reqUpdateProdQuantities(updatedProducts)
-    }
-})
+const actionReqUpdateProdQuantities = async () => {
+    let dataList = []
+    updatedProducts.forEach(item => {
+        let data = {
+            cartId: item.cartId,
+            prodQuantity: item.prodQuantity
+        }
+        dataList.push(data)
+    })
+    await reqUpdateProdQuantities(dataList)
+}
 
-window.addEventListener('beforeunload', async () => {
-    if (updatedProducts.length != 0) {
-        await reqUpdateProdQuantities(updatedProducts)
-    }
-})
+onBeforeUnmount(actionReqUpdateProdQuantities)
+
+window.addEventListener('beforeunload', actionReqUpdateProdQuantities)
 
 </script>
 
@@ -87,11 +92,13 @@ window.addEventListener('beforeunload', async () => {
             <tbody v-for="cartItem in cart">
                 <tr>
                     <td>
-                        <img src='https://fakeimg.pl/100x100/?text=Image' :alt="cartItem.prodName">
+                        <img :src="cartItem.pictures && cartItem.pictures[0]?.pictureURL || 'https://fakeimg.pl/100x100/?text=Image'"
+                            :alt="cartItem.prodName" style="height: 100px">
                         {{ cartItem.prodName }}
                     </td>
                     <td>
-                        <n-button circle @click="updateProdQuantity(-1, cartItem)" :disabled="cartItem.prodQuantity <= 1">-</n-button>
+                        <n-button circle @click="updateProdQuantity(-1, cartItem)"
+                            :disabled="cartItem.prodQuantity <= 1">-</n-button>
                         {{ cartItem.prodQuantity }}
                         <n-button circle @click="updateProdQuantity(+1, cartItem)">+</n-button>
                     </td>

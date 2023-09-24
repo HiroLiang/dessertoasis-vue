@@ -243,6 +243,15 @@ const reqGetCmsOrderPages = (condition) => {
   return request.post("/order/pages", condition, jsonHeader)
 }
 
+//綠界金流
+const ecpayCheck = (data) => {
+  return request.post("/ecpayCheckout", data, jsonHeader)
+}
+
+const ecpaySend = (data) => {
+  return request.post("https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5", data, { headers: { "Content-Type": "multipart/form-data" } })
+}
+
 /*---------------------------------------- 課程相關請求  -------------------------------------------*/
 
 //從controller拿到所有課程，export出Promise物件給vue?
@@ -314,7 +323,9 @@ const reqGetCourseNumberRange = (condition) => {
   return request.post("/course/number-range", condition, jsonHeader)
 }
 
-// const uploadCourseImage = ()
+const uploadCourseImage = (courseId, imageFormData, config) => {
+  return request.post(`/course/uploadImage?courseId=${courseId}`, imageFormData, config)
+}
 
 const reqGetFrontTeacherPages = (condition) => {
   return request.post("/teacher/teacherFrontPagenation", condition, jsonHeader)
@@ -415,6 +426,17 @@ const UploadProdImage = (productId, imageFormData, config) => {
     imageFormData,
     config
   )
+}
+
+const UpdateProdImg = (newProductId, imageFormData, config) => {
+  return request.post(
+    `/product/updateImg/${newProductId}`,
+    imageFormData,
+    config
+  )
+}
+const deleteProdById = (productId) => {
+  return request.delete(`/product/delete/${productId}`)
 }
 const getProductImage = (id) => {
   return request.post("product/getImage", id, jsonHeader)
@@ -547,6 +569,8 @@ export {
   reqGetMemberReservations,
   reqGetOrderPage,
   reqGetCmsOrderPages,
+  ecpayCheck,
+  ecpaySend,
 
   //課程用
   getAllCourses,
@@ -569,7 +593,7 @@ export {
   reqGetTeacherData,
   updateTeacher,
   addCourse,
-  // UploadCourseImage,
+  uploadCourseImage,
   getTeacherDetail,
 
   //#region 課程後台
@@ -593,7 +617,9 @@ export {
   reqGetProductPage,
   reqGetCmsProductPages,
   AddProduct,
+  deleteProdById,
   UploadProdImage,
+  UpdateProdImg,
   getProductImage,
   getAllProductImage,
   EditProduct,

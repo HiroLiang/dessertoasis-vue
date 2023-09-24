@@ -31,7 +31,7 @@ const dataTitles = ref([
   // { label: "剩餘名額", key: "remainPlaces", type: "String" },
   // { label: "報名價格", key: "coursePrice", type: "String" },
   // { label: "課程分類", key: "categoryName", type: "String" },
-  { label: "會員名稱", key: "account", type: "String" },
+  // { label: "會員名稱", key: "account", type: "String" },
 ])
 
 /**更新資料方法 */
@@ -146,32 +146,18 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="container">
-    <h1
-      style="
+  <!-- <h1 style="
         display: flex;
         justify-content: center;
         align-items: center;
         margin-top: 20px;
-      "
-    >
-      所有教師列表
-    </h1>
-    <p v-if="!hasTable">*無權限或查詢失敗</p>
-    <StandardTable
-      :page="1"
-      :pageSize="10"
-      :pages="pages"
-      :tableDatas="tableDatas"
-      :dataTitles="dataTitles"
-      @get-edit-id="onGetEditId"
-      @get-number-range="onGetNumberRange"
-      @get-sort-rule="onGetSortRule"
-      @get-search-rules="onGetSearchRules"
-      @change-page="onGetPage"
-      @get-date-rules="onGetDateRules"
-    />
-  </div>
+      ">
+    所有教師列表
+  </h1> -->
+  <p v-if="!hasTable">*無權限或查詢失敗</p>
+  <StandardTable :page="1" :pageSize="10" :pages="pages" :tableDatas="tableDatas" :dataTitles="dataTitles"
+    @get-edit-id="onGetEditId" @get-number-range="onGetNumberRange" @get-sort-rule="onGetSortRule"
+    @get-search-rules="onGetSearchRules" @change-page="onGetPage" @get-date-rules="onGetDateRules" />
 </template>
 <style scoped>
 h1 {

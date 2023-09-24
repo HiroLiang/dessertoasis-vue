@@ -99,7 +99,7 @@ const handleGoogleAccessTokenLogin = () => {
 
             <div class="text-center row">
                 <p>尚未成為會員? <router-link to="/register">註冊</router-link></p>
-                <p>或用其他方式登入</p>
+                <!-- <p>或用其他方式登入</p>
 
 
                 <div class="icon-container">
@@ -110,7 +110,7 @@ const handleGoogleAccessTokenLogin = () => {
                     </div>
 
 
-                </div>
+                </div> -->
 
 
 

@@ -78,6 +78,16 @@ const reqGetCmsMemberPages = (condition) => {
 const reqGetMemberPage = (condition) => {
   return request.post("/member/pagenation", condition, jsonHeader)
 }
+//取的銀行帳戶
+const reqMemberBank = (id) => {
+  return request.get(`/member/${id}/bank`)
+}
+//後臺修改
+const reqUpdateCmsMember = (id, updatedMember) => {
+  return request.put(`/member/update/${id}`, updatedMember, jsonHeader);
+}
+
+
 
 /*----------------------------------------  食譜相關請求  -------------------------------------------*/
 //CMS食譜測試
@@ -206,9 +216,9 @@ const reqGetCartCount = () => {
 
 //line pay
 
-const reqSendLinepay = (payBody) =>{
+const reqSendLinepay = (payBody) => {
   console.log(payBody)
-  return request.post('/pay/linepay',payBody,jsonHeader)
+  return request.post('/pay/linepay', payBody, jsonHeader)
 }
 
 // 新增訂單
@@ -535,6 +545,8 @@ export {
   reqGetCmsMemberPages,
   reqGetMemberPage,
   requpdateMember,
+  reqMemberBank,
+  reqUpdateCmsMember,
 
   /*--------食譜用-------*/
   reqTop10HotRecipe,

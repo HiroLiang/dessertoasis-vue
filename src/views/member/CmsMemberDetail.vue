@@ -40,7 +40,7 @@
   
 <script setup>
 import { ref, onMounted } from 'vue';
-import { reqMember, requpdateMember } from '@/api';
+import { reqMember, requpdateMember, reqUpdateCmsMember } from '@/api';
 import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
@@ -89,25 +89,29 @@ onMounted(async () => {
 
 
 const updateMember = async () => {
-    // try {
+    try {
+        const idFromRoute = route.query.id; // 從URL參數獲取ID
 
-    let updatedMember = {
-        fullName: memberFullName.value,
-        memberName: memberUserName.value,
-        email: memberEmail.value,
-        access: memberAccess.value,
-        memberStatus: Status.value
+        // 準備要發送到後端的更新資料
+        const updatedData = {
+            fullName: memberFullName.value,
+            memberName: memberUserName.value,
+            email: memberEmail.value,
+            access: memberAccess.value,
+            memberStatus: Status.value
+        };
+
+        // 發送PUT請求到後端更新會員資訊
+        const response = await reqUpdateCmsMember(idFromRoute, updatedData);
+
+        // 更新成功後，可以導航回相應的頁面，這裡示例導航回會員列表頁面
+        alert("更新成功")
+        location.reload();
+    } catch (error) {
+        console.error('更新會員失敗：', error);
     }
-
-
-
-    // 執行更新 API 請求
-    const res1 = await requpdateMember(updatedMember)
-    console.log(res1.data);
-    alert("更新成功")
-    location.reload();
-
 };
+
 const goBack = () => {
     router.go(-1); // 返回上一页
 };

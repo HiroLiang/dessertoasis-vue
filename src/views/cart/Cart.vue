@@ -64,6 +64,7 @@ console.log(rsvCart.value);
         <!-- 商品課程加入購物車測試 -->
         <!-- <div>
             <div>
+                <button @click="router.push({ path: '/cart/payByLinePay' })">click</button>
                 商品1:
                 <AddToCartButton :data="{ categoryId: 1, interestedId: 1, prodQuantity: 3 }"></AddToCartButton>
                 商品2:

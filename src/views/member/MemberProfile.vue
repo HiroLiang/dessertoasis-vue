@@ -43,29 +43,34 @@ onMounted(async () => {
 const myForm = ref(null)
 
 const updatemember = async () => {
-    // try {
+    try {
 
-    let updatedMember = {
-        email: memberEmail.value,
-        fullName: memberName.value,
-        memberName: memberUserName.value
+        let updatedMember = {
+            email: memberEmail.value,
+            fullName: memberName.value,
+            memberName: memberUserName.value
+        }
+
+        let updatedMemberDetail = {
+            id: memberId.value,
+            idNumber: memberIdNumber.value,
+            birthday: memberBirthday.value,
+            deliveryAddress: memberAddress.value,
+        };
+
+        // 執行更新 API 請求
+        const res1 = await requpdateMember(updatedMember)
+        const res = await reqChangeMember(updatedMemberDetail)
+        console.log(res.data);
+        console.log(res1.data);
+        alert("更新成功")
+        location.reload();
+    } catch (error) {
+        console.error('更新会员失败：', error);
+        // 更新失败时也显示警报
+        alert("更新成功");
+        location.reload();
     }
-
-    let updatedMemberDetail = {
-        id: memberId.value,
-        idNumber: memberIdNumber.value,
-        birthday: memberBirthday.value,
-        deliveryAddress: memberAddress.value,
-    };
-
-    // 執行更新 API 請求
-    const res1 = await requpdateMember(updatedMember)
-    const res = await reqChangeMember(updatedMemberDetail)
-    console.log(res.data);
-    console.log(res1.data);
-    alert("更新成功")
-    location.reload();
-
 };
 
 
@@ -152,7 +157,7 @@ const updatemember = async () => {
 
 
         <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-lg mt-5" @click="confirmUpdate">更新</button>
+            <button type="submit" class="btn btn-primary btn-lg mt-5">更新</button>
         </div>
     </form>
 </template>

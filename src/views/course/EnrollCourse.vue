@@ -2,6 +2,7 @@
 import { reqGetCourseData, getTeacherImage } from "@/api"
 import { computed, onMounted, ref } from "vue"
 import { useRoute } from "vue-router"
+import AddToCartButton from "@/components/AddToCartButton.vue"
 const route = useRoute()
 
 const courseId = computed(() => {
@@ -130,9 +131,16 @@ img {
             <li class="list-group-item">價錢:{{ courseData.coursePrice }}</li>
           </ul>
           <div class="card-body">
+<<<<<<< HEAD
             <div class="d-grid gap-2 col-6 mx-auto">
               <button class="btn btn-primary" type="button">立即報名</button>
             </div>
+=======
+            <!-- <div class="d-grid gap-2 col-6 mx-auto">
+                <button class="btn btn-primary" type="button">立即報名</button>
+              </div> -->
+            <AddToCartButton btnName="立即報名" :data="{ categoryId: 2, interestedId: courseId }"></AddToCartButton>
+>>>>>>> origin/test
           </div>
         </div>
       </div>

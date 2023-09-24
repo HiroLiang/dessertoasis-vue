@@ -211,10 +211,12 @@ const onGetSearchRules = async rule => {
 
 //搜索分類
 const onGetCategoryId = id => {
+    console.log('id:', id);
     if (id === null) {
         catSearch.value = []
     } else {
         catSearch.value = [{ key: 'categoryId', type: 'Number', input: id }]
+
     }
 }
 

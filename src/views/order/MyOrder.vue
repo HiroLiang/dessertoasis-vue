@@ -27,7 +27,7 @@ const formattedDate = (dateString) => {
 
 <template>
     <NavBar></NavBar>
-    <div class="container">
+    <div class="container mt-3">
         <div class="w-75 mx-auto">
             <h2>我的訂單</h2>
             <div v-for="order in orders" class="card mb-5 px-5 py-3">
@@ -48,7 +48,7 @@ const formattedDate = (dateString) => {
                         <th>
                             商品運送地址
                         </th>
-                        <td v-if="order.prodOrderItems && order.prodOrderAddress.length > 0">
+                        <td v-if="order.prodOrderItems">
                             {{ order.prodOrderAddress }}
                         </td>
                         <td v-else>

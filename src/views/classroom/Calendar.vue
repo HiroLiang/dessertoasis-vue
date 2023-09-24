@@ -31,6 +31,8 @@ const calendarOptions = reactive({
     events: [],
     selectable: true,
     unselectAuto: false,
+    eventDisplay: 'block',
+    displayEventTime: false,
     select: handleDateSelect,
     eventClick: handleEventClick,
     datesSet: handleDatesSet,
@@ -60,14 +62,15 @@ const loadReservations = async (roomId, startDate, endDate) => {
     const res = await getReservations(roomId, formatDate(startDate), formatDate(endDate))
     const events = res.data.map((rsv) => {
         let color = null
+        let start = rsv.reservationDate
         switch (rsv.reservationTime) {
-            case 'A': color = "dodgerblue"; break;
-            case 'B': color = "green"; break;
-            case 'C': color = "pink"; break;
+            case 'A': color = "dodgerblue"; start += 'T09:00:00'; break;
+            case 'B': color = "green"; start += 'T13:00:00'; break;
+            case 'C': color = "pink"; start += 'T19:00:00'; break;
         }
         return {
             title: rsv.detail,
-            start: rsv.reservationDate,
+            start,
             color,
         }
     })

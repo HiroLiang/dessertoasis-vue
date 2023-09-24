@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import ProductOrderTable from '@/views/order/ProductOrderTable.vue'
 import CourseOrderTable from '@/views/order/CourseOrderTable.vue'
 import ReservationTable from '@/views/order/ReservationTable.vue'
@@ -44,7 +44,7 @@ const formattedDate = (dateString) => {
 </script>
 
 <template>
-    <div class="container">
+    <div class="container" v-if="order">
         <div class="w-75 mx-auto mt-5">
             <div class="card mb-3 px-5 py-3">
                 <table>
@@ -70,7 +70,7 @@ const formattedDate = (dateString) => {
                         <th>
                             商品運送地址
                         </th>
-                        <td v-if="order.prodOrderItems && order.prodOrderAddress.length > 0">
+                        <td v-if="order.prodOrderItems">
                             {{ order.prodOrderAddress }}
                         </td>
                         <td v-else>

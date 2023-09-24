@@ -103,7 +103,7 @@ const req10CategoryRecipe = (categoryId) => {
 //測試圖檔上傳可正確儲存到設定位置
 const imgTest = (file) => {
   console.log(file)
-  return request.post("/test/uploadimg", file)
+  return request.post("/test/uploadimg", file, jsonHeader)
 }
 //送出建立食譜頁面資料
 const addRecipe = (formData) => {
@@ -206,9 +206,9 @@ const reqGetCartCount = () => {
 
 //line pay
 
-const reqSendLinepay = (payBody) =>{
+const reqSendLinepay = (payBody) => {
   console.log(payBody)
-  return request.post('/pay/linepay',payBody,jsonHeader)
+  return request.post('/pay/linepay', payBody, jsonHeader)
 }
 
 // 新增訂單

@@ -242,15 +242,15 @@ const handleClickUpdateButton = async () => {
     })
     )
     console.log('recipe value');
-    console.log(recipe.value);
+    console.log(JSON.stringify(recipe.value));
     await updateRecipe(recipe.value)
-    // notification.success(
-    //     {
-    //         description: "建立狀態",
-    //         content: "成功更新食譜",
-    //         duration: 3000
-    //     }
-    // )
+    notification.success(
+        {
+            description: "建立狀態",
+            content: "成功更新食譜",
+            duration: 3000
+        }
+    )
     router.replace({
         path: '/cms/recipe',
     })
@@ -382,7 +382,7 @@ const handleClickRepublishButton = () => {
                     <button class="btn btn-light mb-2" @click="handleUpdate">更新</button>
                     <button type="reset" class="btn btn-light mb-2" @click="backToCms">取消</button>
                     <button v-if="recipe.recipeStatus !== 2" class="btn btn-light mb-2"
-                        @click="handleClickDeleteButton">刪除</button>
+                        @click="handleClickDeleteButton">註銷</button>
                     <button v-else class="btn btn-light mb-2" @click="handleClickRepublishButton">啟用</button>
                     <!-- {{ recipe.recipeStatus }} -->
                 </div>

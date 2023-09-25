@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { addToCart } from '../api/index'
 import { useCartStore } from "../stores/cart";
+import { useNotification } from "naive-ui";
 
 const props = defineProps({
     /*
@@ -33,6 +34,14 @@ const props = defineProps({
 })
 
 const cart = useCartStore()
+const notification = useNotification();
+const notify = (type) => {
+    notification[type]({
+        content: (type == 'success') ? '加入購物車' : '無法加入購物車',
+        duration: 2500,
+        keepAliveOnHover: true
+    });
+}
 
 const handleAddToCart = async () => {
     const data = {
@@ -48,6 +57,11 @@ const handleAddToCart = async () => {
     const res = await addToCart(data)
     await cart.getCartCount()
     console.log(res.data)
+    if (res.data == '1') {
+        notify('success')
+    } else {
+        notify('error')
+    }
 }
 
 

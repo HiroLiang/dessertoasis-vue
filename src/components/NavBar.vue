@@ -27,7 +27,7 @@ const props = defineProps({
         default: [
             { title: "食譜", toUrl: "/recipes" },
             { title: "課程", toUrl: "/courses" },
-            { title: "商品", toUrl: "/producthome" },
+            { title: "商品", toUrl: "/product" },
             { title: "預約甜點教室", toUrl: "/reservation" }
         ],
     },

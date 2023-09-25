@@ -54,7 +54,7 @@ const router = createRouter({
       component: () => import("../views/product/Product.vue"),
       children: [
         {
-          path: "/producthome",
+          path: "",
           name: "productHome",
           component: () => import("../views/product/ProductHome.vue"),
           meta: { title: "商品首頁" },

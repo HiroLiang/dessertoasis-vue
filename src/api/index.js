@@ -162,6 +162,10 @@ const republishRecipe = (recipeId) => {
 const reqGetRecipePage = (condition) => {
   return request.post("/recipe/pagenation", condition, jsonHeader)
 }
+//後台取得食譜資料
+const getCmsRecipe = (recipeId) => {
+  return request.get(`recipe/getCmsRecipeById?recipeId=${recipeId}`, jsonHeader)
+}
 
 /*----------------------------------------  教室相關請求  -------------------------------------------*/
 
@@ -565,6 +569,7 @@ export {
   updateRecipe,
   deleteRecipe,
   republishRecipe,
+  getCmsRecipe,
 
   // 教室用
   getReservations,

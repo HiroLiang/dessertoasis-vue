@@ -3,7 +3,7 @@ import { ref, reactive, onMounted, onBeforeMount, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import IngredientInput from '@/views/recipe/components/IngredientInput.vue'
 import StepInput from '@/views/recipe/components/StepInput.vue'
-import { getRecipe, deleteRecipe, updateRecipe, imgTest, republishRecipe } from '@/api'
+import { getRecipe, deleteRecipe, updateRecipe, imgTest, republishRecipe, getCmsRecipe } from '@/api'
 import { useDialog, useNotification } from 'naive-ui';
 
 const notification = useNotification()
@@ -60,7 +60,7 @@ const handleDeleteRecipe = async () => {
 const handleClickDeleteButton = () => {
     dialog.warning({
         title: "警告",
-        content: "確定要刪除這筆資料?",
+        content: "確定要註銷這筆資料?",
         positiveText: "確定",
         negativeText: "取消",
         onPositiveClick: () => {
@@ -70,7 +70,7 @@ const handleClickDeleteButton = () => {
 }
 
 onBeforeMount(async () => {
-    const res = await getRecipe(recipeId)
+    const res = await getCmsRecipe(recipeId)
     recipe.value = res.data
     console.log('json parse');
     console.log(JSON.stringify(res.data));
